@@ -1,0 +1,107 @@
+{% extends "base_second.html" %} {% block content %}
+<form class="" action="{% url 'SelectedIndex2' show2.id%}" method="POST">
+  {% csrf_token %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="mt-1">{{show2.doc_index}}</div>
+        {% if show2.file_link %}
+        <iframe
+          src="https://view.officeapps.live.com/op/embed.aspx?src={{show2.file_link}}"
+          title="W3Schools Free Online Web Tutorials"
+          width="100%"
+          height="450px"
+        ></iframe>
+        {% else %}
+        <textarea rows="18" cols="150" readonly>
+          There is no file present for this section. Drop a manually edited file at the end.
+          To merge all the documents into one.
+        </textarea>
+        {% endif %}
+      </div>
+    </form>
+      
+
+    <button
+      type="submit"
+      class="btn btn-dark btn-sm d-inline ml-3"
+      style="font-size: 0.7rem; width: 5rem; background-color: #000099"
+    >
+      Next
+    </button>
+    <a
+      class="btn btn-dark d-inline ml-1 mr-1"
+      style="
+        font-size: 0.7rem;
+        width: 4rem;
+        background-color: #f2f2f2;
+        color: black;
+      "
+      href="{% url 'firstpage'%}"
+      >Home</a
+    >
+    {% if show.doc_index in standard_sections or show.file_link is None %}
+    {% else %}
+    <a class="btn btn-dark d-inline ml-1 mr-1"
+    style="
+      font-size: 0.7rem;
+      width: 5rem;
+      background-color: #f2f2f2;
+      color: black;
+    " href='{{show2.file_link}}' Download>Download</a>
+    {% endif %}
+    <a
+    class="btn btn-dark d-inline"
+    style="
+      font-size: 0.7rem;
+      width: 4rem;
+      background-color: #f2f2f2;
+      color: black;
+    "
+    onClick="document.getElementById('q_n_a').scrollIntoView();"
+    >Q&A</a>
+
+  <div>
+    <div />
+    {% comment %} {% if Quest %} {% endcomment %}
+    <p class="font-weight-bold mt-2" style="font-size: 0.8rem">
+      Please Input Addition Queries Below
+    </p>
+    <small style="font-size: 0.7rem"
+      >Based On Question Typed Our AI Will Provide You With 3 Best Answers As
+      An Options</small
+    >
+    <form id='q_n_a' action="{% url 'secondpage'%}" method="GET">
+      <input
+        type="text"
+        class="form-control border border-dark"
+        id="question"
+        name="Query"
+        placeholder="Enter Question"
+        style="font-size: 0.7rem; width: 69rem"
+      />
+      <div class="d-inline float-right">
+        <button
+          type="submit"
+          class="btn btn-dark btn-sm d-inline"
+          style="font-size: 0.7rem; width: 7rem; background-color: #000099"
+        >
+          Submit Question
+        </button>
+        {% comment %} {% if c%} {% endcomment %}
+        <a
+          class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
+          style="font-size: 0.7rem; width: 4rem; background-color: #000099"
+          href="{% url 'preview'%}"
+          >Preview Q&A</a
+        >
+        {% comment %} {% endif %} {% endcomment %}
+      </div>
+    </form>
+
+    {% comment %} {% endif %} {% endcomment %}
+  </div>
+  </div>
+
+{% endblock content %}

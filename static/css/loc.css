@@ -1,0 +1,19 @@
+head,body,HTML{
+    height: 100%;
+    width: 100%; 
+  }
+  
+  .bg { 
+    /* The image used */
+    background-image:url("../images/Picture1.png");
+  
+    /* Full height*/
+    height: 100%; 
+    width: 100%; 
+    opacity: 1;
+    
+    /* Center and scale the image nicely */
+    background-position: center;
+    /* background-repeat: no-repeat;  */ 
+    
+  }

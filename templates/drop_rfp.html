@@ -1,0 +1,27 @@
+{% extends "base_second.html" %}
+{% block content %}
+{% load static%}
+<link rel="stylesheet" href="{% static 'css/doc.css' %}">
+<link rel="stylesheet" href="{% static 'css/mcq.css' %}">
+<div class=" container ">
+<div class=" container ">
+<div class=" container ">
+<form action="/droprfp/ques1/" method="POST">
+    <div> <h5 class="mt-5" style="color:dark">Question from uploaded RFP</h5></div>
+    {% csrf_token %}
+    {% for ques in questions %}
+            <div class="form-check mt-3" >
+                <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{ques.question}}</span></label>
+                <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="{{ques.id}}"  value="{{ques.id}}" ">
+                
+            </div>
+    {% endfor %} 
+    <div class=" mt-5">
+        <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#f2f2f2;color:black">Submit</button>
+    </form>
+
+</div>
+</div>
+</div>
+{% endblock %}
+

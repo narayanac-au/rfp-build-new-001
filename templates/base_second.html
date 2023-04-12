@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<!-- Navbar same in all pages -->
+<head class="  w-25 p-3">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/doc.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %} <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/firstpage.css' %}"> {% endcomment %}
+    <title>RFP</title>
+    <div class=" bg  row">
+        <div class="  col-2  ">
+        <a href="{%url 'index'%}"><img src="{% static 'images/KPMG_logo.png' %}" height="80" width="110"></a>
+        </div>
+        <div class=" col-8 mt-4 ">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <h6 class="d-inline text-center ml-2  display-5" style="font-family:Arial;font-size:1rem;color:White"><strong>Intelligent Request for Proposal (RFP) Response Builder</strong></h6>
+        </div>
+        <div class="col-2 mt-3  ">
+            
+                
+            <div class="col-12  mt-1">
+                <div class="col-12 ml-5 ">
+                    <h6 style="font-size:.7rem;color:White">Client: {{showname}}</h6>
+                </div>
+                <div class="col-12 ml-5 ">
+                    <h6 style="font-size:.7rem;color:White">GEO: {{country}}</h6>
+                </div>
+                <div class="col-12 ml-5 ">
+                    <h6 style="font-size:.7rem;color:White">Industry: {{industry}}</h6>
+                </div> 
+            </div>            
+    </div> 
+    </div>
+   
+
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/firstpage.css' %}">
+    <div class="border-bottom border-dark"></div>
+    <title>RFP</title>
+    <style>
+        #drop_zone {
+          /* background-color: lightblue; */
+          min-height: 100px;
+          min-width: 200px;
+        }
+        .copy-text {
+            position: relative;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            display: flex;
+        }
+        .copy-text input.text {
+            padding: 10px;
+            font-size: 18px;
+            color: #555;
+            border: none;
+            outline: none;
+        }
+        .copy-text button {
+            padding: 10px;
+            background: #5784f5;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .copy-text button:active {
+            background: #809ce2;
+        }
+        .copy-text button:before {
+            content: "Copied";
+            position: absolute;
+            top: -45px;
+            right: 0px;
+            background: #5c81dc;
+            padding: 8px 10px;
+            border-radius: 20px;
+            font-size: 15px;
+            display: none;
+        }
+        .copy-text button:after {
+            content: "";
+            position: absolute;
+            top: -20px;
+            right: 25px;
+            width: 10px;
+            height: 10px;
+            background: #5c81dc;
+            transform: rotate(45deg);
+            display: none;
+        }
+        .copy-text.active button:before,
+        .copy-text.active button:after {
+            display: block;
+        }
+    </style>
+</head>
+
+</body>
+
+{% block content %}
+
+{% endblock %}
+
+
+
+</body>
+</html>

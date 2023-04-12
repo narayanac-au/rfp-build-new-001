@@ -1,0 +1,116 @@
+{% extends "base_second.html" %} {% block content %} {% load static%}
+<link rel="stylesheet" href="{% static 'css/mcq.css' %}" />
+<script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+  crossorigin="anonymous"
+></script>
+<div class="container  mt-3">
+        
+  <a
+  class="btn btn-dark d-inline btn-sm float-right" style="background-color:#000099"
+    href="{% url 'firstpage'%}"
+    >Home</a
+  >
+</div>
+<div class="container">
+  <form action="/droprfp/ques1/" method="POST">
+    <button
+      class="btn btn-success mt-3"
+      type="button"
+      data-toggle="collapse"
+      data-target="#collapseExample"
+      aria-expanded="false"
+      aria-controls="collapseExample"
+    >
+      Assuption_And_Risk >
+    </button>
+    <div class="collapse" id="collapseExample">
+      <div class="card card-body">
+        {% for a in Assuption_And_Risk %}
+        <div class="form-check mt-3">
+          <label
+            class="form-check-label"
+            style="font-size: 0.8rem; color: dark"
+            id="A"
+            for="defaultCheck1"
+            ><span>{{a.Description}}</span></label
+          >
+          <input
+            style="width: 15px; height: 20px"
+            class="form-check-input ml-2 float-right"
+            type="checkbox"
+            name="{{a.id}}"
+            value="{{a.id}}"
+          />
+        </div>
+        {% endfor %} {% csrf_token %}
+        <div class="mt-5 ml-3">
+          <button
+            type="submit"
+            class="btn btn-dark d-inline btn-sm"
+            style="background-color: #f2f2f2; color: black"
+          >
+            Submit
+          </button>
+        </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+        <div class="container">
+            <form action="/droprfp/ques1/" method="POST">
+              <button
+                class="btn btn-success mt-3"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseExample1"
+                aria-expanded="false"
+                aria-controls="collapseExample"
+              >
+              Key_consideration_and_risk >
+              </button>
+              <div class="collapse" id="collapseExample1">
+                <div class="card card-body">
+                  {% for a in Key_consideration_and_risk %}
+                  <div class="form-check mt-3">
+                    <label
+                      class="form-check-label"
+                      style="font-size: 0.8rem; color: dark"
+                      id="A"
+                      for="defaultCheck1"
+                      ><span>{{a.Description}}</span></label
+                    >
+                    <input
+                      style="width: 15px; height: 20px"
+                      class="form-check-input ml-2 float-right"
+                      type="checkbox"
+                      name="{{a.id}}"
+                      value="{{a.id}}"
+                    />
+                  </div>
+                  {% endfor %} {% csrf_token %}
+                  <div class="mt-5 ml-3">
+                    <button
+                      type="submit"
+                      class="btn btn-dark d-inline btn-sm"
+                      style="background-color: #f2f2f2; color: black"
+                    >
+                      Submit
+                    </button>
+                  </form>
+                  </div>
+                </div>
+                <div>
+{%endblock%}
