@@ -1,60 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-  <!-- First starting page -->
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/loc.css' %}" />
-  {% comment %}
-  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
-  {% endcomment %}
-  <div class="bg">
-    <head>
-      <meta charset="UTF-8" />
-
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"
-        crossorigin="anonymous"
-      />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      {% comment %}
-      <link rel="stylesheet" href="{% static 'css/index.css' %}" />
-      {% endcomment %} {% comment %}
-      <link rel="stylesheet" href="{% static 'css/firstpage.css' %}" />
-      {% endcomment %}
-      <title>RFP</title>
-      <div>
-        <a href="{%url 'index'%}"
-          ><img
-            src="{% static 'images/KPMG_logo.png' %}"
-            height="80"
-            width="110"
-        /></a>
-        &emsp;&emsp;
-        <!--<h6 class="d-inline text-center ml-2 mt-5 display-5 "><strong>Intelligent Request for Proposal (RFP) Response Builder</strong></h6>-->
-      </div>
+{% extends "base_third.html" %} {% block content %} {% load static%}
 
       <div class="row">
-        <div class="col-3">
-          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-          &emsp;&emsp;
+        &emsp;
+        <div class="col-1">
+          
         </div>
-        <div class="col-2">
-          &emsp;&emsp;
+        
+        <div class="col-10">
+          &emsp;
           <p
-            class="py-4 text-center"
-            style="font-family: Arial; font-size: 1.5rem; color: white"
+            class="py-5  text-center"
+            style="font-family: Arial; font-size: 1.5rem; color: black"
           >
+            <strong>Powered Enterprise Intelligent RFP Builder</strong>
+          </p>
+          <p
+            class="py-2text-center"
+            style="font-family: Arial; color: black; font-size: 0.7rem"
+          >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             <strong
-              >Intelligent Request for Proposal (RFP) Response Builder</strong
+              >Welcome to the Powered Enterprise Intelligent RFP Builder v1.0.
+              This application will currently assist you in the creation of an
+              RFP response for the following Powered solutions:</strong
             >
           </p>
           <p
-            class="py-4 text-center"
-            style="font-family: Arial; color: white; font-size: 0.7rem"
+            class="py-2text-center"
+            style="font-family: Arial; color: black; font-size: 0.7rem"
           >
-            <strong>This app will assist in preparing response for RFPs</strong>
+            <strong
+              ><p
+            class="py-2text-center"
+            style="font-family: Arial; color: black; font-size: 0.7rem"
+          >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            <strong
+              >Powered Enterprise for Workday</strong
+            >
+          </p></strong
+            >
+          </p>
+          <p
+            class="py-2text-center"
+            style="font-family: Arial; color: black; font-size: 0.7rem"
+          >
+            <strong
+              ><p
+            class="py-2text-center"
+            style="font-family: Arial; color: black; font-size: 0.7rem"
+          >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            <strong
+              >Powered Enterprise for Workday Healthcare</strong
+            >
+          </p></strong
+            >
+          </p>
+          <p
+            class="py-2text-center"
+            style="font-family: Arial; color: black; font-size: 0.7rem"
+          >
+            <strong
+              ><p
+            class="py-2text-center"
+            style="font-family: Arial; color: black; font-size: 0.7rem"
+          >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            <strong
+              >Powered Enterprise for Workday Higher Education</strong
+            >
+          </p></strong
+            >
           </p>
         </div>
         <div class="col-5">
@@ -63,11 +76,11 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-3 float-right">
-          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <div class="col-5 float-right">
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
         </div>
-        <div class="col-2 float-right">
-          &emsp;&emsp;&emsp;
+        <div class="col-4 float-right">
+          &emsp;&ensp;&ensp;
           <a
             href="/info/details"
             class="btn btn-primary btn-sm active rounded-0"
@@ -79,11 +92,24 @@
             class="mt-1"
             style="font-family: Arial; font-size: 0.6rem; color: white"
           >
-            &emsp;&emsp;Click on <strong>Get Started</strong> and fill
-            client&emsp;&emsp;details whose RFP need to be prepared
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
           </p>
         </div>
       </div>
     </head>
   </div>
+  
+
+
+  <!-- Copyright -->
+{% comment %} <footer class="footer fixed-bottom">
+
+  <!-- Copyright -->
+  <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer --> {% endcomment %}
 </html>
+{%endblock%}

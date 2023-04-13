@@ -1050,47 +1050,80 @@ def file_injection_view(request):
             if index_list:
                 answer.append(df["document_link"][index_list_updated[0]])
         print(answer)
+        answ = answer[0]
+        from scripts import get_document_update
+        import os
+        path = 'temp/'+client_name+'/'+country+'/'+industry
+        try:
+            os.makedirs(path)
 
-        # ---------------------------------------------------Search Engine Functionality(End)-------------------------------------
-        from fpdf import FPDF
-        pdf = FPDF()
-        pdf.add_page()
-        # pdf.add_font('BB','',r'C:/Windows/Fonts/javatext.TTF', uni=True)
-        pdf.set_font('Times', style='U', size=15)
-        pdf.multi_cell(0, 5, 'Questions asked in uploaded RFP Document ')
-        pdf.multi_cell(0, 5, '       ')
+        except:
+            pass
+
+        outpath = path
+        count = 1
+        from docx import Document
+        for ans, que in zip(answer, list_questions):
+            doc = Document()
+            p = doc.add_paragraph()
+            runner = p.add_run("Question: "+que+"?")
+            runner.bold = True
+            doc.save(path+"/"+"question"+str(count)+".docx")
+            count += 1
+            file_path = r'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/'+ans
+            get_doc = get_document_update(file_path, outpath)
+            print(get_doc, 'get doc response')
+
+        from docxcompose.composer import Composer
+        from docx import Document as Document_compose
+        import os
+        path = 'temp/'+client_name+'/'+country+'/'+industry
+
+        try:
+            os.rmdir(path)
+            os.makedirs(path)
+
+        except:
+            pass
+
+        def combine_all_docx(filename_master, files_list):
+            number_of_sections = len(files_list)
+            master = Document_compose(filename_master)
+            composer = Composer(master)
+            for i in range(0, number_of_sections):
+                doc_temp = Document_compose(files_list[i])
+                composer.append(doc_temp)
+            composer.save("./"+path+"/combined_file.docx")
+        # For Example
+        from docx import Document as DF
+        docu = DF()
+
+        docu.save("./"+path+"/newdocscombine.docx")
+        filename_master = "./"+path+"./newdocscombine.docx"
+        file_list = []
         count = 1
 
-        for quest, ans in zip(list_questions, answer):
-            if quest:
-                quest = quest.encode('latin-1', 'replace').decode('latin-1')
-            if ans:
-                ans = ans.encode('latin-1', 'replace').decode('latin-1')
-            pdf.set_font('Times', style='U', size=10)
-            pdf.set_font('Times', size=9)
-            pdf.multi_cell(0, 5, str(count)+': '+quest)
-            pdf.multi_cell(0, 5, " ")
-            pdf.multi_cell(0, 5, "Answer " + ': '+ans)
-            pdf.multi_cell(0, 5, '' + '\n' + '')
-            count = count+1
+        for ans1 in answer:
+            file_list.append(path+"/"+"question"+str(count)+".docx")
+            file_list.append('temp/'+client_name+'/' +
+                             country+'/'+industry+'/'+ans1)
+            count += 1
 
-        from RFP.models import Document
-        industry = request.session['industry']
-        country = request.session['country']
-        showname = request.session['showname']
-        data = Question.objects.filter(country=country, industry=industry)
-        Doc1 = Document.objects.filter(selected="on")
-        pdf.output("./media/pickupdir/output1.pdf", 'F')
+        # Calling the function
+        combine_all_docx(filename_master, file_list)
+
+        # ---------------------------------------------------Search Engine Functionality(End)-------------------------------------
 
         # download combined file--------------start------------    content_type="application/pdf///vnd.openxmlformats-officedocument.wordprocessingml.document"
         import os
         from django.conf import settings
         from django.http import HttpResponse, Http404
 
-        with open("./media/pickupdir/output1.pdf", 'rb') as f:
+        with open(path+"/combined_file.docx", 'rb') as f:
             data = f.read()
-        response = HttpResponse(data, content_type="application/pdf")
-        response['Content-Disposition'] = 'attachment; filename="RFPInjection.pdf"'
+        response = HttpResponse(
+            data, content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        response['Content-Disposition'] = 'attachment; filename="rfpdirectdoc.docx"'
         return response
     except Exception as e:
         print("Excepppppppppppppppppppptttttttttttttt")

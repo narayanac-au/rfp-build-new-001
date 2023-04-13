@@ -32,8 +32,9 @@
       data-target="#collapseExample"
       aria-expanded="false"
       aria-controls="collapseExample"
+      style="background-color:#000099"
     >
-      Assuption_And_Risk >
+      Assupmtions >
     </button>
     <div class="collapse" id="collapseExample">
       <div class="card card-body">
@@ -69,48 +70,49 @@
     </div>
 </div>
 
-        <div class="container">
-            <form action="/droprfp/ques1/" method="POST">
-              <button
-                class="btn btn-success mt-3"
-                type="button"
-                data-toggle="collapse"
-                data-target="#collapseExample1"
-                aria-expanded="false"
-                aria-controls="collapseExample"
+  <div class="container">
+      <form action="/droprfp/ques1/" method="POST">
+        <button
+          class="btn btn-success mt-3"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapseExample1"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+          style="background-color:#000099"
+        >
+        Key_consideration_and_risk >
+        </button>
+        <div class="collapse" id="collapseExample1">
+          <div class="card card-body">
+            {% for a in Key_consideration_and_risk %}
+            <div class="form-check mt-3">
+              <label
+                class="form-check-label"
+                style="font-size: 0.8rem; color: dark"
+                id="A"
+                for="defaultCheck1"
+                ><span>{{a.Description}}</span></label
               >
-              Key_consideration_and_risk >
+              <input
+                style="width: 15px; height: 20px"
+                class="form-check-input ml-2 float-right"
+                type="checkbox"
+                name="{{a.id}}"
+                value="{{a.id}}"
+              />
+            </div>
+            {% endfor %} {% csrf_token %}
+            <div class="mt-5 ml-3">
+              <button
+                type="submit"
+                class="btn btn-dark d-inline btn-sm"
+                style="background-color: #f2f2f2; color: black"
+              >
+                Submit
               </button>
-              <div class="collapse" id="collapseExample1">
-                <div class="card card-body">
-                  {% for a in Key_consideration_and_risk %}
-                  <div class="form-check mt-3">
-                    <label
-                      class="form-check-label"
-                      style="font-size: 0.8rem; color: dark"
-                      id="A"
-                      for="defaultCheck1"
-                      ><span>{{a.Description}}</span></label
-                    >
-                    <input
-                      style="width: 15px; height: 20px"
-                      class="form-check-input ml-2 float-right"
-                      type="checkbox"
-                      name="{{a.id}}"
-                      value="{{a.id}}"
-                    />
-                  </div>
-                  {% endfor %} {% csrf_token %}
-                  <div class="mt-5 ml-3">
-                    <button
-                      type="submit"
-                      class="btn btn-dark d-inline btn-sm"
-                      style="background-color: #f2f2f2; color: black"
-                    >
-                      Submit
-                    </button>
-                  </form>
-                  </div>
-                </div>
-                <div>
+            </form>
+            </div>
+          </div>
+          <div>
 {%endblock%}

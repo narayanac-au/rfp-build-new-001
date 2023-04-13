@@ -23,13 +23,18 @@
 
 # combine_word_documents(file_data)
 
+import wget
+import os
+import aspose.words as aw
 from docxcompose.composer import Composer
 from docx import Document as Document_compose
 
 
 # path = 'static/media/'+client_name+'/'+country+'/'+industry
 
-files_data = ["Agnostic_USA_Executive Summary.docx","Agnostic_USA_Implementation timeline.docx"]
+files_data = ["Agnostic_USA_Executive Summary.docx",
+              "Agnostic_USA_Implementation timeline.docx"]
+
 
 def combine_all_docx(filename_master, files_list):
     number_of_sections = len(files_list)
@@ -45,21 +50,20 @@ def combine_all_docx(filename_master, files_list):
 # filename_master = "C:/Users/narayanac/Documents/RFP-project/RFP-Builder-Latest/C.docx"
 # combine_all_docx(filename_master, files_data)
 
-import os
 
 def replace_word_document(client_name, replace_name, doc_path, doc_name):
     print(client_name, replace_name, 'arguments')
-    doc=Document_compose(doc_path)
+    doc = Document_compose(doc_path)
     Dictionary = {replace_name: client_name}
     for i in Dictionary:
         for p in doc.paragraphs:
-            if p.text.find(i)>=0:
-                p.text=p.text.replace(i,Dictionary[i])
+            if p.text.find(i) >= 0:
+                p.text = p.text.replace(i, Dictionary[i])
 
     # delete the existing updated document
     # os.remove('updated.docx')
 
-    #save changed document
+    # save changed document
     doc.save('temporary/updated.docx')
     os.remove(doc_path)
     media_path = f'media/{client_name}'
@@ -75,8 +79,6 @@ def replace_word_document(client_name, replace_name, doc_path, doc_name):
     return f'{media_path}/{doc_name}'
 
 
-import aspose.words as aw
-
 def replace_word_document_aspose(client_name, replace_name, doc_path):
 
     # load Word document
@@ -85,7 +87,8 @@ def replace_word_document_aspose(client_name, replace_name, doc_path):
 
     # replace text
     # doc.range.replace(cliend_name, "[CLIENT]", aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
-    doc.range.replace(client_name, replace_name, aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
+    doc.range.replace(client_name, replace_name, aw.replacing.FindReplaceOptions(
+        aw.replacing.FindReplaceDirection.FORWARD))
 
     # save the modified document
     # doc.save("updated.docx")
@@ -101,12 +104,18 @@ def replace_word_document_aspose(client_name, replace_name, doc_path):
 #     print(document, 'document output')
 #     return document
 
-import wget
 
 def get_document(file_path):
     print(file_path, 'file path')
 
     file_name = wget.download(file_path)
-    
+
     return file_name
 
+
+def get_document_update(file_path, outpath):
+    print(file_path, 'file path')
+
+    file_name = wget.download(file_path, out=outpath)
+
+    return file_name
