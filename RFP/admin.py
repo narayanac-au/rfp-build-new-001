@@ -111,6 +111,11 @@ class AssuptionAndRisk_admin(ImportExportModelAdmin):
     list_display = ['id', 'Topic', 'country', 'Description']
 
 
+class SectionExtraImage_admin(ImportExportModelAdmin):
+    list_display = ['id', 'country', 'industry',
+                    'section_data', 'image_link', 'selected']
+
+
 admin.site.register(project, project_admin)
 admin.site.register(info, info_admin)
 admin.site.register(KPMGgeo, KPMGgeo_admin)
@@ -134,3 +139,4 @@ admin.site.register(RfpSection, RfpSection_admin)
 admin.site.register(ExtraImage, ExtraImages_admin)
 admin.site.register(ImageUpload, ImageUpload_admin)
 admin.site.register(AssuptionAndRisk, AssuptionAndRisk_admin)
+admin.site.register(SectionExtraImage, SectionExtraImage_admin)

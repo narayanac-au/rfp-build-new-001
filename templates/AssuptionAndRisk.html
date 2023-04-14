@@ -24,7 +24,7 @@
   >
 </div>
 <div class="container">
-  <form action="/droprfp/ques1/" method="POST">
+  <form action="/AssuptionAndRisk/" method="POST">
     <button
       class="btn btn-success mt-3"
       type="button"
@@ -38,7 +38,7 @@
     </button>
     <div class="collapse" id="collapseExample">
       <div class="card card-body">
-        {% for a in Assuption_And_Risk %}
+        {% for a in Assuptioncheck %}
         <div class="form-check mt-3">
           <label
             class="form-check-label"
@@ -51,11 +51,32 @@
             style="width: 15px; height: 20px"
             class="form-check-input ml-2 float-right"
             type="checkbox"
-            name="{{a.id}}"
+            name="Assupmtions"
+            value="{{a.id}}"
+            checked/>
+        </div>
+        {% endfor %}
+        
+        {% for a in Assuptionnotcheck %}
+        <div class="form-check mt-3">
+          <label
+            class="form-check-label"
+            style="font-size: 0.8rem; color: dark"
+            id="A"
+            for="defaultCheck1"
+            ><span>{{a.Description}}</span></label
+          >
+          <input
+            style="width: 15px; height: 20px"
+            class="form-check-input ml-2 float-right"
+            type="checkbox"
+            name="Assupmtions"
             value="{{a.id}}"
           />
         </div>
-        {% endfor %} {% csrf_token %}
+        {% endfor %}
+        
+        {% csrf_token %}
         <div class="mt-5 ml-3">
           <button
             type="submit"
@@ -71,7 +92,7 @@
 </div>
 
   <div class="container">
-      <form action="/droprfp/ques1/" method="POST">
+      <form action="/AssuptionAndRisk/" method="POST">
         <button
           class="btn btn-success mt-3"
           type="button"
@@ -85,7 +106,8 @@
         </button>
         <div class="collapse" id="collapseExample1">
           <div class="card card-body">
-            {% for a in Key_consideration_and_risk %}
+            
+            {% for a in riskon %}
             <div class="form-check mt-3">
               <label
                 class="form-check-label"
@@ -98,11 +120,33 @@
                 style="width: 15px; height: 20px"
                 class="form-check-input ml-2 float-right"
                 type="checkbox"
-                name="{{a.id}}"
+                name="risk"
+                value="{{a.id}}"
+              checked/>
+            </div>
+            {% endfor %}
+            
+            
+            {% for a in riskoff %}
+            <div class="form-check mt-3">
+              <label
+                class="form-check-label"
+                style="font-size: 0.8rem; color: dark"
+                id="A"
+                for="defaultCheck1"
+                ><span>{{a.Description}}</span></label
+              >
+              <input
+                style="width: 15px; height: 20px"
+                class="form-check-input ml-2 float-right"
+                type="checkbox"
+                name="risk"
                 value="{{a.id}}"
               />
             </div>
-            {% endfor %} {% csrf_token %}
+            {% endfor %}
+
+            {% csrf_token %}
             <div class="mt-5 ml-3">
               <button
                 type="submit"

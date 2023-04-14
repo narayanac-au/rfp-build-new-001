@@ -2030,6 +2030,8 @@ def SelectedIndex_view(request):
 def SelectedIndex2_view(request, id):
     industry = request.session['industry']
     country = request.session['country']
+    if country == "Australia":
+        country1 = "AU"
     showname = request.session['showname']
     client_name = request.session['client_name']
     if request.method == 'GET':
@@ -2046,6 +2048,22 @@ def SelectedIndex2_view(request, id):
         print("SelectedIndex2_view_POST")
         print(Queryyy)
         print("SelectedIndex2_view_POST")
+
+        try:
+            extraimg = request.POST.getlist("sectionextraimage")
+            print(extraimg, "extraimg")
+            extraselected = SectionExtraImage.objects.filter(id__in=extraimg)
+            delextraselected = ExtraImage.objects.exclude(id__in=extraimg)
+            user = Users.objects.get(user=client_name)
+            for e in extraselected:
+                c = e.user.add(user)
+            for d in delextraselected:
+                c = d.user.remove(user)
+            # extra = ExtraImage.objects.filter(user=user)
+            # extrano = ExtraImage.objects.exclude(user=user)
+        except:
+            pass
+
         show2 = Document_usercopy.objects.filter(user=client_name).filter(
             id__gt=id).exclude(id=id).order_by('id').first()
         if not show2:
@@ -2066,11 +2084,19 @@ def SelectedIndex2_view(request, id):
                 matrix='S').values_list('doc_index', flat=True)
             show2 = Document_usercopy.objects.filter(user=client_name).filter(
                 id__gt=id).exclude(id=id).order_by('id').first()
+            IMGSEC = SectionExtraImage.objects.filter(
+                country=country, industry=industry, section_data=show2.doc_index)
+            for i in IMGSEC:
+                print(i.id)
+            Noimage = "A"
+            if not IMGSEC:
+                Noimage = "No IMAGES FOUND"
 
+            print(IMGSEC, 'imgsec')
             if show2.doc_index == 'Executive Summary':
-                return render(request, 'SelectedIndex.html', {"showname": showname, "standard_sections": standard_sections, "country": country, "industry": industry, "show": show2})
+                return render(request, 'SelectedIndex.html', {"showname": showname, "standard_sections": standard_sections, "country": country, "industry": industry, "show": show2, "IMGSEC": IMGSEC, "Noimage": Noimage})
 
-            return render(request, 'SelectedIndex2.html', {'data': data, "standard_sections": standard_sections, "showname": showname, "country": country, "industry": industry, "show2": show2})
+            return render(request, 'SelectedIndex2.html', {'data': data, "standard_sections": standard_sections, "showname": showname, "country": country, "industry": industry, "show2": show2, "IMGSEC": IMGSEC, "Noimage": Noimage})
 
 
 def SelectedIndexlastPage_view(request):
@@ -2262,4 +2288,75 @@ def AssuptionAndRisk_view(request):
         Topic="Assuption_And_Risk")
     Key_consideration_and_risk = AssuptionAndRisk.objects.filter(
         Topic="Key_consideration_and_risk")
-    return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, 'Assuption_And_Risk': Assuption_And_Risk, 'Key_consideration_and_risk': Key_consideration_and_risk})
+
+    if request.method == "POST":
+        Assupmtions = request.POST.getlist("Assupmtions")
+        risk = request.POST.getlist("risk")
+        Assuptioncheck = ""
+        Assuptionnotcheck = AssuptionAndRisk.objects.filter(
+            Topic="Assuption_And_Risk")
+        riskon = AssuptionAndRisk.objects.filter(
+            Topic="Key_consideration_and_risk")
+        riskoff = AssuptionAndRisk.objects.filter(
+            Topic="Key_consideration_and_risk")
+        if Assupmtions:
+            print(Assupmtions, "Assupmtions")
+            extraselected = AssuptionAndRisk.objects.filter(id__in=Assupmtions)
+            delextraselected = AssuptionAndRisk.objects.exclude(
+                id__in=Assupmtions)
+            user = Users.objects.get(user=client_name)
+            for e in extraselected:
+                c = e.user.add(user)
+            for d in delextraselected:
+                c = d.user.remove(user)
+            Assuptioncheck = AssuptionAndRisk.objects.filter(
+                Topic="Assuption_And_Risk", user=user)
+
+            Assuptionnotcheck = AssuptionAndRisk.objects.exclude(
+                Topic="Assuption_And_Risk", user=user)
+
+        if risk:
+            print(risk, "risk")
+            extraselect = AssuptionAndRisk.objects.filter(id__in=risk)
+            delextraselect = AssuptionAndRisk.objects.exclude(id__in=risk)
+            user = Users.objects.get(user=client_name)
+            for e in extraselect:
+                c = e.user.add(user)
+            for d in delextraselect:
+                c = d.user.remove(user)
+
+            riskon = AssuptionAndRisk.objects.filter(
+                Topic="Key_consideration_and_risk", user=user)
+
+            riskoff = AssuptionAndRisk.objects.exclude(
+                Topic="Key_consideration_and_risk", user=user)
+
+        return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, 'Assuptioncheck': Assuptioncheck, "Assuptionnotcheck": Assuptionnotcheck,  'riskon': riskon, 'riskoff': riskoff})
+
+    if request.method == "GET":
+        user = Users.objects.get(user=client_name)
+        Assuptioncheck = AssuptionAndRisk.objects.filter(
+            Topic="Assuption_And_Risk", user=user)
+
+        if not Assuptioncheck:
+            Assuptioncheck = AssuptionAndRisk.objects.all()
+
+        Assuptionnotcheck = AssuptionAndRisk.objects.exclude(
+            Topic="Assuption_And_Risk", user=user)
+
+        if not Assuptionnotcheck:
+            Assuptionnotcheck = Assuptionnotcheck.objects.all()
+
+        riskon = AssuptionAndRisk.objects.filter(
+            Topic="Key_consideration_and_risk", user=user)
+
+        if not riskon:
+            riskon = AssuptionAndRisk.objects.all()
+
+        riskoff = AssuptionAndRisk.objects.exclude(
+            Topic="Key_consideration_and_risk", user=user)
+
+        if not riskoff:
+            riskoff = AssuptionAndRisk.objects.all()
+
+        return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, 'Assuptioncheck': Assuptioncheck, "Assuptionnotcheck": Assuptionnotcheck,  'riskon': riskon, 'riskoff': riskoff})

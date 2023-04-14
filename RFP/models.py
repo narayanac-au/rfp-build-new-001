@@ -387,3 +387,17 @@ class AssuptionAndRisk(models.Model):
 
     def __str__(self):
         return self.country
+
+
+class SectionExtraImage(models.Model):
+
+    user = models.ManyToManyField(Users, blank=True)
+    country = models.CharField(max_length=1000, null=True, blank=True)
+    industry = models.CharField(max_length=1000, null=True, blank=True)
+    section_data = models.CharField(max_length=1000, null=True, blank=True)
+    image_link = models.CharField(max_length=1000, null=True, blank=True)
+
+    selected = models.CharField(max_length=10, null=True, blank=True)
+
+    def __str__(self):
+        return self.country
