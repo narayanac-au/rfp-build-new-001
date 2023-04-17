@@ -19,12 +19,12 @@
             </div>
             {% for e in extra%}
             
-                <div class="col-6">
+                <div class="col-3">
                     <div class="card card-body  border border-dark mt-2" style="width:50 " >
                         <input class="form-check-input ml-1" type="checkbox" name="extraimage" value={{e.id}} id="flexRadioDefault1" checked>
                         <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong>{{forloop.counter}}</strong></label>
                         
-                        <img class="w-40 " src="{{e.image.url}}" alt="First slide" height="250" width="380">
+                        <img class="w-40 " src="{{e.image.url}}" alt="First slide" height="100" width="180">
                     </div>
                 </div>    
                           
@@ -40,12 +40,12 @@
             </div>
             {% for e in extrano%}
                 
-                <div class="col-6">
+                <div class="col-3">
                     <div class="card card-body  border border-dark mt-2" style="width:50 " >
                         <input class="form-check-input ml-1" type="checkbox" name="extraimage" value={{e.id}} id="flexRadioDefault1">
                         <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong>{{forloop.counter}}</strong></label>
                         
-                        <img class="w-40 " src="{{e.image.url}}" alt="First slide" height="250" width="380">
+                        <img class="w-40 " src="{{e.image.url}}" alt="First slide" height="100" width="180">
                     </div>
                 </div>    
                           

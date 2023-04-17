@@ -16,8 +16,8 @@
         <a href="{%url 'index'%}"><img src="{% static 'images/KPMG_logo.png' %}" height="80" width="110"></a>
         </div>
         <div class="col-8 mt-4 ">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        <h6 class="d-inline text-center ml-2  display-5" style="font-family:Arial;font-size:1rem;color:White"><strong>Powered Enterprise Intelligent RFP Builder</strong></h6>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <h6 class="d-inline text-center ml-2  display-5" style="font-family:Arial;font-size:1rem;color:White"><strong>Intelligent Request for Proposal (RFP) Response Builder</strong></h6>
         </div>
         <div class="col-2 mt-3  ">
             
@@ -52,7 +52,7 @@
             <a class="btn btn-dark btn-sm mt-5 d-inline" style="font-size:.7rem;width: 4rem;background-color:#000099;" href="{% url 'newrfp'%}">Start New RFP</a>
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             
-            <a class="btn btn-dark mt-5 d-inline btn-sm" style="font-size:.7rem;width: 4rem;background-color:#000099;" href="{% url 'firstpage'%}">Ask More Question</a>
+            <a class="btn btn-dark mt-5 d-inline btn-sm" style="font-size:.7rem;width: 4rem;background-color:#000099;" href="{% url 'SelectedIndexlastPage'%}">Ask More Question</a>
             
             <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
@@ -75,14 +75,14 @@
                 {%for Q in answer%} 
                 
                 
-                {%if Q.document_link %}
+                {%if Q.Model_Image_Link_BLOB %}
                     
-                    <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{Q.document_link}}" title="W3Schools Free Online Web Tutorials" width="90%" height="250px"></iframe>
+                    <iframe src="https://view.officeapps.live.com/op/embed.aspx?src={{Q.Model_Image_Link_BLOB}}" title="W3Schools Free Online Web Tutorials" width="90%" height="250px"></iframe>
                     
                 {% endif %}
                 
-                {% comment %} <a class="btn btn-info btn-sm mt-5 d-inline" style="font-size:.7rem;width: 4rem;background-color:#000099;" href="{% url 'editans' Q.id %}">Edit Answer</a>
-                <a class="btn btn-success btn-sm mt-5 d-inline" style="font-size:.7rem;width: 4rem;" href="{% url 'confirm' Q.id%}">Send for Approval</a> {% endcomment %}
+                <a class="btn btn-info btn-sm mt-5 d-inline" style="font-size:.7rem;width: 4rem;background-color:#000099;" href="{% url 'editans' Q.id %}">Edit Answer</a>
+                <a class="btn btn-success btn-sm mt-5 d-inline" style="font-size:.7rem;width: 4rem;" href="{% url 'confirm' Q.id%}">Send for Approval</a>
                 {% endfor %}
                 
                 </div>
