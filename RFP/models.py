@@ -257,21 +257,6 @@ class project(models.Model):
         return self.name
 
 
-class Document_usercopy(models.Model):
-    id = models.AutoField(primary_key=True)
-    country = models.CharField(max_length=50, null=False, blank=False)
-    industry = models.CharField(max_length=50, null=False, blank=False)
-    doc_index = models.CharField(max_length=100, null=True, blank=True)
-    user = models.CharField(max_length=200, blank=True)
-    # selected = models.CharField(max_length=10, null=True, blank=True)
-    File = models.FileField(upload_to='files', null=True, blank=True)
-    file_link = models.CharField(max_length=500, null=True, blank=True)
-    matrix = models.CharField(max_length=10, blank=True, null=True)
-
-    def __str__(self):
-        return self.country
-
-
 class documentapproval(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.CharField(max_length=200, null=True, blank=True)
@@ -321,6 +306,34 @@ class RfpData(models.Model):
 
     def __str__(self):
         return f'{self.rfpid}-{self.country}-{self.industry}'
+
+
+class Document_usercopy(models.Model):
+    id = models.AutoField(primary_key=True)
+    country = models.CharField(max_length=50, null=False, blank=False)
+    industry = models.CharField(max_length=50, null=False, blank=False)
+    doc_index = models.CharField(max_length=100, null=True, blank=True)
+    user = models.CharField(max_length=200, blank=True)
+    rfp_section = models.ForeignKey(
+        RfpSection, blank=True, null=True, on_delete=models.CASCADE
+    )
+    File = models.FileField(upload_to='files', null=True, blank=True)
+    file_link = models.CharField(max_length=500, null=True, blank=True)
+    matrix = models.CharField(max_length=10, blank=True, null=True)
+
+    def __str__(self):
+        return f'<{self.country}-{self.industry}-{self.user}>'
+
+
+class RfpDocuments(models.Model):
+    id = models.AutoField(primary_key=True)
+    country = models.CharField(max_length=50, null=False, blank=False)
+    industry = models.CharField(max_length=50, null=False, blank=False)
+    user = models.CharField(max_length=200, blank=True)
+    rfp_file = models.FileField(upload_to='files/rfp_documents', null=True, blank=True)
+
+    def __str__(self):
+        return f'<{self.country}-{self.industry}-{self.user}-{self.rfp_file.name}>'
 
 
 class ExtraImage(models.Model):
