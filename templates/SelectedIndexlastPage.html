@@ -38,37 +38,93 @@
   </div>
   <div class="mt-2 float-left">
     <!-- dropzone -->
-  <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
-    type="text/css"
-  />
-  <form
-    class="dropzone"
-    id="picup"
-    style="border: 3px dashed #888; width: 600px; height: 180px; margin: 0px"
-  >
-    {% csrf_token %}
-    <input type="button" value="Upload" id="up_btn" />
-  </form>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
+      type="text/css"
+    />
+    <form
+      class="dropzone"
+      action="{% url 'documentapproval' %}"
+      method="POST"
+      id="docapp"
+      style="border: 3px dashed #888; width: 600px; height: 180px; margin: 0px"
+    >
+      {% csrf_token %}
+      <!-- <div class="form-group">        
+        <button type="submit">Submit</button>      
+      </div> -->
+      <input type="button" value="Upload" id="docapproval" />
+    </form>
 
-  <script>
-    let up_btn = document.querySelector("#up_btn");
+    <!-- <input type="button" value="Submit" id="docapproval" /> -->
 
-    let picup = new Dropzone("#picup", {
-      url: "/drop/documentapproval/",
-      maxFilesize: 100,
-      acceptedFiles: ".jpeg,.png,.jpg,.docx,.pdf",
-      autoProcessQueue: false,
-      addRemoveLinks: true,
-      parallelUploads: 3,
-    });
-    up_btn.addEventListener("click", () => {
-      picup.processQueue();
-    });
-  </script>
-  <!-- dropzone -->
+    <!-- The below button should send the document for approval onClick and redirect to HOME screen -->
+    <form
+      action="{% url 'GenerateRfpDoc' %}"
+      method="POST"
+    >
+      {% csrf_token %}
+    <input
+      type="submit"
+      class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
+      style="font-size: 0.7rem; width: 4rem; background-color: #000099"
+      ></a
+    >
+    </form>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+    <script>
+      let up_btn = document.querySelector("#docapproval");
+      console.log(up_btn, 'upload button')
+
+      let picup = new Dropzone("#docapp", {
+        url: "/drop/documentapproval/",
+        maxFilesize: 100,
+        acceptedFiles: ".jpeg,.png,.jpg,.docx,.pdf",
+        autoProcessQueue: false,
+        addRemoveLinks: true,
+        parallelUploads: 3,
+        // init: function() { 
+        //       myDropzone = this;
+        //       this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {  
+        //       e.preventDefault();
+        //       e.stopPropagation();
+        //       myDropzone.processQueue();
+        //   });
+        // init: function() {
+        //   let files = 0
+        //   this.on("addedfile", function(file) {
+        //       files++
+        //       if (attachment == undefined && files === 1) attachment = file
+        //   })
+        //   this.on('removedfile', function(file) {
+        //       files--
+        //       if (files === 0) attachment = undefined
+        //   })
+        // }
+        // thumbnail: function(file, dataUrl) {
+        //   console.log(file, 'fileee')
+          // if (file.previewElement) {
+          //   file.previewElement.classList.remove("dz-file-preview");
+          //   var images = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
+          //   for (var i = 0; i < images.length; i++) {
+          //     var thumbnailElement = images[i];
+          //     thumbnailElement.alt = file.name;
+          //     thumbnailElement.src = dataUrl;
+          //   }
+          //   setTimeout(function() { file.previewElement.classList.add("dz-image-preview"); }, 1);
+          // }
+        // }
+      });
+      up_btn.addEventListener("click", () => {
+        console.log('here event listener')
+        picup.processQueue();
+      });
+    </script>
+    <!-- dropzone -->
 
     
       
@@ -76,8 +132,3 @@
   
 </body>
 {% endblock content %}
-
-
-
-
-<!-- Footer -->
