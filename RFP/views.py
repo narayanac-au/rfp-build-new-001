@@ -1,4 +1,5 @@
 from django.core.files import File
+#python
 from scripts import replace_word_document, get_document
 from django.db.models import Q
 import openai as ap
