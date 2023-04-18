@@ -15,12 +15,12 @@
         
         <div class="form-check mt-3" >
             {%if  p.question %}
-                {% ifnotequal p.optionselect 'on'%}
+                {% if p.optionselect != 'on'%}
                     <strong><label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{p.question}}</span></label></strong>
-                {% endifnotequal %}
-                {% ifequal  p.optionselect 'on'%}
+                {% endif %}
+                {% if p.optionselect == 'on'%}
                 <label class="form-check-label mt-2" style="font-size:.16rem;color:dark" id="A" for="defaultCheck1"><span>No Questions to display</span></label>
-                {% endifequal %}
+                {% end %}
                 
                 {% if p.answer1 %}    
                     <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option1: </strong></span></label>

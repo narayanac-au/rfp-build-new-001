@@ -206,13 +206,15 @@
             </div>
             {% endfor %} -->
 
+
             {% for i in all_sections %}
-                {% if i.country_matrix == 'S' or i.is_default is True %}
+                
+                {% if i.is_default is True %}
                     <div class="form-check mt-3" >
                         <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{i.section_data}}</span></label>
                         <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" onclick="return false" name="{{i.id}}"  checked="checked">
                     </div>
-                {% elif i.id in user_selected and i.country_matrix != 'S' and i.is_default is False %}
+                {% elif i.id in user_selected and i.is_default == False %}
                     <div class="form-check mt-3" >
                         <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{i.section_data}}</span></label>
                         <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="{{i.id}}"  checked="checked">
@@ -253,7 +255,7 @@
                     <input class="form-check-input mt-2" type="checkbox"   name="Quest" />
                     <label class="form-check-label ml-1 " style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Do you want to ask more Ques&Ans</strong> </span></label>
                 </div>
-            {% endif%}
+            {% endif %}
             
             <div class=" mt-5">
                 <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">SUBMIT</button>
