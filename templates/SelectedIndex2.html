@@ -107,14 +107,14 @@
                           
             
             {% endfor %} {% csrf_token %}
-            {% ifnotequal Noimage "A"  %}
+            {% if Noimage != "A"  %}
             <div class="col-6">
               <div class="card card-body  border border-dark mt-2" style="width:20 " >
                   
                 {{Noimage}}
               </div>
           </div>
-          {% endifnotequal %} 
+          {% endif %} 
             
             
             </div>
