@@ -1,4 +1,8 @@
 {% extends "base_second.html" %} {% block content %}
+
+html, body {
+  min-height: 100%;
+}
 <script
   src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -15,6 +19,7 @@
   crossorigin="anonymous"
 ></script>
 <div class="container  mt-3">
+
 <form class="" action="{% url 'SelectedIndex2' show2.id%}" method="POST">
   {% csrf_token %}
 
@@ -82,7 +87,7 @@
     <div class="container">
       
         <button
-          class="btn btn-success mt-3"
+          class="btn btn-success btn-sm d-inline mt-3"
           type="button"
           data-toggle="collapse"
           data-target="#collapseExample"
@@ -173,5 +178,19 @@
     {% comment %} {% endif %} {% endcomment %}
   </div>
   </div>
-
+</div>
+</div>
+</div>
+  <div>
+    <!-- Copyright -->
+    <footer class="mt-2">
+  
+      <!-- Copyright -->
+      <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+      </div>
+      <!-- Copyright -->
+    
+    </footer>
+    <!-- Footer --> 
+  </div>
 {% endblock content %}

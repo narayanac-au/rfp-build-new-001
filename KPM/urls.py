@@ -54,6 +54,8 @@ urlpatterns = [
 
     path('imageuploadmodel/', views.image_upload_view, name="imageuploadmodel"),
     path('AssuptionAndRisk/', views.AssuptionAndRisk_view, name="AssuptionAndRisk"),
+    # path('DownloadPicAndImages/', views.DownloadPicAndImages,
+    #      name="DownloadPicAndImages"),
 
     #path('selected2/', include('RFP.urls')),
     path('user/<str:id>/', views.user_upload_question_view, name="UP"),

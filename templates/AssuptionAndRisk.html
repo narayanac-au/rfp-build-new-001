@@ -34,7 +34,7 @@
       aria-controls="collapseExample"
       style="background-color:#000099"
     >
-      Assupmtions >
+      Assumptions >
     </button>
     <div class="collapse" id="collapseExample">
       <div class="card card-body">
@@ -142,11 +142,11 @@
         {% endfor %}
       </div>
     </div>
-  </div>
+  
 
 
 {% csrf_token %}
-<div class="mt-5 ml-3">
+<div class="mt-5 ">
   <button
     type="submit"
     class="btn btn-dark d-inline btn-sm"
@@ -156,8 +156,35 @@
   </button>
 
 </div>
+</div>
   
             </form>
+
+
+
+            {% comment %} <a
+          class="btn btn-secondary btn-sm"
+          style="font-size: 0.7rem; width: 9rem; background-color: #000099"
+          href="{% url 'DownloadPicAndImages'%}"
+          >Download word</a
+        > {% endcomment %}
             
-          
+            <footer class="footer fixed-bottom mt-3">
+              <!-- Copyright -->
+              <div
+                class="footer-copyright"
+                style="font-family: Arial; font-size: 0.5rem; color: black"
+              >
+                © 2023 Copyright owned by one or more of the KPMG International entities.
+                KPMG International entities provide no services to clients. All rights
+                reserved. KPMG refers to the global organization or to one or more of the
+                member firms of KPMG International Limited (“KPMG International”), each of
+                which is a separate legal entity. KPMG International Limited is a private
+                English company limited by guarantee and does not provide services to
+                clients. For more detail about our structure please visit
+                https://home.kpmg/governance
+              </div>
+              <!-- Copyright -->
+            </footer>
+            <!-- Footer -->          
 {%endblock%}
