@@ -75,7 +75,7 @@
                 {%for Q in qt%} 
 
                 <h4 class="border border-secondary mt-3 rounded" style="font-size:1.1rem;color:dark;background-color: #C0C0C0;width:1030px">Question: {{Q.question}}</h4>
-                {%ifequal Q.select1 "on" %}
+                {%if Q.select1 == "on" %}
                     <h6 class="  mt-3 rounded" style="font-size:.7rem;color:dark"></h6>
                     <iframe
                     src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{Q.answer1}}"
@@ -83,8 +83,8 @@
                     width="90%"
                     height="150px"
                     ></iframe>
-                {% endifequal %}
-                {%ifequal Q.select2 "on" %}
+                {% endif %}
+                {%if Q.select2 == "on" %}
                     <h6 class="  mt-3 rounded" style="font-size:.7rem;color:dark"></h6>
                     <iframe
                     src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{Q.answer2}}"
@@ -92,8 +92,8 @@
                     width="90%"
                     height="150px"
                     ></iframe>
-                {% endifequal %}
-                {%ifequal Q.select3 "on" %}
+                {% endif %}
+                {%if Q.select3 == "on" %}
                     <h6 class="  mt-3 rounded" style="font-size:.7rem;color:dark"></h6>
                     <iframe
                     src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{Q.answer3}}"
@@ -101,7 +101,7 @@
                     width="90%"
                     height="150px"
                     ></iframe>
-                {% endifequal  %}
+                {% endif  %}
                 {% comment %} <a class="btn btn-info btn-sm mt-5 d-inline" style="font-size:.7rem;width: 4rem;background-color:#000099;" href="{% url 'drop_editans' Q.id %}">Edit Answer</a> {% endcomment %}
                 {% endfor %}
                 
@@ -140,4 +140,23 @@
 
     
 </div>
+
+<footer class=" mt-3">
+    <!-- Copyright -->
+    <div
+      class="footer-copyright"
+      style="font-family: Arial; font-size: 0.5rem; color: black"
+    >
+      © 2023 Copyright owned by one or more of the KPMG International entities.
+      KPMG International entities provide no services to clients. All rights
+      reserved. KPMG refers to the global organization or to one or more of the
+      member firms of KPMG International Limited (“KPMG International”), each of
+      which is a separate legal entity. KPMG International Limited is a private
+      English company limited by guarantee and does not provide services to
+      clients. For more detail about our structure please visit
+      https://home.kpmg/governance
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
 </html>
