@@ -1,8 +1,7 @@
 {% extends "base_second.html" %} {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 
-html, body {
-  min-height: 100%;
-}
 <script
   src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -18,11 +17,35 @@ html, body {
   integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
   crossorigin="anonymous"
 ></script>
-<div class="container  mt-3">
+<div class="container  ">
+  {% comment %} Progress Bar {% endcomment %}
+  
+  <div class="row">
+    <div class="col-12 container ">
+          <div class="wrapper-progressBar">
+            <ul class="progressBar">
+              <li class="active" id="stepper">Home</li>
+              <li class="active" id="stepper">Information Form</li>
+              <li class="active" id="stepper">Standard Indexes</li>
+              <li class="active" id="stepper">Review Docs</li>
+              <li class="" id="stepper">Upload Docs for Approaval</li>
+              <li id="stepper">Drop RFP & Ask Question</li>
+              <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+              
+            </ul>
+          </div>
+        
+      
 
+
+
+        </div>
+  </div>
+</div>
+  {% comment %} Progress Bar {% endcomment %}
 <form class="" action="{% url 'SelectedIndex2' show2.id%}" method="POST">
   {% csrf_token %}
-
+  
   <div class="container">
     <div class="row">
       <div class="col-12">
@@ -181,7 +204,8 @@ html, body {
 </div>
 </div>
 </div>
-  <div>
+
+  <div class="container">
     <!-- Copyright -->
     <footer class="mt-2">
   

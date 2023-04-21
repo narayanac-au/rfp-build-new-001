@@ -1,5 +1,31 @@
 {% extends "base_second.html" %} {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 <body>
+  {% comment %} Progress Bar {% endcomment %}
+  <div class="container ">
+    <div class="row">
+      <div class="col-12 container ">
+            <div class="wrapper-progressBar">
+              <ul class="progressBar">
+                <li class="active" id="stepper">Home</li>
+                <li class="active" id="stepper">Information Form</li>
+                <li class="active" id="stepper">Standard Indexes</li>
+                <li class="active" id="stepper">Review Docs</li>
+                <li class="active" id="stepper">Upload Docs for Approaval</li>
+                <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                
+              </ul>
+            </div>
+          
+        
+  
+  
+  
+          </div>
+    </div>
+  </div>
+    {% comment %} Progress Bar {% endcomment %}
   <div class="container">
     <div class="mt-2 mb-5 float-right ">
       <a
@@ -131,14 +157,23 @@
     
   
 </body>
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+<div class="container ">
+
+  <div class="row">
+
+<div class="">
   <!-- Copyright -->
-  <footer class="footer fixed-bottom">
+  <footer class="">
 
     <!-- Copyright -->
-    <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+    <div class="footer-copyright container" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
     </div>
     <!-- Copyright -->
   
   </footer>
   <!-- Footer --> 
+</div>
+</div>
+</div>
 {% endblock content %}

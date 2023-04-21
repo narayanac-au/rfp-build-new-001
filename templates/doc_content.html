@@ -4,11 +4,36 @@
 
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 <!-- <link rel="stylesheet" href="{% static 'css/doc.css' %}">-->
 <!-- select for standard RFP's -->
 <link rel="stylesheet" href="{% static 'css/mcq.css' %}">
 <div class="  container ">
 <div class=" container ">
+      {% comment %} Progress Bar {% endcomment %}
+  <div class="row">
+    <div class="col-12 container ">
+          <div class="wrapper-progressBar">
+            <ul class="progressBar">
+              <li class="active" id="stepper">Home</li>
+              <li class="active" id="stepper">Information Form</li>
+              <li class="active" id="stepper">Standard Indexes</li>
+              <li class="" id="stepper">Review Docs</li>
+              <li class="" id="stepper">Upload Docs for Approaval</li>
+              <li id="stepper">Drop RFP & Ask Question</li>
+              <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+              
+            </ul>
+          </div>
+        
+      
+
+
+
+        </div>
+  </div>
+  {% comment %} Progress Bar {% endcomment %}
 <div class=" container ">
     
 
@@ -260,30 +285,25 @@
             <div class=" mt-5">
                 <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">SUBMIT</button>
         </form>
-            
-        </div>
+    </div>
+</div>
 
         
-</div>
 
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+        
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
-
-<div>
+{% comment %} <div class="container border border-dark mt-5 " >
   <!-- Copyright -->
-  <footer class="mt-2">
+ <footer >
 
-    <!-- Copyright -->
-    <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
-    </div>
-    <!-- Copyright -->
-  
-  </footer>
-  <!-- Footer --> 
-</div>
+  <!-- Copyright -->
+  <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer --> 
+</div> {% endcomment %}
+</html>
   {% endblock %}
