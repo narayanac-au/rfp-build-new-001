@@ -1,5 +1,6 @@
 {% extends "base_second.html" %} {% block content %} {% load static%}
 <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 {% comment %} Progress Bar {% endcomment %}
 <div class="container ">
   <div class="row">
@@ -27,8 +28,40 @@
   </div>
 </div>
   {% comment %} Progress Bar {% endcomment %}
-<form action="{% url 'extraimage' %}" method="POST">
-    {% csrf_token %}
+  {% comment %} Progress Bar {% endcomment %}
+             {% comment %} Heading {% endcomment %}
+             <div class=" container mt-3" >
+              <div class="row-12 text-center ">
+                  <div class="col-12 text-center ">
+                      <h4>Extra Images</h4>
+              </div>
+          </div>
+          </div>
+          {% comment %} Heading {% endcomment %}
+  {% comment %} Progress Bar {% endcomment %}
+             {% comment %} Heading {% endcomment %}
+             <div class=" container mt-2" >
+              <div class="row-12 text-center ">
+                  <div class="col-12 text-center ">
+                    <form action="{% url 'extraimage' %}" method="POST">
+                      {% csrf_token %} 
+                    <div class="ml-5">
+                      <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="Extraimgsearch" style="width: 10rem" id="sort-item">
+                        <option selected value="">--Industry--</option>    
+                        <option value="Healthcare">Healthcare</option>
+                        <option  value="Agnostic">Agnostic</option>
+                        <option  value="HigherEducation">Higher Education</option>
+                        
+                        </select>
+                      <button type="submit" class="btn btn-primary btn-sm  " style="background-color:#000099;">Search</button>
+                  </div>
+                
+              </div>
+          </div>
+          </div>
+          {% comment %} Heading {% endcomment %}
+{% comment %} <form action="{% url 'extraimage' %}" method="POST"> {% endcomment %}
+    {% comment %} {% csrf_token %} {% endcomment %}
     <div class=" container  mt-2 rounded " style="width: 600rem" >
         {% if extra %}
         <div class=" row  "  >
@@ -120,4 +153,18 @@
   </div>
 </div>
 </div>
+
+
+
+<script>
+  window.onload = function() {
+    var selItem = sessionStorage.getItem("SelItem");  
+    
+    $('#sort-item').val(selItem);
+    }
+    $('#sort-item').change(function() { 
+        var selVal = $(this).val();
+        sessionStorage.setItem("SelItem", selVal);
+    });
+  </script>
 {%endblock%}
