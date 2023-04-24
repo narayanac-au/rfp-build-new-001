@@ -1,5 +1,24 @@
 {% extends "base_second.html" %} {% block content %} {% load static%}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 <div class="container">
+  {% comment %} Progress Bar {% endcomment %}
+  <div class="row">
+    <div class="col-12 container">
+      <div class="wrapper-progressBar">
+        <ul class="progressBar">
+          <li class="active" id="stepper">Home</li>
+          <li class="active" id="stepper">Information Form</li>
+          <li class="active" id="stepper">Standard Standard Indexes</li>
+          <li class="active" id="stepper">Review Docs</li>
+          <li class="active" id="stepper">Upload Docs</li>
+          <li class="active" id="stepper">Drop RFP & Ask Question</li>
+          <li class="active" id="stepper">Extra Images</li>
+          <li class="active" id="stepper">Drop Extra Images</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% comment %} Progress Bar {% endcomment %}
   <div class="mt-2 ml-2"><strong>Please Upload Your Image Here</strong></div>
   <div class="mt-2 ml-2 float-center">
     <!-- dropzone -->
