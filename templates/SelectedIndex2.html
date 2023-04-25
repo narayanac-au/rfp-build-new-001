@@ -79,7 +79,8 @@
         ></iframe>
         {% else %}
         <textarea rows="18" cols="150" readonly>
-          There is no file present for this section.
+          There is no file present for this section. Drop a manually edited file at the end.
+          To merge all the documents into one.
         </textarea>
         {% endif %}
       </div>
@@ -104,7 +105,8 @@
       href="{% url 'firstpage'%}"
       >Home</a
     >
-    {% if show2.rfp_section.country_matrix in editable_sections or show2.rfp_section.industry_matrix in editable_sections and show2.file_link %}
+    {% if show.doc_index in standard_sections or show.file_link is None %}
+    {% else %}
     <a class="btn btn-dark d-inline ml-1 mr-1"
     style="
       font-size: 0.7rem;
@@ -112,7 +114,6 @@
       background-color: #f2f2f2;
       color: black;
     " href='{{show2.file_link}}' Download>Download</a>
-    {% else %}
     {% endif %}
     <a
     class="btn btn-dark d-inline"
