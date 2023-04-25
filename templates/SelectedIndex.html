@@ -2,10 +2,56 @@
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 
 
 <form class="" action="{% url 'SelectedIndex2' show.id%}" method="POST">
   {% csrf_token %}
+        {% comment %} Progress Bar {% endcomment %}
+        <div class="container ">
+        <div class="row">
+          <div class="col-12 container ">
+                <div class="wrapper-progressBar">
+                  <ul class="progressBar">
+                    <li class="active" id="stepper">Home</li>
+                    <li class="active" id="stepper">Information Form</li>
+                    <li class="active" id="stepper">Standard Indexes</li>
+                    <li class="active" id="stepper">Review Standard Docs</li>
+                    <li class="" id="stepper">Upload Docs</li>
+                    <li id="stepper">Drop RFP & Ask Question</li>
+                    <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                    
+                  </ul>
+                </div>
+              
+            
+      
+      
+      
+              </div>
+        </div>
+      </div>
+        {% comment %} Progress Bar {% endcomment %}
+           {% comment %} Heading {% endcomment %}
+   <div class=" container " >
+    <div class="row-12 text-center ">
+        <div class="col-12 text-center ">
+            <h4>Section: {{show.doc_index}}</h4>
+    </div>
+</div>
+</div>
+{% comment %} Heading {% endcomment %}
+{% comment %} Heading text {% endcomment %}
+<div class=" container " >
+  <div class="row-12 text-center ">
+      <div class="col-12 text-center " >
+          <h6 style="font-family:Arial;font-size:.5rem;color:black">The Executive Summary section provides an example for the industry you previously selected. This section should be rewritten specifically for your opportunity.
+            To help inspire your response we have included a Chat GPT interface that will allow you to ask specific questions in relation to the client or industry. Please Note: Chat GPT processes data offshore and by using this platform, you agree and understand that ChatGPT may use any content to develop and improve its services, and therefore once data has been fed into the software, ChatGPT owns that Intellectual Property. 
+            </h6>
+  </div>
+</div>
+</div>
+{% comment %} Heading text {% endcomment %}
   <script>
     // function copyClipboard() {
       // let copyText = document.querySelector(".copy-text");
@@ -40,7 +86,7 @@
     
 
   </script>
-  <div class="container">
+  <div class="container mb-2">
     <div class="row">
       <div class="col-12">
         <div class="mt-1">{{show.doc_index}}</div>
@@ -212,16 +258,23 @@
 
     
   </div>
-  <div>
+
+  
+  <div class="container ">
+    <div class="row">
+
+  <div class="">
     <!-- Copyright -->
-    <footer class="mt-2">
+    <footer class="">
   
       <!-- Copyright -->
-      <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+      <div class="footer-copyright " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
       </div>
       <!-- Copyright -->
     
     </footer>
     <!-- Footer --> 
   </div>
+</div>
+</div>
 {% endblock content %}

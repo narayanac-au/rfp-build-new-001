@@ -2339,21 +2339,48 @@ def ExtraImage_view(request):
     country = request.session['country']
     client_name = request.session['client_name']
     if request.method == "POST":
+        Extraimgsearch = request.POST.get("Extraimgsearch")
+        request.session['Extraimgsearch'] = Extraimgsearch
+        print("Extraimgsearch", Extraimgsearch)
         extraimg = request.POST.getlist("extraimage")
-        extraselected = ExtraImage.objects.filter(id__in=extraimg)
-        delextraselected = ExtraImage.objects.exclude(id__in=extraimg)
+        checkon = ExtraImage.objects.filter(
+            Industry=Extraimgsearch)
+        checkonid = []
+        for i in checkon:
+            checkonid.append(i.id)
+        print("checkonid", checkonid)
+        print("extraimg", extraimg)
+        extraimg = [int(x) for x in extraimg]
+        print("extraimggggg", extraimg)
+        on = list(set(checkonid).intersection(extraimg))
+        print("on", on)
+        if len(on):
+            off = list(set(checkonid) - set(extraimg))
+            print("off", off)
+            extraselected = ExtraImage.objects.filter(id__in=on)
+            delextraselected = ExtraImage.objects.filter(id__in=off)
+            user = Users.objects.get(user=client_name)
+            for e in extraselected:
+                c = e.user.add(user)
+            for d in delextraselected:
+                c = d.user.remove(user)
+
         user = Users.objects.get(user=client_name)
-        for e in extraselected:
-            c = e.user.add(user)
-        for d in delextraselected:
-            c = d.user.remove(user)
-        extra = ExtraImage.objects.filter(user=user)
-        extrano = ExtraImage.objects.exclude(user=user)
+        Extraimgsearch = request.session['Extraimgsearch']
+        extra = ExtraImage.objects.filter(Industry=Extraimgsearch, user=user)
+        extrano = ExtraImage.objects.filter(
+            Industry=Extraimgsearch).exclude(user=user)
         return render(request, 'extraimage.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
     if request.method == "GET":
         user = Users.objects.get(user=client_name)
         extra = ExtraImage.objects.filter(user=user)
         extrano = ExtraImage.objects.exclude(user=user)
+        indus = ExtraImage.objects.all()
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        print(indus)
+        for i in indus:
+            print(i.Industry)
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         return render(request, 'extraimage.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
 
 

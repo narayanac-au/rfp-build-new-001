@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+
 <link rel="stylesheet" href="{% static 'css/doc.css' %}">
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 <!-- type questions RFP's -->
 
 <head>
@@ -47,20 +49,25 @@
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <div class=" bg row">
-        <div class="col-2  ">
-            <a href="{%url 'index'%}"><img src="{% static 'images/KPMG_logo.png' %}" height="80" width="110"></a>
+    <title>RFP</title>
+    <div class=" bg  row  ">
+        <div class="  col-1   ">
+        <a href="{%url 'index'%}"><img class="container" src="{% static 'images/KPMG_logo.png' %}" height="70" width="100"></a>
         </div>
-        <div class="col-8 mt-4 ">
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-            <h6 class="d-inline text-center ml-2  display-5" style="font-family:Arial;font-size:1rem;color:White">
-                <strong>Intelligent Request for Proposal (RFP) Response Builder</strong></h6>
+        <div class=" col-4 container  " >
+            
+                <div class="col-12 container mt-4 float-left ">
+        <h6 class="text-center    display-5" style="font-family:Arial;font-size:1rem;color:White"><strong>Powered Enterprise Intelligent RFP Builder</strong></h6>
+                </div>  
+            
         </div>
-        <div class=" col-2 mt-3   ">
+        <div class=" col-2 mt-2   ">
             <div class="row">
-            	<a class="btn btn-success btn-sm d-inline  float-right mt-3 mr-5" style="font-size:.7rem;width: 9rem;background-color:#000099;" href="{% url 'login'%}">Approve Question Login</a>
+            	<a class="btn btn-success btn-sm d-inline  float-right mt-3 mr-3 " style="font-size:.6rem;width: 9rem;background-color:#000099;" href="{% url 'login'%}">Approve Question Login</a>
             </div>    
         </div>
+    </div>
+        
         
     </div>
 
@@ -68,14 +75,47 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/firstpage.css' %}">
+    
     <div class="border-bottom border-dark"></div>
     <title>RFP</title>
 </head>
 
 
 <body>
-    <div class=" " >
-        <div class="row" >
+    {% comment %} Progress Bar {% endcomment %}
+    <div class=" container " >
+        <div class="row">
+            <div class="col-12 container ">
+                  <div class="wrapper-progressBar">
+                    <ul class="progressBar">
+                      <li class="active" id="stepper">Home</li>
+                      <li class="active" id="stepper">Information Form</li>
+                      <li id="stepper">Standard Indexes</li>
+                      <li class="" id="stepper">Review Standard Docs</li>
+                      <li class="" id="stepper">Upload Docs</li>
+                      <li id="stepper">Drop RFP & Ask Question</li>
+                      <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                      
+                    </ul>
+                  </div>
+                
+              
+        
+        
+        
+                </div>
+          </div>
+          {% comment %} Progress Bar {% endcomment %}
+          {% comment %} Heading {% endcomment %}
+          <div class=" container " >
+            <div class="row-12 text-center ">
+                <div class="col-12 text-center ">
+                    <h4>Contact Information</h4>
+            </div>
+        </div>
+    </div>
+    {% comment %} Heading {% endcomment %}
+        <div class="row " >
             <div class="col-2 ">
                 
             </div>
@@ -97,14 +137,14 @@
                     
                     
                     <div>
-                        <label for="countries" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>Client Geo</strong></label>
+                        <label for="countries" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>Client Geo*</strong></label>
                     </div>
                     <div>
                         <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="countries" style="width: 10rem">
-                    
+                        <option selected value="">--country--</option>    
                         <option value="US">US</option>
-                        <option selected value="Australia">Australia</option>
-<!--                         <option value="UK">UK</option> -->
+                        <option  value="AU">Australia</option>
+
                     
                         </select>
                     
@@ -113,8 +153,14 @@
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Address Line 1*</strong></label>
                     <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line1" style="width: 10rem;height:100px;" placeholder=""></input>
 
-                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Address Line 2*</strong></label>
-                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line2" style="width: 10rem;height:100px;" placeholder=""></input>
+                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Address Line 2</strong></label>
+                    <input  type="text" required="" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line2" style="width: 10rem;height:100px;" placeholder=""></input>
+                    
+                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Town/City*</strong></label>
+                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line3" style="width: 10rem;height:100px;" placeholder=""></input>
+
+                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>State/Region*</strong></label>
+                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line4" style="width: 10rem;height:100px;" placeholder=""></input>
 
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Zip/Postal Code*</strong></label>
                     <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="Postal_Code" style="width: 10rem;height:100px;" placeholder=""></input>
@@ -123,8 +169,11 @@
                     
                     
                     
-            </div> 
+            </div>
         </div> 
+    
+         
+        
         <div class="col-4  ">
                 
         </div>
@@ -139,26 +188,27 @@
                     
                     <div class="form-group">
                         <div>
-                            <label for="industry" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Powered Industry</strong></label>
+                            <label for="industry" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Powered Industry*</strong></label>
                             <select class="custom-select custom-select-lg  border border-dark" style="font-size:.7rem;width: 15rem" name="industry" style="width: 10rem">
-                            
+                            <option selected value="">--Industry--</option>    
                             <option  value="Agnostic">Agnostic</option>
-                            <option selected value="Healthcare">Healthcare</option>
+                            <option  value="Healthcare">Healthcare</option>
                             <option value="Higher Education">Higher Education</option>
-                            <option value="Life Insurance">Financial Services</option>
+                            
                             
                             </select>
                         
                         </div>
                     
                     <div>
-                        <label for="countries" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>KPMG Geo</strong></label>
+                        <label for="countries" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>KPMG Lead Geo</strong></label>
                     </div>
                     <div>
                         <select id="geo" class="custom-select custom-select-lg border border-dark" name="geo" style="font-size:.7rem;width: 15rem"  style="width: 10rem">
+                        <option selected value="">--country--</option>  
                         {% for g in geo%}
                         {% comment %} <option value="US">{{g.KPMGgeo}}</option> {% endcomment %}
-                        <option selected value="{{g.id}}">{{g.KPMGgeo}}</option>
+                        <option  value="{{g.id}}">{{g.KPMGgeo}}</option>
 <!--                         <option value="UK">UK</option> -->
                         {% endfor %}
                         </select>
@@ -178,23 +228,40 @@
                         <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>KPMG LEAD PARTNER</strong></label>
                     <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="kpmglead" name="KPMGLEADPARTNER" style="width: 10rem;height:100px;" placeholder=""></input>
                     </div>
-                    
+                    <div>
+                        <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>KPMG TAX REFERENCE</strong></label>
+                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="kpmglead" name="KPMGTAXREFERENCE" style="width: 10rem;height:100px;" placeholder=""></input>
+                    </div>
+                    <div class="col-2  ">
+                
+                    </div>
+                </div>
                     </form>
-            </div>    
-        </div>         
-    </div>
-</div>
-</body>
+                </body>
+            </div>  
+        </div>  
+    </div> 
+    
 
-</div>
-  <!-- Copyright -->
-  <footer class="footer fixed-bottom">
+        
+               
+    
 
-    <!-- Copyright -->
-    <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+
+
+   
+    <div class="container">
+      <!-- Copyright -->
+     <footer >
+    
+      <!-- Copyright -->
+      <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+      </div>
+      <!-- Copyright -->
+    
+    </footer>
+    <!-- Footer --> 
     </div>
-    <!-- Copyright -->
-  
-  </footer>
-  <!-- Footer --> 
-</html>
+    </html>
+
+
