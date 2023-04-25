@@ -1,4 +1,20 @@
-{% extends "base_second.html" %} {% block content %}
+{% extends "base_second.html" %}
+{% block static_block %}
+  <style>
+    table, th, td {
+      border: 0.5px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 5px;
+      font-size: 12px;
+    }
+    tr {
+      height: 2px;
+    }
+  </style>
+{% endblock %}
+{% block content %}
 <body>
   <div class="container">
     <div class="mt-2 mb-5 float-right ">
@@ -17,25 +33,25 @@
   
   <div class="mt-5">
     <strong class="font-weight-bold" style="font-size: 1rem"
-      >DOWNLOAD FILES OF SELECTED SECTION</strong
+      >UPLOAD FILES OF EDITED STANDARD SECTION ONLY!</strong
     >
   </div>
 
-  <div>
+  <!-- <div>
     <a
       class="btn btn-dark btn-sm d-inline"
       style="font-size: 0.7rem; width: 9rem; background-color: #000099"
       href="{% url 'download'%}"
       >Download FILE</a
     >
-  </div>
+  </div> -->
 
-  <div class="border-bottom border-dark mt-2"></div>
-  <div class="mt-3">
+  <!-- <div class="border-bottom border-dark mt-2"></div> -->
+  <!-- <div class="mt-3">
     <strong class="font-weight-bold" style="font-size: 1rem"
       >PLEASE UPLOAD THE EDITED STANDARD SECTIONS HERE.THESE FILES WILL BE SENT FOR APPROVAL</strong
     >
-  </div>
+  </div> -->
   <div class="mt-2 float-left">
     <!-- dropzone -->
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
@@ -68,11 +84,25 @@
       {% csrf_token %}
     <input
       type="submit"
+      value="Merge & Download"
       class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
-      style="font-size: 0.7rem; width: 4rem; background-color: #000099"
+      style="font-size: 0.7rem; width: 8rem; background-color: #000099"
       ></a
     >
     </form>
+    <p><strong style="color: red;">Note:</strong> Use the same file name as below while dropping the manually edited files.</p>
+    <div class="float-left">
+      <table summary="no_orderDate">
+        <tr><th>Sections</th><th>Filename</th>
+        {% for queue in filenames %}
+            {% if queue.rfp_section.country_matrix in editable_sections or queue.rfp_section.industry_matrix in editable_sections %}
+            <tr><td>{{ queue.doc_index }}</td><td>{{ client_name }}_{{ queue.rfp_section.document_file_name }}</td></tr>
+            {% endif %}
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+  
 
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
@@ -126,9 +156,6 @@
     </script>
     <!-- dropzone -->
 
-    
-      
-    
-  
+
 </body>
 {% endblock content %}

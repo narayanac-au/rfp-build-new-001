@@ -279,6 +279,7 @@ class RfpSection(models.Model):
     sub_section = models.CharField(max_length=5000, null=True, blank=True)
     question = models.CharField(max_length=5000, null=True, blank=True)
     document_link = models.CharField(max_length=5000, null=True, blank=True)
+    document_file_name = models.CharField(max_length=5000, null=True, blank=True)
     image_link = models.CharField(max_length=5000, null=True, blank=True)
     user = models.ManyToManyField(Users, blank=True)
     order = models.IntegerField(null=True, blank=True)
@@ -342,8 +343,6 @@ class ExtraImage(models.Model):
         ('Australia', 'Australia'),
         ('US', 'US'),
         ('UK', 'UK'),
-
-
     }
 
     imagechoices = {

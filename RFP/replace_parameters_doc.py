@@ -1,6 +1,6 @@
 from docx import Document
 import os 
-from datetime import datetime
+from datetime import datetime, date
 # pip install azure-storage-blob
 from azure.storage.blob import BlobServiceClient
 
@@ -16,7 +16,7 @@ def replace_word_doc(doc_path, client_full_name='', client_short_name='', client
     doc=Document(doc_path)
 
     # Initializing parameters
-    dictionary = {'[CLIENT_NAME]': client_full_name}
+    dictionary = {}
 
     if client_full_name:
         dictionary['[CLIENT_NAME]'] = client_full_name
@@ -39,19 +39,45 @@ def replace_word_doc(doc_path, client_full_name='', client_short_name='', client
     if kpmg_lead_partner:
         dictionary['[KPMG_LEAD_PARTNER]'] = kpmg_lead_partner
 
+    curr_date = datetime.today()
+    dictionary['[CURR_DATE]'] = curr_date.strftime("%B %d, %Y")
+
     print(dictionary, 'dicccc')
-    # Replacing words with paragraphs
+    # Replacing words with headingss
+    # for i in dictionary:
+    #     for p in doc.headings:
+    #         if p.text.find(i)>=0:
+    #             p.text=p.text.replace(i,dictionary[i])
+
+    for p in doc.paragraphs:
+        inline = p.runs
+        for i in range(len(inline)):
+            text = inline[i].text
+            for key in dictionary.keys():
+                if key in text:
+                    text=text.replace(key,dictionary[key])
+                    inline[i].text = text
+
+    
+    # # Replacing words with paragraphs
+    # for i in dictionary:
+    #     for p in doc.paragraphs:
+    #         if p.text.find(i)>=0:
+    #             p.text=p.text.replace(i,dictionary[i])
+
+    # # Replacing words with paragraphs
     for i in dictionary:
         for p in doc.paragraphs:
             if p.text.find(i)>=0:
                 p.text=p.text.replace(i,dictionary[i])
 
     # Replacing words inside table
-        for table in doc.tables:
-            for row in table.rows:
-                for cell in row.cells:
-                    if cell.text.find(i)>=0:
-                        cell.text=cell.text.replace(i,dictionary[i])
+    for table in doc.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                if cell.text.find(i)>=0:
+                    cell.text=cell.text.replace(i,dictionary[i])
+
     #save changed document
     # temp_name = str(datetime.now()).replace(':', '-').replace('.', '-')
     temp_name = 'updated'
@@ -68,8 +94,8 @@ def replace_word_doc(doc_path, client_full_name='', client_short_name='', client
         os.makedirs(media_path)
         print("The new directory is created!")
 
-    os.rename(temp_file, f'{media_path}/{doc_name}')
-    return f'{media_path}/{doc_name}'
+    os.rename(temp_file, f'{media_path}/{client_full_name}_{doc_name}')
+    return f'{media_path}/{client_full_name}_{doc_name}'
 
 
 def upload_blob_data(subfolder, filename, container_id):

@@ -139,7 +139,7 @@
                         <div class="col-3">
                             <div class="card card-body  border border-dark mt-2" style="width:50 " >
                             
-                                <input class="form-check-input ml-1" type="radio" name="flexRadioDefault" value={{i.id}} id="flexRadioDefault1">
+                                <input class="form-check-input ml-1" type="radio" name="flexRadioDefault" value={{i.id}} id="flexRadioDefault1" required="true">
                                 <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong>{{forloop.counter}}</strong></label>
                                 <!-- <img class="w-30 " src="{{i.image.url}}" alt="First slide" height="100" width="120"> -->
                                 <!-- src="https://view.officeapps.live.com/op/embed.aspx?src=https://cmpstorage.blob.core.windows.net/test/Title_template2.docx" -->
@@ -183,6 +183,59 @@
                             picup2.processQueue();
                             })
 
+                            $('#select-all').click(function(event) {   
+                                if(this.checked) {
+                                    // Iterate each checkbox
+                                    $(':checkbox').each(function() {
+                                        this.checked = true;                        
+                                    });
+                                } else {
+                                    $(':checkbox').each(function() {
+                                        this.checked = false;                       
+                                    });
+                                }
+                            });
+
+                            function toggle(source) {
+                                // console.log(source, source.checked, 'sourceee')
+                                // checkboxes = document.getElementsByClassName('form-check-label');
+                                // console.log(checkboxes, 'checkboxxess')
+                                // for(var checkbox in checkboxes)
+                                //     checkbox.checked = source.checked;
+                                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                                var default_rfp = '{{default_sections}}';
+                                default_rfp = JSON.parse(default_rfp);
+
+                                // console.log(Array(default_rfp), 'array')
+                                
+                                
+                                console.log(default_rfp, typeof(default_rfp), "defaul rfp's ");
+
+                                for (var i = 0; i < checkboxes.length; i++) {
+                                    console.log(checkboxes[i], 'iii')
+                                    console.log(checkboxes[i].name, 'name')
+                                    
+                                    var pivot = false;
+                                    try {
+                                        var name = parseInt(checkboxes[i].name);
+                                        console.log(name, typeof(name), 'name int conversion')
+                                        // var found = default_rfp.find(name);
+                                        var found = default_rfp.find(element => element == name);
+                                        if (found) {
+                                            pivot = true;
+                                        }
+                                        console.log(found, 'found the value')
+                                    }
+                                    catch(err) {
+                                        console.log(err, 'error')
+                                    }
+                                    
+                                    // if (checkboxes[i].oncl)
+                                    if ((checkboxes[i] != source)&(pivot == false))
+                                        checkboxes[i].checked = source.checked;
+                                }
+                            };
+
                         </script>
                         
                     </div> 
@@ -205,8 +258,10 @@
                 
             </div>
             {% endfor %} -->
-
-
+            <div class="form-check ml-3 mt-5">
+                <input class="form-check-input mt-2" type="checkbox" onClick="toggle(this)" name="select-all" id="select-all"/>
+                <label class="form-check-label ml-1 " style="font-size:.8rem;color:dark" for="defaultCheck1"><span><strong>Select All</strong> </span></label>
+            </div>
             {% for i in all_sections %}
                 
                 {% if i.is_default is True %}
