@@ -3,8 +3,35 @@
 {% load static%}
 <link rel="stylesheet" href="{% static 'css/doc.css' %}">
 <link rel="stylesheet" href="{% static 'css/mcq.css' %}">
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 <div class=" container ">
 <div class=" container ">
+      {% comment %} Progress Bar {% endcomment %}
+<div class="container ">
+    <div class="row">
+      <div class="col-12 container ">
+            <div class="wrapper-progressBar">
+              <ul class="progressBar">
+                <li class="active" id="stepper">Home</li>
+                <li class="active" id="stepper">Information Form</li>
+                <li class="active" id="stepper">Standard Standard Indexes</li>
+                <li class="active" id="stepper">Review Docs</li>
+                <li class="active" id="stepper">Upload Docs</li>
+                <li class="active" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                <li class="active" id="stepper">Drop RFP Detected Question</li>
+                <li class="" id="stepper">Drop RFP Selection Preview</li>
+                
+              </ul>
+            </div>
+          
+        
+  
+  
+  
+          </div>
+    </div>
+  </div>
+    {% comment %} Progress Bar {% endcomment %}
 <div class=" container ">
     
     <form action="{% url 'ques2'   p.id %}" method="POST">
@@ -72,4 +99,24 @@
 </div>
 </div>
 </div>
+
+
+<footer class=" container mt-3">
+    <!-- Copyright -->
+    <div
+      class="footer-copyright"
+      style="font-family: Arial; font-size: 0.5rem; color: black"
+    >
+      © 2023 Copyright owned by one or more of the KPMG International entities.
+      KPMG International entities provide no services to clients. All rights
+      reserved. KPMG refers to the global organization or to one or more of the
+      member firms of KPMG International Limited (“KPMG International”), each of
+      which is a separate legal entity. KPMG International Limited is a private
+      English company limited by guarantee and does not provide services to
+      clients. For more detail about our structure please visit
+      https://home.kpmg/governance
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
 {% endblock %}

@@ -4,11 +4,46 @@
 
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 <!-- <link rel="stylesheet" href="{% static 'css/doc.css' %}">-->
 <!-- select for standard RFP's -->
 <link rel="stylesheet" href="{% static 'css/mcq.css' %}">
 <div class="  container ">
 <div class=" container ">
+      {% comment %} Progress Bar {% endcomment %}
+  <div class="row">
+    <div class="col-12 container ">
+          <div class="wrapper-progressBar">
+            <ul class="progressBar">
+              <li class="active" id="stepper">Home</li>
+              <li class="active" id="stepper">Information Form</li>
+              <li class="active" id="stepper">Standard Indexes</li>
+              <li class="" id="stepper">Review Standard Docs</li>
+              <li class="" id="stepper">Upload Docs</li>
+              <li id="stepper">Drop RFP & Ask Question</li>
+              <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+              
+            </ul>
+          </div>
+        
+      
+
+
+
+        </div>
+  </div>
+
+  {% comment %} Progress Bar {% endcomment %}
+  {% comment %} Heading {% endcomment %}
+  <div class=" container " >
+    <div class="row-12 text-center ">
+        <div class="col-12 text-center ">
+            <h4>Document Sections</h4>
+    </div>
+</div>
+</div>
+{% comment %} Heading {% endcomment %}
 <div class=" container ">
     
 
@@ -16,10 +51,13 @@
 <div class=" container ">
 <div class=" container border border-secondary rounded mt-2">
     
-
+    <div >
+                    
+        <h6 class="ml-3 mt-2 " style='font-family:"Arial";font-size:.8rem;width: 18rem;color:dark';><strong>Style Sheets” button to view all available style sheets. You can select from a pre-existing style sheet or upload your own</strong></h5>
+    </div>  
     <p>
                 
-        <button class="btn btn-primary mt-3 ml-3  btn btn-dark active arr down" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample11" style='font-family:"Arial";font-size:.7rem;width: 13rem;background-color:#000099'; checked;><strong>Explore Style Sheet For RFP ></strong></button>
+        <button class="btn btn-primary mt-3 ml-3  btn btn-dark active arr down" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample11" style='font-family:"Arial";font-size:.7rem;width: 13rem;background-color:#000099'; checked;><strong>Style Sheets ></strong></button>
     </p>            
     <div class=" container collapse multi-collapse " style="width: 200rem" id="multiCollapseExample11">
 
@@ -315,16 +353,25 @@
             <div class=" mt-5">
                 <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">SUBMIT</button>
         </form>
-            
-        </div>
+    </div>
+</div>
 
         
-</div>
 
-</div>
-</div>
-</div>
-</div>
+        
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
+{% comment %} <div class="container border border-dark mt-5 " >
+  <!-- Copyright -->
+ <footer >
 
-{% endblock %}
+  <!-- Copyright -->
+  <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer --> 
+</div> {% endcomment %}
+</html>
+  {% endblock %}

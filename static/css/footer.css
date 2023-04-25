@@ -1,7 +1,18 @@
-#footer {
-    position: sticky;
-    bottom: 0;
-    width: 644px;
-    height: 20px;
-    margin: 0 auto;
+
+html{
+    
+    height: 100%;
+    box-sizing:border-box;
 }
+body {
+    position: absolute;
+    min-height: 100%;
+    min-width: 100%;
+    margin: 0;
+    box-sizing:inherit;
+}
+footer {
+    position: absolute;
+    bottom:0;
+}
+

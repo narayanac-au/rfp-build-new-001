@@ -50,12 +50,42 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/firstpage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
     <div class="border-bottom border-dark"></div>
     <title>RFP</title>
 </head>
 
 
 <body>
+    <div class="container ">
+        
+        <div class="container">
+
+    {% comment %} Progress Bar {% endcomment %}
+  <div class="row container">
+    <div class="col-12 container ">
+          <div class="wrapper-progressBar container">
+            <ul class="progressBar container">
+              <li class="active" id="stepper">Home</li>
+              <li class="active" id="stepper">Information Form</li>
+              <li class="active" id="stepper">Standard Indexes</li>
+              <li class="active" id="stepper">Review Standard Docs</li>
+              <li class="active" id="stepper">Upload Docs</li>
+              <li class="active" id="stepper">Drop RFP & Ask Question</li>
+              <li class="active" id="stepper">Docs Approval Login</li>
+              
+            </ul>
+          </div>
+        
+      
+
+
+
+        </div>
+  </div>
+</div>
+</div>
+  {% comment %} Progress Bar {% endcomment %}
     <div class=" ">
         
 
@@ -137,4 +167,23 @@
 
 </body>
 
+
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+<div class="container ">
+  <div class="row">
+
+<div class="">
+  <!-- Copyright -->
+  <footer class="">
+
+    <!-- Copyright -->
+    <div class="footer-copyright container" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+    </div>
+    <!-- Copyright -->
+  
+  </footer>
+  <!-- Footer --> 
+</div>
+</div>
+</div>
 </script>
