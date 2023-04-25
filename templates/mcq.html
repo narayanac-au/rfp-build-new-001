@@ -1,0 +1,113 @@
+{% extends "base_second.html" %}
+{% load static %}
+
+{% block content %}
+
+ 
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mcq.css' %}">
+    <link rel="stylesheet" href="{% static 'css/firstpage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+    
+    <title>Document</title>
+
+<body>
+    <div class="container  ">
+        {% comment %} Progress Bar {% endcomment %}
+<div class="container ">
+    <div class="row">
+      <div class="col-12 container ">
+            <div class="wrapper-progressBar">
+              <ul class="progressBar">
+                <li class="active" id="stepper">Home</li>
+                <li class="active" id="stepper">Information Form</li>
+                <li class="active" id="stepper">Standard Indexes</li>
+                <li class="active" id="stepper">Review Docs</li>
+                <li class="active" id="stepper">Upload Docs for Approaval</li>
+                <li class="active" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                <li class="active" id="stepper">Question And Answer</li>
+                <li class="" id="stepper">Question And Answer Preview</li>
+                
+              </ul>
+            </div>
+          
+        
+  
+  
+  
+          </div>
+    </div>
+  </div>
+    {% comment %} Progress Bar {% endcomment %}
+        <div class="container  ">
+            <div class="container mt-5   ">
+                <div class="container  ">
+        <strong><p class=" " style="font-size:1rem;color:dark">Please select appropriate response</p></strong>
+        <div class="alert alert-light border border-dark" role="alert" style="font-size:.9rem;width:60rem;color:black">{{Query}}</div>
+        
+        <form action="{% url 'preview'%}" method="POST">
+            {% csrf_token %}
+            {% if data0 %}
+            <div class="form-check mt-3" >
+                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span>{{data0}}</span></label>
+                <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="K" value={{id0}}  >
+                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{data0}}" title="W3Schools Free Online Web Tutorials" width="90%" height="250px"></iframe>
+            </div>
+            {% endif %}
+            {% if data1 %}
+            <div class="form-check mt-3" >
+                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span>{{data1}}</span></label>
+                <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="M" value={{id1}}  >
+                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{data1}}" title="W3Schools Free Online Web Tutorials" width="90%" height="250px"></iframe>
+            </div>
+            {% endif %}
+            {% if data2 %}
+            <div class="form-check mt-3" >
+                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span>{{data2}}</span></label>
+                <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="L" value={{id2}}  >
+                <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{data2}}" title="W3Schools Free Online Web Tutorials" width="90%" height="250px"></iframe>
+            </div>
+            {% endif %}
+            {% if non %}
+            <div class="form-check mt-3" >
+                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="AB" for="defaultCheck1"><span>{{non}}</span></label>
+                
+                
+            </div>
+            {% endif %}
+            
+            
+            
+            <div class=" mt-3">
+                <button type="submit" class="btn btn-dark d-inline " style="font-size:.7rem;width: 4rem;background-color:#f2f2f2;color:black">SAVE</button>
+        </form>
+            <a class="btn btn-dark d-inline" style="font-size:.7rem;width: 4rem;background-color:#f2f2f2;color:black" href="{% url 'firstpage'%}">Change Question</a>
+        </div> 
+        
+        
+    </div>
+</div>
+</div>
+</div>
+</body>
+<div class="container mt-2">
+    <div class="row">
+  
+  <div class="">
+    <!-- Copyright -->
+    <footer class="">
+  
+      <!-- Copyright -->
+      <div class="footer-copyright " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+      </div>
+      <!-- Copyright -->
+    
+    </footer>
+    <!-- Footer --> 
+  </div>
+  </div>
+  </div>
+{% endblock content %}
+
+</html>

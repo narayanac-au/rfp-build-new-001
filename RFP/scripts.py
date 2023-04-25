@@ -1,0 +1,287 @@
+from docx import Document
+import platform
+
+from django.conf import settings
+from docxtpl import DocxTemplate, RichText
+
+def docx_template_replace(doc_path, doc_name, client_name=''):
+    doc = DocxTemplate(doc_path)
+    dictionary = {}
+    dictionary['client_name'] = client_name
+    curr_date = datetime.today()
+    dictionary['curr_date'] = curr_date.strftime("%B %d, %Y")
+
+    doc.render(dictionary)
+
+    temp_name = 'updated'
+    temp_file = f'temporary/{temp_name}.docx'
+    print(temp_file, 'temp file')
+    doc.save(temp_file)
+    os.remove(doc_path)
+    media_path = f'media/{client_name}'
+    isExist = os.path.exists(media_path)
+
+    if not isExist:
+
+        # Create a new directory because it does not exist
+        os.makedirs(media_path)
+        print("The new directory is created!")
+
+    os.rename(temp_file, f'{media_path}/{client_name}_{doc_name}')
+    return f'{media_path}/{client_name}_{doc_name}'
+
+
+# file_data = ["C:/Users/narayanac/Documents/RFP-Builder-Latest/Title_template2.docx","C:/Users/narayanac/Documents/RFP-Builder-Latest/Title_template3.docx"]
+
+# file_data = ['Title_template2.docx', 'Title_template3.docx']
+
+# def combine_word_documents(files):
+#     print('entered')
+#     merged_document = Document()
+
+#     for index, file in enumerate(files):
+#         print(index, file)
+#         sub_doc = Document(file)
+#         print(sub_doc, 'su')
+
+#         # Don't add a page break if you've reached the last file.
+#         if index < len(files)-1:
+#            sub_doc.add_page_break()
+
+#         for element in sub_doc.element.body:
+#             merged_document.element.body.append(element)
+
+#     merged_document.save('merged-test.docx')
+#     return 'meged-test.docx'
+
+# combine_word_documents(file_data)
+
+from docxcompose.composer import Composer
+from docx import Document as Document_compose
+import pathlib
+
+# path = 'static/media/'+client_name+'/'+country+'/'+industry
+
+# files_data = ["Agnostic_USA_Executive Summary.docx","Agnostic_USA_Implementation timeline.docx"]
+
+def combine_all_docx(filename_master, files_list):
+    print('inside combine', files_list)
+    number_of_sections = len(files_list)
+    master = Document_compose(filename_master)
+    composer = Composer(master)
+    for i in range(0, number_of_sections):
+        print(settings.BASE_DIR, 'base')
+        
+        # file_path = os.path.join(settings.BASE_DIR, files_list[i])
+        directory = os.getcwd()
+        # print(directory, 'directoryhy')
+        string_path = directory + files_list[i]
+        print(string_path, 'path string')
+        # file_path = pathlib.PurePath(directory, files_list[i])
+        # print(file_path, 'file path')
+
+        doc_temp = Document_compose(string_path)
+        composer.append(doc_temp)
+    composer.save("test_merge_1.docx")
+    return 'test_merge_1.docx'
+
+# path = 'C:/Users/narayanac/Documents/RFP-Builder-Latest/'
+# filename_master = "C:/Users/narayanac/Documents/RFP-project/RFP-Builder-Latest/C.docx"
+# combine_all_docx(filename_master, files_data)
+
+import os
+
+def replace_word_document(client_name, replace_name, doc_path, doc_name):
+    print(client_name, replace_name, 'arguments')
+    doc=Document_compose(doc_path)
+    Dictionary = {replace_name: client_name}
+    for i in Dictionary:
+        for p in doc.paragraphs:
+            if p.text.find(i)>=0:
+                p.text=p.text.replace(i,Dictionary[i])
+
+    # delete the existing updated document
+    # os.remove('updated.docx')
+
+    #save changed document
+    doc.save('temporary/updated.docx')
+    os.remove(doc_path)
+    media_path = f'media/{client_name}'
+    isExist = os.path.exists(media_path)
+
+    if not isExist:
+
+        # Create a new directory because it does not exist
+        os.makedirs(media_path)
+        print("The new directory is created!")
+
+    os.rename('temporary/updated.docx', f'{media_path}/{doc_name}')
+    return f'{media_path}/{doc_name}'
+
+
+import aspose.words as aw
+
+def replace_word_document_aspose(client_name, replace_name, doc_path):
+
+    # load Word document
+    # doc = aw.Document("document.docx")
+    doc = aw.Document(doc_path)
+
+    # replace text
+    # doc.range.replace(cliend_name, "[CLIENT]", aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
+    doc.range.replace(client_name, replace_name, aw.replacing.FindReplaceOptions(aw.replacing.FindReplaceDirection.FORWARD))
+
+    # save the modified document
+    # doc.save("updated.docx")
+    doc.save('update.docx')
+    print(doc, 'doc inside update')
+    return doc
+
+# import urllib
+
+# def get_document(file_path, file_name):
+#     print(file_path, file_name, 'file path')
+#     document = urllib.request.urlretrieve (file_path, 'test_create_001.docx')
+#     print(document, 'document output')
+#     return document
+
+import wget
+
+def get_document(file_path):
+    print(file_path, 'file path')
+
+    file_name = wget.download(file_path)
+    
+    return file_name
+
+
+import aspose.words as aw
+
+# fileNames = [ "Input1.docx", "Input2.docx" ]
+def merge_files(fileNames):
+    output = aw.Document()
+    # Remove all content from the destination document before appending.
+    output.remove_all_children()
+
+    for fileName in fileNames:
+        
+        directory = os.getcwd()
+        # print(directory, 'directoryhy')
+        string_path = directory + fileName
+        print(string_path, 'path string')
+
+        input = aw.Document(string_path)
+        # Append the source document to the end of the destination document.
+        output.append_document(input, aw.ImportFormatMode.KEEP_SOURCE_FORMATTING)
+
+    output.save("aspose_merge.docx")
+    return 'aspose_merge.docx'
+
+import datetime
+from datetime import datetime
+
+def replace_word_title():
+    # print(client_name, replace_name, 'arguments')
+    doc=Document_compose('../Title_test.docx')
+    # doc=Document_compose('../Healthcare_Australia_Executive Summary.docx')
+    # Dictionary = {replace_name: client_name}
+    print(doc, 'doc data')
+    Dictionary = {"[CLIENT_NAME]": 'KPMG Test 001', "[CURR_DATE]": datetime.today()}
+
+    for i in range(0, 20):
+        print(i, 'loop')
+
+    for i in Dictionary:
+        print(i, 'ii test')
+        for p in doc.paragraphs:
+            print(p, 'ppp')
+            print(p.text, 'text')
+            if p.text.find(i)>=0:
+                print('inside if')
+                print(i,'--------',Dictionary[i], 'Dico')
+                p.text=p.text.replace(i,Dictionary[i])
+        
+        for p in doc.title:
+            print(p, 'ppp')
+            print(p.text, 'text')
+            if p.text.find(i)>=0:
+                print('inside if')
+                print(i,'--------',Dictionary[i], 'Dico')
+                p.text=p.text.replace(i,Dictionary[i])
+
+    # delete the existing updated document
+    # os.remove('updated.docx')
+
+    #save changed document
+    doc.save('replace_updated.docx')
+    # os.remove(doc_path)
+    # media_path = f'media/{client_name}'
+    # isExist = os.path.exists(media_path)
+
+    # if not isExist:
+
+    #     # Create a new directory because it does not exist
+    #     os.makedirs(media_path)
+    #     print("The new directory is created!")
+
+    # os.rename('temporary/updated.docx', f'{media_path}/{doc_name}')
+    return 'replace_updated.docx'
+
+
+from python_docx_replace import docx_replace, docx_blocks
+
+def python_docx():
+    # get your document using python-docx
+    doc = Document("../Title_test.docx")
+
+    Dictionary = {"[CLIENT_NAME]": 'KPMG Test 001', "[CURR_DATE]": datetime.today()}
+
+    # call the replace function with your key value pairs
+    docx_replace(doc, **Dictionary)
+
+    # call the blocks function with your sets
+    docx_blocks(doc, signature=True, table_of_contents=False)
+
+    # remove the first table in the Word document
+    # docx_remove_table(doc, 0)
+
+    # do whatever you want after that, usually save the document
+    doc.save("replaced.docx")
+
+    return 'replace_updated.docx'
+
+
+def replace_aspose_word(doc_path, client_name):
+    
+    print(client_name, 'arguments')
+
+    doc=Document_compose(doc_path)
+    Dictionary = {
+        'Evaluation Only. Created with Aspose.Words. Copyright 2003-2023 Aspose Pty Ltd.': '',
+        'This document was truncated here because it was created in the Evaluation Mode.': '',
+        'Proposed Plan on a Page': ''
+    }
+
+    for i in Dictionary:
+        for p in doc.paragraphs:
+            if p.text.find(i)>=0:
+                p.text=p.text.replace(i,Dictionary[i])
+
+    #save changed document
+    doc.save('temporary/updated_aspose.docx')
+    os.remove(doc_path)
+    media_path = f'media/{client_name}'
+    isExist = os.path.exists(media_path)
+
+    if not isExist:
+        # Create a new directory because it does not exist
+        os.makedirs(media_path)
+
+    os.rename('temporary/updated_aspose.docx', f'{media_path}/merged_rfp.docx')
+    return f'{media_path}/merged_rfp.docx'
+
+
+if __name__ == "__main__":
+    # test = replace_word_title()
+    test = python_docx()
+    print(test, 'testtt')

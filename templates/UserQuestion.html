@@ -1,0 +1,69 @@
+{% extends "base_second.html" %}
+{% block content %}
+
+
+<body>
+    <div class=" border border-dark" >
+        <div class="row" >
+            <div class="col-3  ">
+                &emsp;&emsp;&emsp;&emsp;&emsp;
+            </div>
+            
+            
+            
+            <div class="col-3  ">     
+                <!--FORM-->
+                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <form action="/user/userquestion/" method="POST">
+                        {% csrf_token %}
+                    
+                    <div class="form-group">
+
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>RFP_ID</strong></label>
+                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="Rfp_Id" name="Rfp_Id" style="width: 25rem" placeholder="">
+                    
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Content_Type*</strong></label>
+                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="content_type" name="content_type" style="width: 25rem" placeholder="Standard or Non-Standard">
+
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Country*</strong></label>
+                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="country" name="country" style="width: 25rem" placeholder="US/UK/AUS">
+                    
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Industry*</strong></label>
+                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="industry" name="industry" style="width: 25rem" placeholder="">
+
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Section</strong></label>
+                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="section" name="section" style="width: 25rem" placeholder="">
+
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Sub_Section</strong></label>
+                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="sub_section" name="sub_section" style="width: 25rem" placeholder="">
+                    
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Question</strong></label>
+                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="question" name="question" style="width: 25rem" placeholder="">
+                    <label class="form-check-label" style="font-size:.7rem;width: 20rem" id="A" for="defaultCheck1"><span>{{pt.id}}</span></label>
+
+                    <button type="submit" class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="{% url 'UP'%}">Save</button>
+                    <a  class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="{% url 'firstpage'%}">Back To Main Menu</a>
+                </form>
+            </div> 
+                
+        </div>         
+    </div>
+
+</body>
+<script type = "text/javascript"   src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+jQuery(document).ready(function($){
+    $('#clientname_id').keypress(function (e) {
+        var regex = new RegExp("^[a-zA-Z_\. ]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        if (regex.test(str)) {
+            return true;
+        }
+        e.preventDefault();
+        return false;
+    });
+});
+</script>
+
+
+{% endblock %}

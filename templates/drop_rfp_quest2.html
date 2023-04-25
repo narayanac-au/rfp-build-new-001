@@ -1,0 +1,122 @@
+{% extends "base_second.html" %}
+{% load static%}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/doc.css' %}">
+<link rel="stylesheet" href="{% static 'css/mcq.css' %}">
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<div class=" container ">
+<div class=" container ">
+          {% comment %} Progress Bar {% endcomment %}
+<div class="container ">
+    <div class="row">
+      <div class="col-12 container ">
+            <div class="wrapper-progressBar">
+              <ul class="progressBar">
+                <li class="active" id="stepper">Home</li>
+                <li class="active" id="stepper">Information Form</li>
+                <li class="active" id="stepper">Standard Standard Indexes</li>
+                <li class="active" id="stepper">Review Docs</li>
+                <li class="active" id="stepper">Upload Docs</li>
+                <li class="active" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                <li class="active" id="stepper">Drop RFP Detected Question</li>
+                <li class="" id="stepper">Drop RFP Selection Preview</li>
+                
+              </ul>
+            </div>
+          
+        
+  
+  
+  
+          </div>
+    </div>
+  </div>
+    {% comment %} Progress Bar {% endcomment %}
+<div class=" container ">
+    
+    <form action="{% url 'ques2'  p.id %}" method="POST">
+        
+        <div> <h5 class="border-bottom mt-5" style="color:dark">Autodetected Question from uploaded RFP</h5></div>
+        {% csrf_token %}
+        
+        <div class="form-check mt-3" >
+            {%if  p.question %}
+                {% if p.optionselect != 'on'%}
+                    <strong><label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{p.question}}</span></label></strong>
+                {% endif %}
+                {% if p.optionselect == 'on'%}
+                <label class="form-check-label mt-2" style="font-size:.16rem;color:dark" id="A" for="defaultCheck1"><span>No Questions to display</span></label>
+                {% endif %}
+                
+                {% if p.answer1 %}    
+                    <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option1: </strong></span></label>
+                    <input style="width: 15px; height: 20px;;color:dark"  class="form-check-input ml-2"   type="checkbox" name="1"  value="1" >
+                    <iframe
+                    src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{p.answer1}}"
+                    title="W3Schools Free Online Web Tutorials"
+                    width="90%"
+                    height="150px"
+                    ></iframe>
+                {% endif %}
+                {%if p.answer2 %}    
+                    <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option2: </strong></span></label>
+                    <input style="width: 15px; height: 20px;color:dark"  class="form-check-input ml-2"   type="checkbox" name="2"  value="2" >
+                    <iframe
+                    src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{p.answer2}}"
+                    title="W3Schools Free Online Web Tutorials"
+                    width="90%"
+                    height="150px"
+                    ></iframe>
+                {% endif %}
+                {%if p.answer3 %} 
+                    <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option3: </strong></span></label>
+                    <input style="width: 15px; height: 20px;color:dark"  class="form-check-input ml-2"   type="checkbox" name="3"  value="3" > 
+                    <iframe
+                    src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{p.answer3}}"
+                    title="W3Schools Free Online Web Tutorials"
+                    width="90%"
+                    height="150px"
+                    ></iframe>
+                {% endif %}
+            {% endif %}
+            
+            
+        </div>
+
+
+        <div class=" mt-5">
+            {%if  p.answer1 %}
+            <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#f2f2f2;color:black">Next</button>
+            {% endif %}
+        </form>
+        <a  class="btn btn-dark d-inline btn-sm " style="background-color:#f2f2f2;color:black" href="/drp/drp/">Finish</a>
+    </div>
+
+</div>
+</div>
+</div>
+
+<footer class=" container mt-3 ">
+    <!-- Copyright -->
+    <div
+      class=""
+      style="font-family: Arial; font-size: 0.5rem; color: black"
+    >
+      © 2023 Copyright owned by one or more of the KPMG International entities.
+      KPMG International entities provide no services to clients. All rights
+      reserved. KPMG refers to the global organization or to one or more of the
+      member firms of KPMG International Limited (“KPMG International”), each of
+      which is a separate legal entity. KPMG International Limited is a private
+      English company limited by guarantee and does not provide services to
+      clients. For more detail about our structure please visit
+      https://home.kpmg/governance
+    </div>
+    <!-- Copyright -->
+  </footer> 
+  <!-- Footer -->
+
+{% endblock %}
+
+ 
+  

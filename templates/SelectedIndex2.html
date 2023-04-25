@@ -1,0 +1,276 @@
+{% extends "base_second.html" %} {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<style>
+  .carousel-control-next,
+  .carousel-control-prev /*, .carousel-indicators */ {
+      filter: invert(100%);}
+  .tales {
+    width: 100%;
+  }
+  .carousel-inner{
+    width:100%;
+    max-height: 330px !important;
+  }
+</style>
+<script
+  src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+  crossorigin="anonymous"
+></script>
+<div class="container  ">
+  {% comment %} Progress Bar {% endcomment %}
+  
+  <div class="row">
+    <div class="col-12 container ">
+          <div class="wrapper-progressBar">
+            <ul class="progressBar">
+              <li class="active" id="stepper">Home</li>
+              <li class="active" id="stepper">Information Form</li>
+              <li class="active" id="stepper">Standard Indexes</li>
+              <li class="active" id="stepper">Review Standard Docs</li>
+              <li class="" id="stepper">Upload Docs</li>
+              <li id="stepper">Drop RFP & Ask Question</li>
+              <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+              
+            </ul>
+          </div>
+        
+      
+
+
+
+        </div>
+  </div>
+</div>
+  {% comment %} Progress Bar {% endcomment %}
+             {% comment %} Heading {% endcomment %}
+             <div class=" container " >
+              <div class="row-12 text-center ">
+                  <div class="col-12 text-center ">
+                      <h4>Section: {{show2.doc_index}}</h4>
+              </div>
+          </div>
+          </div>
+          {% comment %} Heading {% endcomment %}
+<form class="" action="{% url 'SelectedIndex2' show2.id%}" method="POST">
+  {% csrf_token %}
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="mt-1">{{show2.doc_index}}</div>
+        {% if show2.file_link %}
+        <iframe
+          src="https://view.officeapps.live.com/op/embed.aspx?src={{show2.file_link}}"
+          title="W3Schools Free Online Web Tutorials"
+          width="100%"
+          height="450px"
+        ></iframe>
+        {% else %}
+        <textarea rows="18" cols="150" readonly>
+          There is no file present for this section. Drop a manually edited file at the end.
+          To merge all the documents into one.
+        </textarea>
+        {% endif %}
+      </div>
+    </form>
+      
+
+    <button
+      type="submit"
+      class="btn btn-dark btn-sm d-inline ml-3"
+      style="font-size: 0.7rem; width: 5rem; background-color: #000099"
+    >
+      Next
+    </button>
+    <a
+      class="btn btn-dark d-inline ml-1 mr-1"
+      style="
+        font-size: 0.7rem;
+        width: 4rem;
+        background-color: #f2f2f2;
+        color: black;
+      "
+      href="{% url 'firstpage'%}"
+      >Home</a
+    >
+    {% if show.doc_index in standard_sections or show.file_link is None %}
+    {% else %}
+    <a class="btn btn-dark d-inline ml-1 mr-1"
+    style="
+      font-size: 0.7rem;
+      width: 5rem;
+      background-color: #f2f2f2;
+      color: black;
+    " href='{{show2.file_link}}' Download>Download</a>
+    {% endif %}
+    <a
+    class="btn btn-dark d-inline"
+    style="
+      font-size: 0.7rem;
+      width: 4rem;
+      background-color: #f2f2f2;
+      color: black;
+    "
+    onClick="document.getElementById('q_n_a').scrollIntoView();"
+    >Q&A</a>
+
+{% comment %} #image {% endcomment %}
+{% if IMGSEC%}
+    <div class="container">
+      
+        <button
+          class="btn btn-success btn-sm d-inline mt-3"
+          type="button"
+          data-toggle="collapse"
+          data-target="#collapseExample"
+          aria-expanded="false"
+          aria-controls="collapseExample"
+          style="background-color:#000099"
+        >
+          Images >
+        </button>
+        <div class="collapse" id="collapseExample">
+          <div id="carouselExampleControls" class="carousel slide w-30" data-ride="carousel">
+            <div class="carousel-inner">
+              {% for e in IMGSEC%}
+                              {% if forloop.first %}
+                                <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                                  
+                                  <div class="col-6 container">
+                                    <div class="card card-body  border border-dark mt-2 float-center" style="width:50 " >
+                                        <input class="form-check-input ml-1" type="checkbox" name="sectionextraimage" value={{e.id}} id="flexRadioDefault1" >
+                                        <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong>{{forloop.counter}}</strong></label>
+                                        
+                                        <img class="w-40 " src="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{{industry}}/{{country}}/Images/{{e.image_link}}" alt="First slide" height="250" width="380">
+                                    </div>
+                                </div>  
+                                  
+                                </div>
+                              {% else %}
+                                <div class="carousel-item {% if  forloop.first %} active {% endif %}">
+                                  
+                                  <div class="col-6 container">
+                                    <div class="card card-body  border border-dark mt-2" style="width:50 " >
+                                        <input class="form-check-input ml-1" type="checkbox" name="sectionextraimage" value={{e.id}} id="flexRadioDefault1" >
+                                        <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong>{{forloop.counter}}</strong></label>
+                                        
+                                        <img class="w-40 " src="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{{industry}}/{{country}}/Images/{{e.image_link}}" alt="First slide" height="250" width="380">
+                                    </div>
+                                </div>  
+                                  
+                                </div>
+                              {% endif %}
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+            {% endfor %}
+          </div>
+           {% csrf_token %}
+            {% if Noimage != "A"  %}
+            <div class="col-6">
+              <div class="card card-body  border border-dark mt-2" style="width:20 " >
+                  
+                {{Noimage}}
+              </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a> 
+          {% endif %} 
+            
+            
+            </div>
+          </div>
+        </div>
+
+        {% endif %}
+
+{% comment %} #image {% endcomment %}
+
+
+
+
+
+
+
+
+  <div>
+    <div />
+    {% comment %} {% if Quest %} {% endcomment %}
+    <p class="font-weight-bold mt-2" style="font-size: 0.8rem">
+      Please Input Addition Queries Below
+    </p>
+    <small style="font-size: 0.7rem"
+      >Based On Question Typed Our AI Will Provide You With 3 Best Answers As
+      An Options</small
+    >
+    <form id='q_n_a' action="{% url 'secondpage'%}" method="GET">
+      <input
+        type="text"
+        class="form-control border border-dark"
+        id="question"
+        name="Query"
+        placeholder="Enter Question"
+        style="font-size: 0.7rem; width: 69rem"
+      />
+      <div class="d-inline float-right">
+        <button
+          type="submit"
+          class="btn btn-dark btn-sm d-inline"
+          style="font-size: 0.7rem; width: 7rem; background-color: #000099"
+        >
+          Submit Question
+        </button>
+        {% comment %} {% if c%} {% endcomment %}
+        <a
+          class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
+          style="font-size: 0.7rem; width: 4rem; background-color: #000099"
+          href="{% url 'preview'%}"
+          >Preview Q&A</a
+        >
+        {% comment %} {% endif %} {% endcomment %}
+      </div>
+    </form>
+
+    {% comment %} {% endif %} {% endcomment %}
+  </div>
+  </div>
+</div>
+</div>
+</div>
+
+  <div class="container">
+    <!-- Copyright -->
+    <footer class="mt-2">
+  
+      <!-- Copyright -->
+      <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+      </div>
+      <!-- Copyright -->
+    
+    </footer>
+    <!-- Footer --> 
+  </div>
+{% endblock content %}

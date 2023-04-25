@@ -1,0 +1,377 @@
+{%extends 'base_second.html'%}
+<!-- Navbar same in all pages extended from base page -->
+{% load static %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+<!-- <link rel="stylesheet" href="{% static 'css/doc.css' %}">-->
+<!-- select for standard RFP's -->
+<link rel="stylesheet" href="{% static 'css/mcq.css' %}">
+<div class="  container ">
+<div class=" container ">
+      {% comment %} Progress Bar {% endcomment %}
+  <div class="row">
+    <div class="col-12 container ">
+          <div class="wrapper-progressBar">
+            <ul class="progressBar">
+              <li class="active" id="stepper">Home</li>
+              <li class="active" id="stepper">Information Form</li>
+              <li class="active" id="stepper">Standard Indexes</li>
+              <li class="" id="stepper">Review Standard Docs</li>
+              <li class="" id="stepper">Upload Docs</li>
+              <li id="stepper">Drop RFP & Ask Question</li>
+              <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+              
+            </ul>
+          </div>
+        
+      
+
+
+
+        </div>
+  </div>
+
+  {% comment %} Progress Bar {% endcomment %}
+  {% comment %} Heading {% endcomment %}
+  <div class=" container " >
+    <div class="row-12 text-center ">
+        <div class="col-12 text-center ">
+            <h4>Document Sections</h4>
+    </div>
+</div>
+</div>
+{% comment %} Heading {% endcomment %}
+<div class=" container ">
+    
+
+    <h3 class="mt-3 ml-3  btn btn-dark" style='font-family:"Arial";font-size:.8rem;width: 55rem;background-color:#000099';><strong>Select the required sections from the available list below. Please note some sections are compulsory and have been pre-selected</strong></h3>
+<div class=" container ">
+<div class=" container border border-secondary rounded mt-2">
+    
+    <div >
+                    
+        <h6 class="ml-3 mt-2 " style='font-family:"Arial";font-size:.8rem;width: 18rem;color:dark';><strong>Style Sheets” button to view all available style sheets. You can select from a pre-existing style sheet or upload your own</strong></h5>
+    </div>  
+    <p>
+                
+        <button class="btn btn-primary mt-3 ml-3  btn btn-dark active arr down" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample11" style='font-family:"Arial";font-size:.7rem;width: 13rem;background-color:#000099'; checked;><strong>Style Sheets ></strong></button>
+    </p>            
+    <div class=" container collapse multi-collapse " style="width: 200rem" id="multiCollapseExample11">
+
+        <div>
+                    
+            <h6 class="mt-3   " style='font-family:"Arial";font-size:.8rem;width: 18rem;color:dark';><strong>Please Drop File Or Select One From Options</strong></h5>
+        </div>
+                   <!-- dropzone -->
+                    <div class="mt-2 float-left">
+            
+                    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+                    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+                        <!-- <form class="dropzone " id="picup" style="border:3px dashed #888 ;width:300px;height:170px;margin:0px auto;">
+                            {% csrf_token %}
+                             <input type="button" value="Upload" id="up_btn">
+                        </form>  -->
+                    
+                    <!-- dropzone -->
+                    <!-- dropzone -->
+                    <!-- <script>
+                        let up_btn1=document.querySelector('#up_btn');
+                    
+                    
+                        let picup=new Dropzone('#picup',{
+                            url:'/drop/picdown/',
+                            maxFilesize:100,
+                            acceptedFiles:'.jpeg,.png,.jpg,.docx,.pdf',
+                            autoProcessQueue:false,
+                            addRemoveLinks:true,
+                            parallelUploads:3,
+                        });
+                        up_btn.addEventListener('click',()=>{
+                        picup.processQueue();
+                        })
+
+
+                    </script> -->
+                    <!-- dropzone -->
+                </div>
+            </div>
+                
+                
+                        
+                    
+                    
+                
+                
+
+
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+<script type="text/javascript">
+    function dropHandler(ev) {
+      console.log("File(s) dropped");
+
+      // Prevent default behavior (Prevent file from being opened)
+      ev.preventDefault();
+
+      if (ev.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+          // If dropped items aren't files, reject them
+          if (ev.dataTransfer.items[i].kind === "file") {
+            var file = ev.dataTransfer.items[i].getAsFile();
+            console.log("... file[" + i + "].name = " + file.name);
+          }
+        }
+      } else {
+        // Use DataTransfer interface to access the file(s)
+        for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+          console.log(
+            "... file[" + i + "].name = " + ev.dataTransfer.files[i].name
+          );
+        }
+      }
+    }
+
+    function dragOverHandler(ev) {
+      console.log("dragOver...");
+    }
+</script>
+   
+    <div>
+        <div>
+                
+            <h6 class="mt-2 ml-3  " style='font-family:"Arial";font-size:.8rem;width: 18rem;;color:dark';><strong>&emsp;</strong></h5>
+        </div>
+        
+        <form action="{% url 'SelectedIndex' %}" method="POST">
+            {% csrf_token %}
+            
+            
+            {% comment %} <p>
+                
+                <button class="btn btn-primary ml-3 active" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1" style='font-family:"Arial";font-size:.7rem;width: 10rem;background-color:#000099'; checked;>First Page Selection</button>
+            </p> {% endcomment %}
+            <div class=" container collapse multi-collapse " style="width: 200rem" id="multiCollapseExample1">
+                <div class=" row  " style="width: 50rem"  >
+                    {% for i in SelectedImage%}
+                    
+                        <div class="col-3">
+                            <div class="card card-body  border border-dark mt-2" style="width:50 " >
+                            
+                                <input class="form-check-input ml-1" type="radio" name="flexRadioDefault" value={{i.id}} id="flexRadioDefault1" checked>
+                                <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong></strong></label>
+                                <img class="w-30 " src="{{i.image.url}}" alt="First slide" height="100" width="120">
+                            </div>
+                        </div>    
+                                  
+                    
+                    {% endfor %}
+                    {% for i in Image%}
+                    
+                        <div class="col-3">
+                            <div class="card card-body  border border-dark mt-2" style="width:50 " >
+                            
+                                <input class="form-check-input ml-1" type="radio" name="flexRadioDefault" value={{i.id}} id="flexRadioDefault1" required="true">
+                                <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong>{{forloop.counter}}</strong></label>
+                                <!-- <img class="w-30 " src="{{i.image.url}}" alt="First slide" height="100" width="120"> -->
+                                <!-- src="https://view.officeapps.live.com/op/embed.aspx?src=https://cmpstorage.blob.core.windows.net/test/Title_template2.docx" -->
+                                <!-- <iframe
+                                src="https://view.officeapps.live.com/op/embed.aspx?src=https://cmpstorage.blob.core.windows.net/test/Title_template2.docx"
+                                title="W3Schools Free Online Web Tutorials"
+                                width="100%"
+                                height="100%"
+                                ></iframe> -->
+                                <img class="w-30 " src="{{i.image.url}}" alt="First slide" height="100" width="120">
+                            </div>
+                        </div>            
+                    
+                    {% endfor %}
+                    <div class="col-3">
+                        <div class="card" style="width:50 " >
+                            <div class="dropzone" id="picup" style="border:3px dashed #888 ;width:300px;height:170px;margin:0px auto;">
+                                {% csrf_token %}
+                                <div
+                                    id="drop_zone"
+                                    ondrop="dropHandler(event);"
+                                    ondragover="dragOverHandler(event);"
+                                    >
+                                    <p style="font-size: small;">Drag one or more files<br> to this Drop Zone ...</p>
+                                </div>
+                                <input style="margin-top: 5px;" type="button" value="Upload" id="up_btn">
+                            </div>
+                        </div>
+                        <script>
+                            let up1=document.querySelector('#up_btn');
+                        
+                            let picup2=new Dropzone('#drop_zone',{
+                                url:'/drop/picdown/',
+                                maxFilesize:100,
+                                acceptedFiles:'.jpeg,.png,.jpg,.docx,.pdf',
+                                autoProcessQueue:false,
+                                addRemoveLinks:true,
+                                parallelUploads:3,
+                            });
+                            up1.addEventListener('click',()=>{
+                            picup2.processQueue();
+                            })
+
+                            $('#select-all').click(function(event) {   
+                                if(this.checked) {
+                                    // Iterate each checkbox
+                                    $(':checkbox').each(function() {
+                                        this.checked = true;                        
+                                    });
+                                } else {
+                                    $(':checkbox').each(function() {
+                                        this.checked = false;                       
+                                    });
+                                }
+                            });
+
+                            function toggle(source) {
+                                // console.log(source, source.checked, 'sourceee')
+                                // checkboxes = document.getElementsByClassName('form-check-label');
+                                // console.log(checkboxes, 'checkboxxess')
+                                // for(var checkbox in checkboxes)
+                                //     checkbox.checked = source.checked;
+                                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                                var default_rfp = '{{default_sections}}';
+                                default_rfp = JSON.parse(default_rfp);
+
+                                // console.log(Array(default_rfp), 'array')
+                                
+                                
+                                console.log(default_rfp, typeof(default_rfp), "defaul rfp's ");
+
+                                for (var i = 0; i < checkboxes.length; i++) {
+                                    console.log(checkboxes[i], 'iii')
+                                    console.log(checkboxes[i].name, 'name')
+                                    
+                                    var pivot = false;
+                                    try {
+                                        var name = parseInt(checkboxes[i].name);
+                                        console.log(name, typeof(name), 'name int conversion')
+                                        // var found = default_rfp.find(name);
+                                        var found = default_rfp.find(element => element == name);
+                                        if (found) {
+                                            pivot = true;
+                                        }
+                                        console.log(found, 'found the value')
+                                    }
+                                    catch(err) {
+                                        console.log(err, 'error')
+                                    }
+                                    
+                                    // if (checkboxes[i].oncl)
+                                    if ((checkboxes[i] != source)&(pivot == false))
+                                        checkboxes[i].checked = source.checked;
+                                }
+                            };
+
+                        </script>
+                        
+                    </div> 
+                    
+                </div>
+                
+            </div>
+                
+                
+
+            <div>
+                
+                <h6 class="mt-3 ml-3  " style='font-family:"Arial";font-size:.8rem;width: 30rem;;color:dark';><strong>Select the required sections from the available list below</strong></h5>
+            </div>
+<!--             
+            {% for d in Doc %}
+            <div class="form-check mt-3" >
+                <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{d.doc_index}}</span></label>
+                <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="{{d.id}}"  checked="checked">
+                
+            </div>
+            {% endfor %} -->
+            <div class="form-check ml-3 mt-5">
+                <input class="form-check-input mt-2" type="checkbox" onClick="toggle(this)" name="select-all" id="select-all"/>
+                <label class="form-check-label ml-1 " style="font-size:.8rem;color:dark" for="defaultCheck1"><span><strong>Select All</strong> </span></label>
+            </div>
+            {% for i in all_sections %}
+                
+                {% if i.is_default is True %}
+                    <div class="form-check mt-3" >
+                        <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{i.section_data}}</span></label>
+                        <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" onclick="return false" name="{{i.id}}"  checked="checked">
+                    </div>
+                {% elif i.id in user_selected and i.is_default == False %}
+                    <div class="form-check mt-3" >
+                        <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{i.section_data}}</span></label>
+                        <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="{{i.id}}"  checked="checked">
+                    </div>
+                {% else %}
+                    <div class="form-check mt-3" >
+                        <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{i.section_data}}</span></label>
+                        <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="{{i.id}}"  >
+                    </div>
+                {% endif %}
+            {% endfor %}
+            
+            <!-- {% for d in UserDoc %}
+            <div class="form-check mt-3" >
+                <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{d.section_data}}</span></label>
+                <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" onclick="return false" name="{{d.id}}"  checked="checked">
+                
+            </div>
+            {% endfor %} 
+            {% for c in Poc %}
+            <div class="form-check mt-3" >
+                <label class="form-check-label" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span>{{c.section_data}}</span></label>
+                <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="{{c.id}}"  >
+                
+            </div>
+            {% endfor %}  -->
+
+            
+            {% if que %}
+                <div class="form-check ml-3 mt-5">
+                    <input class="form-check-input mt-2" type="checkbox"   name="Quest" checked="checked"/>
+                    <label class="form-check-label ml-1 " style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Do you want to ask more Ques&Ans</strong> </span></label>
+                </div>
+            
+
+            {% else %}
+                <div class="form-check ml-3 mt-5">
+                    <input class="form-check-input mt-2" type="checkbox"   name="Quest" />
+                    <label class="form-check-label ml-1 " style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Do you want to ask more Ques&Ans</strong> </span></label>
+                </div>
+            {% endif %}
+            
+            <div class=" mt-5">
+                <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">SUBMIT</button>
+        </form>
+    </div>
+</div>
+
+        
+
+        
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+
+{% comment %} <div class="container border border-dark mt-5 " >
+  <!-- Copyright -->
+ <footer >
+
+  <!-- Copyright -->
+  <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer --> 
+</div> {% endcomment %}
+</html>
+  {% endblock %}

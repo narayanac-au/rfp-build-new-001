@@ -1,0 +1,97 @@
+{% extends "base_second.html" %} {% block content %} {% load static%}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<div class="container">
+  {% comment %} Progress Bar {% endcomment %}
+  <div class="row">
+    <div class="col-12 container">
+      <div class="wrapper-progressBar">
+        <ul class="progressBar">
+          <li class="active" id="stepper">Home</li>
+          <li class="active" id="stepper">Information Form</li>
+          <li class="active" id="stepper">Standard Standard Indexes</li>
+          <li class="active" id="stepper">Review Docs</li>
+          <li class="active" id="stepper">Upload Docs</li>
+          <li class="active" id="stepper">Drop RFP & Ask Question</li>
+          <li class="active" id="stepper">Extra Images</li>
+          <li class="active" id="stepper">Drop Extra Images</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% comment %} Progress Bar {% endcomment %}
+  <div class="mt-2 ml-2"><strong>Please Upload Your Image Here</strong></div>
+  <div class="mt-2 ml-2 float-center">
+    <!-- dropzone -->
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
+      type="text/css"
+    />
+    <form
+      class="dropzone"
+      id="picup"
+      style="border: 3px dashed #888; width: 600px; height: 180px; margin: 0px"
+    >
+      {% csrf_token %}
+      <input type="button" value="Upload" id="up_btn" />
+    </form>
+
+    <script>
+      let up_btn = document.querySelector("#up_btn");
+
+      let picup = new Dropzone("#picup", {
+        url: "/imageuploadmodel/",
+        maxFilesize: 100,
+        acceptedFiles: ".jpeg,.png,.jpg,.docx,.pdf",
+        autoProcessQueue: false,
+        addRemoveLinks: true,
+        parallelUploads: 3,
+      });
+      up_btn.addEventListener("click", () => {
+        picup.processQueue();
+      });
+    </script>
+    <!-- dropzone -->
+    <div class="mt-3 ml-1 col-12">
+      <a
+        class="btn btn-dark d-inline"
+        style="
+          font-size: 0.8rem;
+          width: 4rem;
+          background-color: #000099;
+          color: white;
+        "
+        href="{% url 'extraimage'%}"
+        >Back</a
+      >
+    </div>
+  </div>
+  <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+  <div class="container">
+    <div class="row">
+      <div class="">
+        <!-- Copyright -->
+        <footer class="">
+          <!-- Copyright -->
+          <div
+            class="footer-copyright container"
+            style="font-family: Arial; font-size: 0.5rem; color: black"
+          >
+            © 2023 Copyright owned by one or more of the KPMG International
+            entities. KPMG International entities provide no services to
+            clients. All rights reserved. KPMG refers to the global organization
+            or to one or more of the member firms of KPMG International Limited
+            (“KPMG International”), each of which is a separate legal entity.
+            KPMG International Limited is a private English company limited by
+            guarantee and does not provide services to clients. For more detail
+            about our structure please visit https://home.kpmg/governance
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </div>
+    </div>
+  </div>
+  {%endblock%}
+</div>

@@ -1,0 +1,207 @@
+{% extends "base_second.html" %}
+{% load static %}
+{% block static_block %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+  <style>
+    table, th, td {
+      border: 0.5px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 5px;
+      font-size: 12px;
+    }
+    tr {
+      height: 2px;
+    }
+  </style>
+{% endblock %}
+{% block content %}
+<body>
+  {% comment %} Progress Bar {% endcomment %}
+
+  <div class="container ">
+    <div class="row">
+      <div class="col-12 container ">
+            <div class="wrapper-progressBar">
+              <ul class="progressBar">
+                <li class="active" id="stepper">Home</li>
+                <li class="active" id="stepper">Information Form</li>
+                <li class="active" id="stepper">Standard Indexes</li>
+                <li class="active" id="stepper">Review Standard Docs</li>
+                <li class="active" id="stepper">Upload Docs</li>
+                <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                
+              </ul>
+            </div>
+          
+        
+  
+  
+  
+          </div>
+    </div>
+  </div>
+    {% comment %} Progress Bar {% endcomment %}
+  <div class="container">
+    <div class="mt-2 mb-5 float-right ">
+      <a
+        class="btn btn-dark d-inline"
+        style="
+          font-size: 0.8rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        href="{% url 'firstpage'%}"
+        >Home</a
+      >
+    </div>
+  
+  <div class="mt-5">
+    <strong class="font-weight-bold" style="font-size: 1rem"
+      >UPLOAD FILES OF EDITED STANDARD SECTION ONLY!</strong
+    >
+  </div>
+
+  <!-- <div>
+    <a
+      class="btn btn-dark btn-sm d-inline"
+      style="font-size: 0.7rem; width: 9rem; background-color: #000099"
+      href="{% url 'download'%}"
+      >Download FILE</a
+    >
+  </div> -->
+
+  <!-- <div class="border-bottom border-dark mt-2"></div> -->
+  <!-- <div class="mt-3">
+    <strong class="font-weight-bold" style="font-size: 1rem"
+      >PLEASE UPLOAD THE EDITED STANDARD SECTIONS HERE.THESE FILES WILL BE SENT FOR APPROVAL</strong
+    >
+  </div> -->
+  <div class="mt-2 float-left">
+    <!-- dropzone -->
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
+      type="text/css"
+    />
+    <form
+      class="dropzone"
+      action="{% url 'documentapproval' %}"
+      method="POST"
+      id="docapp"
+      style="border: 3px dashed #888; width: 600px; height: 180px; margin: 0px"
+    >
+      {% csrf_token %}
+      <!-- <div class="form-group">        
+        <button type="submit">Submit</button>      
+      </div> -->
+      <input type="button" value="Upload" id="docapproval" />
+    </form>
+
+    <!-- <input type="button" value="Submit" id="docapproval" /> -->
+
+    <!-- The below button should send the document for approval onClick and redirect to HOME screen -->
+    <form
+      action="{% url 'GenerateRfpDoc' %}"
+      method="POST"
+    >
+      {% csrf_token %}
+    <input
+      type="submit"
+      value="Merge & Download"
+      class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
+      style="font-size: 0.7rem; width: 8rem; background-color: #000099"
+      ></a
+    >
+    </form>
+    <p><strong style="color: red;">Note:</strong> Use the same file name as below while dropping the manually edited files.</p>
+    <div class="float-left">
+      <table summary="no_orderDate">
+        <tr><th>Sections</th><th>Filename</th>
+        {% for queue in filenames %}
+            {% if queue.rfp_section.country_matrix in editable_sections or queue.rfp_section.industry_matrix in editable_sections %}
+            <tr><td>{{ queue.doc_index }}</td><td>{{ client_name }}_{{ queue.rfp_section.document_file_name }}</td></tr>
+            {% endif %}
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+  
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+    <script>
+      let up_btn = document.querySelector("#docapproval");
+      console.log(up_btn, 'upload button')
+
+      let picup = new Dropzone("#docapp", {
+        url: "/drop/documentapproval/",
+        maxFilesize: 100,
+        acceptedFiles: ".jpeg,.png,.jpg,.docx,.pdf",
+        autoProcessQueue: false,
+        addRemoveLinks: true,
+        parallelUploads: 3,
+        // init: function() { 
+        //       myDropzone = this;
+        //       this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {  
+        //       e.preventDefault();
+        //       e.stopPropagation();
+        //       myDropzone.processQueue();
+        //   });
+        // init: function() {
+        //   let files = 0
+        //   this.on("addedfile", function(file) {
+        //       files++
+        //       if (attachment == undefined && files === 1) attachment = file
+        //   })
+        //   this.on('removedfile', function(file) {
+        //       files--
+        //       if (files === 0) attachment = undefined
+        //   })
+        // }
+        // thumbnail: function(file, dataUrl) {
+        //   console.log(file, 'fileee')
+          // if (file.previewElement) {
+          //   file.previewElement.classList.remove("dz-file-preview");
+          //   var images = file.previewElement.querySelectorAll("[data-dz-thumbnail]");
+          //   for (var i = 0; i < images.length; i++) {
+          //     var thumbnailElement = images[i];
+          //     thumbnailElement.alt = file.name;
+          //     thumbnailElement.src = dataUrl;
+          //   }
+          //   setTimeout(function() { file.previewElement.classList.add("dz-image-preview"); }, 1);
+          // }
+        // }
+      });
+      up_btn.addEventListener("click", () => {
+        console.log('here event listener')
+        picup.processQueue();
+      });
+    </script>
+    <!-- dropzone -->
+
+
+</body>
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+<div class="container ">
+
+  <div class="row">
+
+<div class="">
+  <!-- Copyright -->
+  <footer class="">
+
+    <!-- Copyright -->
+    <div class="footer-copyright container" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+    </div>
+    <!-- Copyright -->
+  
+  </footer>
+  <!-- Footer --> 
+</div>
+</div>
+</div>
+{% endblock content %}
