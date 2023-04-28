@@ -339,6 +339,17 @@ class RfpDocuments(models.Model):
         return f'<{self.country}-{self.industry}-{self.user}-{self.rfp_file.name}>'
 
 
+class ImageDocumentUsercopy(models.Model):
+    id = models.AutoField(primary_key=True)
+    doc_user_copy = models.ForeignKey(
+        Document_usercopy, blank=True, null=True, on_delete=models.CASCADE
+    )
+    image_doc = models.FileField(upload_to='files/rfp_image_documents', null=True, blank=True)
+
+    def __str__(self):
+        return f'<{self.doc_user_copy}-{self.image_doc}>'
+
+
 class ExtraImage(models.Model):
 
     countrychoices = {
