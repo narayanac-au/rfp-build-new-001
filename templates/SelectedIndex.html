@@ -14,12 +14,14 @@
                 <div class="wrapper-progressBar">
                   <ul class="progressBar">
                     <li class="active" id="stepper">Home</li>
-                    <li class="active" id="stepper">Information Form</li>
+                    <li class="active" id="stepper">Contact Information</li>
                     <li class="active" id="stepper">Standard Indexes</li>
                     <li class="active" id="stepper">Review Standard Docs</li>
                     <li class="" id="stepper">Upload Docs</li>
                     <li id="stepper">Drop RFP & Ask Question</li>
-                    <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                    <li class="" id="stepper">Drop RFP / Ask Question</li>
+                    <li class="" id="stepper">Extra Images</li>
+                    <li class="" id="stepper">Assuption and Risk Consideration</li>
                     
                   </ul>
                 </div>
@@ -42,15 +44,17 @@
 </div>
 {% comment %} Heading {% endcomment %}
 {% comment %} Heading text {% endcomment %}
+{% if show.doc_index == 'Executive Summary' %}
 <div class=" container " >
   <div class="row-12 text-center ">
       <div class="col-12 text-center " >
-          <h6 style="font-family:Arial;font-size:.5rem;color:black">The Executive Summary section provides an example for the industry you previously selected. This section should be rewritten specifically for your opportunity.
-            To help inspire your response we have included a Chat GPT interface that will allow you to ask specific questions in relation to the client or industry. Please Note: Chat GPT processes data offshore and by using this platform, you agree and understand that ChatGPT may use any content to develop and improve its services, and therefore once data has been fed into the software, ChatGPT owns that Intellectual Property. 
+          <h6 style="font-family:Arial;font-size:.7rem;color:black">The Executive Summary section provides an example for the industry you previously selected. This section should be rewritten specifically for your opportunity.
+            
             </h6>
   </div>
 </div>
 </div>
+{% endif%}
 {% comment %} Heading text {% endcomment %}
   <script>
     // function copyClipboard() {
@@ -114,8 +118,8 @@
       
       <button
       type="submit"
-      class="btn btn-dark btn-sm d-inline"
-      style="font-size: 0.7rem; width: 7rem; background-color: #000099; margin-right: 5px;"
+      class="btn btn-dark btn-sm d-inline ml-3"
+      style="font-size: 0.7rem; width: 5rem; background-color: #000099; margin-right: 5px;"
       >
         Next
       </button>
@@ -170,10 +174,10 @@
         <div id="chat_gpt">
           <h4
             class="float-centre mt-1"
-            style="font-size: 0.7rem; font-family: verdana; color: black"
+            style="font-size: 0.7rem; font-family: verdana; color: black;width: 70rem"
             class="mb-5"
           >
-            Based On Question Typed Our AI Will Provide You With Best Answers
+          To help inspire your response we have included a Chat GPT interface that will allow you to ask specific questions in relation to the client or industry. Please Note: Chat GPT processes data offshore and by using this platform, you agree and understand that ChatGPT may use any content to develop and improve its services, and therefore once data has been fed into the software, ChatGPT owns that Intellectual Property.
           </h4>
         </div>
         <div>
@@ -186,7 +190,7 @@
                 id="question"
                 name="gtp_question"
                 placeholder="Enter Question"
-                style="font-size: 0.7rem; width: 30rem"
+                style="font-size: 0.7rem; width: 70rem"
               />
             </div>
             <div class="mt-1">
@@ -212,7 +216,7 @@
             class="textarea border border-secondary rounded"
             style="
               font-size: 1rem;
-              width: 35rem;
+              width: 70rem;
               height: 16rem;
               background-color: rgb(151, 139, 139);
               color: white;

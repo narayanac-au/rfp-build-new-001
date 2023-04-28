@@ -51,25 +51,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RFP</title>
     <div class=" bg  row  ">
-        <div class="  col-1   ">
-        <a href="{%url 'index'%}"><img class="container" src="{% static 'images/KPMG_logo.png' %}" height="70" width="100"></a>
-        </div>
-        <div class=" col-4 container  " >
-            
-                <div class="col-12 container mt-4 float-left ">
-        <h6 class="text-center    display-5" style="font-family:Arial;font-size:1rem;color:White"><strong>Powered Enterprise Intelligent RFP Builder</strong></h6>
-                </div>  
-            
-        </div>
-        <div class=" col-2 mt-2   ">
-            <div class="row">
-            	<a class="btn btn-success btn-sm d-inline  float-right mt-3 mr-3 " style="font-size:.6rem;width: 9rem;background-color:#000099;" href="{% url 'login'%}">Approve Question Login</a>
+        <div class=" col-12 container  " >
+            <div class=" col-1  " >
+                <a href="{%url 'index'%}"><img class="float-left" src="{% static 'images/KPMG_logo.png' %}" height="70" width="100"></a>
             </div>    
-        </div>
+            <div class=" col-12 " >
+                <div class=" col-12  " >
+                <h6 class="display-5 text-center mt-4 ml-2 " style="font-family:Arial;font-size:1rem;color:White"><strong class="ml-5">Powered Enterprise Intelligent RFP Builder</strong> <a class="btn btn-success btn-sm   float-right   " style="font-size:.6rem;width: 8rem;background-color:#000099;" href="{% url 'login'%}">Approve Question Login</a></h6>
+                
+                </div>
+                
+            </div>
+                
+        </div>   
+        
     </div>
         
-        
-    </div>
+    
 
 
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
@@ -89,21 +87,26 @@
                   <div class="wrapper-progressBar">
                     <ul class="progressBar">
                       <li class="active" id="stepper">Home</li>
-                      <li class="active" id="stepper">Information Form</li>
+                      <li class="active" id="stepper">Contact Information</li>
                       <li id="stepper">Standard Indexes</li>
                       <li class="" id="stepper">Review Standard Docs</li>
                       <li class="" id="stepper">Upload Docs</li>
                       <li id="stepper">Drop RFP & Ask Question</li>
-                      <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                      <li class="" id="stepper">Drop RFP / Ask Question</li>
+                      <li class="" id="stepper">Extra Images</li>
+                      <li class="" id="stepper">Assuption and Risk Consideration</li>
                       
                     </ul>
                   </div>
                 
-              
+                  <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+                    <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+                </a>
         
         
         
                 </div>
+                
           </div>
           {% comment %} Progress Bar {% endcomment %}
           {% comment %} Heading {% endcomment %}

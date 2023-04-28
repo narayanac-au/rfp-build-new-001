@@ -54,6 +54,8 @@ urlpatterns = [
 
     path('imageuploadmodel/', views.image_upload_view, name="imageuploadmodel"),
     path('AssuptionAndRisk/', views.AssuptionAndRisk_view, name="AssuptionAndRisk"),
+    path('notsatisfieddoc/', views.notsatisfieddoc_view, name="notsatisfieddoc"),
+    #path('UserQuestion/', views.notsatisfieddoc_view, name="UserQuestion"),
     # path('DownloadPicAndImages/', views.DownloadPicAndImages,
     #      name="DownloadPicAndImages"),
 

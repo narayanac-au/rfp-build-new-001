@@ -116,6 +116,10 @@ class SectionExtraImage_admin(ImportExportModelAdmin):
                     'section_data', 'image_link', 'selected']
 
 
+class notsatisfieddoc_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'docup', 'clientgeo', 'query']
+
+
 admin.site.register(project, project_admin)
 admin.site.register(info, info_admin)
 admin.site.register(KPMGgeo, KPMGgeo_admin)
@@ -140,3 +144,4 @@ admin.site.register(ExtraImage, ExtraImages_admin)
 admin.site.register(ImageUpload, ImageUpload_admin)
 admin.site.register(AssuptionAndRisk, AssuptionAndRisk_admin)
 admin.site.register(SectionExtraImage, SectionExtraImage_admin)
+admin.site.register(notsatisfieddoc, notsatisfieddoc_admin)

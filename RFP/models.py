@@ -279,7 +279,8 @@ class RfpSection(models.Model):
     sub_section = models.CharField(max_length=5000, null=True, blank=True)
     question = models.CharField(max_length=5000, null=True, blank=True)
     document_link = models.CharField(max_length=5000, null=True, blank=True)
-    document_file_name = models.CharField(max_length=5000, null=True, blank=True)
+    document_file_name = models.CharField(
+        max_length=5000, null=True, blank=True)
     image_link = models.CharField(max_length=5000, null=True, blank=True)
     user = models.ManyToManyField(Users, blank=True)
     order = models.IntegerField(null=True, blank=True)
@@ -331,7 +332,8 @@ class RfpDocuments(models.Model):
     country = models.CharField(max_length=50, null=False, blank=False)
     industry = models.CharField(max_length=50, null=False, blank=False)
     user = models.CharField(max_length=200, blank=True)
-    rfp_file = models.FileField(upload_to='files/rfp_documents', null=True, blank=True)
+    rfp_file = models.FileField(
+        upload_to='files/rfp_documents', null=True, blank=True)
 
     def __str__(self):
         return f'<{self.country}-{self.industry}-{self.user}-{self.rfp_file.name}>'
@@ -413,3 +415,14 @@ class SectionExtraImage(models.Model):
 
     def __str__(self):
         return self.country
+
+
+class notsatisfieddoc(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    clientgeo = models.CharField(max_length=200, null=True, blank=True)
+    docup = models.ImageField(upload_to='notsatisfieddoc/')
+    query = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user

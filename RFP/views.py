@@ -1,3 +1,7 @@
+from wsgiref.util import FileWrapper
+from django.http import HttpResponse, Http404
+from django.conf import settings
+from RFP.scripts import replace_word_document, get_document, combine_all_docx, merge_files, docx_template_replace, replace_aspose_word
 import threading
 from .replace_parameters_doc import replace_word_doc, upload_blob_data
 from RFP.scripts import replace_word_document, get_document, combine_all_docx, merge_files
@@ -37,16 +41,6 @@ from .forms import ProjectForm
 import nltk
 nltk.download('averaged_perceptron_tagger')
 # Loading the Embedding Pretrained Model
-from RFP.scripts import replace_word_document, get_document, combine_all_docx, merge_files, docx_template_replace, replace_aspose_word
-from .replace_parameters_doc import replace_word_doc, upload_blob_data
-from django.core.files import File
-import threading
-
-from django.conf import settings
-from django.http import HttpResponse, Http404
-
-from wsgiref.util import FileWrapper
-
 
 
 def load_model():
@@ -117,7 +111,14 @@ def doc_content_view(request):
         KPMGgeo = str(KPMGgeoo[0])
         kpmg_lead = request.POST.get("KPMGLEADPARTNER")
         kpmg_add = request.POST.get("kpmg_address")
-
+        extrcount = "ABC"
+        Acccount = "ABC"
+        selfirst = "ABC"
+        sellast = "ABC"
+        request.session['extrcount'] = extrcount
+        request.session['Acccount'] = Acccount
+        request.session['selfirst'] = selfirst
+        request.session['sellast'] = sellast
         print(industry, 'industry')
         print(country, 'country before session data')
 
@@ -172,11 +173,12 @@ def doc_content_view(request):
         """
         user = Users.objects.filter(user=client_name)
 
-        default_rfp = RfpSection.objects.filter(industry=industry, country=country, is_default=True).order_by('order').values_list('id', flat=True)
+        default_rfp = RfpSection.objects.filter(
+            industry=industry, country=country, is_default=True).order_by('order').values_list('id', flat=True)
         default_rfp = list(default_rfp)
-        
 
-        all_sections = RfpSection.objects.filter(industry=industry, country=country).order_by('order')
+        all_sections = RfpSection.objects.filter(
+            industry=industry, country=country).order_by('order')
 
         # Doc = RfpSection.objects.filter(industry=industry, country=country, is_default=True).order_by('order')
 
@@ -274,6 +276,7 @@ def firstpage_view(request):
         client_name = request.session['client_name']
         industry = request.session['industry']
         country = request.session['country']
+        extrcount = request.session['extrcount']
         radio = request.POST.get("flexRadioDefault")
         Tick1 = request.POST.get("1")
         Tick2 = request.POST.get("2")
@@ -657,12 +660,19 @@ def firstpage_view(request):
         Quest = User.exists()
 
         # display seleted index
-        return render(request, 'firstpage.html', {'Data': data, "showname": showname, "country": country, "industry": industry, "Doc": Doc1, "Quest": Quest, "c": c})
+        return render(request, 'firstpage.html', {'Data': data, "showname": showname, "country": country, "industry": industry, "Doc": Doc1, "Quest": Quest, "c": c, "extrcount": extrcount, "Acccount": Acccount})
     if request.method == "GET":
         client_name = request.session['client_name']
         industry = request.session['industry']
         country = request.session['country']
         showname = request.session['showname']
+        try:
+            extrcount = request.session['extrcount']
+            Acccount = request.session['Acccount']
+            selfirst = request.session['selfirst']
+            sellast = request.session['sellast']
+        except:
+            pass
         data = Question.objects.filter(country=country, industry=industry)
         p = Users.objects.filter(user=client_name)
         Doc1 = RfpSection.objects.filter(user__in=p)
@@ -673,7 +683,7 @@ def firstpage_view(request):
         Quest = User.exists()
 
         # display seleted index
-        return render(request, 'firstpage.html', {'Data': data, "showname": showname, "country": country, "industry": industry, "Doc": Doc1, "Quest": Quest, "c": c})
+        return render(request, 'firstpage.html', {'Data': data, "showname": showname, "country": country, "industry": industry, "Doc": Doc1, "Quest": Quest, "c": c, "extrcount": extrcount, "Acccount": Acccount, "selfirst": selfirst, "sellast": sellast})
  # fifth page mcq options
 
 
@@ -1843,9 +1853,10 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                 else:
                     doc_name = 'Title.docx'
 
-                updated_doc = docx_template_replace(get_doc, doc_name, client_name)
+                updated_doc = docx_template_replace(
+                    get_doc, doc_name, client_name)
                 # updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
-                #                                 request.session['add_line_2'], request.session['client_zipcode'], request.session['industry'], 
+                #                                 request.session['add_line_2'], request.session['client_zipcode'], request.session['industry'],
                 #                                 request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], doc_name)
                 print(updated_doc, 'updated version')
 
@@ -1859,7 +1870,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                 c = Document_usercopy.objects.update_or_create(
                     rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
                 print(c, 'c here')
-                c[0].File.save(updated_doc, File(open(updated_doc,'rb')))
+                c[0].File.save(updated_doc, File(open(updated_doc, 'rb')))
                 # exit(0)
 
             else:
@@ -1899,7 +1910,8 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                         print('__________________**********___________')
                         print()
                         print()
-                        other_document = RfpSection.objects.filter(section_data=docu.section_data).exclude(document_link__in=['',None])[0]
+                        other_document = RfpSection.objects.filter(
+                            section_data=docu.section_data).exclude(document_link__in=['', None])[0]
                         if other_document:
                             file_path = f'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{other_document.industry}/{other_document.country}/Content/{other_document.document_link}'
 
@@ -1909,24 +1921,27 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             print(get_doc, 'get doc response')
 
                             updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
-                                                        request.session['add_line_2'], request.session['client_zipcode'], request.session['industry'], 
-                                                        request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], other_document.document_link)
-                            
+                                                           request.session['add_line_2'], request.session[
+                                                               'client_zipcode'], request.session['industry'],
+                                                           request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], other_document.document_link)
+
                             print(updated_doc, 'update doc')
 
-                            updload_to_azure_blob = upload_blob_data(subfolder, updated_doc, container_id)
+                            updload_to_azure_blob = upload_blob_data(
+                                subfolder, updated_doc, container_id)
                             print(updload_to_azure_blob, 'azure path')
 
                             c = Document_usercopy.objects.update_or_create(
-                                rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
+                                rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
 
-                            c[0].File.save(updated_doc, File(open(updated_doc,'rb')))
+                            c[0].File.save(updated_doc, File(
+                                open(updated_doc, 'rb')))
                     except Exception as ex:
                         print(ex, 'exception')
 
                         c = Document_usercopy.objects.update_or_create(
-                            rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
-                
+                            rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
+
             if docu.country_matrix == 'S':
                 standard_sections.append(docu.section_data)
 
@@ -2031,10 +2046,11 @@ def SelectedIndex_view(request):
                 print(client_name, 'inside else')
                 askque = askques(user=client_name, selected=" ")
                 askque.save()
-        
+
         if request.POST.get('gtp_question'):
             gtp_question = request.POST['gtp_question']
-
+            selfirst = "DEF"
+            request.session['selfirst'] = selfirst
             response = ap.Completion.create(
                 model="text-davinci-003",
                 # prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ: What is human life expectancy in the United States?\nA: Human life expectancy in the United States is 78 years.\n\nQ: Who was president of the United States in 1955?\nA: Dwight D. Eisenhower was president of the United States in 1955.\n\nQ: Which party did he belong to?\nA: He belonged to the Republican Party.\n\nQ: What is the square root of banana?\nA: Unknown\n\nQ: How does a telescope work?\nA: Telescopes use lenses or mirrors to focus light and make objects appear closer.\n\nQ: Where were the 1992 Olympics held?\nA: The 1992 Olympics were held in Barcelona, Spain.\n\nQ: How many squigs are in a bonk?\nA: Unknown\n\nQ: Where is the Valley of Kings?\nA:",
@@ -2054,14 +2070,14 @@ def SelectedIndex_view(request):
             show = Document_usercopy.objects.get(doc_index='Executive Summary')
 
             print(show, 'all user data')
-            
+
             print("SelectedIndex_view_POST")
 
             print("SelectedIndex_view_POST")
             print(show, 'show data')
 
             return render(request, 'SelectedIndex.html', {'c': chat, "standard_sections": standard_sections, "gtp_question": gtp_question, "showname": showname, "country": country, "industry": industry, "show": show})
-        
+
         standard_sections = []
         # subfolder = f"updated_documents/{client_name}"
         # container_id = "rfpstorage"
@@ -2135,7 +2151,7 @@ def SelectedIndex_view(request):
         #     show = Document_usercopy.objects.get(doc_index='Executive Summary')
 
         #     print(show, 'all user data')
-            
+
         #     print("SelectedIndex_view_POST")
 
         #     print("SelectedIndex_view_POST")
@@ -2149,13 +2165,13 @@ def SelectedIndex_view(request):
         #     print("SelectedIndex_view_POST_except")
         #     # print(show, vars(show), showname, '-----------')
         #     return render(request, 'SelectedIndex.html', {"showname": showname, "standard_sections": standard_sections, "country": country, "industry": industry, "show": show})
-        show = Document_usercopy.objects.filter(user=client_name).order_by('rfp_section__order').first()
+        show = Document_usercopy.objects.filter(
+            user=client_name).order_by('rfp_section__order').first()
         print("SelectedIndex_view_POST_except")
 
         print("SelectedIndex_view_POST_except")
         # print(show, vars(show), showname, '-----------')
         return render(request, 'SelectedIndex.html', {"showname": showname, "standard_sections": standard_sections, "country": country, "industry": industry, "show": show})
-
 
 
 def SelectedIndex2_view(request, id):
@@ -2204,8 +2220,9 @@ def SelectedIndex2_view(request, id):
             # print("SelectedIndex2_view_POST_not_Query")
             # print(show2.id)
             # print("SelectedIndex2_view_POST_not_Query")
-            
-            rfp_user_sections = Document_usercopy.objects.filter(user=client_name).exclude(doc_index='Title Page')
+
+            rfp_user_sections = Document_usercopy.objects.filter(
+                user=client_name).exclude(doc_index='Title Page')
             return render(request, 'SelectedIndexlastPage.html', {"client_name": client_name, "showname": showname, "country": country, "industry": industry, "filenames": rfp_user_sections, 'editable_sections': editable_sections})
         if show2:
             showname = request.session['showname']
@@ -2217,7 +2234,7 @@ def SelectedIndex2_view(request, id):
             standard_sections = Document_usercopy.objects.filter(
                 matrix='S').values_list('doc_index', flat=True)
             show2 = Document_usercopy.objects.filter(user=client_name).filter(
-            rfp_section__order__gt=pivot.rfp_section.order).exclude(id=pivot.id).order_by('rfp_section__order').first()
+                rfp_section__order__gt=pivot.rfp_section.order).exclude(id=pivot.id).order_by('rfp_section__order').first()
             print(show2, 'show2')
             IMGSEC = SectionExtraImage.objects.filter(
                 country=country, industry=industry, section_data=show2.doc_index)
@@ -2228,7 +2245,7 @@ def SelectedIndex2_view(request, id):
             Noimage = "A"
             if not IMGSEC:
                 Noimage = "No IMAGES FOUND"
-            
+
             print(IMGSEC, 'imgsec')
             if show2.doc_index == 'Executive Summary':
                 return render(request, 'SelectedIndex.html', {"showname": showname, "standard_sections": standard_sections, "country": country, "industry": industry, "show": show2, "IMGSEC": IMGSEC, "Noimage": Noimage})
@@ -2241,8 +2258,11 @@ def SelectedIndexlastPage_view(request):
     country = request.session['country']
     showname = request.session['showname']
     client_name = request.session['client_name']
+    sellast = "DEF"
+    request.session['sellast'] = sellast
     editable_sections = ['I', 'M', 'E']
-    rfp_user_sections = Document_usercopy.objects.filter(user=client_name).exclude(doc_index='Title Page')
+    rfp_user_sections = Document_usercopy.objects.filter(
+        user=client_name).exclude(doc_index='Title Page')
     return render(request, 'SelectedIndexlastPage.html', {"client_name": client_name, "showname": showname, "country": country, "industry": industry, "filenames": rfp_user_sections, 'editable_sections': editable_sections})
     # return render(request, 'SelectedIndexlastPage.html', {"showname": showname, "country": country, "industry": industry})
 
@@ -2363,8 +2383,10 @@ def download(request, path):
     file_path = os.path.join(settings.MEDIA_ROOT, path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            response = HttpResponse(
+                fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + \
+                os.path.basename(file_path)
             return response
     raise Http404
 
@@ -2391,13 +2413,14 @@ def documentapproval_view(request):
     file_name = file_name.split(f'{client_name}_')
     print(file_name, 'after splitting')
     # exit(0)
-    find_document = Document_usercopy.objects.filter(user=client_name, rfp_section__document_file_name=file_name[1])[0]
+    find_document = Document_usercopy.objects.filter(
+        user=client_name, rfp_section__document_file_name=file_name[1])[0]
     print(find_document, 'found')
     # find_document.File.save(_file, File(open(_file,'rb')))
     find_document.File = _file
     find_document.save()
 
-    # exit(0) 
+    # exit(0)
 
     # replace_data_doc = replace_word_document(client_name, file_data)
     # prod = documentapproval(
@@ -2433,18 +2456,21 @@ def generate_rfp_document(request):
     create_udpate_user_rfp = RfpDocuments.objects.update_or_create(
         industry=industry, country=country, user=client_name
     )
-    create_udpate_user_rfp[0].rfp_file.save(remove_aspose_wording, File(open(remove_aspose_wording,'rb')))
-    
+    create_udpate_user_rfp[0].rfp_file.save(
+        remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
+
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()
-        # print(directory, 'directoryhy')
+    # print(directory, 'directoryhy')
     string_path = directory + file_path
 
     print(file_path, 'file path opened with joinnnnn')
     if os.path.exists(string_path):
         with open(string_path, 'rb') as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            response = HttpResponse(
+                fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename=' + \
+                os.path.basename(file_path)
             return response
     raise Http404
     # return render(request, 'SelectedIndexlastPage.html')
@@ -2489,6 +2515,8 @@ def ExtraImage_view(request):
             Industry=Extraimgsearch).exclude(user=user)
         return render(request, 'extraimage.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
     if request.method == "GET":
+        extrcount = "DEF"
+        request.session['extrcount'] = extrcount
         user = Users.objects.get(user=client_name)
         extra = ExtraImage.objects.filter(user=user)
         extrano = ExtraImage.objects.exclude(user=user)
@@ -2593,6 +2621,8 @@ def AssuptionAndRisk_view(request):
         return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, "Assuptioncheck": Assuptioncheck, "Assuptionnotcheck": Assuptionnotcheck,  "riskon": riskon, 'riskoff': riskoff})
 
     if request.method == "GET":
+        Acccount = "DEF"
+        request.session['Acccount'] = Acccount
         user = Users.objects.get(user=client_name)
         Assuptioncheck = AssuptionAndRisk.objects.filter(
             Topic="Assuption_And_Risk", user=user)
@@ -2619,3 +2649,15 @@ def AssuptionAndRisk_view(request):
         #     riskoff = AssuptionAndRisk.objects.all()
 
         return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, 'Assuptioncheck': Assuptioncheck, "Assuptionnotcheck": Assuptionnotcheck,  'riskon': riskon, 'riskoff': riskoff})
+
+
+def notsatisfieddoc_view(request):
+    client_name = request.session['client_name']
+    country = request.session['country']
+    queries = request.POST.get('Query')
+    print("queries", queries)
+    docfile = request.FILES.get('file')
+    doc = notsatisfieddoc(user=client_name, docup=docfile,
+                          clientgeo=country, query=queries)
+    doc.save()
+    return render(request, 'notsatisfieddoc.html')
