@@ -281,6 +281,27 @@ def replace_aspose_word(doc_path, client_name):
     return f'{media_path}/merged_rfp.docx'
 
 
+from docx.shared import Inches
+def create_images_doc(image_object):
+    print(image_object, 'images objectsss')
+    print(vars(image_object), 'whats inside image object')
+
+    docume = Document()
+    docume.add_heading('IMAGE', 0)
+
+    for i in image_object:
+        image_url = f"https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{i.industry}/{i.country}/Images/{i.image_link}"
+        get_image = get_document(image_url)
+
+        p = docume.add_paragraph()
+        runner = p.add_run("Images:")
+        runner.bold = True
+
+        docume.add_picture(get_image)
+    docume.save('test_image_file.docx')
+    return 'test_image_file.docx'
+
+
 if __name__ == "__main__":
     # test = replace_word_title()
     test = python_docx()

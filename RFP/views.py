@@ -41,6 +41,16 @@ from .forms import ProjectForm
 import nltk
 nltk.download('averaged_perceptron_tagger')
 # Loading the Embedding Pretrained Model
+from RFP.scripts import replace_word_document, get_document, combine_all_docx, merge_files, docx_template_replace, replace_aspose_word, create_images_doc
+from .replace_parameters_doc import replace_word_doc, upload_blob_data
+from django.core.files import File
+import threading
+
+from django.conf import settings
+from django.http import HttpResponse, Http404
+
+from wsgiref.util import FileWrapper
+
 
 
 def load_model():
@@ -1938,10 +1948,24 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                                 open(updated_doc, 'rb')))
                     except Exception as ex:
                         print(ex, 'exception')
+                        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx'
+                        
+                        print(file_path, 'file path to download')
+
+                        get_doc = get_document(file_path)
+                        print(get_doc, 'get doc response')
+
+                        updload_to_azure_blob = upload_blob_data(subfolder, get_doc, container_id)
+                        print(updload_to_azure_blob, 'azure path')
+
+                        # c = Document_usercopy.objects.update_or_create(
+                        #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
                         c = Document_usercopy.objects.update_or_create(
-                            rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
+                                rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
 
+                        c[0].File.save(get_doc, File(open(get_doc,'rb')))
+                
             if docu.country_matrix == 'S':
                 standard_sections.append(docu.section_data)
 
@@ -2198,16 +2222,25 @@ def SelectedIndex2_view(request, id):
         editable_sections = ['I', 'M', 'E']
         try:
             extraimg = request.POST.getlist("sectionextraimage")
-            print(extraimg, "extraimg")
-            extraselected = SectionExtraImage.objects.filter(id__in=extraimg)
-            delextraselected = ExtraImage.objects.exclude(id__in=extraimg)
-            user = Users.objects.get(user=client_name)
-            for e in extraselected:
-                c = e.user.add(user)
-            for d in delextraselected:
-                c = d.user.remove(user)
-            # extra = ExtraImage.objects.filter(user=user)
-            # extrano = ExtraImage.objects.exclude(user=user)
+            print(extraimg, 'extraaaaaaaa')
+            print(extraimg, "extraimg--------------------")
+            if extraimg:
+                extraselected = SectionExtraImage.objects.filter(id__in=extraimg)
+                delextraselected = ExtraImage.objects.exclude(id__in=extraimg)
+                user = Users.objects.get(user=client_name)
+                for e in extraselected:
+                    c = e.user.add(user)
+                for d in delextraselected:
+                    c = d.user.remove(user)
+                create_doc_of_images = create_images_doc(extraselected)
+                user_copy = Document_usercopy.objects.get(id=id)
+                save_image_doc = ImageDocumentUsercopy.objects.update_or_create(
+                    doc_user_copy=user_copy
+                )
+                save_image_doc[0].image_doc.save(create_doc_of_images, File(open(create_doc_of_images,'rb')))
+                print('successfully added image document to section')
+                # extra = ExtraImage.objects.filter(user=user)
+                # extrano = ExtraImage.objects.exclude(user=user)
         except:
             pass
 
@@ -2444,10 +2477,18 @@ def generate_rfp_document(request):
 
     file_list = []
     for i in all_documents:
-        print(i.File.url, 'urlllll')
+        print(i.File.url, i.id, 'urlllll')
         file_list.append(i.File.url)
+        try:
+            extra_image_file = ImageDocumentUsercopy.objects.filter(doc_user_copy_id=i.id)[0]
+            print(extra_image_file, 'imageeee docccc')
+            if extra_image_file:
+                file_list.append(extra_image_file.image_doc.url)
+        except Exception as e:
+            print(e, 'exception at adding image document')
 
     print(file_list, 'file list')
+    # exit(0)
 
     combine = merge_files(file_list)
     remove_aspose_wording = replace_aspose_word(combine, client_name)
