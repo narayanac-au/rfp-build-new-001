@@ -47,7 +47,9 @@
               
             </ul>
           </div>
-        
+          <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+            <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+        </a>
       
 
 
@@ -107,6 +109,16 @@
       href="{% url 'firstpage'%}"
       >Home</a
     >
+    <a
+        class="btn btn-dark ml-2 mr-2"
+        style="
+          font-size: 0.7rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        onclick="history.back()"
+        >BACK</a>
     {% if show.doc_index in standard_sections or show.file_link is None %}
     {% else %}
     <a class="btn btn-dark d-inline ml-1 mr-1"

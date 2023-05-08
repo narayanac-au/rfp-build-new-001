@@ -104,7 +104,7 @@ class ImageUpload_admin(ImportExportModelAdmin):
 
 
 class ImageUpload_admin(ImportExportModelAdmin):
-    list_display = ['id', 'user', 'clientgeo', 'picup']
+    list_display = ['id', 'user', 'clientgeo', 'picup', 'approved']
 
 
 class AssuptionAndRisk_admin(ImportExportModelAdmin):
@@ -118,6 +118,14 @@ class SectionExtraImage_admin(ImportExportModelAdmin):
 
 class notsatisfieddoc_admin(ImportExportModelAdmin):
     list_display = ['id', 'user', 'docup', 'clientgeo', 'query']
+
+
+class clientlogo_admin(ImportExportModelAdmin):
+    list_display = ['Industry', 'logo', 'selected']
+
+
+class logoUpload_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'clientgeo', 'picup', 'approved']
 
 
 admin.site.register(project, project_admin)
@@ -145,3 +153,5 @@ admin.site.register(ImageUpload, ImageUpload_admin)
 admin.site.register(AssuptionAndRisk, AssuptionAndRisk_admin)
 admin.site.register(SectionExtraImage, SectionExtraImage_admin)
 admin.site.register(notsatisfieddoc, notsatisfieddoc_admin)
+admin.site.register(clientlogo, clientlogo_admin)
+admin.site.register(logoUpload, logoUpload_admin)

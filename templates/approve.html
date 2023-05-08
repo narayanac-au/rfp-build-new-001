@@ -96,10 +96,44 @@
 
             <!--FORM-->
             <div class="container">
+              <a
+              class="btn btn-dark btn-sm  float-right mb-2 ml-1"
+              style="
+                font-size: 0.7rem;
+                width: 4rem;
+                background-color: #f2f2f2;
+                color: black;
+              "
+              href="{% url 'login'%}"
+              >BACK</a>
+
             <a class="btn btn-dark btn-sm  float-right mb-2" style="font-size:.7rem;width: 4rem;background-color:#000099;height: 1.6rem;"
                 href="{% url 'details'%}">Logout</a>
             </div>
             <div class="container mt-5">
+              <div class="container">
+                <div>
+                <a
+                class="btn btn-dark btn-sm  float-left mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width: 7rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approvelogo'%}"
+                >Logo Approval</a>
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width: 7rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approveimage'%}"
+                >Image Approval</a>
+              </div>
             <div class="mb-1"><strong><h5>DOCUMENT FOR APPROVAL</h5></strong></div>
             <table class="table table-sm table-dark table-hover">
                 <thead>
@@ -172,7 +206,7 @@
 </body>
 
 
-<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+{% comment %} <link rel="stylesheet" href="{% static 'css/footer.css' %}" /> {% endcomment %}
 <div class="container ">
   <div class="row">
 
