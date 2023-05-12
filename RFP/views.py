@@ -42,6 +42,15 @@ from .forms import ProjectForm
 import nltk
 nltk.download('averaged_perceptron_tagger')
 # Loading the Embedding Pretrained Model
+from RFP.scripts import replace_word_document, get_document, write_header_footer, merge_files, docx_template_replace, replace_aspose_word, create_images_doc
+from .replace_parameters_doc import replace_word_doc, upload_blob_data
+from django.core.files import File
+import threading
+
+from django.conf import settings
+from django.http import HttpResponse, Http404
+
+from wsgiref.util import FileWrapper
 
 
 def load_model():
@@ -103,6 +112,8 @@ def doc_content_view(request):
         clientaddress_line2 = request.POST.get("address_line2")
         clientPostal_Code = request.POST.get("Postal_Code")
         client_name = request.POST.get("clientname")
+        client_name = client_name.replace(' ', '_')
+
         showname = request.POST.get("showname")
         industry = request.POST.get("industry")
         country = request.POST.get("countries")
@@ -1952,6 +1963,8 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             subfolder, get_doc, container_id)
                         print(updload_to_azure_blob, 'azure path')
 
+
+
                         # c = Document_usercopy.objects.update_or_create(
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
@@ -2458,6 +2471,8 @@ def documentapproval_view(request):
 
     return 'successfully uploaded'
 
+import subprocess
+
 
 def generate_rfp_document(request):
     print('im here inside the rfp document')
@@ -2472,30 +2487,45 @@ def generate_rfp_document(request):
     print(all_documents, 'all the documents')
 
     file_list = []
+    node_command_string = "node doc-merger.js"
     for i in all_documents:
         print(i.File.url, i.id, 'urlllll')
-        file_list.append(i.File.url)
+        if i.file_link != 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx':
+            file_list.append(i.File.url)
+        node_command_string += f' {i.File.url}'
         try:
             extra_image_file = ImageDocumentUsercopy.objects.filter(doc_user_copy_id=i.id)[
                 0]
             print(extra_image_file, 'imageeee docccc')
             if extra_image_file:
                 file_list.append(extra_image_file.image_doc.url)
+                node_command_string += f' {extra_image_file.image_doc.url}'
         except Exception as e:
             print(e, 'exception at adding image document')
 
     print(file_list, 'file list')
+    print(node_command_string, 'node command')
     # exit(0)
 
-    combine = merge_files(file_list)
-    remove_aspose_wording = replace_aspose_word(combine, client_name)
-    print(remove_aspose_wording, 'remove aspose')
+    # result = subprocess.run(["node", "doc-merget.js", file_list[0], file_list[1]], capture_output=True, text=True, check=True)
+
+    # result = os.system("node doc-merger.js /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Title.docx /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Healthcare_AU_Executive_Summary.docx")
+    result = os.system(node_command_string)
+    print(result, 'result of executed node file')
+    # add_header_footer = write_header_footer('output-node-merger-v4.docx')
+    # print(add_header_footer, 'adding header and footer to the final document')
+    # exit(0)
+    # combine = merge_files(file_list)
+    # remove_aspose_wording = replace_aspose_word(combine, client_name)
+    # print(remove_aspose_wording, 'remove aspose')
     # exit(0)
     create_udpate_user_rfp = RfpDocuments.objects.update_or_create(
         industry=industry, country=country, user=client_name
     )
+    # create_udpate_user_rfp[0].rfp_file.save(
+    #     remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
     create_udpate_user_rfp[0].rfp_file.save(
-        remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
+        'rfp_final_v4.docx', File(open('output-node-merger-v4.docx', 'rb')))
 
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()
