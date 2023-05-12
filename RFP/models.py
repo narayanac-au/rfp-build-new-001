@@ -344,7 +344,8 @@ class ImageDocumentUsercopy(models.Model):
     doc_user_copy = models.ForeignKey(
         Document_usercopy, blank=True, null=True, on_delete=models.CASCADE
     )
-    image_doc = models.FileField(upload_to='files/rfp_image_documents', null=True, blank=True)
+    image_doc = models.FileField(
+        upload_to='files/rfp_image_documents', null=True, blank=True)
 
     def __str__(self):
         return f'<{self.doc_user_copy}-{self.image_doc}>'
@@ -384,6 +385,8 @@ class ImageUpload(models.Model):
     user = models.CharField(max_length=200, null=True, blank=True)
     clientgeo = models.CharField(max_length=200, null=True, blank=True)
     picup = models.ImageField(upload_to='imgdir/')
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
 
     def __str__(self):
         return self.user
@@ -434,6 +437,47 @@ class notsatisfieddoc(models.Model):
     clientgeo = models.CharField(max_length=200, null=True, blank=True)
     docup = models.ImageField(upload_to='notsatisfieddoc/')
     query = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user
+
+
+class clientlogo(models.Model):
+
+    countrychoices = {
+        ('Australia', 'Australia'),
+        ('US', 'US'),
+        ('UK', 'UK'),
+    }
+
+    imagechoices = {
+        ('Agnostic', 'Agnostic'),
+        ('Healthcare', 'Healthcare'),
+        ('Finanace', 'Finanace'),
+        ('HigherEducation', 'Higher Education'),
+
+    }
+    user = models.ManyToManyField(Users, blank=True)
+    country = models.CharField(
+        max_length=100, null=True, blank=True, default='Australia', choices=countrychoices)
+    Industry = models.CharField(
+        max_length=100, null=True, blank=True, default='Healthcare', choices=imagechoices)
+    logo = models.ImageField(
+        null=True, blank=True, upload_to="./media/clientlogo/")
+
+    selected = models.CharField(max_length=10, null=True, blank=True)
+
+    def __str__(self):
+        return self.country
+
+
+class logoUpload(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    clientgeo = models.CharField(max_length=200, null=True, blank=True)
+    picup = models.ImageField(upload_to='logodir/')
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
 
     def __str__(self):
         return self.user

@@ -26,7 +26,9 @@
                   </ul>
                 </div>
               
-            
+                <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+                  <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+              </a>
       
       
       
@@ -123,27 +125,39 @@
       >
         Next
       </button>
-      <a
-        class="btn btn-dark d-inline"
-        style="
-          font-size: 0.7rem;
-          width: 4rem;
-          background-color: #b9b9b9;
-          color: black;
-        "
-        href="{% url 'firstpage'%}"
-        >Home</a
-      >
-      </form>
-      {% if show.doc_index == 'Title Page' or show.doc_index in standard_sections %}
-      {% else %}
-        <a class="btn btn-dark d-inline ml-1 mr-1"
+      <a class="btn btn-dark d-inline ml-1 mr-1"
         style="
           font-size: 0.7rem;
           width: 5rem;
           background-color: #f2f2f2;
           color: black;
         " href='{{show.file_link}}' Download>Download</a>
+      <a
+        class="btn btn-dark d-inline"
+        style="
+          font-size: 0.7rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        href="{% url 'firstpage'%}"
+        >Home</a
+      >
+      
+      <a
+        class="btn btn-dark ml-1 mr-1"
+        style="
+          font-size: 0.7rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        onclick="history.back()"
+        >BACK</a>
+      </form>
+      {% if show.doc_index == 'Title Page' or show.doc_index in standard_sections %}
+      {% else %}
+        
         <a
         class="btn btn-dark d-inline"
         style="
@@ -170,13 +184,13 @@
         <strong
           class="float-centre"
           style="font-size: 1.5rem; font-family: verdana; color: black"
-          class="ml-3 mt-1 mb-5 float-center"
+          class="   float-center"
           >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;CHAT
-          GPT</strong
+          GPT(External Source)</strong
         >
       </div>
       <small style="font-size: 0.7rem"
-        >Based On Question Typed Our AI Will Provide You With Best Answers</small
+        >To help inspire your response we have included a Chat GPT interface that will allow you to ask specific questions in relation to the client or industry. Please Note: Chat GPT processes data offshore and by using this platform, you agree and understand that ChatGPT may use any content to develop and improve its services, and therefore once data has been fed into the software, ChatGPT owns that Intellectual Property. </small
       >
       <form id='q_n_a' action="{% url 'SelectedIndex'%}" method="GET">
         <input

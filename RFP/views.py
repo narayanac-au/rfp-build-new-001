@@ -1,3 +1,4 @@
+from RFP.scripts import replace_word_document, get_document, combine_all_docx, merge_files, docx_template_replace, replace_aspose_word, create_images_doc
 from wsgiref.util import FileWrapper
 from django.http import HttpResponse, Http404
 from django.conf import settings
@@ -50,7 +51,6 @@ from django.conf import settings
 from django.http import HttpResponse, Http404
 
 from wsgiref.util import FileWrapper
-
 
 
 def load_model():
@@ -127,10 +127,12 @@ def doc_content_view(request):
         Acccount = "ABC"
         selfirst = "ABC"
         sellast = "ABC"
+        log = "ABC"
         request.session['extrcount'] = extrcount
         request.session['Acccount'] = Acccount
         request.session['selfirst'] = selfirst
         request.session['sellast'] = sellast
+        request.session['log'] = log
         print(industry, 'industry')
         print(country, 'country before session data')
 
@@ -1951,13 +1953,14 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                     except Exception as ex:
                         print(ex, 'exception')
                         file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx'
-                        
+
                         print(file_path, 'file path to download')
 
                         get_doc = get_document(file_path)
                         print(get_doc, 'get doc response')
 
-                        updload_to_azure_blob = upload_blob_data(subfolder, get_doc, container_id)
+                        updload_to_azure_blob = upload_blob_data(
+                            subfolder, get_doc, container_id)
                         print(updload_to_azure_blob, 'azure path')
 
 
@@ -1966,10 +1969,10 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
                         c = Document_usercopy.objects.update_or_create(
-                                rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
+                            rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
 
-                        c[0].File.save(get_doc, File(open(get_doc,'rb')))
-                
+                        c[0].File.save(get_doc, File(open(get_doc, 'rb')))
+
             if docu.country_matrix == 'S':
                 standard_sections.append(docu.section_data)
 
@@ -2229,7 +2232,8 @@ def SelectedIndex2_view(request, id):
             print(extraimg, 'extraaaaaaaa')
             print(extraimg, "extraimg--------------------")
             if extraimg:
-                extraselected = SectionExtraImage.objects.filter(id__in=extraimg)
+                extraselected = SectionExtraImage.objects.filter(
+                    id__in=extraimg)
                 delextraselected = ExtraImage.objects.exclude(id__in=extraimg)
                 user = Users.objects.get(user=client_name)
                 for e in extraselected:
@@ -2241,7 +2245,8 @@ def SelectedIndex2_view(request, id):
                 save_image_doc = ImageDocumentUsercopy.objects.update_or_create(
                     doc_user_copy=user_copy
                 )
-                save_image_doc[0].image_doc.save(create_doc_of_images, File(open(create_doc_of_images,'rb')))
+                save_image_doc[0].image_doc.save(
+                    create_doc_of_images, File(open(create_doc_of_images, 'rb')))
                 print('successfully added image document to section')
                 # extra = ExtraImage.objects.filter(user=user)
                 # extrano = ExtraImage.objects.exclude(user=user)
@@ -2489,7 +2494,8 @@ def generate_rfp_document(request):
             file_list.append(i.File.url)
         node_command_string += f' {i.File.url}'
         try:
-            extra_image_file = ImageDocumentUsercopy.objects.filter(doc_user_copy_id=i.id)[0]
+            extra_image_file = ImageDocumentUsercopy.objects.filter(doc_user_copy_id=i.id)[
+                0]
             print(extra_image_file, 'imageeee docccc')
             if extra_image_file:
                 file_list.append(extra_image_file.image_doc.url)
@@ -2723,3 +2729,163 @@ def notsatisfieddoc_view(request):
                           clientgeo=country, query=queries)
     doc.save()
     return render(request, 'notsatisfieddoc.html')
+
+
+def clientlogo_view(request):
+    showname = request.session['showname']
+    industry = request.session['industry']
+    country = request.session['country']
+    client_name = request.session['client_name']
+    if request.method == "POST":
+        Extraimgsearch = request.POST.get("Extraimgsearch")
+        request.session['Extraimgsearch'] = Extraimgsearch
+        print("Extraimgsearch", Extraimgsearch)
+        extraimg = request.POST.getlist("extraimage")
+        checkon = clientlogo.objects.filter(
+            Industry=Extraimgsearch)
+        checkonid = []
+        for i in checkon:
+            checkonid.append(i.id)
+        print("checkonid", checkonid)
+        print("extraimg", extraimg)
+        extraimg = [int(x) for x in extraimg]
+        print("extraimggggg", extraimg)
+        on = list(set(checkonid).intersection(extraimg))
+        print("on", on)
+        if len(on):
+            off = list(set(checkonid) - set(extraimg))
+            print("off", off)
+            extraselected = clientlogo.objects.filter(id__in=on)
+            delextraselected = clientlogo.objects.filter(id__in=off)
+            user = Users.objects.get(user=client_name)
+            for e in extraselected:
+                c = e.user.add(user)
+            for d in delextraselected:
+                c = d.user.remove(user)
+
+        user = Users.objects.get(user=client_name)
+        Extraimgsearch = request.session['Extraimgsearch']
+        print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+        print("Extraimgsearch", Extraimgsearch)
+        print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+        extra = clientlogo.objects.filter(Industry=Extraimgsearch, user=user)
+        extrano = clientlogo.objects.filter(
+            Industry=Extraimgsearch).exclude(user=user)
+        print("extra", extra)
+        print("extrano", extrano)
+        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+    if request.method == "GET":
+        log = "DEF"
+        request.session['log'] = log
+        user = Users.objects.get(user=client_name)
+        extra = clientlogo.objects.filter(user=user)
+        extrano = clientlogo.objects.exclude(user=user)
+        indus = clientlogo.objects.all()
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        print(indus)
+        for i in extrano:
+            print(i.Industry)
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+
+
+# upload Image files
+def logo_upload_view(request):
+    showname = request.session['showname']
+    industry = request.session['industry']
+    client_name = request.session['client_name']
+    country = request.session['country']
+    pic = request.FILES.get('file')
+    prod = logoUpload(user=client_name, picup=pic, clientgeo=country)
+    prod.save()
+    return render(request, 'UploadClientlogo.html', {"showname": showname, "country": country, "industry": industry})
+
+
+def approveimage_view(request):
+    if request.method == "GET":
+        SP = ImageUpload.objects.filter(approved="No")
+        return render(request, 'approveimage.html', {"SP": SP})
+    if request.method == "POST":
+        SP = ImageUpload.objects.filter(approved="No")
+        return render(request, 'approveimage.html', {"SP": SP})
+
+
+def approvedimage_view(request, id):
+    industry = request.session['industry']
+    country = request.session['country']
+    showname = request.session['showname']
+    if request.method == "GET":
+        SP = ImageUpload.objects.filter(id=id)
+        SP.update(approved="Yes")
+        SP = ImageUpload.objects.filter(approved="No")
+        Yes = ImageUpload.objects.filter(approved="Yes")
+        return render(request, 'approveimage.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+    if request.method == "POST":
+        SP = ImageUpload.objects.filter(id=id)
+        SP.update(approved="Yes")
+        SP = ImageUpload.objects.filter(approved="No")
+        Yes = ImageUpload.objects.filter(approved="Yes")
+        return render(request, 'approveimage.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+
+
+def disapprovedimage_view(request, id):
+    industry = request.session['industry']
+    country = request.session['country']
+    showname = request.session['showname']
+    if request.method == "GET":
+        SP = ImageUpload.objects.filter(id=id)
+        SP.update(approved="No")
+        SP = ImageUpload.objects.filter(approved="No")
+        Yes = ImageUpload.objects.filter(approved="Yes")
+        return render(request, 'approveimage.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+    if request.method == "POST":
+        SP = ImageUpload.objects.filter(id=id)
+        SP.update(approved="No")
+        SP = ImageUpload.objects.filter(approved="No")
+        Yes = ImageUpload.objects.filter(approved="Yes")
+        return render(request, 'approveimage.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+
+
+def approvelogo_view(request):
+    if request.method == "GET":
+        SP = logoUpload.objects.filter(approved="No")
+        return render(request, 'approvelogo.html', {"SP": SP})
+    if request.method == "POST":
+        SP = logoUpload.objects.filter(approved="No")
+        return render(request, 'approvelogo.html', {"SP": SP})
+
+
+def approvedlogo_view(request, id):
+    industry = request.session['industry']
+    country = request.session['country']
+    showname = request.session['showname']
+    if request.method == "GET":
+        SP = logoUpload.objects.filter(id=id)
+        SP.update(approved="Yes")
+        SP = logoUpload.objects.filter(approved="No")
+        Yes = logoUpload.objects.filter(approved="Yes")
+        return render(request, 'approvelogo.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+    if request.method == "POST":
+        SP = logoUpload.objects.filter(id=id)
+        SP.update(approved="Yes")
+        SP = logoUpload.objects.filter(approved="No")
+        Yes = logoUpload.objects.filter(approved="Yes")
+        return render(request, 'approvelogo.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+
+
+def disapprovedlogo_view(request, id):
+    industry = request.session['industry']
+    country = request.session['country']
+    showname = request.session['showname']
+    if request.method == "GET":
+        SP = logoUpload.objects.filter(id=id)
+        SP.update(approved="No")
+        SP = logoUpload.objects.filter(approved="No")
+        Yes = logoUpload.objects.filter(approved="Yes")
+        return render(request, 'approvelogo.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+    if request.method == "POST":
+        SP = logoUpload.objects.filter(id=id)
+        SP.update(approved="No")
+        SP = logoUpload.objects.filter(approved="No")
+        Yes = logoUpload.objects.filter(approved="Yes")
+        return render(request, 'approvelogo.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})

@@ -59,9 +59,17 @@
                 {% else %}
                 <li class="active" id="stepper">Assuption and Risk (optional)</li>
                 {% endif %}
+
+                {% if logo == "ABC"  %}
+                <li class="" id="stepper">Client Logo (optional)</li>
+                {% else %}
+                <li class="active" id="stepper">Client Logo (optional)</li>
+                {% endif %}
               </ul>
             </div>
-          
+            <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+              <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+          </a>
         
   
   
@@ -108,9 +116,18 @@
         <a
           class="btn btn-secondary btn-sm"
           style="font-size: 0.7rem; width: 9rem; background-color: #000099"
+          href="{% url 'clientlogo'%}"
+          >Clients Logo</a
+        >
+
+        <a
+          class="btn btn-secondary btn-sm"
+          style="font-size: 0.7rem; width: 9rem; background-color: #000099"
           href="{% url 'SelectedIndexlastPage'%}"
           >Upload Doc For Approval</a
         >
+
+        
 
         <!-- <a class="btn btn-dark btn-sm d-inline" style="font-size:.7rem;width: 9rem;background-color:#000099;"
                 href="{% url 'download'%}">Download Seleted Section</a> -->
@@ -163,7 +180,7 @@
       <small style="font-size: 0.7rem"
         >If You Have Rfp File Please Upload It Here.Once Uploaded Our AI Will
         Detect Questions in It and Provides You Questions Along With
-        Responses</small
+        Responses.Max file size is 25mb.</small
       >
 
       <div class="mt-2 float-left">
