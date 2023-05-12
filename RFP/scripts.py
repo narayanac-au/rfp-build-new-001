@@ -302,7 +302,61 @@ def create_images_doc(image_object):
     return 'test_image_file.docx'
 
 
+from docx.shared import Pt
+def write_header_footer(doc_path):
+    # from docx import Document
+    # from docx.shared import Pt
+
+    # read  doc
+    # doc = Document('../output-node-merger-v4.docx')
+    doc = Document(doc_path)
+
+    # define your style font and size for the header 
+    style_h = doc.styles['Header']
+    font_h = style_h.font
+    font_h.name = 'Arial'
+    font_h.bold = True
+    font_h.size = Pt(20)
+
+    # define your style font and size for the footer
+    style_f = doc.styles['Footer']
+    font_f = style_f.font
+    font_f.name = 'Arial'
+    font_f.bold = False
+    font_f.size = Pt(2)
+
+    # for the header:
+    # header = doc.sections[0].header
+    # paragraph_h = header.paragraphs[0]
+    # paragraph_h.text = 'January 2021 KPMG' # insert new value here.
+    # paragraph_h.style = doc.styles['Header'] # this is what changes the style
+
+    header = doc.sections[0].header
+    paragraph_h = header.paragraphs[0]
+
+    logo_run = paragraph_h.add_run()
+    logo_run.add_picture("logo.png", width=Inches(1))
+
+    # text_run = paragraph.add_run()
+    # text_run.text = '\t' + "My Awesome Header" # For center align of text
+    # text_run.style = "Heading 2 Char"
+
+    # for the footer:
+    footer = doc.sections[0].footer
+    paragraph_f = footer.paragraphs[0]
+    paragraph_f.text = '© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance' # insert new value here.
+    # paragraph_f.text = '© 2023 Copyright owned by one or more of the KPMG International entities.' 
+
+    paragraph_f.style = doc.styles['Footer']# this is what changes the style
+
+    doc.save('final_merged_document_v1.docx')
+    return 'final_merged_document_v1.docx'
+
+
 if __name__ == "__main__":
     # test = replace_word_title()
-    test = python_docx()
+    # test = python_docx()
+    # v = ['/TEST-MAY-04-2023-001_Healthcare_AU_Implementation Approach.docx', '/test_image_file_PuATo0v.docx']
+    # test = merge_files(v)
+    test = write_header_footer()
     print(test, 'testtt')

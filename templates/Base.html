@@ -17,6 +17,24 @@
         <h6 class="d-inline text-center ml-2 mt-5 display-5" style=font-family:"Arial";font-size:1rem><strong>Powered Enterprise Intelligent RFP Builder</strong></h6>
     </div>
     <div class="border-bottom border-dark"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $( document ).ready(function() {
+            console.log( "document loaded" );
+        });
+     
+        $( window ).on( "load", function() {
+            console.log( "window loaded" );
+            var w = window.innerWidth;
+            // window.alert(w, 'width')
+            console.log(w, 'window size')
+            if (w < 400){
+                window.alert("The application doesn't support the screen size less than 400px width.")
+            }
+            // window.alert('Example of a basic alert box in jquery', 'jquery basic alert box')
+            // jAlert('Example of a basic alert box in jquery', 'jquery basic alert box');
+        });
+    </script>
 </head>
 
 </body>
