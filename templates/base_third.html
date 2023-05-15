@@ -7,25 +7,38 @@
     <link rel="stylesheet" href="{% static 'css/doc.css' %}"> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,shrink-to-fit=no;maximum-scale=1"/>
     {% comment %} <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/firstpage.css' %}"> {% endcomment %}
     <title>RFP</title>
     <div class=" bg  row  ">
         
-        <div class="  col-1   ">
-        <a href="{%url 'index'%}"><img class="container" src="{% static 'images/KPMG_logo.png' %}" height="70" width="100"></a>
-        </div>
-        <div class=" col-11 container  " >
+        
+        
+        <div class=" col-12 container  " >
+            <div class=" col-1" >
+                <a href="{%url 'index'%}"><img class="float-left" src="{% static 'images/KPMG_logo.png' %}" height="70" width="100"></a>
+            </div>    
+            <div class=" col-10  container   mt-4 " >
+                <div class=" col-12 container " >
+                    <div class=" col-12 container " >
+                        <div class=" col-12 container " >
+                            
+                                
+            <h6 class="text-center " style="font-family:Arial;font-size:1rem;color:White"><strong class="">Powered Enterprise Intelligent RFP Builder</strong></h6>
             
-                <div class="col-xl-11 col-lg-11 col-md-11 col-sm-11 container mt-4 float-left ">
-        <h6 class="display-5 text-center" style="font-family:Arial;font-size:1rem;color:White"><strong>Powered Enterprise Intelligent RFP Builder</strong></h6>
-                </div>  
+        </div>  
+    </div>  
+    </div>        
+            </div>     
             
         
         </div>
         
     </div>
+    <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+        <button id="btnOutlook" class="float-right btn btn-sm border border-success mt-1 ml-2" >Feedback</button>
+    </a>
    
 
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">

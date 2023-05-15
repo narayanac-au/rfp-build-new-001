@@ -23,7 +23,9 @@
                 
               </ul>
             </div>
-          
+            <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+              <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+          </a>
         
   
   
@@ -55,7 +57,7 @@
                     src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{p.answer1}}"
                     title="W3Schools Free Online Web Tutorials"
                     width="90%"
-                    height="150px"
+                    height="450px"
                     ></iframe>
                 {% endif %}
                 
@@ -66,7 +68,7 @@
                     src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{p.answer2}}"
                     title="W3Schools Free Online Web Tutorials"
                     width="90%"
-                    height="150px"
+                    height="450px"
                     ></iframe>               
                 {% endif %}
                 {%if p.answer3 %} 
@@ -76,7 +78,7 @@
                     src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{p.answer3}}"
                     title="W3Schools Free Online Web Tutorials"
                     width="90%"
-                    height="150px"
+                    height="450px"
                     ></iframe>
                 {% endif %}
             {% endif %}
@@ -95,7 +97,17 @@
         
         </form>
         <a  class="btn btn-dark d-inline btn-sm " style="background-color:#f2f2f2;color:black" href="/drp/drp/">Finish</a>
-    </div>
+        <a
+        class="btn btn-dark d-inline btn-sm ml-2"
+        style="
+          font-size: 0.8rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        onclick="history.back()"
+        >BACK</a>
+      </div>
 </div>
 </div>
 </div>

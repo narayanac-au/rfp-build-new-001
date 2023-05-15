@@ -14,17 +14,21 @@
                 <div class="wrapper-progressBar">
                   <ul class="progressBar">
                     <li class="active" id="stepper">Home</li>
-                    <li class="active" id="stepper">Information Form</li>
+                    <li class="active" id="stepper">Contact Information</li>
                     <li class="active" id="stepper">Standard Indexes</li>
                     <li class="active" id="stepper">Review Standard Docs</li>
                     <li class="" id="stepper">Upload Docs</li>
                     <li id="stepper">Drop RFP & Ask Question</li>
-                    <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                    <li class="" id="stepper">Drop RFP / Ask Question</li>
+                    <li class="" id="stepper">Extra Images</li>
+                    <li class="" id="stepper">Assuption and Risk Consideration</li>
                     
                   </ul>
                 </div>
               
-            
+                <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+                  <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+              </a>
       
       
       
@@ -42,15 +46,17 @@
 </div>
 {% comment %} Heading {% endcomment %}
 {% comment %} Heading text {% endcomment %}
+{% if show.doc_index == 'Executive Summary' %}
 <div class=" container " >
   <div class="row-12 text-center ">
       <div class="col-12 text-center " >
-          <h6 style="font-family:Arial;font-size:.5rem;color:black">The Executive Summary section provides an example for the industry you previously selected. This section should be rewritten specifically for your opportunity.
-            To help inspire your response we have included a Chat GPT interface that will allow you to ask specific questions in relation to the client or industry. Please Note: Chat GPT processes data offshore and by using this platform, you agree and understand that ChatGPT may use any content to develop and improve its services, and therefore once data has been fed into the software, ChatGPT owns that Intellectual Property. 
+          <h6 style="font-family:Arial;font-size:.7rem;color:black">The Executive Summary section provides an example for the industry you previously selected. This section should be rewritten specifically for your opportunity.
+            
             </h6>
   </div>
 </div>
 </div>
+{% endif%}
 {% comment %} Heading text {% endcomment %}
   <script>
     // function copyClipboard() {
@@ -97,7 +103,7 @@
             height="450px"
           > -->
           <iframe
-            src="https://view.officeapps.live.com/op/embed.aspx?src={{image_url.cloud_link}}"
+            src="https://view.officeapps.live.com/op/embed.aspx?src={{show.file_link}}"
             title="W3Schools Free Online Web Tutorials"
             width="100%"
             height="450px"
@@ -114,32 +120,44 @@
       
       <button
       type="submit"
-      class="btn btn-dark btn-sm d-inline"
-      style="font-size: 0.7rem; width: 7rem; background-color: #000099; margin-right: 5px;"
+      class="btn btn-dark btn-sm d-inline ml-3"
+      style="font-size: 0.7rem; width: 5rem; background-color: #000099; margin-right: 5px;"
       >
         Next
       </button>
-      <a
-        class="btn btn-dark d-inline"
-        style="
-          font-size: 0.7rem;
-          width: 4rem;
-          background-color: #b9b9b9;
-          color: black;
-        "
-        href="{% url 'firstpage'%}"
-        >Home</a
-      >
-      </form>
-      {% if show.doc_index == 'Title Page' or show.doc_index in standard_sections %}
-      {% else %}
-        <a class="btn btn-dark d-inline ml-1 mr-1"
+      <a class="btn btn-dark d-inline ml-1 mr-1"
         style="
           font-size: 0.7rem;
           width: 5rem;
           background-color: #f2f2f2;
           color: black;
         " href='{{show.file_link}}' Download>Download</a>
+      <a
+        class="btn btn-dark d-inline"
+        style="
+          font-size: 0.7rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        href="{% url 'firstpage'%}"
+        >Home</a
+      >
+      
+      <a
+        class="btn btn-dark ml-1 mr-1"
+        style="
+          font-size: 0.7rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        onclick="history.back()"
+        >BACK</a>
+      </form>
+      {% if show.doc_index == 'Title Page' or show.doc_index in standard_sections %}
+      {% else %}
+        
         <a
         class="btn btn-dark d-inline"
         style="
@@ -156,9 +174,60 @@
     </div>
     {% if show.doc_index == 'Title Page' %}
     {% else %}
-    <div class="row">
+    <div>
+      <div />
+      <!-- {% comment %} {% if Quest %} {% endcomment %} -->
+      <!-- <p class="font-weight-bold mt-2" style="font-size: 0.8rem">
+        Please Input Addition Queries Below
+      </p> -->
       <div class="col-6">
-        <div class="">
+        <strong
+          class="float-centre"
+          style="font-size: 1.5rem; font-family: verdana; color: black"
+          class="   float-center"
+          >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;CHAT
+          GPT(External Source)</strong
+        >
+      </div>
+      <small style="font-size: 0.7rem"
+        >To help inspire your response we have included a Chat GPT interface that will allow you to ask specific questions in relation to the client or industry. Please Note: Chat GPT processes data offshore and by using this platform, you agree and understand that ChatGPT may use any content to develop and improve its services, and therefore once data has been fed into the software, ChatGPT owns that Intellectual Property. </small
+      >
+      <form id='q_n_a' action="{% url 'SelectedIndex'%}" method="GET">
+        <input
+          type="text"
+          class="form-control border border-dark"
+          id="question"
+          name="gpt_question"
+          placeholder="Enter Question"
+          style="font-size: 0.7rem; width: 69rem"
+        />
+        <div class="d-inline float-right">
+          <button
+            type="submit"
+            class="btn btn-dark btn-sm d-inline"
+            style="font-size: 0.7rem; width: 7rem; background-color: #000099"
+          >
+            Submit Question
+          </button>
+          <!-- {% comment %} {% if c%} {% endcomment %} -->
+          <!-- <a
+            class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
+            style="font-size: 0.7rem; width: 4rem; background-color: #000099"
+            href="{% url 'preview'%}"
+            >Preview Q&A</a
+          > -->
+          <!-- {% comment %} {% endif %} {% endcomment %} -->
+        </div>
+      </form>
+  
+      <!-- {% comment %} {% endif %} {% endcomment %} -->
+    </div>
+    {% endif %}
+    {% if show.doc_index == 'Title Page' %}
+    {% else %}
+    <div class="row" id="chat_gpt">
+      <div class="col-6">
+        <!-- <div class="">
           <strong
             class="float-centre"
             style="font-size: 1.5rem; font-family: verdana; color: black"
@@ -166,18 +235,20 @@
             >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;CHAT
             GPT</strong
           >
-        </div>
+        </div> -->
+      </div>
+      <!-- <div class="row">
         <div id="chat_gpt">
           <h4
             class="float-centre mt-1"
-            style="font-size: 0.7rem; font-family: verdana; color: black"
+            style="font-size: 0.7rem; font-family: verdana; color: black;width: 70rem"
             class="mb-5"
           >
-            Based On Question Typed Our AI Will Provide You With Best Answers
+          To help inspire your response we have included a Chat GPT interface that will allow you to ask specific questions in relation to the client or industry. Please Note: Chat GPT processes data offshore and by using this platform, you agree and understand that ChatGPT may use any content to develop and improve its services, and therefore once data has been fed into the software, ChatGPT owns that Intellectual Property.
           </h4>
-        </div>
+        </div> -->
         <div>
-          <form action="{% url 'SelectedIndex'%}" method="POST">
+          <!-- <form id='q_n_a' action="{% url 'SelectedIndex'%}" method="POST">
             {% csrf_token %}
             <div>
               <input
@@ -186,7 +257,7 @@
                 id="question"
                 name="gtp_question"
                 placeholder="Enter Question"
-                style="font-size: 0.7rem; width: 30rem"
+                style="font-size: 0.7rem; width: 70rem"
               />
             </div>
             <div class="mt-1">
@@ -202,7 +273,7 @@
                 Submit Question
               </button>
             </div>
-          </form>
+          </form> -->
           <div class="mt-3">
             <strong style="font-size: 1.2rem" class="mt-5 float-center"
               >RESULTS</strong
@@ -212,7 +283,7 @@
             class="textarea border border-secondary rounded"
             style="
               font-size: 1rem;
-              width: 35rem;
+              width: 70rem;
               height: 16rem;
               background-color: rgb(151, 139, 139);
               color: white;

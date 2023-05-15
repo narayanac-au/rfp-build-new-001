@@ -2,6 +2,33 @@ from docx import Document
 import platform
 
 from django.conf import settings
+from docxtpl import DocxTemplate, RichText
+
+def docx_template_replace(doc_path, doc_name, client_name=''):
+    doc = DocxTemplate(doc_path)
+    dictionary = {}
+    dictionary['client_name'] = client_name
+    curr_date = datetime.today()
+    dictionary['curr_date'] = curr_date.strftime("%B %d, %Y")
+
+    doc.render(dictionary)
+
+    temp_name = 'updated'
+    temp_file = f'temporary/{temp_name}.docx'
+    print(temp_file, 'temp file')
+    doc.save(temp_file)
+    os.remove(doc_path)
+    media_path = f'media/{client_name}'
+    isExist = os.path.exists(media_path)
+
+    if not isExist:
+
+        # Create a new directory because it does not exist
+        os.makedirs(media_path)
+        print("The new directory is created!")
+
+    os.rename(temp_file, f'{media_path}/{client_name}_{doc_name}')
+    return f'{media_path}/{client_name}_{doc_name}'
 
 
 # file_data = ["C:/Users/narayanac/Documents/RFP-Builder-Latest/Title_template2.docx","C:/Users/narayanac/Documents/RFP-Builder-Latest/Title_template3.docx"]
@@ -149,3 +176,133 @@ def merge_files(fileNames):
 
     output.save("aspose_merge.docx")
     return 'aspose_merge.docx'
+
+import datetime
+from datetime import datetime
+
+def replace_word_title():
+    # print(client_name, replace_name, 'arguments')
+    doc=Document_compose('../Title_test.docx')
+    # doc=Document_compose('../Healthcare_Australia_Executive Summary.docx')
+    # Dictionary = {replace_name: client_name}
+    print(doc, 'doc data')
+    Dictionary = {"[CLIENT_NAME]": 'KPMG Test 001', "[CURR_DATE]": datetime.today()}
+
+    for i in range(0, 20):
+        print(i, 'loop')
+
+    for i in Dictionary:
+        print(i, 'ii test')
+        for p in doc.paragraphs:
+            print(p, 'ppp')
+            print(p.text, 'text')
+            if p.text.find(i)>=0:
+                print('inside if')
+                print(i,'--------',Dictionary[i], 'Dico')
+                p.text=p.text.replace(i,Dictionary[i])
+        
+        for p in doc.title:
+            print(p, 'ppp')
+            print(p.text, 'text')
+            if p.text.find(i)>=0:
+                print('inside if')
+                print(i,'--------',Dictionary[i], 'Dico')
+                p.text=p.text.replace(i,Dictionary[i])
+
+    # delete the existing updated document
+    # os.remove('updated.docx')
+
+    #save changed document
+    doc.save('replace_updated.docx')
+    # os.remove(doc_path)
+    # media_path = f'media/{client_name}'
+    # isExist = os.path.exists(media_path)
+
+    # if not isExist:
+
+    #     # Create a new directory because it does not exist
+    #     os.makedirs(media_path)
+    #     print("The new directory is created!")
+
+    # os.rename('temporary/updated.docx', f'{media_path}/{doc_name}')
+    return 'replace_updated.docx'
+
+
+from python_docx_replace import docx_replace, docx_blocks
+
+def python_docx():
+    # get your document using python-docx
+    doc = Document("../Title_test.docx")
+
+    Dictionary = {"[CLIENT_NAME]": 'KPMG Test 001', "[CURR_DATE]": datetime.today()}
+
+    # call the replace function with your key value pairs
+    docx_replace(doc, **Dictionary)
+
+    # call the blocks function with your sets
+    docx_blocks(doc, signature=True, table_of_contents=False)
+
+    # remove the first table in the Word document
+    # docx_remove_table(doc, 0)
+
+    # do whatever you want after that, usually save the document
+    doc.save("replaced.docx")
+
+    return 'replace_updated.docx'
+
+
+def replace_aspose_word(doc_path, client_name):
+    
+    print(client_name, 'arguments')
+
+    doc=Document_compose(doc_path)
+    Dictionary = {
+        'Evaluation Only. Created with Aspose.Words. Copyright 2003-2023 Aspose Pty Ltd.': '',
+        'This document was truncated here because it was created in the Evaluation Mode.': '',
+        'Proposed Plan on a Page': ''
+    }
+
+    for i in Dictionary:
+        for p in doc.paragraphs:
+            if p.text.find(i)>=0:
+                p.text=p.text.replace(i,Dictionary[i])
+
+    #save changed document
+    doc.save('temporary/updated_aspose.docx')
+    os.remove(doc_path)
+    media_path = f'media/{client_name}'
+    isExist = os.path.exists(media_path)
+
+    if not isExist:
+        # Create a new directory because it does not exist
+        os.makedirs(media_path)
+
+    os.rename('temporary/updated_aspose.docx', f'{media_path}/merged_rfp.docx')
+    return f'{media_path}/merged_rfp.docx'
+
+
+from docx.shared import Inches
+def create_images_doc(image_object):
+    print(image_object, 'images objectsss')
+    print(vars(image_object), 'whats inside image object')
+
+    docume = Document()
+    docume.add_heading('IMAGE', 0)
+
+    for i in image_object:
+        image_url = f"https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{i.industry}/{i.country}/Images/{i.image_link}"
+        get_image = get_document(image_url)
+
+        p = docume.add_paragraph()
+        runner = p.add_run("Images:")
+        runner.bold = True
+
+        docume.add_picture(get_image)
+    docume.save('test_image_file.docx')
+    return 'test_image_file.docx'
+
+
+if __name__ == "__main__":
+    # test = replace_word_title()
+    test = python_docx()
+    print(test, 'testtt')

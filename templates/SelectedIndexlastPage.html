@@ -1,6 +1,22 @@
-{% extends "base_second.html" %} {% block content %}
+{% extends "base_second.html" %}
 {% load static %}
+{% block static_block %}
 <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+  <style>
+    table, th, td {
+      border: 0.5px solid black;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 5px;
+      font-size: 12px;
+    }
+    tr {
+      height: 2px;
+    }
+  </style>
+{% endblock %}
+{% block content %}
 <body>
   {% comment %} Progress Bar {% endcomment %}
 
@@ -10,15 +26,19 @@
             <div class="wrapper-progressBar">
               <ul class="progressBar">
                 <li class="active" id="stepper">Home</li>
-                <li class="active" id="stepper">Information Form</li>
+                <li class="active" id="stepper">Contact Information</li>
                 <li class="active" id="stepper">Standard Indexes</li>
                 <li class="active" id="stepper">Review Standard Docs</li>
                 <li class="active" id="stepper">Upload Docs</li>
-                <li class="" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
+                <li class="" id="stepper">Drop RFP / Ask Question</li>
+                <li class="" id="stepper">Extra Images</li>
+                <li class="" id="stepper">Assuption and Risk Consideration</li>
                 
               </ul>
             </div>
-          
+            <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+              <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+          </a>
         
   
   
@@ -40,29 +60,39 @@
         href="{% url 'firstpage'%}"
         >Home</a
       >
+      <a
+        class="btn btn-dark ml-2"
+        style="
+          font-size: 0.7rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        onclick="history.back()"
+        >BACK</a>
     </div>
   
   <div class="mt-5">
     <strong class="font-weight-bold" style="font-size: 1rem"
-      >DOWNLOAD FILES OF SELECTED SECTION</strong
+      >UPLOAD FILES OF EDITED STANDARD SECTION ONLY!</strong
     >
   </div>
 
-  <div>
+  <!-- <div>
     <a
       class="btn btn-dark btn-sm d-inline"
       style="font-size: 0.7rem; width: 9rem; background-color: #000099"
       href="{% url 'download'%}"
       >Download FILE</a
     >
-  </div>
+  </div> -->
 
-  <div class="border-bottom border-dark mt-2"></div>
-  <div class="mt-3">
+  <!-- <div class="border-bottom border-dark mt-2"></div> -->
+  <!-- <div class="mt-3">
     <strong class="font-weight-bold" style="font-size: 1rem"
       >PLEASE UPLOAD THE EDITED STANDARD SECTIONS HERE.THESE FILES WILL BE SENT FOR APPROVAL</strong
     >
-  </div>
+  </div> -->
   <div class="mt-2 float-left">
     <!-- dropzone -->
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
@@ -95,11 +125,25 @@
       {% csrf_token %}
     <input
       type="submit"
+      value="Merge & Download"
       class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
-      style="font-size: 0.7rem; width: 4rem; background-color: #000099"
+      style="font-size: 0.7rem; width: 8rem; background-color: #000099"
       ></a
     >
     </form>
+    <p><strong style="color: red;">Note:</strong> Use the same file name as below while dropping the manually edited files.</p>
+    <div class="float-left">
+      <table summary="no_orderDate">
+        <tr><th>Sections</th><th>Filename</th>
+        {% for queue in filenames %}
+            {% if queue.rfp_section.country_matrix in editable_sections or queue.rfp_section.industry_matrix in editable_sections %}
+            <tr><td>{{ queue.doc_index }}</td><td>{{ client_name }}_{{ queue.rfp_section.document_file_name }}</td></tr>
+            {% endif %}
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+  
 
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
@@ -153,19 +197,16 @@
     </script>
     <!-- dropzone -->
 
-    
-      
-    
-  
+
 </body>
-<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+{% comment %} <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
 <div class="container ">
 
-  <div class="row">
+  <div class="row-12">
 
 <div class="">
   <!-- Copyright -->
-  <footer class="">
+  <footer class="container">
 
     <!-- Copyright -->
     <div class="footer-copyright container" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
@@ -176,5 +217,5 @@
   <!-- Footer --> 
 </div>
 </div>
-</div>
+</div> {% endcomment %}
 {% endblock content %}

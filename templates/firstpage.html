@@ -32,16 +32,44 @@
             <div class="wrapper-progressBar">
               <ul class="progressBar">
                 <li class="active" id="stepper">Home</li>
-                <li class="active" id="stepper">Information Form</li>
+                <li class="active" id="stepper">Contact Information</li>
                 <li class="active" id="stepper">Standard Indexes</li>
+                {% if selfirst == "ABC"  %}
                 <li class="active" id="stepper">Review Standard Docs</li>
+                {% else %}
+                <li class="" id="stepper">Review Standard Docs</li>
+                {% endif %}
+
+                {% if sellast == "ABC"  %}
                 <li class="active" id="stepper">Upload Docs</li>
-                <li class="active" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
-                
-                
+                {% else %}
+                <li class="" id="stepper">Upload Docs</li>
+                {% endif %}
+
+                <li class="active" id="stepper">Drop RFP / Ask Question</li>
+
+                {% if extrcount == "ABC"  %}
+                <li class="" id="stepper">Extra Images (optional)</li>
+                {% else %}
+                <li class="active" id="stepper">Extra Images (optional)</li>
+                {% endif %}
+
+                {% if Acccount == "ABC"  %}
+                <li class="" id="stepper">Assuption and Risk (optional)</li>
+                {% else %}
+                <li class="active" id="stepper">Assuption and Risk (optional)</li>
+                {% endif %}
+
+                {% if logo == "ABC"  %}
+                <li class="" id="stepper">Client Logo (optional)</li>
+                {% else %}
+                <li class="active" id="stepper">Client Logo (optional)</li>
+                {% endif %}
               </ul>
             </div>
-          
+            <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+              <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+          </a>
         
   
   
@@ -82,7 +110,14 @@
           class="btn btn-secondary btn-sm"
           style="font-size: 0.7rem; width: 9rem; background-color: #000099"
           href="{% url 'AssuptionAndRisk'%}"
-          >Assuptions And Risks</a
+          >Assumptions And Risks</a
+        >
+
+        <a
+          class="btn btn-secondary btn-sm"
+          style="font-size: 0.7rem; width: 9rem; background-color: #000099"
+          href="{% url 'clientlogo'%}"
+          >Clients Logo</a
         >
 
         <a
@@ -91,6 +126,8 @@
           href="{% url 'SelectedIndexlastPage'%}"
           >Upload Doc For Approval</a
         >
+
+        
 
         <!-- <a class="btn btn-dark btn-sm d-inline" style="font-size:.7rem;width: 9rem;background-color:#000099;"
                 href="{% url 'download'%}">Download Seleted Section</a> -->
@@ -143,7 +180,7 @@
       <small style="font-size: 0.7rem"
         >If You Have Rfp File Please Upload It Here.Once Uploaded Our AI Will
         Detect Questions in It and Provides You Questions Along With
-        Responses</small
+        Responses.Max file size is 25mb.</small
       >
 
       <div class="mt-2 float-left">
@@ -170,12 +207,12 @@
 
         <div class=" ">
           <div>
-            <a
+            {% comment %} <a
               class="btn btn-dark btn-sm mt-5 d-inline"
               style="font-size: 0.7rem; width: 4rem; background-color: #000099"
               href="{% url 'file_injection'%}"
               >Direct Process Uploaded File</a
-            >
+            > {% endcomment %}
             <a
               class="btn btn-dark btn-sm mt-5 d-inline"
               style="font-size: 0.7rem; width: 4rem; background-color: #000099"
@@ -183,12 +220,12 @@
               >Manual Process Uploaded File</a
             >
           </div>
-          <div class="">
+          {% comment %} <div class="">
             <small style="font-size: 0.7rem"
               >Direct Process Uploaded File-Download File Which Contains
               Questions And Answer
             </small>
-          </div>
+          </div> {% endcomment %}
           <div class="mb-1">
             <small style="font-size: 0.7rem"
               >Manual Process Uploaded File-Manually Select File Which Contains
@@ -216,7 +253,7 @@
         <!-- dropzone -->
 
         <div class="">
-          {% if Quest %}
+          {% comment %} {% if Quest %} {% endcomment %}
           <p class="font-weight-bold" style="font-size: 0.8rem">
             Please Input Addition Queries Below
           </p>
@@ -260,7 +297,7 @@
             </div>
           </form>
 
-          {% endif %}
+          {% comment %} {% endif %} {% endcomment %}
         </div>
       </div>
     </div>
