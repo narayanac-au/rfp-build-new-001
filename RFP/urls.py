@@ -31,7 +31,7 @@ urlpatterns = [
     path('ques2/<int:id>/', views.drop_rfpquest_view2, name="ques2"),
 
     path('drp/', views.drop_rfp_preview_view, name="drp"),
-    path('request/', views.approve_view, name="approve"),
+    path('request/', views.approvedocument_view, name="approve"),
     path('confirm/<int:id>/', views.confirm_view, name="confirm"),
     path('ar/<int:id>/', views.approved_view, name="ar"),
     path('dr/<int:id>/', views.disapproved_view, name="dr"),

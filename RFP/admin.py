@@ -19,7 +19,7 @@ class KPMGgeo_admin(ImportExportModelAdmin):
 
 
 class KPMGadd_admin(ImportExportModelAdmin):
-    list_display = ['KPMGgeo', 'originaladdress']
+    list_display = ['KPMGgeo', 'originaladdress', 'fulladdress']
 
 
 class Question_admin(ImportExportModelAdmin):
@@ -108,7 +108,7 @@ class ImageUpload_admin(ImportExportModelAdmin):
 
 
 class AssuptionAndRisk_admin(ImportExportModelAdmin):
-    list_display = ['id', 'Topic', 'country', 'Description']
+    list_display = ['id', 'category', 'country', 'document_link']
 
 
 class SectionExtraImage_admin(ImportExportModelAdmin):

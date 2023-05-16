@@ -35,7 +35,8 @@ class KPMGgeo(models.Model):
 class KPMGadd(models.Model):
 
     KPMGgeo = models.ForeignKey(KPMGgeo, on_delete=models.CASCADE)
-    originaladdress = models.CharField(max_length=200)
+    originaladdress = models.CharField(max_length=200, null=True, blank=True)
+    fulladdress = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.originaladdress
@@ -395,23 +396,32 @@ class ImageUpload(models.Model):
 class AssuptionAndRisk(models.Model):
     id = models.AutoField(primary_key=True)
     countrychoices = {
-        ('Australia', 'Australia'),
+        ('AU', 'AU'),
         ('US', 'US'),
         ('UK', 'UK'),
 
 
     }
     imagechoices = {
-        ('Assuption_And_Risk', 'Assuption_And_Risk'),
-        ('Key_consideration_and_risk', 'Key_consideration_and_risk'),
+        ('General', 'General'),
+        ('Resources', 'Resources'),
+        ('Workday', 'Workday'),
+        ('Software', 'Software'),
+        ('Integration', 'Integration'),
+        ('Data Migration', 'Data Migration'),
+        ('Testing', 'Testing'),
+        ('Change Management', 'Change Management'),
+        ('Deployment and Support', 'Deployment and Support'),
+        ('Covid-19', 'Covid-19'),
 
     }
     user = models.ManyToManyField(Users, blank=True)
-    Topic = models.CharField(
-        max_length=100, null=True, blank=True, default='Assuption_And_Risk', choices=imagechoices)
+    category = models.CharField(
+        max_length=100, null=True, blank=True, default='General', choices=imagechoices)
     country = models.CharField(
-        max_length=100, null=True, blank=True, default='Australia', choices=countrychoices)
-    Description = models.TextField(null=True, blank=True)
+        max_length=100, null=True, blank=True, default='AU', choices=countrychoices)
+
+    document_link = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return self.country

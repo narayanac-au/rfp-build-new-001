@@ -113,8 +113,9 @@
             <div class="container mt-5">
               <div class="container">
                 <div>
+                  
                 <a
-                class="btn btn-dark btn-sm   mb-2 ml-1"
+                class="btn btn-dark btn-sm  mb-2 ml-1"
                 style="
                   font-size: 0.7rem;
                   width: 7rem;
@@ -127,14 +128,14 @@
                 class="btn btn-dark btn-sm   mb-2 ml-1"
                 style="
                   font-size: 0.7rem;
-                  width:9rem;
+                  width: 7rem;
                   background-color: #f2f2f2;
                   color: black;
                 "
-                href="{% url 'approve'%}"
-                >Document Approval</a>
-                </div>
-            <div class="mb-1 mt-3"><strong><h5>IMAGES FOR APPROVAL</h5></strong></div>
+                href="{% url 'approveimage'%}"
+                >Image Approval</a>
+              </div>
+            <div class="mb-1 mt-3"><strong><h5>DOCUMENT FOR APPROVAL</h5></strong></div>
             <table class="table table-sm table-dark table-hover">
                 <thead>
                   <tr>
@@ -148,18 +149,16 @@
                 </thead>
                 <tbody>
                     {% for d in SP %}
-                    {% if d.picup.url != None %}
                         <tr>
                             <th scope="row">{{d.id}}</th>
                             <td>{{d.user}}</td>
                             <td>{{d.clientgeo}}</td>
                             <td>{{d.approved}}</td>
                             <td><a class="btn btn-success btn-sm  " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'approvedimage' d.id%}">Approve</a><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'disapprovedimage' d.id%}">Reject</a></td>
-                                <td><img class="w-40 " src="{{d.picup.url}}" alt="First slide" height="150" width="180""></td>
+                                href="{% url 'ar' d.id%}">Approve</a><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
+                                href="{% url 'dr' d.id%}">Reject</a></td>
+                            <td><a href='{{d.documentapproval.url}}' Download>Download</a></td>
                         </tr>
-                    {% endif %}
                     {% endfor %}    
                 </tbody>
               </table>
@@ -167,7 +166,7 @@
 
 
             <div class="container mt-5">
-                <div class="mb-1"><strong><h5>IMAGES APPROVED</h5></strong></div>
+                <div class="mb-1"><strong><h5>APPROVED DOCUMENT</h5></strong></div>
                 <table class="table table-sm table-dark table-hover">
                     <thead>
                       <tr>
@@ -181,17 +180,15 @@
                     </thead>
                     <tbody>
                         {% for d in Yes %}
-                        {% if d.picup.url != None %}
                             <tr>
                                 <th scope="row">{{d.id}}</th>
                                 <td>{{d.user}}</td>
                                 <td>{{d.clientgeo}}</td>
                                 <td>{{d.approved}}</td>
                                 <td><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                    href="{% url 'disapprovedimage' d.id%}">Reject</a></td>
-                                    <td><img class="w-40 " src="{{d.picup.url}}" alt="First slide" height="150" width="180""></td>
+                                    href="{% url 'dr' d.id%}">Reject</a></td>
+                                <td><a href='{{d.documentapproval.url}}' Download>Download</a></td>
                             </tr>
-                            {% endif %}
                         {% endfor %}    
                         
                     </tbody>

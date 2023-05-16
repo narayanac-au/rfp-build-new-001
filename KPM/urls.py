@@ -57,6 +57,7 @@ urlpatterns = [
     path('notsatisfieddoc/', views.notsatisfieddoc_view, name="notsatisfieddoc"),
     path('clientlogo/', views.clientlogo_view, name="clientlogo"),
     path('UploadClientlogo/', views.logo_upload_view, name="clientlogoupload"),
+    path('approveview/', views.approve_view, name="approveview"),
     path('approveimage/', views.approveimage_view, name="approveimage"),
     path('approvedimage/<int:id>/', views.approvedimage_view, name="approvedimage"),
     path('approvelogo/', views.approvelogo_view, name="approvelogo"),
@@ -71,5 +72,13 @@ urlpatterns = [
 
     #path('selected2/', include('RFP.urls')),
     path('user/<str:id>/', views.user_upload_question_view, name="UP"),
+    path('userlogin/', views.userlogin_view, name="userlogin"),
+    path('userstandardsection/', views.userstandardsection_view,
+         name="userstandardsection"),
+    path('userquestionans/', views.userquestionans_view, name="userquestionans"),
+    path('useraddextraimages/', views.useraddextraimages_view,
+         name="useraddextraimages"),
+    path('userriskandassumption/', views.userriskandassumption_view,
+         name="userriskandassumption"),
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

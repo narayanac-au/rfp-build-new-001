@@ -63,9 +63,9 @@
 
     {% comment %} Progress Bar {% endcomment %}
   <div class="row container">
-    <div class="col-12 container ">
-          <div class="wrapper-progressBar container">
-            <ul class="progressBar container">
+    <div class="col-12 container ml-5">
+          <div class="wrapper-progressBar container ml-5">
+            <ul class="progressBar container ml-5">
               <li class="active" id="stepper">Home</li>
               <li class="active" id="stepper">Information Form</li>
               <li class="active" id="stepper">Standard Indexes</li>
@@ -90,12 +90,15 @@
 </div>
 </div>
   {% comment %} Progress Bar {% endcomment %}
-    <div class=" ">
-        
+    <div class="container">
+      <div class="mb-3 mt-5 text-center"><strong><h5>&emsp;&emsp;&emsp;APPROVER PORTAL</h5></strong></div>
+            
+    </div>
 
 
             <!--FORM-->
             <div class="container">
+              
               <a
               class="btn btn-dark btn-sm  float-right mb-2 ml-1"
               style="
@@ -104,7 +107,7 @@
                 background-color: #f2f2f2;
                 color: black;
               "
-              href="{% url 'login'%}"
+              onclick="history.back()"
               >BACK</a>
 
             <a class="btn btn-dark btn-sm  float-right mb-2" style="font-size:.7rem;width: 4rem;background-color:#000099;height: 1.6rem;"
@@ -113,11 +116,21 @@
             <div class="container mt-5">
               <div class="container">
                 <div>
+                  <a
+                  class="btn btn-dark btn-sm   float-left mb-2 ml-1 mt-2"
+                  style="
+                    font-size: 0.7rem;
+                    width: 70rem;
+                    background-color: #f2f2f2;
+                    color: black;
+                  "
+                  href="{% url 'approve'%}"
+                  >Document Approval</a>
                 <a
-                class="btn btn-dark btn-sm  float-left mb-2 ml-1"
+                class="btn btn-dark btn-sm  mb-2 ml-1 "
                 style="
                   font-size: 0.7rem;
-                  width: 7rem;
+                  width: 70rem;
                   background-color: #f2f2f2;
                   color: black;
                 "
@@ -127,76 +140,15 @@
                 class="btn btn-dark btn-sm   mb-2 ml-1"
                 style="
                   font-size: 0.7rem;
-                  width: 7rem;
+                  width: 70rem;
                   background-color: #f2f2f2;
                   color: black;
                 "
                 href="{% url 'approveimage'%}"
                 >Image Approval</a>
               </div>
-            <div class="mb-1"><strong><h5>DOCUMENT FOR APPROVAL</h5></strong></div>
-            <table class="table table-sm table-dark table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">USER</th>
-                    <th scope="col">Clientgeo</th>
-                    <th scope="col">Approval Status</th>
-                    <th scope="col">Approve/Reject</th>
-                    <th scope="col">Download File</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for d in SP %}
-                        <tr>
-                            <th scope="row">{{d.id}}</th>
-                            <td>{{d.user}}</td>
-                            <td>{{d.clientgeo}}</td>
-                            <td>{{d.approved}}</td>
-                            <td><a class="btn btn-success btn-sm  " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'ar' d.id%}">Approve</a><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'dr' d.id%}">Reject</a></td>
-                            <td><a href='{{d.documentapproval.url}}' Download>Download</a></td>
-                        </tr>
-                    {% endfor %}    
-                </tbody>
-              </table>
-            </div>
+            
 
-
-            <div class="container mt-5">
-                <div class="mb-1"><strong><h5>APPROVED DOCUMENT</h5></strong></div>
-                <table class="table table-sm table-dark table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">USER</th>
-                        <th scope="col">Clientgeo</th>
-                        <th scope="col">Approval Status</th>
-                        <th scope="col">Want to Reject</th>
-                        <th scope="col">Download File</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {% for d in Yes %}
-                            <tr>
-                                <th scope="row">{{d.id}}</th>
-                                <td>{{d.user}}</td>
-                                <td>{{d.clientgeo}}</td>
-                                <td>{{d.approved}}</td>
-                                <td><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                    href="{% url 'dr' d.id%}">Reject</a></td>
-                                <td><a href='{{d.documentapproval.url}}' Download>Download</a></td>
-                            </tr>
-                        {% endfor %}    
-                        
-                    </tbody>
-                  </table>
-                </div>
-
-
-
-            </div>
             
         </div>
 
@@ -206,7 +158,7 @@
 </body>
 
 
-{% comment %} <link rel="stylesheet" href="{% static 'css/footer.css' %}" /> {% endcomment %}
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" /> 
 <div class="container ">
   <div class="row">
 

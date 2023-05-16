@@ -1719,6 +1719,24 @@ def approve_view(request):
         return render(request, 'approve.html', {"SP": SP})
 
 
+def approvedocument_view(request):
+    #     industry=request.session['industry']
+    #     country=request.session['country']
+    #     showname=request.session['showname']
+    # if request.method == "GET":
+    #     SP = UserQuery.objects.filter(sentapproval="on").filter(viewed="off")
+    #     return render(request, 'approve.html', {"SP": SP})
+    # if request.method == "POST":
+    #     SP = UserQuery.objects.filter(sentapproval="on").filter(viewed="off")
+    #     return render(request, 'approve.html', {"SP": SP})
+    if request.method == "GET":
+        SP = documentapproval.objects.filter(approved="No")
+        return render(request, 'approvedocument.html', {"SP": SP})
+    if request.method == "POST":
+        SP = documentapproval.objects.filter(approved="No")
+        return render(request, 'approvedocument.html', {"SP": SP})
+
+
 def approved_view(request, id):
     industry = request.session['industry']
     country = request.session['country']
@@ -1728,13 +1746,13 @@ def approved_view(request, id):
         SP.update(approved="Yes")
         SP = documentapproval.objects.filter(approved="No")
         Yes = documentapproval.objects.filter(approved="Yes")
-        return render(request, 'approve.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(request, 'approvedocument.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
     if request.method == "POST":
         SP = documentapproval.objects.filter(id=id)
         SP.update(approved="Yes")
         SP = documentapproval.objects.filter(approved="No")
         Yes = documentapproval.objects.filter(approved="Yes")
-        return render(request, 'approve.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(request, 'approvedocument.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
 
 
 def disapproved_view(request, id):
@@ -1746,13 +1764,13 @@ def disapproved_view(request, id):
         SP.update(approved="No")
         SP = documentapproval.objects.filter(approved="No")
         Yes = documentapproval.objects.filter(approved="Yes")
-        return render(request, 'approve.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(request, 'approvedocument.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
     if request.method == "POST":
         SP = documentapproval.objects.filter(id=id)
         SP.update(approved="No")
         SP = documentapproval.objects.filter(approved="No")
         Yes = documentapproval.objects.filter(approved="Yes")
-        return render(request, 'approve.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(request, 'approvedocument.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
 
 
 def login(request):
@@ -1761,13 +1779,52 @@ def login(request):
         password = request.POST['password']
         user = auth.authenticate(username=username, password=password)
         if user is not None:
-            auth.login(request, user)
-            return redirect("/approve/request")
+            if user.is_staff == True:
+                auth.login(request, user)
+                return redirect("/approveview")
+            return redirect("/userlogin")
         else:
             messages.success(request, 'Incorrect Username or password')
             return redirect('login')
     else:
         return render(request, 'login.html')
+
+
+def userlogin_view(request):
+    if request.method == "GET":
+        SP = ImageUpload.objects.filter(approved="No")
+        return render(request, 'userlogin.html', {"SP": SP})
+    if request.method == "POST":
+        SP = ImageUpload.objects.filter(approved="No")
+        return render(request, 'userlogin.html', {"SP": SP})
+
+
+def userstandardsection_view(request):
+    if request.method == "GET":
+        return render(request, 'userstandardsection.html')
+    if request.method == "POST":
+        return render(request, 'userstandardsection.html')
+
+
+def userquestionans_view(request):
+    if request.method == "GET":
+        return render(request, 'userquestionans.html')
+    if request.method == "POST":
+        return render(request, 'userquestionans.html')
+
+
+def useraddextraimages_view(request):
+    if request.method == "GET":
+        return render(request, 'useraddextraimages.html')
+    if request.method == "POST":
+        return render(request, 'useraddextraimages.html')
+
+
+def userriskandassumption_view(request):
+    if request.method == "GET":
+        return render(request, 'userriskandassumption.html')
+    if request.method == "POST":
+        return render(request, 'userriskandassumption.html')
 
 
 def convertToBinaryData(filename):
@@ -1963,8 +2020,11 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             subfolder, get_doc, container_id)
                         print(updload_to_azure_blob, 'azure path')
 
+<<<<<<< HEAD
+=======
 
 
+>>>>>>> master
                         # c = Document_usercopy.objects.update_or_create(
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
@@ -2470,8 +2530,11 @@ def documentapproval_view(request):
     # prod.save()
 
     return 'successfully uploaded'
+<<<<<<< HEAD
+=======
 
 import subprocess
+>>>>>>> master
 
 
 def generate_rfp_document(request):
@@ -2490,20 +2553,34 @@ def generate_rfp_document(request):
     node_command_string = "node doc-merger.js"
     for i in all_documents:
         print(i.File.url, i.id, 'urlllll')
+<<<<<<< HEAD
+        file_list.append(i.File.url)
+=======
         if i.file_link != 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx':
             file_list.append(i.File.url)
         node_command_string += f' {i.File.url}'
+>>>>>>> master
         try:
             extra_image_file = ImageDocumentUsercopy.objects.filter(doc_user_copy_id=i.id)[
                 0]
             print(extra_image_file, 'imageeee docccc')
             if extra_image_file:
                 file_list.append(extra_image_file.image_doc.url)
+<<<<<<< HEAD
+=======
                 node_command_string += f' {extra_image_file.image_doc.url}'
+>>>>>>> master
         except Exception as e:
             print(e, 'exception at adding image document')
 
     print(file_list, 'file list')
+<<<<<<< HEAD
+    # exit(0)
+
+    combine = merge_files(file_list)
+    remove_aspose_wording = replace_aspose_word(combine, client_name)
+    print(remove_aspose_wording, 'remove aspose')
+=======
     print(node_command_string, 'node command')
     # exit(0)
 
@@ -2518,14 +2595,20 @@ def generate_rfp_document(request):
     # combine = merge_files(file_list)
     # remove_aspose_wording = replace_aspose_word(combine, client_name)
     # print(remove_aspose_wording, 'remove aspose')
+>>>>>>> master
     # exit(0)
     create_udpate_user_rfp = RfpDocuments.objects.update_or_create(
         industry=industry, country=country, user=client_name
     )
+<<<<<<< HEAD
+    create_udpate_user_rfp[0].rfp_file.save(
+        remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
+=======
     # create_udpate_user_rfp[0].rfp_file.save(
     #     remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
     create_udpate_user_rfp[0].rfp_file.save(
         'rfp_final_v4.docx', File(open('output-node-merger-v4.docx', 'rb')))
+>>>>>>> master
 
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()
@@ -2625,97 +2708,258 @@ def AssuptionAndRisk_view(request):
     industry = request.session['industry']
     country = request.session['country']
     client_name = request.session['client_name']
-    Assuption_And_Risk = AssuptionAndRisk.objects.filter(
-        Topic="Assuption_And_Risk")
-    Key_consideration_and_risk = AssuptionAndRisk.objects.filter(
-        Topic="Key_consideration_and_risk")
+    # Assuption_And_Risk = AssuptionAndRisk.objects.filter(
+    #     Topic="Assuption_And_Risk")
+    # Key_consideration_and_risk = AssuptionAndRisk.objects.filter(
+    #     Topic="Key_consideration_and_risk")
 
     if request.method == "POST":
-        Assupmtions = request.POST.getlist("Assupmtions")
-        risk = request.POST.getlist("risk")
-        print("Assupmtions", Assupmtions)
-        print("risk", risk)
+        check = request.POST.getlist("check")
 
-        extraselected = AssuptionAndRisk.objects.filter(id__in=Assupmtions)
+        print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+        print("check", check)
+
+        print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+        extraselected = AssuptionAndRisk.objects.filter(id__in=check)
+        print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+        print("extraselected", extraselected)
+
+        print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
         delextraselected = AssuptionAndRisk.objects.exclude(
-            id__in=Assupmtions)
+            id__in=check)
 
         user = Users.objects.get(user=client_name)
         for e in extraselected:
             c = e.user.add(user)
         for d in delextraselected:
             c = d.user.remove(user)
-        Assuptioncheck = AssuptionAndRisk.objects.filter(
-            Topic="Assuption_And_Risk", user=user)
-        print("Assuptioncheck", Assuptioncheck)
-        # if not Assuptioncheck:
-        #     Assuptioncheck = AssuptionAndRisk.objects.filter(
-        #         Topic="Assuption_And_Risk")
+        Generalcheck = AssuptionAndRisk.objects.filter(
+            category="General", user=user)
 
-        Assuptionnotcheck = AssuptionAndRisk.objects.filter(
-            Topic="Assuption_And_Risk").exclude(user=user)
-        print("Assuptionnotcheck", Assuptionnotcheck)
-        # if not Assuptionnotcheck:
-        #     if not Assuptioncheck:
-        #         Assuptionnotcheck = AssuptionAndRisk.objects.filter(
-        #             Topic="Assuption_And_Risk")
+        Generalnotcheck = AssuptionAndRisk.objects.filter(
+            category="General").exclude(user=user)
 
-        extraselect = AssuptionAndRisk.objects.filter(
-            id__in=risk)
-        delextraselect = AssuptionAndRisk.objects.exclude(
-            id__in=risk)
-        user = Users.objects.get(user=client_name)
-        for e in extraselect:
-            c = e.user.add(user)
-        for d in delextraselect:
-            c = d.user.remove(user)
+        Resourcescheck = AssuptionAndRisk.objects.filter(
+            category="Resources", user=user)
 
-        riskon = AssuptionAndRisk.objects.filter(
-            Topic="Key_consideration_and_risk", user=user)
-        # if not riskon:
-        #     riskon = AssuptionAndRisk.objects.filter(
-        #         Topic="Key_consideration_and_risk")
+        Resourcesnotcheck = AssuptionAndRisk.objects.filter(
+            category="Resources").exclude(user=user)
 
-        print("riskon", riskon)
+        Workdaycheck = AssuptionAndRisk.objects.filter(
+            category="Workday", user=user)
 
-        riskoff = AssuptionAndRisk.objects.filter(
-            Topic="Key_consideration_and_risk").exclude(user=user)
+        Workdaynotcheck = AssuptionAndRisk.objects.filter(
+            category="Workday").exclude(user=user)
 
-        # if not riskoff:
-        #     if not riskon:
-        #         riskoff = AssuptionAndRisk.objects.filter(
-        #             Topic="Key_consideration_and_risk")
+        Softwarecheck = AssuptionAndRisk.objects.filter(
+            category="Software", user=user)
 
-        return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, "Assuptioncheck": Assuptioncheck, "Assuptionnotcheck": Assuptionnotcheck,  "riskon": riskon, 'riskoff': riskoff})
+        Softwarenotcheck = AssuptionAndRisk.objects.filter(
+            category="Software").exclude(user=user)
+
+        Integrationcheck = AssuptionAndRisk.objects.filter(
+            category="Integration", user=user)
+
+        Integrationnotcheck = AssuptionAndRisk.objects.filter(
+            category="Integration").exclude(user=user)
+
+        Datacheck = AssuptionAndRisk.objects.filter(
+            category="Data Migration", user=user)
+
+        Datanotcheck = AssuptionAndRisk.objects.filter(
+            category="Data Migration").exclude(user=user)
+
+        Testingcheck = AssuptionAndRisk.objects.filter(
+            category="Testing", user=user)
+
+        Testingnotcheck = AssuptionAndRisk.objects.filter(
+            category="Testing").exclude(user=user)
+
+        Changecheck = AssuptionAndRisk.objects.filter(
+            category="Change Management", user=user)
+
+        Changenotcheck = AssuptionAndRisk.objects.filter(
+            category="Change Management").exclude(user=user)
+
+        Deploymentcheck = AssuptionAndRisk.objects.filter(
+            category="Deployment and Support", user=user)
+
+        Deploymentnotcheck = AssuptionAndRisk.objects.filter(
+            category="Deployment and Support").exclude(user=user)
+
+        Covidcheck = AssuptionAndRisk.objects.filter(
+            category="Covid-19", user=user)
+
+        Covidnotcheck = AssuptionAndRisk.objects.filter(
+            category="Covid-19").exclude(user=user)
+
+        return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry,  'Generalcheck': Generalcheck, "Generalnotcheck": Generalnotcheck,  'Resourcescheck': Resourcescheck, 'Resourcesnotcheck': Resourcesnotcheck, 'Workdaycheck': Workdaycheck, 'Workdaynotcheck': Workdaynotcheck, 'Softwarecheck': Softwarecheck, 'Softwarenotcheck': Softwarenotcheck, 'Integrationcheck': Integrationcheck, 'Integrationnotcheck': Integrationnotcheck, 'Datacheck': Datacheck, 'Datanotcheck': Datanotcheck, 'Testingcheck': Testingcheck, 'Testingnotcheck': Testingnotcheck, 'Changecheck': Changecheck, 'Changenotcheck': Changenotcheck, 'Deploymentcheck': Deploymentcheck, 'Deploymentnotcheck': Deploymentnotcheck, 'Covidcheck': Covidcheck, 'Covidnotcheck': Covidnotcheck})
 
     if request.method == "GET":
         Acccount = "DEF"
         request.session['Acccount'] = Acccount
         user = Users.objects.get(user=client_name)
-        Assuptioncheck = AssuptionAndRisk.objects.filter(
-            Topic="Assuption_And_Risk", user=user)
-        print("Assuptioncheck", Assuptioncheck)
-        # if not Assuptioncheck:
-        #     Assuptioncheck = AssuptionAndRisk.objects.filter(
-        #         Topic="Assuption_And_Risk")
+        Generalcheck = AssuptionAndRisk.objects.filter(
+            category="General", user=user)
 
-        Assuptionnotcheck = AssuptionAndRisk.objects.filter(
-            Topic="Assuption_And_Risk").exclude(user=user)
+        Generalnotcheck = AssuptionAndRisk.objects.filter(
+            category="General").exclude(user=user)
 
-        riskon = AssuptionAndRisk.objects.filter(
-            Topic="Key_consideration_and_risk", user=user)
-        # if not riskon:
-        #     riskon = AssuptionAndRisk.objects.filter(
-        #         Topic="Key_consideration_and_risk")
+        Resourcescheck = AssuptionAndRisk.objects.filter(
+            category="Resources", user=user)
 
-        print("riskon", riskon)
+        Resourcesnotcheck = AssuptionAndRisk.objects.filter(
+            category="Resources").exclude(user=user)
 
-        riskoff = AssuptionAndRisk.objects.filter(
-            Topic="Key_consideration_and_risk").exclude(user=user)
+        Workdaycheck = AssuptionAndRisk.objects.filter(
+            category="Workday", user=user)
 
-        # if not riskoff:
-        #     riskoff = AssuptionAndRisk.objects.all()
+        Workdaynotcheck = AssuptionAndRisk.objects.filter(
+            category="Workday").exclude(user=user)
 
+        Softwarecheck = AssuptionAndRisk.objects.filter(
+            category="Software", user=user)
+
+        Softwarenotcheck = AssuptionAndRisk.objects.filter(
+            category="Software").exclude(user=user)
+
+        Integrationcheck = AssuptionAndRisk.objects.filter(
+            category="Integration", user=user)
+
+        Integrationnotcheck = AssuptionAndRisk.objects.filter(
+            category="Integration").exclude(user=user)
+
+        Datacheck = AssuptionAndRisk.objects.filter(
+            category="Data Migration", user=user)
+
+        Datanotcheck = AssuptionAndRisk.objects.filter(
+            category="Data Migration").exclude(user=user)
+
+        Testingcheck = AssuptionAndRisk.objects.filter(
+            category="Testing", user=user)
+
+        Testingnotcheck = AssuptionAndRisk.objects.filter(
+            category="Testing").exclude(user=user)
+
+        Changecheck = AssuptionAndRisk.objects.filter(
+            category="Change Management", user=user)
+
+        Changenotcheck = AssuptionAndRisk.objects.filter(
+            category="Change Management").exclude(user=user)
+
+        Deploymentcheck = AssuptionAndRisk.objects.filter(
+            category="Deployment and Support", user=user)
+
+        Deploymentnotcheck = AssuptionAndRisk.objects.filter(
+            category="Deployment and Support").exclude(user=user)
+
+        Covidcheck = AssuptionAndRisk.objects.filter(
+            category="Covid-19", user=user)
+
+        Covidnotcheck = AssuptionAndRisk.objects.filter(
+            category="Covid-19").exclude(user=user)
+
+        return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, 'Generalcheck': Generalcheck, "Generalnotcheck": Generalnotcheck,  'Resourcescheck': Resourcescheck, 'Resourcesnotcheck': Resourcesnotcheck, 'Workdaycheck': Workdaycheck, 'Workdaynotcheck': Workdaynotcheck, 'Softwarecheck': Softwarecheck, 'Softwarenotcheck': Softwarenotcheck, 'Integrationcheck': Integrationcheck, 'Integrationnotcheck': Integrationnotcheck, 'Datacheck': Datacheck, 'Datanotcheck': Datanotcheck, 'Testingcheck': Testingcheck, 'Testingnotcheck': Testingnotcheck, 'Changecheck': Changecheck, 'Changenotcheck': Changenotcheck, 'Deploymentcheck': Deploymentcheck, 'Deploymentnotcheck': Deploymentnotcheck, 'Covidcheck': Covidcheck, 'Covidnotcheck': Covidnotcheck})
+
+
+def notsatisfieddoc_view(request):
+    client_name = request.session['client_name']
+    country = request.session['country']
+    queries = request.POST.get('Query')
+    print("queries", queries)
+    docfile = request.FILES.get('file')
+    doc = notsatisfieddoc(user=client_name, docup=docfile,
+                          clientgeo=country, query=queries)
+    doc.save()
+    return render(request, 'notsatisfieddoc.html')
+
+
+def clientlogo_view(request):
+    showname = request.session['showname']
+    industry = request.session['industry']
+    country = request.session['country']
+    client_name = request.session['client_name']
+    if request.method == "POST":
+        Extraimgsearch = request.POST.get("Extraimgsearch")
+        request.session['Extraimgsearch'] = Extraimgsearch
+        print("Extraimgsearch", Extraimgsearch)
+        extraimg = request.POST.getlist("extraimage")
+        checkon = clientlogo.objects.filter(
+            Industry=Extraimgsearch)
+        checkonid = []
+        for i in checkon:
+            checkonid.append(i.id)
+        print("checkonid", checkonid)
+        print("extraimg", extraimg)
+        extraimg = [int(x) for x in extraimg]
+        print("extraimggggg", extraimg)
+        on = list(set(checkonid).intersection(extraimg))
+        print("on", on)
+        if len(on):
+            off = list(set(checkonid) - set(extraimg))
+            print("off", off)
+            extraselected = clientlogo.objects.filter(id__in=on)
+            delextraselected = clientlogo.objects.filter(id__in=off)
+            user = Users.objects.get(user=client_name)
+            for e in extraselected:
+                c = e.user.add(user)
+            for d in delextraselected:
+                c = d.user.remove(user)
+
+        user = Users.objects.get(user=client_name)
+        Extraimgsearch = request.session['Extraimgsearch']
+        print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+        print("Extraimgsearch", Extraimgsearch)
+        print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+        extra = clientlogo.objects.filter(Industry=Extraimgsearch, user=user)
+        extrano = clientlogo.objects.filter(
+            Industry=Extraimgsearch).exclude(user=user)
+        print("extra", extra)
+        print("extrano", extrano)
+        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+    if request.method == "GET":
+<<<<<<< HEAD
+        log = "DEF"
+        request.session['log'] = log
+=======
+        Acccount = "DEF"
+        request.session['Acccount'] = Acccount
+>>>>>>> master
+        user = Users.objects.get(user=client_name)
+        extra = clientlogo.objects.filter(user=user)
+        extrano = clientlogo.objects.exclude(user=user)
+        indus = clientlogo.objects.all()
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        print(indus)
+        for i in extrano:
+            print(i.Industry)
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+
+
+# upload Image files
+def logo_upload_view(request):
+    showname = request.session['showname']
+    industry = request.session['industry']
+    client_name = request.session['client_name']
+    country = request.session['country']
+    pic = request.FILES.get('file')
+    prod = logoUpload(user=client_name, picup=pic, clientgeo=country)
+    prod.save()
+    return render(request, 'UploadClientlogo.html', {"showname": showname, "country": country, "industry": industry})
+
+
+def approveimage_view(request):
+    if request.method == "GET":
+        SP = ImageUpload.objects.filter(approved="No")
+        return render(request, 'approveimage.html', {"SP": SP})
+    if request.method == "POST":
+        SP = ImageUpload.objects.filter(approved="No")
+        return render(request, 'approveimage.html', {"SP": SP})
+
+
+<<<<<<< HEAD
+=======
         return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, 'Assuptioncheck': Assuptioncheck, "Assuptionnotcheck": Assuptionnotcheck,  'riskon': riskon, 'riskoff': riskoff})
 
 
@@ -2810,6 +3054,7 @@ def approveimage_view(request):
         return render(request, 'approveimage.html', {"SP": SP})
 
 
+>>>>>>> master
 def approvedimage_view(request, id):
     industry = request.session['industry']
     country = request.session['country']

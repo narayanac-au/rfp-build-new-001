@@ -104,7 +104,7 @@
                 background-color: #f2f2f2;
                 color: black;
               "
-              href="{% url 'login'%}"
+              onclick="history.back()"
               >BACK</a>
 
             <a class="btn btn-dark btn-sm  float-right mb-2" style="font-size:.7rem;width: 4rem;background-color:#000099;height: 1.6rem;"
@@ -132,13 +132,13 @@
                   color: black;
                 "
                 href="{% url 'approve'%}"
-                >document Approval</a>
+                >Document Approval</a>
                 </div>
-            <div class="mb-1"><strong><h5>LOGO FOR APPROVAL</h5></strong></div>
+            <div class="mb-1 mt-3"><strong><h5>LOGO FOR APPROVAL</h5></strong></div>
             <table class="table table-sm table-dark table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">Submit ID</th>
                     <th scope="col">USER</th>
                     <th scope="col">Clientgeo</th>
                     <th scope="col">Approval Status</th>
