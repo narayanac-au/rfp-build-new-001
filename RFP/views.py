@@ -2020,11 +2020,6 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             subfolder, get_doc, container_id)
                         print(updload_to_azure_blob, 'azure path')
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> master
                         # c = Document_usercopy.objects.update_or_create(
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
@@ -2530,11 +2525,8 @@ def documentapproval_view(request):
     # prod.save()
 
     return 'successfully uploaded'
-<<<<<<< HEAD
-=======
 
 import subprocess
->>>>>>> master
 
 
 def generate_rfp_document(request):
@@ -2553,34 +2545,20 @@ def generate_rfp_document(request):
     node_command_string = "node doc-merger.js"
     for i in all_documents:
         print(i.File.url, i.id, 'urlllll')
-<<<<<<< HEAD
-        file_list.append(i.File.url)
-=======
         if i.file_link != 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx':
             file_list.append(i.File.url)
         node_command_string += f' {i.File.url}'
->>>>>>> master
         try:
             extra_image_file = ImageDocumentUsercopy.objects.filter(doc_user_copy_id=i.id)[
                 0]
             print(extra_image_file, 'imageeee docccc')
             if extra_image_file:
                 file_list.append(extra_image_file.image_doc.url)
-<<<<<<< HEAD
-=======
                 node_command_string += f' {extra_image_file.image_doc.url}'
->>>>>>> master
         except Exception as e:
             print(e, 'exception at adding image document')
 
     print(file_list, 'file list')
-<<<<<<< HEAD
-    # exit(0)
-
-    combine = merge_files(file_list)
-    remove_aspose_wording = replace_aspose_word(combine, client_name)
-    print(remove_aspose_wording, 'remove aspose')
-=======
     print(node_command_string, 'node command')
     # exit(0)
 
@@ -2595,20 +2573,14 @@ def generate_rfp_document(request):
     # combine = merge_files(file_list)
     # remove_aspose_wording = replace_aspose_word(combine, client_name)
     # print(remove_aspose_wording, 'remove aspose')
->>>>>>> master
     # exit(0)
     create_udpate_user_rfp = RfpDocuments.objects.update_or_create(
         industry=industry, country=country, user=client_name
     )
-<<<<<<< HEAD
-    create_udpate_user_rfp[0].rfp_file.save(
-        remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
-=======
     # create_udpate_user_rfp[0].rfp_file.save(
     #     remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
     create_udpate_user_rfp[0].rfp_file.save(
         'rfp_final_v4.docx', File(open('output-node-merger-v4.docx', 'rb')))
->>>>>>> master
 
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()
@@ -2918,107 +2890,6 @@ def clientlogo_view(request):
         print("extrano", extrano)
         return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
     if request.method == "GET":
-<<<<<<< HEAD
-        log = "DEF"
-        request.session['log'] = log
-=======
-        Acccount = "DEF"
-        request.session['Acccount'] = Acccount
->>>>>>> master
-        user = Users.objects.get(user=client_name)
-        extra = clientlogo.objects.filter(user=user)
-        extrano = clientlogo.objects.exclude(user=user)
-        indus = clientlogo.objects.all()
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        print(indus)
-        for i in extrano:
-            print(i.Industry)
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
-
-
-# upload Image files
-def logo_upload_view(request):
-    showname = request.session['showname']
-    industry = request.session['industry']
-    client_name = request.session['client_name']
-    country = request.session['country']
-    pic = request.FILES.get('file')
-    prod = logoUpload(user=client_name, picup=pic, clientgeo=country)
-    prod.save()
-    return render(request, 'UploadClientlogo.html', {"showname": showname, "country": country, "industry": industry})
-
-
-def approveimage_view(request):
-    if request.method == "GET":
-        SP = ImageUpload.objects.filter(approved="No")
-        return render(request, 'approveimage.html', {"SP": SP})
-    if request.method == "POST":
-        SP = ImageUpload.objects.filter(approved="No")
-        return render(request, 'approveimage.html', {"SP": SP})
-
-
-<<<<<<< HEAD
-=======
-        return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, 'Assuptioncheck': Assuptioncheck, "Assuptionnotcheck": Assuptionnotcheck,  'riskon': riskon, 'riskoff': riskoff})
-
-
-def notsatisfieddoc_view(request):
-    client_name = request.session['client_name']
-    country = request.session['country']
-    queries = request.POST.get('Query')
-    print("queries", queries)
-    docfile = request.FILES.get('file')
-    doc = notsatisfieddoc(user=client_name, docup=docfile,
-                          clientgeo=country, query=queries)
-    doc.save()
-    return render(request, 'notsatisfieddoc.html')
-
-
-def clientlogo_view(request):
-    showname = request.session['showname']
-    industry = request.session['industry']
-    country = request.session['country']
-    client_name = request.session['client_name']
-    if request.method == "POST":
-        Extraimgsearch = request.POST.get("Extraimgsearch")
-        request.session['Extraimgsearch'] = Extraimgsearch
-        print("Extraimgsearch", Extraimgsearch)
-        extraimg = request.POST.getlist("extraimage")
-        checkon = clientlogo.objects.filter(
-            Industry=Extraimgsearch)
-        checkonid = []
-        for i in checkon:
-            checkonid.append(i.id)
-        print("checkonid", checkonid)
-        print("extraimg", extraimg)
-        extraimg = [int(x) for x in extraimg]
-        print("extraimggggg", extraimg)
-        on = list(set(checkonid).intersection(extraimg))
-        print("on", on)
-        if len(on):
-            off = list(set(checkonid) - set(extraimg))
-            print("off", off)
-            extraselected = clientlogo.objects.filter(id__in=on)
-            delextraselected = clientlogo.objects.filter(id__in=off)
-            user = Users.objects.get(user=client_name)
-            for e in extraselected:
-                c = e.user.add(user)
-            for d in delextraselected:
-                c = d.user.remove(user)
-
-        user = Users.objects.get(user=client_name)
-        Extraimgsearch = request.session['Extraimgsearch']
-        print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-        print("Extraimgsearch", Extraimgsearch)
-        print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-        extra = clientlogo.objects.filter(Industry=Extraimgsearch, user=user)
-        extrano = clientlogo.objects.filter(
-            Industry=Extraimgsearch).exclude(user=user)
-        print("extra", extra)
-        print("extrano", extrano)
-        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
-    if request.method == "GET":
         log = "DEF"
         request.session['log'] = log
         user = Users.objects.get(user=client_name)
@@ -3054,7 +2925,6 @@ def approveimage_view(request):
         return render(request, 'approveimage.html', {"SP": SP})
 
 
->>>>>>> master
 def approvedimage_view(request, id):
     industry = request.session['industry']
     country = request.session['country']
