@@ -62,34 +62,32 @@
         <div class="container">
 
     {% comment %} Progress Bar {% endcomment %}
-  <div class="row container">
-    <div class="col-12 container ">
-          <div class="wrapper-progressBar container">
-            <ul class="progressBar container">
-              <li class="active" id="stepper">Home</li>
-              <li class="active" id="stepper">Information Form</li>
-              <li class="active" id="stepper">Standard Indexes</li>
-              <li class="active" id="stepper">Review Standard Docs</li>
-              <li class="active" id="stepper">Upload Docs</li>
-              <li class="active" id="stepper">Drop RFP & Ask Question</li>
-              <li class="active" id="stepper">Docs Approval Login</li>
-              
-            </ul>
-          </div>
-        
-          <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
-            <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
-        </a>
-
-
-
-        </div>
-        
-  </div>
+    <div class="row container ml-5">
+      <div class="col-12 container ml-5">
+            <div class="wrapper-progressBar container ml-5">
+              <ul class="progressBar container ml-5">
+                <li class="active" id="stepper">Home</li>
+                <li class="active" id="stepper">login</li>
+                <li class="active" id="stepper">Document Approval</li>
+                
+                
+                
+              </ul>
+            </div>
+          
+            <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+              <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+          </a>
   
-</div>
-</div>
-  {% comment %} Progress Bar {% endcomment %}
+  
+  
+          </div>
+          
+    </div>
+    
+  </div>
+  </div>
+    {% comment %} Progress Bar {% endcomment %}
     <div class=" ">
         
 
@@ -134,12 +132,32 @@
                 "
                 href="{% url 'approveimage'%}"
                 >Image Approval</a>
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width:9rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approveassumptionrisk'%}"
+                >Assuption And Risk</a>
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width:9rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approveview'%}"
+                >Main Menu</a>
               </div>
             <div class="mb-1 mt-3"><strong><h5>DOCUMENT FOR APPROVAL</h5></strong></div>
             <table class="table table-sm table-dark table-hover">
                 <thead>
                   <tr>
-                    <th scope="col">Submit ID</th>
+                    <th scope="col">#</th>
                     <th scope="col">USER</th>
                     <th scope="col">Clientgeo</th>
                     <th scope="col">Approval Status</th>

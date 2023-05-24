@@ -108,7 +108,8 @@ class ImageUpload_admin(ImportExportModelAdmin):
 
 
 class AssuptionAndRisk_admin(ImportExportModelAdmin):
-    list_display = ['id', 'category', 'country', 'document_link']
+    list_display = ['id', 'category', 'country',
+                    'document_name', 'description']
 
 
 class SectionExtraImage_admin(ImportExportModelAdmin):
@@ -126,6 +127,25 @@ class clientlogo_admin(ImportExportModelAdmin):
 
 class logoUpload_admin(ImportExportModelAdmin):
     list_display = ['id', 'user', 'clientgeo', 'picup', 'approved']
+
+
+class userquestionans_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'rfpid', 'country', 'industry',
+                    'section', 'subsection', 'question', 'document', 'image', 'approved']
+
+
+class userstandardsection_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'rfpid', 'country', 'industry',
+                    'section', 'subsection', 'question', 'document', 'image', 'approved']
+
+
+class useraddextraimage_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'country', 'industry', 'image', 'approved']
+
+
+class userriskandassumption_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'country',
+                    'industry', 'section', 'description', 'approved']
 
 
 admin.site.register(project, project_admin)
@@ -155,3 +175,7 @@ admin.site.register(SectionExtraImage, SectionExtraImage_admin)
 admin.site.register(notsatisfieddoc, notsatisfieddoc_admin)
 admin.site.register(clientlogo, clientlogo_admin)
 admin.site.register(logoUpload, logoUpload_admin)
+admin.site.register(userquestionans, userquestionans_admin)
+admin.site.register(userstandardsection, userstandardsection_admin)
+admin.site.register(userextraimage, useraddextraimage_admin)
+admin.site.register(userriskandassumption, userriskandassumption_admin)

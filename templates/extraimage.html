@@ -54,6 +54,11 @@
                         
                         </select>
                       <button type="submit" class="btn btn-primary btn-sm  " style="background-color:#000099;">Search</button>
+                      <a
+                class="btn btn-dark d-inline btn-sm float-right" style="background-color:#000099"
+                  href="{% url 'UploadExtraImage'%}"
+                  >Upload</a
+                >
                   </div>
                 
               </div>
@@ -71,11 +76,7 @@
             </div>
             <div class="col-6">
         
-                <a
-                class="btn btn-dark d-inline btn-sm float-right" style="background-color:#000099"
-                  href="{% url 'UploadExtraImage'%}"
-                  >Upload</a
-                >
+                
             </div>
             {% for e in extra%}
             
