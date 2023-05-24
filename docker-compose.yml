@@ -20,23 +20,6 @@ services:
     command: /usr/local/bin/gunicorn docker_django.wsgi:application -w 2 -b :8000
     networks:
       - rfp_network
-    
-  nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx
-    container_name: nginx_container
-    image: nginx_django:v0.0.1
-    restart: always
-    # build: ./nginx/
-    ports:
-      - "80:80"
-    volumes:
-      - web-static:/www/static
-    links:
-      - web:web
-    networks:
-      - rfp_network
   
   node:
     build:

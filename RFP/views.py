@@ -48,7 +48,7 @@ from django.core.files import File
 import threading
 
 from django.conf import settings
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 
 from wsgiref.util import FileWrapper
 
@@ -709,7 +709,10 @@ def secondpage_view(request):
         country = request.session['country']
         if country == "AU":
             country2 = "AU"
+        # data = request.data
+        # print(data, 'dataaa')
         Query = request.GET.get("Query")
+        print(Query, 'question from frontend')
         # data = Question.objects.filter(country=country, industry=industry)
         data = RfpData.objects.all()
         df_rfpdata = read_frame(data)
@@ -822,10 +825,70 @@ def secondpage_view(request):
         # l = Question.objects.get(id=170)
 
         # f = l.File
+        data = {'non': non,'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry}
+        print(data, 'final result')
 
-        return render(request, 'mcq.html', {'non': non, 'data': data, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+        # return HttpResponse(data)
+        # return render(request, 'mcq_modal.html', {'non': non,'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+        return JsonResponse({"non": non, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+
 
  # sixth page preview
+def add_ques_ans_selected_sections(request):
+    # print(id, 'current page id')
+    print(request.POST, 'post data')
+    merge_docs = []
+    node_command_string = "node doc-merger-individual.js"
+    if request.POST.get('rfp_sec_id'):
+        document = Document_usercopy.objects.filter(
+            id=request.POST.get('rfp_sec_id')
+        ).first()
+        merge_docs.append(document.File.url)
+        node_command_string += f' {document.File.url}'
+        print(merge_docs, 'documents')
+    if request.POST.get('K'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + request.POST.get('K')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    if request.POST.get('L'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + request.POST.get('L')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    if request.POST.get('M'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + request.POST.get('M')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    print(merge_docs, 'final list')
+    
+    result = os.system(node_command_string)
+    print(result, 'result of executed node file')
+
+    if result == 0:
+        subfolder = f"updated_documents/{request.session['client_name']}"
+        container_id = "rfpstorage"
+        updload_to_azure_blob = upload_blob_data(
+            subfolder, 'output-individual.docx', container_id)
+        print(updload_to_azure_blob, 'azure path')
+
+        document.file_link = updload_to_azure_blob
+        document.File.save('output-individual.docx', File(
+            open('output-individual.docx', 'rb'))
+        )
+        document.save()
+        # c = Document_usercopy.objects.update_or_create(
+        #     rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
+
+        # c[0].File.save(updated_doc, File(
+        #     open(updated_doc, 'rb')))
+
+    # return redirect('SelectedIndex2', id=request.POST.get('rfp_sec_id'))
+    return JsonResponse({"result": "Successfully attached the file to current selected section."})
 
 
 def pre_view(request):
@@ -1999,7 +2062,8 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             print(updated_doc, 'update doc')
 
                             updload_to_azure_blob = upload_blob_data(
-                                subfolder, updated_doc, container_id)
+                                subfolder, updated_doc, container_id
+                            )
                             print(updload_to_azure_blob, 'azure path')
 
                             c = Document_usercopy.objects.update_or_create(

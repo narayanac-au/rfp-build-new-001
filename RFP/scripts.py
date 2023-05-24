@@ -13,7 +13,7 @@ def docx_template_replace(doc_path, doc_name, client_name=''):
 
     doc.render(dictionary)
 
-    temp_name = 'updated'
+    temp_name = 'updated' + '_' + str(datetime.now()).replace(' ', '_').replace('.', '_').replace(':', '_').replace('-', '_')
     temp_file = f'temporary/{temp_name}.docx'
     print(temp_file, 'temp file')
     doc.save(temp_file)

@@ -80,7 +80,7 @@ def replace_word_doc(doc_path, client_full_name='', client_short_name='', client
 
     #save changed document
     # temp_name = str(datetime.now()).replace(':', '-').replace('.', '-')
-    temp_name = 'updated'
+    temp_name = 'updated' + '_' + str(datetime.now()).replace(' ', '_').replace('.', '_').replace(':', '_').replace('-', '_')
     temp_file = f'temporary/{temp_name}.docx'
     print(temp_file, 'temp file')
     doc.save(temp_file)
