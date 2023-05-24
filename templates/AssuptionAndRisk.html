@@ -29,6 +29,7 @@
               <li class="active" id="stepper">Upload Docs</li>
               <li class="active" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
               <li class="active" id="stepper">Assumption and Risk</li>
+              <li class="" id="stepper">Upload Assuption And Risk Consideration</li>
               
             </ul>
           </div>
@@ -43,10 +44,10 @@
   {% comment %} Progress Bar {% endcomment %}
     {% comment %} Progress Bar {% endcomment %}
              {% comment %} Heading {% endcomment %}
-             <div class=" container mt-2" >
+             <div class=" container mt-3" >
               <div class="row-12 text-center ">
                   <div class="col-12 text-center ">
-                      <h4>Assumptions and Risks</h4>
+                      <h6 style="text-decoration: underline;">ASSUMPTIONS AND RISK</h6>
               </div>
           </div>
           </div>
@@ -58,6 +59,11 @@
     href="{% url 'firstpage'%}"
     >Home</a
   >
+  <a
+                class="btn btn-dark d-inline btn-sm mr-1 float-right" style="background-color:#000099"
+                  href="{% url 'Uploadassumprisk'%}"
+                  >Upload</a
+                >
 </div>
 
 {% comment %} General start {% endcomment %}
@@ -70,9 +76,9 @@
       data-target="#collapseExample"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    General >
+    General ▼
     </button>
     <div class="collapse" id="collapseExample">
       
@@ -81,28 +87,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value={{a.id}} checked>
-                  <iframe
-                  src=""https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/AU00001_General.docx"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Generalnotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value={{a.id}} >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         
@@ -121,9 +117,9 @@
       data-target="#collapseExample1"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    Resources >
+    Resources ▼
     </button>
     <div class="collapse" id="collapseExample1">
       
@@ -132,28 +128,20 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value={{a.id}} checked>
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
+                  
         </div>
         {% endfor %}
         {% for a in Resourcesnotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value={{a.id}} >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         
@@ -172,9 +160,9 @@
           data-target="#collapseExample3"
           aria-expanded="false"
           aria-controls="collapseExample"
-          style="background-color:#000099"
+          style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
         >
-        Workday >
+        Workday ▼
         </button>
         <div class="collapse" id="collapseExample3">
           <div class="card card-body">
@@ -183,28 +171,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" checked>
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Workdaynotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
       </div>
@@ -225,9 +203,9 @@
       data-target="#collapseExample4"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    Software >
+    Software ▼
     </button>
     <div class="collapse" id="collapseExample4">
       <div class="card card-body">
@@ -236,28 +214,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" checked>
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Softwarenotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
       </div>
@@ -278,9 +246,9 @@
       data-target="#collapseExample5"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    Integration >
+    Integration ▼
     </button>
     <div class="collapse" id="collapseExample5">
       <div class="card card-body">
@@ -289,28 +257,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" checked>
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Integrationnotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
       </div>
@@ -331,9 +289,9 @@
       data-target="#collapseExample6"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    Data Migration >
+    Data Migration ▼
     </button>
     <div class="collapse" id="collapseExample6">
       <div class="card card-body">
@@ -342,28 +300,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" checked>
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Datanotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
       </div>
@@ -383,9 +331,9 @@
       data-target="#collapseExample8"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    Change Management >
+    Change Management ▼
     </button>
     <div class="collapse" id="collapseExample8">
       <div class="card card-body">
@@ -394,28 +342,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" checked >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Changenotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
       </div>
@@ -435,9 +373,9 @@
       data-target="#collapseExample9"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    Deployment and Support >
+    Deployment and Support ▼
     </button>
     <div class="collapse" id="collapseExample9">
       <div class="card card-body">
@@ -446,28 +384,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" checked>
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Deploymentnotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
       </div>
@@ -487,9 +415,9 @@
       data-target="#collapseExample10"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    Covid-19 >
+    Covid-19 ▼
     </button>
     <div class="collapse" id="collapseExample10">
       <div class="card card-body">
@@ -498,28 +426,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" checked >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Covidnotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
       </div>
@@ -540,9 +458,9 @@
       data-target="#collapseExample11"
       aria-expanded="false"
       aria-controls="collapseExample"
-      style="background-color:#000099"
+      style="background-color:#f2f2f2;color: black;width: 70rem;font-size: 0.7rem;"
     >
-    Testing >
+    Testing ▼
     </button>
     <div class="collapse" id="collapseExample11">
       <div class="card card-body">
@@ -551,28 +469,18 @@
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" checked>
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
         {% for a in Testingnotcheck %}
         <div class="form-check mt-3" >
           
                 
-                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Option: {{forloop.counter0}}</strong></span></label>
+                  <label class="form-check-label mt-2" style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>{{a.document_name}}</strong></span></label>
                   <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="check"  value="{{a.id}}" >
-                  <iframe
-                  src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Assumption/Documents/{{a.document_link}}"
-                  title="W3Schools Free Online Web Tutorials"
-                  width="90%"
-                  height="150px"
-                  ></iframe>
+                  <h4 class="border border-secondary mt-3 rounded" style="font-size:.8rem;color:black;width:1030px"> {{a.description}}</h4>
         </div>
         {% endfor %}
       </div>

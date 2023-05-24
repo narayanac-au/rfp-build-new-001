@@ -1,11 +1,28 @@
-{% extends "base_second.html" %}
+{% extends "base_user.html" %}
 {% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 
+  {% comment %} Progress Bar {% endcomment %}
+  <div class="container ml-5">
+  <div class="row ml-5">
+    <div class="col-12 container ml-5">
+      <div class="wrapper-progressBar ml-5">
+        <ul class="progressBar ml-5">
+          <li class="active ml-5" id="stepper">Home</li>
+          <li class="active" id="stepper">User Login</li>
+          <li class="active" id="stepper">Add Standard Section</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  </div>
+  {% comment %} Progress Bar {% endcomment %}
 
 <body>
     <div class="container " >
         <div class="col-3 container mt-3 ">
-            <strong>Add Standard</strong>
+            <strong>Add Standard Section</strong>
         </div>
         <div class="row " >
             <div class="col-3  ">
@@ -17,46 +34,94 @@
             <div class="col-3 ml-5 ">     
                 <!--FORM-->
                 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                    <form action="/user/userquestion/" method="POST">
+                    <form action="/userstandardsectiondata/" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                     
                     <div class="form-group">
 
                     <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>RFP_ID</strong></label>
-                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="Rfp_Id" name="Rfp_Id" style="width: 25rem" placeholder="">
+                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="Rfp_Id" name="Rfp_Id" style="width: 25rem" placeholder="RFP Document Name">
                     
-                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Content_Type*</strong></label>
-                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="content_type" name="content_type" style="width: 25rem" placeholder="Standard or Non-Standard">
+                    
 
                     <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Country*</strong></label>
-                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="country" name="country" style="width: 25rem" placeholder="US/UK/AUS">
+                    <div>
+                        <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 20rem" name="countries" style="width: 20rem">
+                        <option selected value="">--country--</option>    
+                        <option value="US">US</option>
+                        <option selected value="AU">AU</option>
+                        <option value="UK">UK</option>
                     
-                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Industry*</strong></label>
-                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="industry" name="industry" style="width: 25rem" placeholder="">
+                        </select>
+                    
+                    </div>
+                    
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Powered Industry*</strong></label>
+                    <div>
+                        
+                        <select class="custom-select custom-select-lg  border border-dark" style="font-size:.7rem;width: 20rem" name="industry" style="width: 10rem">
+                        <option selected value="">--Industry--</option>    
+                        <option  value="Agnostic">Agnostic</option>
+                        <option  value="Healthcare">Healthcare</option>
+                        <option value="Higher Education">Higher Education</option>
+                        
+                        
+                        </select>
+                    
+                    </div>
 
-                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Section</strong></label>
-                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="section" name="section" style="width: 25rem" placeholder="">
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Section*</strong></label>
+                    <div>
+                        
+                        <select class="custom-select custom-select-lg  border border-dark" style="font-size:.7rem;width: 20rem" name="Section" style="width: 10rem">
+                        <option selected value="">--Standard Section--</option>    
+                        <option  value="Title">Title Page</option>
+                        <option  value="Executive Summary">Executive Summary</option>
+                        <option value="Powered">KPMG Powered Enterprise</option>
+                        <option value="Functional">Functional Scope</option>    
+                        <option  value="Implementation">Implementation Timeline</option>
+                        <option  value="Deployment">Our Deployment Approach</option>
+                        <option value="Methodology">Our Deployment Methodology</option>
+                        <option value="Journey">Your Transformation Journey</option>    
+                        <option  value="Integration">Our Integration Approach</option>
+                        <option  value="Migration">Data Migration (Powered Data)</option>
+                        <option value="Management">Our Approach to Change Management</option>
+                        <option value="Assessments">Our Approach to developing Change Impact Assessments</option>    
+                        <option  value="Cultural">Our Approach to Cultural Change</option>
+                        <option  value="Leadership">Our Approach to Leadership Alignment</option>
+                        <option value="communications">Our Approach to developing a communications plan</option>
+                        <option  value="Training">Our Approach to Training</option>
+                        <option  value="Structure">Project Team Structure</option>
+                        <option value="Capability">Demonstrated Capability and Capacity</option>
+                        <option value="Pricing">Pricing</option>    
+                        <option  value="Appendix1">Appendix 1 - Company Profile</option>
+                        <option  value="Appendix2">Appendix 2 - Additional Change Management & Training Services</option>
+                        <option value="Appendix3">Appendix 3 - Data Migration Approach</option>
+                        <option  value="Appendix4">Appendix 4 - Project Team Roles and Responsibilities</option>
+                        <option  value="Appendix5">Appendix 5 - KPMG Powered Innovation (Cyber, Lighthouse)</option>
+                        <option value="Appendix6">Appendix 6 - KPMG ThinkPay</option>
+                        <option value="Appendix61">Appendix 6 - KPMG Thought Leadership</option>
+                        
+                        
+                        </select>
+                    
+                    </div>
 
                     <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Sub_Section</strong></label>
-                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="sub_section" name="sub_section" style="width: 25rem" placeholder="">
+                    <input type="text"  class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="sub_section" name="sub_section" style="width: 25rem" placeholder="">
                     
-                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Question</strong></label>
-                    <input type="text" required="true" class="d-inline form-control border border-dark input-sm" style="font-size:.7rem;width: 20rem" id="question" name="question" style="width: 25rem" placeholder="">
-                    <label class="form-check-label" style="font-size:.7rem;width: 20rem" id="A" for="defaultCheck1"><span>{{pt.id}}</span></label>
+                    
+                    
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Document Upload</strong></label>
+                    <input type="file" required="true" class="d-inline mb-2" style="font-size:.7rem;width: 20rem" id="file" name="docfile" style="width: 25rem" placeholder="">
+
+                    <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark mt-2" style="font-size:.7rem;background-color:#000099;"><strong>Image Upload</strong></label>
+                    <input type="file" required="true" class="d-inline mb-2" style="font-size:.7rem;width: 20rem" id="file" name="Imgfile" style="width: 25rem" placeholder="">
 
                     <button type="submit" class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="#">Save</button>
-                    <a  class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="{% url 'firstpage'%}">Back To Main Menu</a>
-                    <a
-        class="btn btn-dark btn-sm d-inline mt-1"
-        style="
-          font-size: .9rem;
-          width: 4rem;
-          background-color: #000099;
-          color: white;
-        "
-        onclick="history.back()"
-        >Back</a
-      >
+                    <a  class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="{% url 'userlogin'%}">Back To Main Menu</a>
+                    <a  class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;"  onclick="history.back()">Back</a>
+                    
                 </form>
             </div> 
                 
@@ -79,5 +144,30 @@ jQuery(document).ready(function($){
 });
 </script>
 
-
+{% comment %} <link rel="stylesheet" href="{% static 'css/footer.css' %}" />  {% endcomment %}
+<div class="container">
+    <div class="row">
+      <div class="">
+        <!-- Copyright -->
+        <footer class="">
+          <!-- Copyright -->
+          <div
+            class="footer-copyright container"
+            style="font-family: Arial; font-size: 0.5rem; color: black"
+          >
+            © 2023 Copyright owned by one or more of the KPMG International
+            entities. KPMG International entities provide no services to
+            clients. All rights reserved. KPMG refers to the global organization
+            or to one or more of the member firms of KPMG International Limited
+            (“KPMG International”), each of which is a separate legal entity.
+            KPMG International Limited is a private English company limited by
+            guarantee and does not provide services to clients. For more detail
+            about our structure please visit https://home.kpmg/governance
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </div>
+    </div>
+  </div>
 {% endblock %}

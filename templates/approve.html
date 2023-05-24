@@ -67,12 +67,12 @@
           <div class="wrapper-progressBar container ml-5">
             <ul class="progressBar container ml-5">
               <li class="active" id="stepper">Home</li>
-              <li class="active" id="stepper">Information Form</li>
-              <li class="active" id="stepper">Standard Indexes</li>
-              <li class="active" id="stepper">Review Standard Docs</li>
-              <li class="active" id="stepper">Upload Docs</li>
-              <li class="active" id="stepper">Drop RFP & Ask Question</li>
-              <li class="active" id="stepper">Docs Approval Login</li>
+              <li class="" id="stepper">Login</li>
+              <li class="" id="stepper">Document Approval</li>
+              <li class="" id="stepper">Logo Approval</li>
+              <li class="" id="stepper">Image Approval</li>
+              <li class="" id="stepper">Assumption And Risk Approval</li>
+              
               
             </ul>
           </div>
@@ -91,8 +91,9 @@
 </div>
   {% comment %} Progress Bar {% endcomment %}
     <div class="container">
-      <div class="mb-3 mt-5 text-center"><strong><h5>&emsp;&emsp;&emsp;APPROVER PORTAL</h5></strong></div>
-            
+      <div class="mb-3 mt-5 text-center"><strong><h4 style="color: red;
+        ">&emsp;&emsp;&emsp;Welcome {{loginusername}}</h4></strong></div>
+      <div class="mb-3  text-center"><strong><h6>&emsp;&emsp;&emsp;&emsp;APPROVER PORTAL</h6></strong></div>      
     </div>
 
 
@@ -126,6 +127,16 @@
                   "
                   href="{% url 'approve'%}"
                   >Document Approval</a>
+                  <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width: 70rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approvequestionans'%}"
+                >Question And Answer Approval</a>
                 <a
                 class="btn btn-dark btn-sm  mb-2 ml-1 "
                 style="
@@ -146,6 +157,16 @@
                 "
                 href="{% url 'approveimage'%}"
                 >Image Approval</a>
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width: 70rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approveassumptionrisk'%}"
+                >Assumption And Risk Approval</a>
               </div>
             
 

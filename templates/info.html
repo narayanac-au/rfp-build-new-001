@@ -131,7 +131,11 @@
                         {% csrf_token %}
                     
                     <div class="form-group">
-                    <label for="clientname" class="btn btn-info btn-sm border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Full Name*</strong></label>
+
+                    <label for="username" class="btn btn-info btn-sm border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>UserName*</strong></label>
+                    <input type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="UserName" name="username"  placeholder="Type Or Create Your User Name">
+
+                    <label for="clientname" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Full Name*</strong></label>
                     <input type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="clientname_id" name="clientname"  placeholder="KPMG International Cooperative">
                     
                     <label for="showname" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Short Name*</strong></label>

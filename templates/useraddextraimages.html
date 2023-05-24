@@ -1,68 +1,94 @@
-{% extends "base_second.html" %} {% block content %} {% load static%}
+{% extends "base_user.html" %} {% block content %} {% load static%}
 <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
-<div class="container">
+<div class="container " >
   {% comment %} Progress Bar {% endcomment %}
-  <div class="row">
-    <div class="col-12 container">
-      <div class="wrapper-progressBar">
-        <ul class="progressBar">
-          <li class="active" id="stepper">User Login</li>
-          <li class="active" id="stepper">Add Extra Images</li>
-        </ul>
+  <div class="row container ml-5">
+    <div class="col-12 container ml-5">
+          <div class="wrapper-progressBar container ml-5">
+            <ul class="progressBar container ml-5">
+                <li class="active  text-center" id="stepper">Home</li>
+                <li class="active" id="stepper">User Login</li>
+                <li class="active" id="stepper"> Add Extra Image</li>
+                
+              
+            </ul>
+          </div>
+        
+          <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+            <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+        </a>
+
+
+
+        </div>
+        
+  </div>
+  
+</div>
+</div>
+  {% comment %} Progress Bar {% endcomment %}
+  <div class="col-3 container mt-3 ">
+      <strong>Add Extra Image</strong>
+  </div>
+  <div class="row " >
+      <div class="col-3  ">
+          &emsp;&emsp;&emsp;&emsp;&emsp;
       </div>
-    </div>
-  </div>
-  {% comment %} Progress Bar {% endcomment %}
-  <div class="mt-2 ml-2"><strong>Please Upload Your Image Here</strong></div>
-  <div class="mt-2 ml-2 float-center">
-    <!-- dropzone -->
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
-      type="text/css"
-    />
-    <form
-      class="dropzone"
-      id="picup"
-      style="border: 3px dashed #888; width: 600px; height: 180px; margin: 0px"
-    >
-      {% csrf_token %}
-      <input type="button" value="Upload" id="up_btn" />
-    </form>
+      
+      
+      
+      <div class="col-3 ml-5 ">     
+          <!--FORM-->
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+              <form action="/useraddextraimages/" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+              
+              <div class="form-group">
 
-    <script>
-      let up_btn = document.querySelector("#up_btn");
+              
+              
+              
 
-      let picup = new Dropzone("#picup", {
-        url: "/imageuploadmodel/",
-        maxFilesize: 100,
-        acceptedFiles: ".jpeg,.png,.jpg,.docx,.pdf",
-        autoProcessQueue: false,
-        addRemoveLinks: true,
-        parallelUploads: 3,
-      });
-      up_btn.addEventListener("click", () => {
-        picup.processQueue();
-      });
-    </script>
-    <!-- dropzone -->
-    <div class="mt-3 ml-1 col-12">
-      <a
-        class="btn btn-dark d-inline"
-        style="
-          font-size: 0.8rem;
-          width: 4rem;
-          background-color: #000099;
-          color: white;
-        "
-        onclick="history.back()"
-        >Back</a
-      >
-    </div>
-  </div>
-  <link rel="stylesheet" href="{% static 'css/footer.css' %}" />
-  <div class="container">
+              <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Country*</strong></label>
+              <div>
+                  <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 20rem" name="countries" style="width: 20rem">
+                  <option selected value="">--country--</option>    
+                  <option value="US">US</option>
+                  <option selected value="AU">AU</option>
+                  <option value="UK">UK</option>
+              
+                  </select>
+              
+              </div>
+              
+              <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Powered Industry*</strong></label>
+              <div>
+                  
+                  <select class="custom-select custom-select-lg  border border-dark" style="font-size:.7rem;width: 20rem" name="industry" style="width: 10rem">
+                  <option selected value="">--Industry--</option>    
+                  <option  value="Agnostic">Agnostic</option>
+                  <option  value="Healthcare">Healthcare</option>
+                  <option value="Higher Education">Higher Education</option>
+                  
+                  
+                  </select>
+              
+              </div>
+
+              <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark mt-2" style="font-size:.7rem;background-color:#000099;"><strong>Image Upload</strong></label>
+              <input type="file" required="true" class="d-inline mb-2" style="font-size:.7rem;width: 20rem" id="file" name="Imgfile" style="width: 25rem" placeholder="">
+
+              <button type="submit" class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="#">Save</button>
+              <a  class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="{% url 'userlogin'%}">Back To Main Menu</a>
+              <a  class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;"  onclick="history.back()">Back</a>
+          </form>
+      </div> 
+          
+  </div>         
+</div>
+
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+<div class="container">
     <div class="row">
       <div class="">
         <!-- Copyright -->
@@ -87,5 +113,4 @@
       </div>
     </div>
   </div>
-  {%endblock%}
-</div>
+{% endblock %}

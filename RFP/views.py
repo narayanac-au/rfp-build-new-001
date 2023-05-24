@@ -1,11 +1,41 @@
-from RFP.scripts import replace_word_document, get_document, combine_all_docx, merge_files, docx_template_replace, replace_aspose_word, create_images_doc
+import subprocess
+from RFP.scripts import (
+    replace_word_document,
+    get_document,
+    write_header_footer,
+    merge_files,
+    docx_template_replace,
+    replace_aspose_word,
+    create_images_doc,
+)
+from RFP.scripts import (
+    replace_word_document,
+    get_document,
+    combine_all_docx,
+    merge_files,
+    docx_template_replace,
+    replace_aspose_word,
+    create_images_doc,
+)
 from wsgiref.util import FileWrapper
 from django.http import HttpResponse, Http404
 from django.conf import settings
-from RFP.scripts import replace_word_document, get_document, combine_all_docx, merge_files, docx_template_replace, replace_aspose_word
+from RFP.scripts import (
+    replace_word_document,
+    get_document,
+    combine_all_docx,
+    merge_files,
+    docx_template_replace,
+    replace_aspose_word,
+)
 import threading
 from .replace_parameters_doc import replace_word_doc, upload_blob_data
-from RFP.scripts import replace_word_document, get_document, combine_all_docx, merge_files
+from RFP.scripts import (
+    replace_word_document,
+    get_document,
+    combine_all_docx,
+    merge_files,
+)
 from django.core.files import File
 from scripts import replace_word_document, get_document
 from django.db.models import Q
@@ -40,17 +70,13 @@ from .models import First_Page_upload as FPU
 from .models import Product, ExtraImage
 from .forms import ProjectForm
 import nltk
-nltk.download('averaged_perceptron_tagger')
-# Loading the Embedding Pretrained Model
-from RFP.scripts import replace_word_document, get_document, write_header_footer, merge_files, docx_template_replace, replace_aspose_word, create_images_doc
-from .replace_parameters_doc import replace_word_doc, upload_blob_data
-from django.core.files import File
-import threading
 
 from django.conf import settings
 from django.http import HttpResponse, Http404, JsonResponse
 
 from wsgiref.util import FileWrapper
+nltk.download("averaged_perceptron_tagger")
+# Loading the Embedding Pretrained Model
 
 
 def load_model():
@@ -82,7 +108,8 @@ def index_view(request):
     #     ud.delete()
     # Dp=DropQuery.objects.filter(user=showname)
     # Dp.delete()
-    return render(request, 'index.html')
+    return render(request, "index.html")
+
 
 # second page details
 
@@ -91,29 +118,30 @@ def infodetails_view(request):
     if request.method == "GET":
         geo = KPMGgeo.objects.all()
 
-        return render(request, 'info.html', {"geo": geo})
+        return render(request, "info.html", {"geo": geo})
 
 
 @csrf_exempt
 def geoadd_view(request):
     if request.method == "POST":
-        id = request.POST['geo']
+        id = request.POST["geo"]
         add = list(KPMGadd.objects.filter(KPMGgeo=id).values())
 
         return JsonResponse({"add": add}, safe=False)
+
+
 # third page select standard RFP
 
 
 def doc_content_view(request):
-
     if request.method == "POST":
         KPMGaddress1 = request.POST.get("address1")
         clientaddress_line1 = request.POST.get("address_line1")
         clientaddress_line2 = request.POST.get("address_line2")
         clientPostal_Code = request.POST.get("Postal_Code")
         client_name = request.POST.get("clientname")
-        client_name = client_name.replace(' ', '_')
-
+        client_name = client_name.replace(" ", "_")
+        username = request.POST.get("username")
         showname = request.POST.get("showname")
         industry = request.POST.get("industry")
         country = request.POST.get("countries")
@@ -128,39 +156,49 @@ def doc_content_view(request):
         selfirst = "ABC"
         sellast = "ABC"
         log = "ABC"
-        request.session['extrcount'] = extrcount
-        request.session['Acccount'] = Acccount
-        request.session['selfirst'] = selfirst
-        request.session['sellast'] = sellast
-        request.session['log'] = log
-        print(industry, 'industry')
-        print(country, 'country before session data')
+        request.session["extrcount"] = extrcount
+        request.session["Acccount"] = Acccount
+        request.session["selfirst"] = selfirst
+        request.session["sellast"] = sellast
+        request.session["log"] = log
+        print(industry, "industry")
+        print(country, "country before session data")
+        request.session["username"] = username
+        request.session["client_name"] = client_name
+        request.session["industry"] = industry
+        request.session["country"] = country
+        request.session["showname"] = showname
+        request.session["address"] = address
 
-        request.session['client_name'] = client_name
-        request.session['industry'] = industry
-        request.session['country'] = country
-        request.session['showname'] = showname
-        request.session['address'] = address
+        request.session["add_line_1"] = clientaddress_line1
+        request.session["add_line_2"] = clientaddress_line2
 
-        request.session['add_line_1'] = clientaddress_line1
-        request.session['add_line_2'] = clientaddress_line2
-
-        request.session['client_geo'] = country
-        request.session['kpmg_geo'] = KPMGgeo
-        request.session['client_zipcode'] = clientPostal_Code
-        request.session['kpmg_lead'] = kpmg_lead
-        request.session['kpmg_address'] = kpmg_add
-        #formm = ImageForm(data=request.POST, files=request.FILES)
+        request.session["client_geo"] = country
+        request.session["kpmg_geo"] = KPMGgeo
+        request.session["client_zipcode"] = clientPostal_Code
+        request.session["kpmg_lead"] = kpmg_lead
+        request.session["kpmg_address"] = kpmg_add
+        # formm = ImageForm(data=request.POST, files=request.FILES)
 
         # formm.save()
 
-        client_name = request.session['client_name']
+        client_name = request.session["client_name"]
 
-        infos = info.objects.update_or_create(clientfullname=client_name, clientshortname=showname,
-                                              clientindustry=industry, clientgeo=country, clientaddress_line1=clientaddress_line1, clientaddress_line2=clientaddress_line2, clientPostal_Code=clientPostal_Code, KPMGaddress1=KPMGaddress1, KPMGgeo=KPMGgeo)
+        infos = info.objects.update_or_create(
+            clientfullname=client_name,
+            clientshortname=showname,
+            clientindustry=industry,
+            clientgeo=country,
+            clientaddress_line1=clientaddress_line1,
+            clientaddress_line2=clientaddress_line2,
+            clientPostal_Code=clientPostal_Code,
+            KPMGaddress1=KPMGaddress1,
+            KPMGgeo=KPMGgeo,
+        )
         # infos.save()
         import os
-        path = 'static/media/'+client_name+'/'+country+'/'+industry
+
+        path = "static/media/" + client_name + "/" + country + "/" + industry
         try:
             os.makedirs(path)
 
@@ -187,27 +225,33 @@ def doc_content_view(request):
         """
         user = Users.objects.filter(user=client_name)
 
-        default_rfp = RfpSection.objects.filter(
-            industry=industry, country=country, is_default=True).order_by('order').values_list('id', flat=True)
+        default_rfp = (
+            RfpSection.objects.filter(
+                industry=industry, country=country, is_default=True
+            )
+            .order_by("order")
+            .values_list("id", flat=True)
+        )
         default_rfp = list(default_rfp)
 
         all_sections = RfpSection.objects.filter(
-            industry=industry, country=country).order_by('order')
+            industry=industry, country=country
+        ).order_by("order")
 
         # Doc = RfpSection.objects.filter(industry=industry, country=country, is_default=True).order_by('order')
 
         # Doc = RfpSection.objects.filter(industry=industry, country=country)
 
-        print(all_sections, country, industry, 'doccc')
+        print(all_sections, country, industry, "doccc")
 
         user_doc = RfpSection.objects.filter(
             industry=industry, country=country, user__in=user
-        ).values_list('id', flat=True)
+        ).values_list("id", flat=True)
 
         # UserDoc = RfpSection.objects.filter(
         #     Q(industry=industry) | Q(country=country), Q(user__in=user)).exclude(id__in=Doc).order_by('order')
 
-        print(user_doc, 'user_doc')
+        print(user_doc, "user_doc")
         # default_user_doc = list(set(Doc) | set(UserDoc))
         # default_user_doc = Doc | UserDoc
 
@@ -225,35 +269,49 @@ def doc_content_view(request):
         else:
             que = None
         from .models import Image
+
         industry = request.POST.get("industry")
         img = Image.objects.filter(caption=industry)
-        print(Image, 'imggg')
+        print(Image, "imggg")
 
         # print(Doc, 'Doc')
         print()
         print()
-        print('-----')
+        print("-----")
         # print(Poc, 'poc')
-        return render(request, 'doc_content.html', {'all_sections': all_sections, 'user_selected': user_doc, "showname": showname, "country": country, "industry": industry,  "que": que, 'Image': img, 'default_sections': default_rfp})
+        return render(
+            request,
+            "doc_content.html",
+            {
+                "all_sections": all_sections,
+                "user_selected": user_doc,
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "que": que,
+                "Image": img,
+                "default_sections": default_rfp,
+            },
+        )
     if request.method == "GET":
-
-        client_name = request.session['client_name']
-        industry = request.session['industry']
-        country = request.session['country']
-        showname = request.session['showname']
+        client_name = request.session["client_name"]
+        industry = request.session["industry"]
+        country = request.session["country"]
+        showname = request.session["showname"]
 
         user = Users.objects.filter(user=client_name)
 
         all_sections = RfpSection.objects.filter(
-            industry=industry, country=country).order_by('order')
+            industry=industry, country=country
+        ).order_by("order")
 
-        print(all_sections, country, industry, 'doccc')
+        print(all_sections, country, industry, "doccc")
 
         user_doc = RfpSection.objects.filter(
             industry=industry, country=country, user__in=user
-        ).values_list('id', flat=True)
+        ).values_list("id", flat=True)
 
-        print(user_doc, 'user_doc')
+        print(user_doc, "user_doc")
 
         que = askques.objects.filter(user=client_name, selected="on")
         if que:
@@ -262,10 +320,9 @@ def doc_content_view(request):
             que = None
         from .models import Image
 
-        #Image = Image.objects.filter(caption=industry)
+        # Image = Image.objects.filter(caption=industry)
         try:
-            SelectedImage = Image.objects.filter(
-                caption=industry, user__in=user)
+            SelectedImage = Image.objects.filter(caption=industry, user__in=user)
         except:
             SelectedImage = None
         if SelectedImage:
@@ -277,20 +334,34 @@ def doc_content_view(request):
         # print(Doc, 'Doc')
         print()
         print()
-        print('-----')
+        print("-----")
         # print(Poc, 'poc')
-        return render(request, 'doc_content.html', {'all_sections': all_sections, 'user_selected': user_doc, "showname": showname, "country": country, "industry": industry, "que": que, 'Image': img, 'SelectedImage': SelectedImage, 'default_sections': default_rfp})
+        return render(
+            request,
+            "doc_content.html",
+            {
+                "all_sections": all_sections,
+                "user_selected": user_doc,
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "que": que,
+                "Image": img,
+                "SelectedImage": SelectedImage,
+                "default_sections": default_rfp,
+            },
+        )
+
 
 # fourth page type question RFP
 
 
 def firstpage_view(request):
-
     if request.method == "POST":
-        client_name = request.session['client_name']
-        industry = request.session['industry']
-        country = request.session['country']
-        extrcount = request.session['extrcount']
+        client_name = request.session["client_name"]
+        industry = request.session["industry"]
+        country = request.session["country"]
+        extrcount = request.session["extrcount"]
         radio = request.POST.get("flexRadioDefault")
         Tick1 = request.POST.get("1")
         Tick2 = request.POST.get("2")
@@ -339,11 +410,9 @@ def firstpage_view(request):
             d.save()
 
         if radio:
+            # u = Users.objects.get(user=client_name)
 
-            #u = Users.objects.get(user=client_name)
-
-            Imagee = Image.objects.get(
-                id=radio)
+            Imagee = Image.objects.get(id=radio)
 
             l = Image.objects.filter(id=radio)
             t = Image.objects.filter(id=radio).update(selected="on")
@@ -364,24 +433,24 @@ def firstpage_view(request):
                 askquestion = askques(user=client_name, selected="on")
                 askquestion.save()
             if ck:
-                askquestion = askques.objects.filter(
-                    user=client_name).update(selected="on")
+                askquestion = askques.objects.filter(user=client_name).update(
+                    selected="on"
+                )
         else:
             check = askques.objects.filter(user=client_name)
             if check:
-                askque = askques.objects.filter(
-                    user=client_name).update(selected=" ")
+                askque = askques.objects.filter(user=client_name).update(selected=" ")
             else:
                 askque = askques.objects.create(user=client_name, selected=" ")
 
         if Tick1:
-            print('inside tick 111')
+            print("inside tick 111")
 
             docobj1 = Document.objects.filter(id=1).update(selected="on")
             docobj1 = Document.objects.get(id=1).user.add(d)
 
         else:
-            print('inside tick 111 elseeee')
+            print("inside tick 111 elseeee")
             try:
                 docobj1 = Document.objects.get(id=1, user=d)
                 c = docobj1.user.remove(d)
@@ -389,7 +458,6 @@ def firstpage_view(request):
                 pass
 
         if Tick2:
-
             docobj2 = Document.objects.filter(id=2).update(selected="on")
             docobj2 = Document.objects.get(id=2).user.add(d)
 
@@ -401,7 +469,6 @@ def firstpage_view(request):
                 pass
 
         if Tick3:
-
             docobj3 = Document.objects.filter(id=3).update(selected="on")
             docobj3 = Document.objects.get(id=3).user.add(d)
 
@@ -413,7 +480,6 @@ def firstpage_view(request):
                 pass
 
         if Tick4:
-
             docobj4 = Document.objects.filter(id=4).update(selected="on")
             docobj4 = Document.objects.get(id=4).user.add(d)
 
@@ -425,7 +491,6 @@ def firstpage_view(request):
                 pass
 
         if Tick5:
-
             docobj5 = Document.objects.filter(id=5).update(selected="on")
             docobj5 = Document.objects.get(id=5).user.add(d)
 
@@ -437,7 +502,6 @@ def firstpage_view(request):
                 pass
 
         if Tick6:
-
             docobj6 = Document.objects.filter(id=6).update(selected="on")
             docobj6 = Document.objects.get(id=6).user.add(d)
 
@@ -449,7 +513,6 @@ def firstpage_view(request):
                 pass
 
         if Tick7:
-
             docobj7 = Document.objects.filter(id=7).update(selected="on")
             docobj7 = Document.objects.get(id=7).user.add(d)
 
@@ -461,7 +524,6 @@ def firstpage_view(request):
                 pass
 
         if Tick8:
-
             docobj8 = Document.objects.filter(id=8).update(selected="on")
             docobj8 = Document.objects.get(id=8).user.add(d)
 
@@ -473,7 +535,6 @@ def firstpage_view(request):
                 pass
 
         if Tick9:
-
             docobj9 = Document.objects.filter(id=9).update(selected="on")
             docobj9 = Document.objects.get(id=9).user.add(d)
 
@@ -485,7 +546,6 @@ def firstpage_view(request):
                 pass
 
         if Tick10:
-
             docobj10 = Document.objects.filter(id=10).update(selected="on")
             docobj10 = Document.objects.get(id=10).user.add(d)
 
@@ -497,7 +557,6 @@ def firstpage_view(request):
                 pass
 
         if Tick11:
-
             docobj11 = Document.objects.filter(id=11).update(selected="on")
             docobj11 = Document.objects.get(id=11).user.add(d)
 
@@ -509,7 +568,6 @@ def firstpage_view(request):
                 pass
 
         if Tick12:
-
             docobj12 = Document.objects.filter(id=12).update(selected="on")
             docobj12 = Document.objects.get(id=12).user.add(d)
 
@@ -521,7 +579,6 @@ def firstpage_view(request):
                 pass
 
         if Tick13:
-
             docobj13 = Document.objects.filter(id=13).update(selected="on")
             docobj13 = Document.objects.get(id=13).user.add(d)
 
@@ -533,7 +590,6 @@ def firstpage_view(request):
                 pass
 
         if Tick14:
-
             docobj14 = Document.objects.filter(id=14).update(selected="on")
             docobj14 = Document.objects.get(id=14).user.add(d)
 
@@ -545,7 +601,6 @@ def firstpage_view(request):
                 pass
 
         if Tick15:
-
             docobj15 = Document.objects.filter(id=15).update(selected="on")
             docobj15 = Document.objects.get(id=15).user.add(d)
 
@@ -557,7 +612,6 @@ def firstpage_view(request):
                 pass
 
         if Tick16:
-
             docobj16 = Document.objects.filter(id=16).update(selected="on")
             docobj16 = Document.objects.get(id=16).user.add(d)
 
@@ -569,7 +623,6 @@ def firstpage_view(request):
                 pass
 
         if Tick17:
-
             docobj17 = Document.objects.filter(id=17).update(selected="on")
             docobj17 = Document.objects.get(id=17).user.add(d)
 
@@ -581,7 +634,6 @@ def firstpage_view(request):
                 pass
 
         if Tick18:
-
             docobj18 = Document.objects.filter(id=18).update(selected="on")
             docobj18 = Document.objects.get(id=18).user.add(d)
 
@@ -593,7 +645,6 @@ def firstpage_view(request):
                 pass
 
         if Tick19:
-
             docobj19 = Document.objects.filter(id=19).update(selected="on")
             docobj19 = Document.objects.get(id=19).user.add(d)
 
@@ -605,7 +656,6 @@ def firstpage_view(request):
                 pass
 
         if Tick20:
-
             docobj20 = Document.objects.filter(id=20).update(selected="on")
             docobj20 = Document.objects.get(id=20).user.add(d)
 
@@ -617,7 +667,6 @@ def firstpage_view(request):
                 pass
 
         if Tick21:
-
             docobj21 = Document.objects.filter(id=21).update(selected="on")
             docobj21 = Document.objects.get(id=21).user.add(d)
 
@@ -629,7 +678,6 @@ def firstpage_view(request):
                 pass
 
         if Tick22:
-
             docobj22 = Document.objects.filter(id=22).update(selected="on")
             docobj22 = Document.objects.get(id=22).user.add(d)
 
@@ -641,7 +689,6 @@ def firstpage_view(request):
                 pass
 
         if Tick23:
-
             docobj23 = Document.objects.filter(id=23).update(selected="on")
             docobj23 = Document.objects.get(id=23).user.add(d)
 
@@ -652,10 +699,10 @@ def firstpage_view(request):
             except:
                 pass
 
-        client_name = request.session['client_name']
-        industry = request.session['industry']
-        country = request.session['country']
-        showname = request.session['showname']
+        client_name = request.session["client_name"]
+        industry = request.session["industry"]
+        country = request.session["country"]
+        showname = request.session["showname"]
         data = Question.objects.filter(country=country, industry=industry)
         # data=Question.objects.all()
         # print("!!!!!!!!!!!!!!!!!!!!!!!!!")
@@ -674,17 +721,33 @@ def firstpage_view(request):
         Quest = User.exists()
 
         # display seleted index
-        return render(request, 'firstpage.html', {'Data': data, "showname": showname, "country": country, "industry": industry, "Doc": Doc1, "Quest": Quest, "c": c, "extrcount": extrcount, "Acccount": Acccount})
+        return render(
+            request,
+            "firstpage.html",
+            {
+                "Data": data,
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "Doc": Doc1,
+                "Quest": Quest,
+                "c": c,
+                "extrcount": extrcount,
+                "Acccount": Acccount,
+                "log": log,
+            },
+        )
     if request.method == "GET":
-        client_name = request.session['client_name']
-        industry = request.session['industry']
-        country = request.session['country']
-        showname = request.session['showname']
+        client_name = request.session["client_name"]
+        industry = request.session["industry"]
+        country = request.session["country"]
+        showname = request.session["showname"]
         try:
-            extrcount = request.session['extrcount']
-            Acccount = request.session['Acccount']
-            selfirst = request.session['selfirst']
-            sellast = request.session['sellast']
+            extrcount = request.session["extrcount"]
+            Acccount = request.session["Acccount"]
+            selfirst = request.session["selfirst"]
+            sellast = request.session["sellast"]
+            log = request.session["log"]
         except:
             pass
         data = Question.objects.filter(country=country, industry=industry)
@@ -697,16 +760,34 @@ def firstpage_view(request):
         Quest = User.exists()
 
         # display seleted index
-        return render(request, 'firstpage.html', {'Data': data, "showname": showname, "country": country, "industry": industry, "Doc": Doc1, "Quest": Quest, "c": c, "extrcount": extrcount, "Acccount": Acccount, "selfirst": selfirst, "sellast": sellast})
- # fifth page mcq options
+        return render(
+            request,
+            "firstpage.html",
+            {
+                "Data": data,
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "Doc": Doc1,
+                "Quest": Quest,
+                "c": c,
+                "extrcount": extrcount,
+                "Acccount": Acccount,
+                "selfirst": selfirst,
+                "sellast": sellast,
+                "log": log,
+            },
+        )
+
+
+# fifth page mcq options
 
 
 def secondpage_view(request):
-
     if request.method == "GET":
-        showname = request.session['showname']
-        industry = request.session['industry']
-        country = request.session['country']
+        showname = request.session["showname"]
+        industry = request.session["industry"]
+        country = request.session["country"]
         if country == "AU":
             country2 = "AU"
         # data = request.data
@@ -742,21 +823,31 @@ def secondpage_view(request):
         # df = data
         # Creating an model
         model_build = Model_Buiding_approach(
-            industry_text, country_text, model_name=model_name)
+            industry_text, country_text, model_name=model_name
+        )
 
         print("Before Filtered DataFrame:- ", df_rfpdata.shape)
         # Filter the data based on Country and Industry
         df = model_build.dataframe_filter_return(
-            df_rfpdata, industry1, country1, section1)
+            df_rfpdata, industry1, country1, section1
+        )
 
         print("Filtered DataFrame:- ", df.shape)
         # Training Dataset Vector
-        if os.path.isfile("RFP/Embedding Models/corpus_embedding"+'-'+model_name+'-'+country_text+"-"+industry_text+".pt"):
+        if os.path.isfile(
+            "RFP/Embedding Models/corpus_embedding"
+            + "-"
+            + model_name
+            + "-"
+            + country_text
+            + "-"
+            + industry_text
+            + ".pt"
+        ):
             print("Need not to Run Training File as Model is Present")
         else:
             print("File is not present. Initializing the training command.")
-            execution_time = model_build.training_dataset_vector(
-                df, embedder=embedder)
+            execution_time = model_build.training_dataset_vector(df, embedder=embedder)
             print("Execution of Training Time:-", execution_time)
 
         # Input the query
@@ -764,7 +855,8 @@ def secondpage_view(request):
         query = Query
 
         index_list, cos_sim_list = model_build.query_resolved(
-            query=query, df=df, embedder=embedder)
+            query=query, df=df, embedder=embedder
+        )
         print(index_list)
         index_list = [df["id"][index] for index in index_list]
         print(index_list)
@@ -775,7 +867,7 @@ def secondpage_view(request):
         # query = "Has your organisation been involved in any business-related litigation that may affect the performance of these Services in the past five years?"
         # query = Query
 
-        request.session['query'] = query
+        request.session["query"] = query
         non = ""
         # index_list, cos_sim_list = model_build.query_resolved(
         #     query=query, df=df, embedder=embedder)
@@ -821,7 +913,7 @@ def secondpage_view(request):
             # data1=data[1].Questions
             # id1=data[1].id
             # data2=data[2].Questions
-           # id2=data[2].id
+        # id2=data[2].id
         # l = Question.objects.get(id=170)
 
         # f = l.File
@@ -892,46 +984,68 @@ def add_ques_ans_selected_sections(request):
 
 
 def pre_view(request):
-    client_name = request.session['client_name']
+    client_name = request.session["client_name"]
     if request.method == "GET":
-        showname = request.session['showname']
-        industry = request.session['industry']
-        country = request.session['country']
+        showname = request.session["showname"]
+        industry = request.session["industry"]
+        country = request.session["country"]
         UQL = UQ.objects.exclude(sentapproval="on").filter(user=client_name)
-        return render(request, 'preview.html', {'Question': Question, "showname": showname, "country": country, "industry": industry, "UQL": UQL})
+        return render(
+            request,
+            "preview.html",
+            {
+                "Question": Question,
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "UQL": UQL,
+            },
+        )
     if request.method == "POST":
-
-        industry = request.session['industry']
-        country = request.session['country']
-        showname = request.session['showname']
+        industry = request.session["industry"]
+        country = request.session["country"]
+        showname = request.session["showname"]
         id0 = request.POST.get("K")
         id1 = request.POST.get("M")
         id2 = request.POST.get("L")
         p = [id0, id1, id2]
         answer = RfpData.objects.filter(id__in=p)
-        query = request.session['query']
-        return render(request, 'preview.html', {"answer": answer, "showname": showname, "country": country, "industry": industry, "query": query})
- # preview page print standard pdf
+        query = request.session["query"]
+        return render(
+            request,
+            "preview.html",
+            {
+                "answer": answer,
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "query": query,
+            },
+        )
+
+
+# preview page print standard pdf
 
 
 def printpdf(request):
     if request.method == "GET":
-        client_name = request.session['client_name']
-        industry = request.session['industry']
-        country = request.session['country']
+        client_name = request.session["client_name"]
+        industry = request.session["industry"]
+        country = request.session["country"]
         # Once index selected  starts---------------------------------------------------------------------
         p = Users.objects.filter(user=client_name)
 
         files = Document.objects.filter(user__in=p)
-        print('$$$$$$$$$$$$$$$$$$')
+        print("$$$$$$$$$$$$$$$$$$")
         print(files)
-        print('$$$$$$$$$$$$$$$$$$')
+        print("$$$$$$$$$$$$$$$$$$")
         for file in files:
             file = files[0].File
 
         from docxcompose.composer import Composer
         from docx import Document as Document_compose
-        path = 'static/media/'+client_name+'/'+country+'/'+industry
+
+        path = "static/media/" + client_name + "/" + country + "/" + industry
 
         def combine_all_docx(filename_master, files_list):
             number_of_sections = len(files_list)
@@ -940,19 +1054,21 @@ def printpdf(request):
             for i in range(0, number_of_sections):
                 doc_temp = Document_compose(files_list[i])
                 composer.append(doc_temp)
-            composer.save("./"+path+"/combined_file.docx")
+            composer.save("./" + path + "/combined_file.docx")
+
         # For Example
         from docx import Document as DF
+
         docu = DF()
 
-        docu.save("./"+path+"/C.docx")
-        filename_master = "./"+path+"./C.docx"
+        docu.save("./" + path + "/C.docx")
+        filename_master = "./" + path + "./C.docx"
         files_list = []
         for file in files:
             files_list.append(file.File)
-        print('$$$$$$$$$$$$$$$$$$')
+        print("$$$$$$$$$$$$$$$$$$")
         print(files_list)
-        print('$$$$$$$$$$$$$$$$$$')
+        print("$$$$$$$$$$$$$$$$$$")
 
         # Calling the function
         combine_all_docx(filename_master, files_list)
@@ -961,67 +1077,96 @@ def printpdf(request):
         # print standard starts--------------------------------end-------------------------------------
 
         # print fpdf file for question answer--------------------start-----------------------------------
-        client_name = request.session['client_name']
-        industry = request.session['industry']
-        country = request.session['country']
+        client_name = request.session["client_name"]
+        industry = request.session["industry"]
+        country = request.session["country"]
         import os
-        path = 'static/media/'+client_name+'/'+country+'/'+industry
+
+        path = "static/media/" + client_name + "/" + country + "/" + industry
 
         # download combined file--------------start------------    content_type="application/pdf///vnd.openxmlformats-officedocument.wordprocessingml.document"
         import os
         from django.conf import settings
         from django.http import HttpResponse, Http404
 
-        client_name = request.session['client_name']
-        industry = request.session['industry']
-        country = request.session['country']
+        client_name = request.session["client_name"]
+        industry = request.session["industry"]
+        country = request.session["country"]
         import os
-        path = 'static/media/'+client_name+'/'+country+'/'+industry
-        with open("./"+path+"/combined_file.docx", 'rb') as f:
+
+        path = "static/media/" + client_name + "/" + country + "/" + industry
+        with open("./" + path + "/combined_file.docx", "rb") as f:
             data = f.read()
         response = HttpResponse(
-            data, content_type="vnd.openxmlformats-officedocument.wordprocessingml.document")
-        response['Content-Disposition'] = 'attachment; filename="RFP.docx"'
+            data,
+            content_type="vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+        response["Content-Disposition"] = 'attachment; filename="RFP.docx"'
 
         return response
         # download combined file--------------start------------------------content_type="application/pdf--vnd.openxmlformats-officedocument.wordprocessingml.document"
         Question = request.GET.get("Question")
 
-        return render(request, 'preview.html', {'Question': Question})
+        return render(request, "preview.html", {"Question": Question})
 
 
 # preview page erase data and again start RFP
 def start_new_rfp(request):
     #     showname=request.session['showname']
     docobj1 = Document.objects.filter(
-        id__in=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]).update(selected=" ")
-#     UQL=UQ.objects.filter(user=showname)
-#     UQL.delete()
-#     ud=SelectDropQuery.objects.all()
-#     ud.delete()
-    return redirect('/RFP/index/')
+        id__in=[
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+        ]
+    ).update(selected=" ")
+    #     UQL=UQ.objects.filter(user=showname)
+    #     UQL.delete()
+    #     ud=SelectDropQuery.objects.all()
+    #     ud.delete()
+    return redirect("/RFP/index/")
+
 
 # type question page print standard pdf
 
 
 # upload files
 def pic_upload_view(request):
-    client_name = request.session['client_name']
-    country = request.session['country']
-    pic = request.FILES.get('file')
+    client_name = request.session["client_name"]
+    country = request.session["country"]
+    pic = request.FILES.get("file")
     prod = Product(user=client_name, picup=pic, clientgeo=country)
     prod.save()
-    return render(request, 'preview.html', {'Question': Question})
+    return render(request, "preview.html", {"Question": Question})
 
 
 # editans_view
 def editans_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     id = id
     if request.method == "POST":
-
         pt = UQ.objects.get(pk=id)
         fm = UserQueryForm(request.POST, instance=pt)
         if fm.is_valid():
@@ -1030,41 +1175,56 @@ def editans_view(request, id):
         pt = UQ.objects.get(pk=id)
         fm = UserQueryForm(instance=pt)
 
-    return render(request, "editans.html", {"form": fm, "showname": showname, "country": country, "industry": industry, "id": id})
+    return render(
+        request,
+        "editans.html",
+        {
+            "form": fm,
+            "showname": showname,
+            "country": country,
+            "industry": industry,
+            "id": id,
+        },
+    )
+
 
 # pic_down_view
 
 
 def pic_down_view(request):
-    client_name = request.session['client_name']
-    country = request.session['country']
-    pic = request.FILES.get('file')
+    client_name = request.session["client_name"]
+    country = request.session["country"]
+    pic = request.FILES.get("file")
     First = First_Page_upload(user=client_name, picdown=pic, clientgeo=country)
     First.save()
-    return render(request, 'preview.html', {'Question': Question})
+    return render(request, "preview.html", {"Question": Question})
+
 
 # file_injection_view-Direct download
 
 
 def file_injection_view(request):
-    client_name = request.session['client_name']
-    country = request.session['country']
-    industry = request.session['industry']
+    client_name = request.session["client_name"]
+    country = request.session["country"]
+    industry = request.session["industry"]
     if country == "AU":
         country2 = "AU"
     data = RfpData.objects.all()
     df_rfpdata = read_frame(data)
     try:
         import os
+
         files = os.listdir("./media/First_page_upload/Drop")
         print(files)
 
-        print("---------------------------------Download Injection file using Python--------------------------------")
-        ## from pathlib import Path
-        ## path1 = './media/pickupdir'
-        ## name_list = os.listdir(path1)
-        ## full_list = [os.path.join(path1, i) for i in name_list]
-        ## time_sorted_list = sorted(full_list, key=os.path.getmtime)
+        print(
+            "---------------------------------Download Injection file using Python--------------------------------"
+        )
+        # from pathlib import Path
+        # path1 = './media/pickupdir'
+        # name_list = os.listdir(path1)
+        # full_list = [os.path.join(path1, i) for i in name_list]
+        # time_sorted_list = sorted(full_list, key=os.path.getmtime)
 
         # lst_sorted = [str1.replace('\\', '/') for str1 in time_sorted_list]
         FP = Product.objects.filter(user=client_name, clientgeo=country)
@@ -1073,23 +1233,24 @@ def file_injection_view(request):
             FP = Product.objects.get(user=client_name, clientgeo=country)
             s = FP.picup
         else:
-            s = FP[l-1].picup
+            s = FP[l - 1].picup
         # filename1 = "C:/Users/shubhamjain35/Desktop/P Copy-801-showcase/KPM/media/pickupdir/Resolution_Life_Finance_Systems_RFP_Final.docx"
         # file = filename1.split("/")[-1]
         # print("Final File Path============", file)
         filename1 = s
         file = s
-        filename1 = "media/"+str(filename1)
+        filename1 = "media/" + str(filename1)
         print("Filename============", filename1)
 
         quest = Extraction()
         # filename=r"01 JHG_FMS SI Partner RFP Main Document final.docx"
-        print("---"*10, "Start "+filename1+"---"*10)
+        print("---" * 10, "Start " + filename1 + "---" * 10)
         df_questions, list_questions = quest.question_search(filename1)
-        print("Questions in RFP "+filename1)
-        print("Number of questions detected from the document is :",
-              len(list_questions))
-        print("++++++"*20)
+        print("Questions in RFP " + filename1)
+        print(
+            "Number of questions detected from the document is :", len(list_questions)
+        )
+        print("++++++" * 20)
         num = 0
         list_questions = [text.strip() for text in list_questions]
         print(";;;;;;;;;;;;;;;;;;")
@@ -1118,23 +1279,33 @@ def file_injection_view(request):
 
         # Creating an model
         model_build = Model_Buiding_approach(
-            industry_text, country_text, model_name=model_name)
+            industry_text, country_text, model_name=model_name
+        )
 
         print("Before Filtered DataFrame:- ", df_rfpdata.shape)
         # Filter the data based on Country and Industry
         df = model_build.dataframe_filter_return(
-            df_rfpdata, industry1, country1, section1)
+            df_rfpdata, industry1, country1, section1
+        )
         print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
         print(df.head())
         print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
         print("Filtered DataFrame:- ", df.shape)
         # Training Dataset Vector
-        if os.path.isfile("RFP/Embedding Models/corpus_embedding"+'-'+model_name+'-'+country_text+"-"+industry_text+".pt"):
+        if os.path.isfile(
+            "RFP/Embedding Models/corpus_embedding"
+            + "-"
+            + model_name
+            + "-"
+            + country_text
+            + "-"
+            + industry_text
+            + ".pt"
+        ):
             print("Need not to Run Training File as Model is Present")
         else:
             print("File is not present. Initializing the training command.")
-            execution_time = model_build.training_dataset_vector(
-                df, embedder=embedder)
+            execution_time = model_build.training_dataset_vector(df, embedder=embedder)
             print("Execution of Training Time:-", execution_time)
 
         # Input the query
@@ -1155,7 +1326,8 @@ def file_injection_view(request):
         for q in list_questions:
             query = q
             index_list, cos_sim_list = model_build.query_resolved(
-                query=query, df=df, embedder=embedder)
+                query=query, df=df, embedder=embedder
+            )
             index_list_updated = index_list
             index_list = [df["id"][index] for index in index_list]
             print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
@@ -1167,7 +1339,8 @@ def file_injection_view(request):
         answ = answer[0]
         from scripts import get_document_update
         import os
-        path = 'temp/'+client_name+'/'+country+'/'+industry
+
+        path = "temp/" + client_name + "/" + country + "/" + industry
         try:
             os.makedirs(path)
 
@@ -1177,21 +1350,26 @@ def file_injection_view(request):
         outpath = path
         count = 1
         from docx import Document
+
         for ans, que in zip(answer, list_questions):
             doc = Document()
             p = doc.add_paragraph()
-            runner = p.add_run("Question: "+que+"?")
+            runner = p.add_run("Question: " + que + "?")
             runner.bold = True
-            doc.save(path+"/"+"question"+str(count)+".docx")
+            doc.save(path + "/" + "question" + str(count) + ".docx")
             count += 1
-            file_path = r'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/'+ans
+            file_path = (
+                r"https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/"
+                + ans
+            )
             get_doc = get_document_update(file_path, outpath)
-            print(get_doc, 'get doc response')
+            print(get_doc, "get doc response")
 
         from docxcompose.composer import Composer
         from docx import Document as Document_compose
         import os
-        path = 'temp/'+client_name+'/'+country+'/'+industry
+
+        path = "temp/" + client_name + "/" + country + "/" + industry
 
         try:
             os.rmdir(path)
@@ -1207,20 +1385,23 @@ def file_injection_view(request):
             for i in range(0, number_of_sections):
                 doc_temp = Document_compose(files_list[i])
                 composer.append(doc_temp)
-            composer.save("./"+path+"/combined_file.docx")
+            composer.save("./" + path + "/combined_file.docx")
+
         # For Example
         from docx import Document as DF
+
         docu = DF()
 
-        docu.save("./"+path+"/newdocscombine.docx")
-        filename_master = "./"+path+"./newdocscombine.docx"
+        docu.save("./" + path + "/newdocscombine.docx")
+        filename_master = "./" + path + "./newdocscombine.docx"
         file_list = []
         count = 1
 
         for ans1 in answer:
-            file_list.append(path+"/"+"question"+str(count)+".docx")
-            file_list.append('temp/'+client_name+'/' +
-                             country+'/'+industry+'/'+ans1)
+            file_list.append(path + "/" + "question" + str(count) + ".docx")
+            file_list.append(
+                "temp/" + client_name + "/" + country + "/" + industry + "/" + ans1
+            )
             count += 1
 
         # Calling the function
@@ -1233,19 +1414,22 @@ def file_injection_view(request):
         from django.conf import settings
         from django.http import HttpResponse, Http404
 
-        with open(path+"/combined_file.docx", 'rb') as f:
+        with open(path + "/combined_file.docx", "rb") as f:
             data = f.read()
         response = HttpResponse(
-            data, content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-        response['Content-Disposition'] = 'attachment; filename="rfpdirectdoc.docx"'
+            data,
+            content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        )
+        response["Content-Disposition"] = 'attachment; filename="rfpdirectdoc.docx"'
         return response
     except Exception as e:
         print("Excepppppppppppppppppppptttttttttttttt")
         print(e)
-        industry = request.session['industry']
-        country = request.session['country']
-        showname = request.session['showname']
+        industry = request.session["industry"]
+        country = request.session["country"]
+        showname = request.session["showname"]
         from .models import Document
+
         p = Users.objects.filter(user=client_name)
         Doc1 = Document.objects.filter(selected="on", user__in=p)
         Userq = UQ.objects.filter(user=client_name)
@@ -1255,16 +1439,28 @@ def file_injection_view(request):
         Quest = User.exists()
 
         # display seleted index
-        return render(request, 'firstpage.html', {"showname": showname, "country": country, "industry": industry, "Doc": Doc1, "Quest": Quest, "c": c})
+        return render(
+            request,
+            "firstpage.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "Doc": Doc1,
+                "Quest": Quest,
+                "c": c,
+            },
+        )
 
     # download combined file--------------start------------------------content_type="application/pdf#vnd.openxmlformats-officedocument.wordprocessingml.document"
+
 
 # drop_rfp_view
 
 
 def drop_rfp_view(request):
-    client_name = request.session['client_name']
-    country = request.session['country']
+    client_name = request.session["client_name"]
+    country = request.session["country"]
     if country == "AU":
         country1 = "AU"
     data = RfpData.objects.all()
@@ -1294,13 +1490,13 @@ def drop_rfp_view(request):
         FP = Product.objects.get(user=client_name, clientgeo=country)
         s = FP.picup
     else:
-        s = FP[l-1].picup
+        s = FP[l - 1].picup
     # filename1 = "C:/Users/shubhamjain35/Desktop/P Copy-801-showcase/KPM/media/pickupdir/Resolution_Life_Finance_Systems_RFP_Final.docx"
     # file = filename1.split("/")[-1]
     # print("Final File Path============", file)
     filename1 = s
     file = s
-    filename1 = "./media/"+str(filename1)
+    filename1 = "./media/" + str(filename1)
     print("$$$$$$$$$$$$$$$$$$$$fileeeeeeeeeeeeeeeeeeee")
     print("$$$$$$$$$$$$$$$$$$$$fileeeeeeeeeeeeeeeeeeee")
     print("$$$$$$$$$$$$$$$$$$$$fileeeeeeeeeeeeeeeeeeee")
@@ -1336,23 +1532,23 @@ def drop_rfp_view(request):
     quest = Extraction()
     # filename1 = quest.input_file(filename1)
     # print("Updated File Path name:- ", filename1)
-    print("---"*10, "Start "+str(filename1)+"---"*10)
+    print("---" * 10, "Start " + str(filename1) + "---" * 10)
     df_questions, list_questions = quest.question_search(filename1)
-    print("Questions in RFP "+str(filename1))
+    print("Questions in RFP " + str(filename1))
     print("Number of questions detected from the document is :", len(list_questions))
-    print("++++++"*20)
+    print("++++++" * 20)
     num = 0
     list_questions = [text.strip() for text in list_questions]
     for question in list_questions:
         num += 1
-        print(str(num)+". ", question)
-        print("------"*20)
-    print("---"*10, "End "+str(filename1)+"---"*10)
+        print(str(num) + ". ", question)
+        print("------" * 20)
+    print("---" * 10, "End " + str(filename1) + "---" * 10)
 
     # Initializing Parameters and getting values from UI
-    showname = request.session['showname']
-    industry = request.session['industry']
-    country = request.session['country']
+    showname = request.session["showname"]
+    industry = request.session["industry"]
+    country = request.session["country"]
     # Query = request.GET.get("Query")
     # data=Question.objects.filter(country=country,industry=industry)
     # df = read_frame(data)
@@ -1379,21 +1575,29 @@ def drop_rfp_view(request):
 
     # Creating an model
     model_build = Model_Buiding_approach(
-        industry_text, country_text, model_name=model_name)
+        industry_text, country_text, model_name=model_name
+    )
 
     print("Before Filtered DataFrame:- ", df_rfpdata.shape)
     # Filter the data based on Country and Industry
-    df = model_build.dataframe_filter_return(
-        df_rfpdata, industry1, country1, section1)
+    df = model_build.dataframe_filter_return(df_rfpdata, industry1, country1, section1)
 
     print("Filtered DataFrame:- ", df.shape)
     # Training Dataset Vector
-    if os.path.isfile("RFP/Embedding Models/corpus_embedding"+'-'+model_name+'-'+country_text+"-"+industry_text+".pt"):
+    if os.path.isfile(
+        "RFP/Embedding Models/corpus_embedding"
+        + "-"
+        + model_name
+        + "-"
+        + country_text
+        + "-"
+        + industry_text
+        + ".pt"
+    ):
         print("Need not to Run Training File as Model is Present")
     else:
         print("File is not present. Initializing the training command.")
-        execution_time = model_build.training_dataset_vector(
-            df, embedder=embedder)
+        execution_time = model_build.training_dataset_vector(df, embedder=embedder)
         print("Execution of Training Time:-", execution_time)
 
     # Input the query
@@ -1403,39 +1607,55 @@ def drop_rfp_view(request):
     for q in list_questions:
         query = q
         index_list, cos_sim_list = model_build.query_resolved(
-            query=query, df=df, embedder=embedder)
+            query=query, df=df, embedder=embedder
+        )
         if index_list:
             answer.append(df["document_link"][index_list[0]])
     id = 1
     for ques in list_questions:
         query = ques
         index_list, cos_sim_list = model_build.query_resolved(
-            query=query, df=df, embedder=embedder)
+            query=query, df=df, embedder=embedder
+        )
         answer = [df["document_link"][index] for index in index_list]
-        UserQuery = DropQuery(id=id, question=ques, user=showname,
-                              answer1=answer[0], answer2=answer[1], answer3=answer[2])
+        UserQuery = DropQuery(
+            id=id,
+            question=ques,
+            user=showname,
+            answer1=answer[0],
+            answer2=answer[1],
+            answer3=answer[2],
+        )
         UserQuery.save()
-        id = id+1
+        id = id + 1
 
     Quest = DropQuery.objects.all()
 
-    return render(request, "drop_rfp.html", {"questions": Quest, "showname": showname, "country": country, "industry": industry})
+    return render(
+        request,
+        "drop_rfp.html",
+        {
+            "questions": Quest,
+            "showname": showname,
+            "country": country,
+            "industry": industry,
+        },
+    )
 
 
 def drop_rfpquest_view1(request):
-    industry = request.session['industry']
-    country = request.session['country']
+    industry = request.session["industry"]
+    country = request.session["country"]
     if country == "AU":
         country2 = "AU"
     print(industry, country, "POPOPOPOPOOP")
-    showname = request.session['showname']
-    client_name = request.session['client_name']
+    showname = request.session["showname"]
+    client_name = request.session["client_name"]
     data = RfpData.objects.all()
     df_rfpdata = read_frame(data)
     print("CHECKKKKKKKKKKKKKKKKKKKKKK")
-    print(df_rfpdata['country'].unique())
+    print(df_rfpdata["country"].unique())
     if request.method == "POST":
-
         Tick1 = request.POST.get("1")
         Tick2 = request.POST.get("2")
         Tick3 = request.POST.get("3")
@@ -1472,10 +1692,45 @@ def drop_rfpquest_view1(request):
         Tick34 = request.POST.get("34")
         Tick35 = request.POST.get("35")
 
-        p = [Tick1, Tick2, Tick3, Tick4, Tick5,
-             Tick6, Tick7, Tick8, Tick9, Tick10, Tick11, Tick12, Tick13, Tick14, Tick15, Tick16, Tick17, Tick18, Tick19, Tick20, Tick21, Tick22, Tick23, Tick24, Tick25, Tick26, Tick27, Tick28, Tick29, Tick30, Tick31, Tick32, Tick33, Tick34, Tick35]
+        p = [
+            Tick1,
+            Tick2,
+            Tick3,
+            Tick4,
+            Tick5,
+            Tick6,
+            Tick7,
+            Tick8,
+            Tick9,
+            Tick10,
+            Tick11,
+            Tick12,
+            Tick13,
+            Tick14,
+            Tick15,
+            Tick16,
+            Tick17,
+            Tick18,
+            Tick19,
+            Tick20,
+            Tick21,
+            Tick22,
+            Tick23,
+            Tick24,
+            Tick25,
+            Tick26,
+            Tick27,
+            Tick28,
+            Tick29,
+            Tick30,
+            Tick31,
+            Tick32,
+            Tick33,
+            Tick34,
+            Tick35,
+        ]
         answer = DropQuery.objects.filter(id__in=p)
-        #display = RfpData.objects.filter(id__in=p)
+        # display = RfpData.objects.filter(id__in=p)
         print("***************************************")
         print("***************************************")
         print("***************************************")
@@ -1508,27 +1763,38 @@ def drop_rfpquest_view1(request):
 
         # Creating an model
         model_build = Model_Buiding_approach(
-            industry_text, country_text, model_name=model_name)
+            industry_text, country_text, model_name=model_name
+        )
 
         print("Before Filtered DataFrame:- ", df_rfpdata.shape)
         # Filter the data based on Country and Industry
         df = model_build.dataframe_filter_return(
-            df_rfpdata, industry1, country1, section1)
+            df_rfpdata, industry1, country1, section1
+        )
 
         print("Filtered DataFrame:- ", df.shape)
         # Training Dataset Vector
-        if os.path.isfile("RFP/Embedding Models/corpus_embedding"+'-'+model_name+'-'+country_text+"-"+industry_text+".pt"):
+        if os.path.isfile(
+            "RFP/Embedding Models/corpus_embedding"
+            + "-"
+            + model_name
+            + "-"
+            + country_text
+            + "-"
+            + industry_text
+            + ".pt"
+        ):
             print("Need not to Run Training File as Model is Present")
         else:
             print("File is not present. Initializing the training command.")
-            execution_time = model_build.training_dataset_vector(
-                df, embedder=embedder)
+            execution_time = model_build.training_dataset_vector(df, embedder=embedder)
             print("Execution of Training Time:-", execution_time)
 
-        print("DF Countries unique", df['country'].unique())
+        print("DF Countries unique", df["country"].unique())
         for c in answer:
             index_list, cos_sim_list = model_build.query_resolved(
-                query=c.question, df=df, embedder=embedder)
+                query=c.question, df=df, embedder=embedder
+            )
             ans = [df["id"][index] for index in index_list]
             print("&&&&&&&&&&&")
             print(ans)
@@ -1544,92 +1810,131 @@ def drop_rfpquest_view1(request):
             print(answ[1].document_link)
             print(answ[2].document_link)
             print("33333333333333333333333333333333333333333333333333333333333333")
-            Select = SelectDropQuery(id=ids, user=showname, question=c.question,
-                                     answer1=answ[0].document_link, answer2=answ[1].document_link, answer3=answ[2].document_link)
+            Select = SelectDropQuery(
+                id=ids,
+                user=showname,
+                question=c.question,
+                answer1=answ[0].document_link,
+                answer2=answ[1].document_link,
+                answer3=answ[2].document_link,
+            )
             Select.save()
-            u = SelectDropQuery.objects.filter(
-                user=showname).order_by('id').last()
-            ids = u.id+1
+            u = SelectDropQuery.objects.filter(user=showname).order_by("id").last()
+            ids = u.id + 1
 
         Select = SelectDropQuery(
-            id=ids, user=showname, question="Please click on finish")
+            id=ids, user=showname, question="Please click on finish"
+        )
         Select.save()
         qt = SelectDropQuery.objects.all()
         # qt=DropQuery.objects.all()
         print(qt)
         try:
-            p = SelectDropQuery.objects.filter(
-                user=showname).order_by('id').first()
+            p = SelectDropQuery.objects.filter(user=showname).order_by("id").first()
             # p=qt[0]
         except:
             p = "No Questions to display"
 
-        return render(request, "drop_rfp_quest1.html", {"p": p, "showname": showname, "country": country, "industry": industry})
+        return render(
+            request,
+            "drop_rfp_quest1.html",
+            {"p": p, "showname": showname, "country": country, "industry": industry},
+        )
+
 
 # drop_rfpquest_view2
 
 
 def drop_rfpquest_view2(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
+    industry = request.session["industry"]
+    country = request.session["country"]
     if country == "AU":
         country = "AU"
-    showname = request.session['showname']
-    client_name = request.session['client_name']
-    qt = DropQuery.objects.filter(select1="on") | DropQuery.objects.filter(
-        select2="on") | DropQuery.objects.filter(select3="on")
+    showname = request.session["showname"]
+    client_name = request.session["client_name"]
+    qt = (
+        DropQuery.objects.filter(select1="on")
+        | DropQuery.objects.filter(select2="on")
+        | DropQuery.objects.filter(select3="on")
+    )
     if request.method == "POST":
-
-        p = SelectDropQuery.objects.filter(
-            id__gt=id).exclude(id=id).order_by('id').first()
+        p = (
+            SelectDropQuery.objects.filter(id__gt=id)
+            .exclude(id=id)
+            .order_by("id")
+            .first()
+        )
         # qt=DropQuery.objects.all()filter(optionselect="on").
 
         if p:
             answer1 = request.POST.get("1")
             if answer1:
                 try:
-                    obj1 = SelectDropQuery.objects.filter(
-                        id=p.id-1).update(select1="on")
+                    obj1 = SelectDropQuery.objects.filter(id=p.id - 1).update(
+                        select1="on"
+                    )
                 except:
                     pass
             answer2 = request.POST.get("2")
             if answer2:
                 try:
-                    obj1 = SelectDropQuery.objects.filter(
-                        id=p.id-1).update(select2="on")
+                    obj1 = SelectDropQuery.objects.filter(id=p.id - 1).update(
+                        select2="on"
+                    )
                 except:
                     pass
             answer3 = request.POST.get("3")
             if answer3:
                 try:
-                    obj1 = SelectDropQuery.objects.filter(
-                        id=p.id-1).update(select3="on")
+                    obj1 = SelectDropQuery.objects.filter(id=p.id - 1).update(
+                        select3="on"
+                    )
                 except:
                     pass
-            return render(request, "drop_rfp_quest2.html", {"p": p, "showname": showname, "country": country, "industry": industry})
+            return render(
+                request,
+                "drop_rfp_quest2.html",
+                {
+                    "p": p,
+                    "showname": showname,
+                    "country": country,
+                    "industry": industry,
+                },
+            )
         qt = SelectDropQuery.objects.all()
-        return render(request, "drop_rfp_preview.html", {"qt": qt, "showname": showname, "country": country, "industry": industry})
+        return render(
+            request,
+            "drop_rfp_preview.html",
+            {"qt": qt, "showname": showname, "country": country, "industry": industry},
+        )
 
 
 # drop_rfp_preview_view
 def drop_rfp_preview_view(request):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
-    client_name = request.session['client_name']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    client_name = request.session["client_name"]
 
-    qt = SelectDropQuery.objects.filter(user=showname).filter(select1="on") | SelectDropQuery.objects.filter(
-        user=showname).filter(select2="on") | SelectDropQuery.objects.filter(user=showname).filter(select3="on")
+    qt = (
+        SelectDropQuery.objects.filter(user=showname).filter(select1="on")
+        | SelectDropQuery.objects.filter(user=showname).filter(select2="on")
+        | SelectDropQuery.objects.filter(user=showname).filter(select3="on")
+    )
     # qt=SelectDropQuery.objects.all()
 
-    return render(request, "drop_rfp_preview.html", {"qt": qt, "showname": showname, "country": country, "industry": industry})
+    return render(
+        request,
+        "drop_rfp_preview.html",
+        {"qt": qt, "showname": showname, "country": country, "industry": industry},
+    )
 
 
 # drop_editans_view
 def drop_editans_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "POST":
         pt = SelectDropQuery.objects.get(pk=id)
 
@@ -1640,73 +1945,88 @@ def drop_editans_view(request, id):
         pt = SelectDropQuery.objects.get(pk=id)
         fm = SelectDropQueryForm(instance=pt)
 
-    return render(request, "editans_drop.html", {"form": fm, "showname": showname, "country": country, "industry": industry, "id": id})
+    return render(
+        request,
+        "editans_drop.html",
+        {
+            "form": fm,
+            "showname": showname,
+            "country": country,
+            "industry": industry,
+            "id": id,
+        },
+    )
+
 
 # drop_drop_print_pdf
 
 
 def drop_print_pdf(request):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
-    client_name = request.session['client_name']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    client_name = request.session["client_name"]
     import os
-    path = 'static/media/'+client_name+'/'+country+'/'+industry
+
+    path = "static/media/" + client_name + "/" + country + "/" + industry
     from fpdf import FPDF
 
     pdf = FPDF()
     pdf.add_page()
-    ct = SelectDropQuery.objects.filter(user=showname).filter(select1="on") | SelectDropQuery.objects.filter(
-        user=showname).filter(select2="on") | SelectDropQuery.objects.filter(user=showname).filter(select3="on")
+    ct = (
+        SelectDropQuery.objects.filter(user=showname).filter(select1="on")
+        | SelectDropQuery.objects.filter(user=showname).filter(select2="on")
+        | SelectDropQuery.objects.filter(user=showname).filter(select3="on")
+    )
     # pdf.add_font('BB','',r'C:/Windows/Fonts/javatext.TTF', uni=True)
-    pdf.set_font('Times', style='U', size=15)
-    pdf.multi_cell(
-        0, 5, 'Autodetected Question and Responses from uploaded RFP' + '\n')
-    pdf.multi_cell(0, 5, '\n')
-# query = "Has your organisation been involved in any business-related litigation that may affect the performance of these Services in the past five years?"
+    pdf.set_font("Times", style="U", size=15)
+    pdf.multi_cell(0, 5, "Autodetected Question and Responses from uploaded RFP" + "\n")
+    pdf.multi_cell(0, 5, "\n")
+    # query = "Has your organisation been involved in any business-related litigation that may affect the performance of these Services in the past five years?"
     for i in ct:
         if i.question:
             a = i.question
-            a = a.encode('latin-1', 'replace').decode('latin-1')
+            a = a.encode("latin-1", "replace").decode("latin-1")
         if i.answer1:
             b = i.answer1
-            b = b.encode('latin-1', 'replace').decode('latin-1')
+            b = b.encode("latin-1", "replace").decode("latin-1")
         if i.answer2:
             c = i.answer2
-            c = c.encode('latin-1', 'replace').decode('latin-1')
+            c = c.encode("latin-1", "replace").decode("latin-1")
         if i.answer3:
             d = i.answer3
-            d = d.encode('latin-1', 'replace').decode('latin-1')
+            d = d.encode("latin-1", "replace").decode("latin-1")
         # pdf.set_font('BB',style ='U',size=10)
-        pdf.set_font('Times', size=10)
-        pdf.multi_cell(0, 5, 'Question:'+a + '\n')
+        pdf.set_font("Times", size=10)
+        pdf.multi_cell(0, 5, "Question:" + a + "\n")
         pdf.multi_cell(0, 5, " ")
-        pdf.set_font('Times', size=9)
+        pdf.set_font("Times", size=9)
         if i.select1 == "on":
-            pdf.multi_cell(0, 5, 'Answer:'+b)
-            pdf.multi_cell(0, 5, '' + '\n' + '')
+            pdf.multi_cell(0, 5, "Answer:" + b)
+            pdf.multi_cell(0, 5, "" + "\n" + "")
         if i.select2 == "on":
-            pdf.multi_cell(0, 5, 'Answer:'+c)
-            pdf.multi_cell(0, 5, '' + '\n' + '')
+            pdf.multi_cell(0, 5, "Answer:" + c)
+            pdf.multi_cell(0, 5, "" + "\n" + "")
         if i.select3 == "on":
-            pdf.multi_cell(0, 5, 'Answer:'+d)
-            pdf.multi_cell(0, 5, '' + '\n' + '')
+            pdf.multi_cell(0, 5, "Answer:" + d)
+            pdf.multi_cell(0, 5, "" + "\n" + "")
     import os
-    path = 'static/media/'+client_name+'/'+country+'/'+industry
+
+    path = "static/media/" + client_name + "/" + country + "/" + industry
     try:
         os.makedirs(path)
-        pdf.output("./"+path+"/uploaded_file.pdf", 'F')
+        pdf.output("./" + path + "/uploaded_file.pdf", "F")
     except:
-        pdf.output("./"+path+"/uploaded_file.pdf", 'F')
+        pdf.output("./" + path + "/uploaded_file.pdf", "F")
 
     import os
     from django.conf import settings
     from django.http import HttpResponse, Http404
 
-    with open("./"+path+"/uploaded_file.pdf", 'rb') as f:
+    with open("./" + path + "/uploaded_file.pdf", "rb") as f:
         data = f.read()
     response = HttpResponse(data, content_type="application/pdf")
-    response['Content-Disposition'] = 'attachment; filename="RFP_Uploaded.pdf"'
+    response["Content-Disposition"] = 'attachment; filename="RFP_Uploaded.pdf"'
 
     return response
     # return render(request,"drop_rfp_preview.html",{"qt":ct})
@@ -1726,14 +2046,17 @@ def drop_print_pdf(request):
 
 
 def user_upload_question_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "GET":
         id = id
-        return render(request, 'UserQuestion.html', {"showname": showname, "country": country, "industry": industry, "id": id})
+        return render(
+            request,
+            "UserQuestion.html",
+            {"showname": showname, "country": country, "industry": industry, "id": id},
+        )
     if request.method == "POST":
-
         Rfp_Id = request.POST.get("Rfp_Id")
         Content_Type = request.POST.get("content_type")
         Country = request.POST.get("country")
@@ -1741,27 +2064,46 @@ def user_upload_question_view(request, id):
         Section = request.POST.get("section")
         Sub_Section = request.POST.get("sub_section")
         Question = request.POST.get("question")
-        file = request.FILES.get('file')
+        file = request.FILES.get("file")
         print(file)
-        c = UserQuestion.objects.create(rfp_id=Rfp_Id, content_type=Content_Type, country=Country,
-                                        industry=Industry, Section=Section, Sub_Section=Sub_Section, question=Question, Document_link=file)
+        c = UserQuestion.objects.create(
+            rfp_id=Rfp_Id,
+            content_type=Content_Type,
+            country=Country,
+            industry=Industry,
+            Section=Section,
+            Sub_Section=Sub_Section,
+            question=Question,
+            Document_link=file,
+        )
         c.save()
         # pt=SelectDropQuery.objects.get(pk=id)
 
-    return render(request, 'UserQuestion.html', {"showname": showname, "country": country, "industry": industry})
+    return render(
+        request,
+        "UserQuestion.html",
+        {"showname": showname, "country": country, "industry": industry},
+    )
 
 
 def confirm_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "GET":
         UQL = UserQuery.objects.filter(id=id)
         UQL.update(sentapproval="on", viewed="off")
-        return render(request, 'confirmation.html', {"showname": showname, "country": country, "industry": industry, "id": id})
+        return render(
+            request,
+            "confirmation.html",
+            {"showname": showname, "country": country, "industry": industry, "id": id},
+        )
     if request.method == "POST":
-
-        return render(request, 'confirmation.html', {"showname": showname, "country": country, "industry": industry, "id": id})
+        return render(
+            request,
+            "confirmation.html",
+            {"showname": showname, "country": country, "industry": industry, "id": id},
+        )
 
 
 def approve_view(request):
@@ -1776,10 +2118,16 @@ def approve_view(request):
     #     return render(request, 'approve.html', {"SP": SP})
     if request.method == "GET":
         SP = documentapproval.objects.filter(approved="No")
-        return render(request, 'approve.html', {"SP": SP})
+        loginusername = request.session["loginusername"]
+        return render(
+            request, "approve.html", {"SP": SP, "loginusername": loginusername}
+        )
     if request.method == "POST":
+        loginusername = request.session["loginusername"]
         SP = documentapproval.objects.filter(approved="No")
-        return render(request, 'approve.html', {"SP": SP})
+        return render(
+            request, "approve.html", {"SP": SP, "loginusername": loginusername}
+        )
 
 
 def approvedocument_view(request):
@@ -1794,118 +2142,140 @@ def approvedocument_view(request):
     #     return render(request, 'approve.html', {"SP": SP})
     if request.method == "GET":
         SP = documentapproval.objects.filter(approved="No")
-        return render(request, 'approvedocument.html', {"SP": SP})
+        Yes = documentapproval.objects.filter(approved="Yes")
+        return render(request, "approvedocument.html", {"SP": SP, "Yes": Yes})
     if request.method == "POST":
         SP = documentapproval.objects.filter(approved="No")
-        return render(request, 'approvedocument.html', {"SP": SP})
+        Yes = documentapproval.objects.filter(approved="Yes")
+        return render(request, "approvedocument.html", {"SP": SP, "Yes": Yes})
 
 
 def approved_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "GET":
         SP = documentapproval.objects.filter(id=id)
         SP.update(approved="Yes")
         SP = documentapproval.objects.filter(approved="No")
         Yes = documentapproval.objects.filter(approved="Yes")
-        return render(request, 'approvedocument.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approvedocument.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
     if request.method == "POST":
         SP = documentapproval.objects.filter(id=id)
         SP.update(approved="Yes")
         SP = documentapproval.objects.filter(approved="No")
         Yes = documentapproval.objects.filter(approved="Yes")
-        return render(request, 'approvedocument.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approvedocument.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
 
 
 def disapproved_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "GET":
         SP = documentapproval.objects.filter(id=id)
         SP.update(approved="No")
         SP = documentapproval.objects.filter(approved="No")
         Yes = documentapproval.objects.filter(approved="Yes")
-        return render(request, 'approvedocument.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approvedocument.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
     if request.method == "POST":
         SP = documentapproval.objects.filter(id=id)
         SP.update(approved="No")
         SP = documentapproval.objects.filter(approved="No")
         Yes = documentapproval.objects.filter(approved="Yes")
-        return render(request, 'approvedocument.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approvedocument.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
 
 
 def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = auth.authenticate(username=username, password=password)
+    if request.method == "POST":
+        loginusername = request.POST["username"]
+        request.session["loginusername"] = loginusername
+        password = request.POST["password"]
+        user = auth.authenticate(username=loginusername, password=password)
         if user is not None:
             if user.is_staff == True:
                 auth.login(request, user)
                 return redirect("/approveview")
             return redirect("/userlogin")
         else:
-            messages.success(request, 'Incorrect Username or password')
-            return redirect('login')
+            messages.success(request, "Incorrect Username or password")
+            return redirect("/login")
     else:
-        return render(request, 'login.html')
+        return render(request, "login.html")
 
 
 def userlogin_view(request):
     if request.method == "GET":
+        loginusername = request.session["loginusername"]
         SP = ImageUpload.objects.filter(approved="No")
-        return render(request, 'userlogin.html', {"SP": SP})
+        return render(
+            request, "userlogin.html", {"SP": SP, "loginusername": loginusername}
+        )
     if request.method == "POST":
+        loginusername = request.session["loginusername"]
         SP = ImageUpload.objects.filter(approved="No")
-        return render(request, 'userlogin.html', {"SP": SP})
-
-
-def userstandardsection_view(request):
-    if request.method == "GET":
-        return render(request, 'userstandardsection.html')
-    if request.method == "POST":
-        return render(request, 'userstandardsection.html')
-
-
-def userquestionans_view(request):
-    if request.method == "GET":
-        return render(request, 'userquestionans.html')
-    if request.method == "POST":
-        return render(request, 'userquestionans.html')
-
-
-def useraddextraimages_view(request):
-    if request.method == "GET":
-        return render(request, 'useraddextraimages.html')
-    if request.method == "POST":
-        return render(request, 'useraddextraimages.html')
-
-
-def userriskandassumption_view(request):
-    if request.method == "GET":
-        return render(request, 'userriskandassumption.html')
-    if request.method == "POST":
-        return render(request, 'userriskandassumption.html')
+        return render(
+            request, "userlogin.html", {"SP": SP, "loginusername": loginusername}
+        )
 
 
 def convertToBinaryData(filename):
     # Convert digital data to binary format
-    with open(filename, 'rb') as file:
+    with open(filename, "rb") as file:
         binaryData = file.read()
     return binaryData
 
 
 def writeTofile(data, filename):
     # Convert binary data to proper format and write it on Hard Disk
-    with open(filename, 'wb') as file:
+    with open(filename, "wb") as file:
         file.write(data)
 
 
 def Binaryfile_view(request):
     docfile = convertToBinaryData(
-        "C:/Users/shubhamjain35/Desktop/RFP-Builder-New-main/SampleBinary.docx")
+        "C:/Users/shubhamjain35/Desktop/RFP-Builder-New-main/SampleBinary.docx"
+    )
 
     c = Question.objects.create(id=310, Binaryword=docfile)
     c.save()
@@ -1914,40 +2284,58 @@ def Binaryfile_view(request):
     v = fetch.Binaryword
 
     writeTofile(
-        v, "C:/Users/shubhamjain35/Desktop/RFP-Builder-New-main/SampleBinary13.docx")
+        v, "C:/Users/shubhamjain35/Desktop/RFP-Builder-New-main/SampleBinary13.docx"
+    )
 
-    return render(request, 'index.html')
+    return render(request, "index.html")
 
 
 def chatgpt_view(request):
     # openai.api_key = os.getenv("OPENAI_API_KEY")
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
-    client_name = request.session['client_name']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    client_name = request.session["client_name"]
     ap.api_key = "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"
-    if request.method == 'POST':
-        gtp_question = request.POST['gtp_question']
+    if request.method == "POST":
+        gtp_question = request.POST["gtp_question"]
 
         response = ap.Completion.create(
             model="text-davinci-003",
             # prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ: What is human life expectancy in the United States?\nA: Human life expectancy in the United States is 78 years.\n\nQ: Who was president of the United States in 1955?\nA: Dwight D. Eisenhower was president of the United States in 1955.\n\nQ: Which party did he belong to?\nA: He belonged to the Republican Party.\n\nQ: What is the square root of banana?\nA: Unknown\n\nQ: How does a telescope work?\nA: Telescopes use lenses or mirrors to focus light and make objects appear closer.\n\nQ: Where were the 1992 Olympics held?\nA: The 1992 Olympics were held in Barcelona, Spain.\n\nQ: How many squigs are in a bonk?\nA: Unknown\n\nQ: Where is the Valley of Kings?\nA:",
             # prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ: What is human life expectancy in the United States?\nA: ",
             # prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ: What are the different components of workday?\nA: ",
-            prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ:"+gtp_question+"?\nA: ",
+            prompt='I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with "Unknown".\n\nQ:'
+            + gtp_question
+            + "?\nA: ",
             temperature=0,
             max_tokens=100,
             top_p=1,
             frequency_penalty=0.0,
             presence_penalty=0.0,
-            stop=["\n"]
+            stop=["\n"],
         )
-        chat = response['choices'][0]['text'].strip()
-        return render(request, 'chatgpt.html', {'c': chat, "gtp_question": gtp_question, "showname": showname, "country": country, "industry": industry})
+        chat = response["choices"][0]["text"].strip()
+        return render(
+            request,
+            "chatgpt.html",
+            {
+                "c": chat,
+                "gtp_question": gtp_question,
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+            },
+        )
 
-    if request.method == 'GET':
+    if request.method == "GET":
+        return render(
+            request,
+            "chatgpt.html",
+            {"showname": showname, "country": country, "industry": industry},
+        )
 
-        return render(request, 'chatgpt.html', {"showname": showname, "country": country, "industry": industry})
+
 # question = "What are the different components of workday"
 # answer = openai(question)
 # answer = openai(question)
@@ -1957,109 +2345,144 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
     subfolder = f"updated_documents/{client_name}"
     container_id = "rfpstorage"
     try:
-        print(int(i), 'integer')
+        print(int(i), "integer")
         if i:
-
             # docobj1 = RfpSection.objects.filter(id=i).update(selected="on")
             docu = RfpSection.objects.get(id=int(i))
             docu.user.add(d)
             docu = RfpSection.objects.get(id=int(i))
-            print(i, 'i object')
-            print(docu, 'docobject')
-            print('updated user to the rfp section')
+            print(i, "i object")
+            print(docu, "docobject")
+            print("updated user to the rfp section")
             print()
-            print('----')
+            print("----")
 
             if docu.industry_matrix:
                 matrix_value = docu.industry_matrix
             else:
                 matrix_value = docu.country_matrix
 
-            if docu.section_data == 'Title Page':
-                print('inside title')
+            if docu.section_data == "Title Page":
+                print("inside title")
 
                 get_doc = get_document(image_url.cloud_link)
-                print(get_doc, 'get doc response')
+                print(get_doc, "get doc response")
 
                 # update_doc = replace_word_document(client_name, '[CLIENT_NAME]', get_doc)
                 if docu.document_link:
                     doc_name = docu.document_link
                 else:
-                    doc_name = 'Title.docx'
+                    doc_name = "Title.docx"
 
-                updated_doc = docx_template_replace(
-                    get_doc, doc_name, client_name)
+                updated_doc = docx_template_replace(get_doc, doc_name, client_name)
                 # updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
                 #                                 request.session['add_line_2'], request.session['client_zipcode'], request.session['industry'],
                 #                                 request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], doc_name)
-                print(updated_doc, 'updated version')
+                print(updated_doc, "updated version")
 
                 updload_to_azure_blob = upload_blob_data(
-                    subfolder, updated_doc, container_id)
-                print(updload_to_azure_blob, 'azure path')
+                    subfolder, updated_doc, container_id
+                )
+                print(updload_to_azure_blob, "azure path")
                 # exit(0)
 
                 # c = Document_usercopy.objects.update_or_create(
                 #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=image_url.cloud_link, matrix=matrix_value)
                 c = Document_usercopy.objects.update_or_create(
-                    rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
-                print(c, 'c here')
-                c[0].File.save(updated_doc, File(open(updated_doc, 'rb')))
+                    rfp_section_id=docu.id,
+                    country=docu.country,
+                    industry=docu.industry,
+                    doc_index=docu.section_data,
+                    user=client_name,
+                    file_link=updload_to_azure_blob,
+                    matrix=matrix_value,
+                )
+                print(c, "c here")
+                c[0].File.save(updated_doc, File(open(updated_doc, "rb")))
                 # exit(0)
 
             else:
                 if docu.document_link:
-                    print('inside is document present')
+                    print("inside is document present")
                     # https://rfpstoragecheck.blob.core.windows.net/data/Healthcare/Australia/Healthcare_Australia_Executive Summary.docx
                     # file_path = f'https://rfpstoragecheck.blob.core.windows.net/data/{docu.industry}/{docu.country}/Content/{docu.document_link}'
-                    file_path = f'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{docu.industry}/{docu.country}/Content/{docu.document_link}'
+                    file_path = f"https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{docu.industry}/{docu.country}/Content/{docu.document_link}"
 
                     get_doc = get_document(file_path)
-                    print(get_doc, 'get doc response')
+                    print(get_doc, "get doc response")
 
                     # update_doc = replace_word_document(client_name, '[CLIENT_NAME]', get_doc)
                     # updated_doc = replace_word_document(client_name, '[CLIENT_NAME]', get_doc, docu.document_link)
-                    updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
-                                                   request.session['add_line_2'], request.session[
-                                                       'client_zipcode'], request.session['industry'],
-                                                   request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], docu.document_link)
+                    updated_doc = replace_word_doc(
+                        get_doc,
+                        client_name,
+                        request.session["showname"],
+                        request.session["client_geo"],
+                        request.session["add_line_1"],
+                        request.session["add_line_2"],
+                        request.session["client_zipcode"],
+                        request.session["industry"],
+                        request.session["kpmg_geo"],
+                        request.session["kpmg_address"],
+                        request.session["kpmg_lead"],
+                        docu.document_link,
+                    )
 
-                    print(updated_doc, 'update doc')
+                    print(updated_doc, "update doc")
                     # exit(0)
                     updload_to_azure_blob = upload_blob_data(
-                        subfolder, updated_doc, container_id)
-                    print(updload_to_azure_blob, 'azure path')
+                        subfolder, updated_doc, container_id
+                    )
+                    print(updload_to_azure_blob, "azure path")
 
                     # c = Document_usercopy.objects.update_or_create(
                     #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=file_path, matrix=matrix_value)
                     c = Document_usercopy.objects.update_or_create(
-                        rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
-                    print(c, 'c here')
+                        rfp_section_id=docu.id,
+                        country=docu.country,
+                        industry=docu.industry,
+                        doc_index=docu.section_data,
+                        user=client_name,
+                        file_link=updload_to_azure_blob,
+                        matrix=matrix_value,
+                    )
+                    print(c, "c here")
 
-                    c[0].File.save(updated_doc, File(open(updated_doc, 'rb')))
+                    c[0].File.save(updated_doc, File(open(updated_doc, "rb")))
 
                     # exit(0)
                 else:
                     try:
-                        print('__________________**********___________')
+                        print("__________________**********___________")
                         print()
                         print()
                         other_document = RfpSection.objects.filter(
-                            section_data=docu.section_data).exclude(document_link__in=['', None])[0]
+                            section_data=docu.section_data
+                        ).exclude(document_link__in=["", None])[0]
                         if other_document:
-                            file_path = f'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{other_document.industry}/{other_document.country}/Content/{other_document.document_link}'
+                            file_path = f"https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/{other_document.industry}/{other_document.country}/Content/{other_document.document_link}"
 
-                            print(file_path, 'file path to download')
+                            print(file_path, "file path to download")
 
                             get_doc = get_document(file_path)
-                            print(get_doc, 'get doc response')
+                            print(get_doc, "get doc response")
 
-                            updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
-                                                           request.session['add_line_2'], request.session[
-                                                               'client_zipcode'], request.session['industry'],
-                                                           request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], other_document.document_link)
+                            updated_doc = replace_word_doc(
+                                get_doc,
+                                client_name,
+                                request.session["showname"],
+                                request.session["client_geo"],
+                                request.session["add_line_1"],
+                                request.session["add_line_2"],
+                                request.session["client_zipcode"],
+                                request.session["industry"],
+                                request.session["kpmg_geo"],
+                                request.session["kpmg_address"],
+                                request.session["kpmg_lead"],
+                                other_document.document_link,
+                            )
 
-                            print(updated_doc, 'update doc')
+                            print(updated_doc, "update doc")
 
                             updload_to_azure_blob = upload_blob_data(
                                 subfolder, updated_doc, container_id
@@ -2067,18 +2490,24 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             print(updload_to_azure_blob, 'azure path')
 
                             c = Document_usercopy.objects.update_or_create(
-                                rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
+                                rfp_section_id=docu.id,
+                                country=docu.country,
+                                industry=docu.industry,
+                                doc_index=docu.section_data,
+                                user=client_name,
+                                file_link=updload_to_azure_blob,
+                                matrix=matrix_value,
+                            )
 
-                            c[0].File.save(updated_doc, File(
-                                open(updated_doc, 'rb')))
+                            c[0].File.save(updated_doc, File(open(updated_doc, "rb")))
                     except Exception as ex:
-                        print(ex, 'exception')
-                        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx'
+                        print(ex, "exception")
+                        file_path = "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
 
-                        print(file_path, 'file path to download')
+                        print(file_path, "file path to download")
 
                         get_doc = get_document(file_path)
-                        print(get_doc, 'get doc response')
+                        print(get_doc, "get doc response")
 
                         updload_to_azure_blob = upload_blob_data(
                             subfolder, get_doc, container_id)
@@ -2088,11 +2517,18 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
                         c = Document_usercopy.objects.update_or_create(
-                            rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
+                            rfp_section_id=docu.id,
+                            country=docu.country,
+                            industry=docu.industry,
+                            doc_index=docu.section_data,
+                            user=client_name,
+                            file_link=updload_to_azure_blob,
+                            matrix=matrix_value,
+                        )
 
-                        c[0].File.save(get_doc, File(open(get_doc, 'rb')))
+                        c[0].File.save(get_doc, File(open(get_doc, "rb")))
 
-            if docu.country_matrix == 'S':
+            if docu.country_matrix == "S":
                 standard_sections.append(docu.section_data)
 
         else:
@@ -2102,49 +2538,62 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
             except:
                 pass
     except Exception as e:
-        print(e, 'exception')
+        print(e, "exception")
 
 
 def SelectedIndex_view(request):
-
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
-    client_name = request.session['client_name']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    client_name = request.session["client_name"]
     ap.api_key = "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"
-    if request.method == 'GET':
+    if request.method == "GET":
         p = Users.objects.get(user=client_name)
         Doccopy = Document.objects.filter(user=p)
         Document_usercopy.objects.filter(user=client_name).delete()
         for docu in Doccopy:
             c = Document_usercopy.objects.create(
-                country=docu.country, industry=docu.industry, doc_index=docu.doc_index, user=client_name, File=docu.File)
+                country=docu.country,
+                industry=docu.industry,
+                doc_index=docu.doc_index,
+                user=client_name,
+                File=docu.File,
+            )
 
         show = Document_usercopy.objects.filter(user=client_name).first()
         print("SelectedIndex_view_Get")
         print(show.id)
         print("SelectedIndex_view_Get")
-        return render(request, 'SelectedIndex.html', {"showname": showname, "country": country, "industry": industry, "show": show})
-    if request.method == 'POST':
+        return render(
+            request,
+            "SelectedIndex.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "show": show,
+            },
+        )
+    if request.method == "POST":
         # CHECKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK
-        print('checkkkkkkkkkkk im here request post', request.POST)
-        client_name = request.session['client_name']
-        industry = request.session['industry']
-        country = request.session['country']
+        print("checkkkkkkkkkkk im here request post", request.POST)
+        client_name = request.session["client_name"]
+        industry = request.session["industry"]
+        country = request.session["country"]
         radio = request.POST.get("flexRadioDefault")
         Quest = request.POST.get("Quest")
 
         request_post_list = dict(request.POST).keys()
-        print(request_post_list, 'post list')
+        print(request_post_list, "post list")
 
         # request_post_list = sorted(request_post_list, key=int)
 
-        print(request.POST, 'post dataaaa')
-        print(request_post_list, 'post list')
+        print(request.POST, "post dataaaa")
+        print(request_post_list, "post list")
 
         check_user = Users.objects.filter(user=client_name)
 
-        print(check_user, 'check user')
+        print(check_user, "check user")
         # exit(0)
         if check_user:
             d = check_user[0]
@@ -2152,21 +2601,19 @@ def SelectedIndex_view(request):
         else:
             d = Users(user=client_name)
             d.save()
-            print(d, 'user saved')
+            print(d, "user saved")
 
         if radio:
+            # u = Users.objects.get(user=client_name)
 
-            #u = Users.objects.get(user=client_name)
-
-            Imagee = Image.objects.get(
-                id=radio)
+            Imagee = Image.objects.get(id=radio)
 
             l = Image.objects.filter(id=radio)
             t = Image.objects.filter(id=radio).update(selected="on")
             image_url = Image.objects.get(id=radio)
 
-            print(l, 'lllll')
-            print(image_url.image.url, 'urlll of image')
+            print(l, "lllll")
+            print(image_url.image.url, "urlll of image")
             if client_name in l:
                 pass
             else:
@@ -2178,55 +2625,69 @@ def SelectedIndex_view(request):
                 l = Imagee.user.all()
 
         if Quest:
-            print('inside ques')
+            print("inside ques")
             ck = askques.objects.filter(user=client_name)
-            print(ck, 'ckkkk')
+            print(ck, "ckkkk")
             if not ck:
                 askquestion = askques(user=client_name, selected="on")
                 askquestion.save()
             if ck:
-                askquestion = askques.objects.filter(
-                    user=client_name).update(selected="on")
+                askquestion = askques.objects.filter(user=client_name).update(
+                    selected="on"
+                )
         else:
             check = askques.objects.filter(user=client_name)
             if check:
-                askque = askques.objects.filter(
-                    user=client_name).update(selected=" ")
+                askque = askques.objects.filter(user=client_name).update(selected=" ")
             else:
-                print(client_name, 'inside else')
+                print(client_name, "inside else")
                 askque = askques(user=client_name, selected=" ")
                 askque.save()
 
-        if request.POST.get('gtp_question'):
-            gtp_question = request.POST['gtp_question']
+        if request.POST.get("gtp_question"):
+            gtp_question = request.POST["gtp_question"]
             selfirst = "DEF"
-            request.session['selfirst'] = selfirst
+            request.session["selfirst"] = selfirst
             response = ap.Completion.create(
                 model="text-davinci-003",
                 # prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ: What is human life expectancy in the United States?\nA: Human life expectancy in the United States is 78 years.\n\nQ: Who was president of the United States in 1955?\nA: Dwight D. Eisenhower was president of the United States in 1955.\n\nQ: Which party did he belong to?\nA: He belonged to the Republican Party.\n\nQ: What is the square root of banana?\nA: Unknown\n\nQ: How does a telescope work?\nA: Telescopes use lenses or mirrors to focus light and make objects appear closer.\n\nQ: Where were the 1992 Olympics held?\nA: The 1992 Olympics were held in Barcelona, Spain.\n\nQ: How many squigs are in a bonk?\nA: Unknown\n\nQ: Where is the Valley of Kings?\nA:",
                 # prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ: What is human life expectancy in the United States?\nA: ",
                 # prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ: What are the different components of workday?\nA: ",
-                prompt="I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".\n\nQ:"+gtp_question+"?\nA: ",
+                prompt='I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with "Unknown".\n\nQ:'
+                + gtp_question
+                + "?\nA: ",
                 temperature=0,
                 max_tokens=100,
                 top_p=1,
                 frequency_penalty=0.0,
                 presence_penalty=0.0,
-                stop=["\n"]
+                stop=["\n"],
             )
-            chat = response['choices'][0]['text'].strip()
-            print(chat, 'response from chat gpt--------')
+            chat = response["choices"][0]["text"].strip()
+            print(chat, "response from chat gpt--------")
             # show = Document_usercopy.objects.filter(user=client_name).order_by('rfp_section__order').first()
-            show = Document_usercopy.objects.get(doc_index='Executive Summary')
+            show = Document_usercopy.objects.get(doc_index="Executive Summary")
 
-            print(show, 'all user data')
-
-            print("SelectedIndex_view_POST")
+            print(show, "all user data")
 
             print("SelectedIndex_view_POST")
-            print(show, 'show data')
 
-            return render(request, 'SelectedIndex.html', {'c': chat, "standard_sections": standard_sections, "gtp_question": gtp_question, "showname": showname, "country": country, "industry": industry, "show": show})
+            print("SelectedIndex_view_POST")
+            print(show, "show data")
+
+            return render(
+                request,
+                "SelectedIndex.html",
+                {
+                    "c": chat,
+                    "standard_sections": standard_sections,
+                    "gtp_question": gtp_question,
+                    "showname": showname,
+                    "country": country,
+                    "industry": industry,
+                    "show": show,
+                },
+            )
 
         standard_sections = []
         # subfolder = f"updated_documents/{client_name}"
@@ -2234,11 +2695,20 @@ def SelectedIndex_view(request):
         thread_list = []
 
         for i in range(0, len(request_post_list)):
-            print(i, 'ii - check')
+            print(i, "ii - check")
             try:
-                temp_var = f't{i}'
-                temp_var = threading.Thread(target=data_computation, args=(request, list(
-                    request_post_list)[i], d, standard_sections, client_name, image_url))
+                temp_var = f"t{i}"
+                temp_var = threading.Thread(
+                    target=data_computation,
+                    args=(
+                        request,
+                        list(request_post_list)[i],
+                        d,
+                        standard_sections,
+                        client_name,
+                        image_url,
+                    ),
+                )
                 temp_var.start()
                 thread_list.append(temp_var)
                 # compute_data = data_computation(request, list(request_post_list)[i], d, standard_sections, client_name, image_url)
@@ -2246,11 +2716,11 @@ def SelectedIndex_view(request):
                 print(e)
             # run_thread = data_computation()
 
-        print(thread_list, 'thread_list')
+        print(thread_list, "thread_list")
         for i in thread_list:
             i.join()
 
-    # checkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+        # checkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
 
         # p = Users.objects.get(user=client_name)
         # Doccopy = RfpSection.objects.filter(user=p).order_by('order')
@@ -2315,44 +2785,69 @@ def SelectedIndex_view(request):
         #     print("SelectedIndex_view_POST_except")
         #     # print(show, vars(show), showname, '-----------')
         #     return render(request, 'SelectedIndex.html', {"showname": showname, "standard_sections": standard_sections, "country": country, "industry": industry, "show": show})
-        show = Document_usercopy.objects.filter(
-            user=client_name).order_by('rfp_section__order').first()
+        show = (
+            Document_usercopy.objects.filter(user=client_name)
+            .order_by("rfp_section__order")
+            .first()
+        )
         print("SelectedIndex_view_POST_except")
 
         print("SelectedIndex_view_POST_except")
         # print(show, vars(show), showname, '-----------')
-        return render(request, 'SelectedIndex.html', {"showname": showname, "standard_sections": standard_sections, "country": country, "industry": industry, "show": show})
+        return render(
+            request,
+            "SelectedIndex.html",
+            {
+                "showname": showname,
+                "standard_sections": standard_sections,
+                "country": country,
+                "industry": industry,
+                "show": show,
+            },
+        )
 
 
 def SelectedIndex2_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
+    industry = request.session["industry"]
+    country = request.session["country"]
     if country == "AU":
         country1 = "AU"
-    showname = request.session['showname']
-    client_name = request.session['client_name']
-    if request.method == 'GET':
+    showname = request.session["showname"]
+    client_name = request.session["client_name"]
+    if request.method == "GET":
         p = Users.objects.get(user=client_name)
         Doccopy = Document.objects.filter(user=p)
 
         for docu in Doccopy:
-            c = Document_usercopy.objects.create(country=docu.country, industry=docu.industry, doc_index=docu.doc_index,
-                                                 File=docu.File)
+            c = Document_usercopy.objects.create(
+                country=docu.country,
+                industry=docu.industry,
+                doc_index=docu.doc_index,
+                File=docu.File,
+            )
 
-        return render(request, 'SelectedIndex2.html', {"showname": showname, "country": country, "industry": industry, "Doccopy": Doccopy})
-    if request.method == 'POST':
+        return render(
+            request,
+            "SelectedIndex2.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "Doccopy": Doccopy,
+            },
+        )
+    if request.method == "POST":
         Queryyy = request.POST.get("Queryyy")
         print("SelectedIndex2_view_POST")
         print(Queryyy)
         print("SelectedIndex2_view_POST")
-        editable_sections = ['I', 'M', 'E']
+        editable_sections = ["I", "M", "E"]
         try:
             extraimg = request.POST.getlist("sectionextraimage")
-            print(extraimg, 'extraaaaaaaa')
+            print(extraimg, "extraaaaaaaa")
             print(extraimg, "extraimg--------------------")
             if extraimg:
-                extraselected = SectionExtraImage.objects.filter(
-                    id__in=extraimg)
+                extraselected = SectionExtraImage.objects.filter(id__in=extraimg)
                 delextraselected = ExtraImage.objects.exclude(id__in=extraimg)
                 user = Users.objects.get(user=client_name)
                 for e in extraselected:
@@ -2365,16 +2860,22 @@ def SelectedIndex2_view(request, id):
                     doc_user_copy=user_copy
                 )
                 save_image_doc[0].image_doc.save(
-                    create_doc_of_images, File(open(create_doc_of_images, 'rb')))
-                print('successfully added image document to section')
+                    create_doc_of_images, File(open(create_doc_of_images, "rb"))
+                )
+                print("successfully added image document to section")
                 # extra = ExtraImage.objects.filter(user=user)
                 # extrano = ExtraImage.objects.exclude(user=user)
         except:
             pass
 
         pivot = Document_usercopy.objects.get(id=id)
-        show2 = Document_usercopy.objects.filter(user=client_name).filter(
-            rfp_section__order__gt=pivot.rfp_section.order).exclude(id=pivot.id).order_by('rfp_section__order').first()
+        show2 = (
+            Document_usercopy.objects.filter(user=client_name)
+            .filter(rfp_section__order__gt=pivot.rfp_section.order)
+            .exclude(id=pivot.id)
+            .order_by("rfp_section__order")
+            .first()
+        )
         if not show2:
             # show2 = Document_usercopy.objects.filter(user=client_name).filter(
             #     id__gt=id).exclude(id=id).order_by('id').first()
@@ -2383,22 +2884,41 @@ def SelectedIndex2_view(request, id):
             # print("SelectedIndex2_view_POST_not_Query")
 
             rfp_user_sections = Document_usercopy.objects.filter(
-                user=client_name).exclude(doc_index='Title Page')
-            return render(request, 'SelectedIndexlastPage.html', {"client_name": client_name, "showname": showname, "country": country, "industry": industry, "filenames": rfp_user_sections, 'editable_sections': editable_sections})
+                user=client_name
+            ).exclude(doc_index="Title Page")
+            return render(
+                request,
+                "SelectedIndexlastPage.html",
+                {
+                    "client_name": client_name,
+                    "showname": showname,
+                    "country": country,
+                    "industry": industry,
+                    "filenames": rfp_user_sections,
+                    "editable_sections": editable_sections,
+                },
+            )
         if show2:
-            showname = request.session['showname']
-            industry = request.session['industry']
-            country = request.session['country']
-            client_name = request.session['client_name']
+            showname = request.session["showname"]
+            industry = request.session["industry"]
+            country = request.session["country"]
+            client_name = request.session["client_name"]
             Queryyy = request.POST.get("Queryyy")
             data = Question.objects.filter(country=country, industry=industry)
             standard_sections = Document_usercopy.objects.filter(
-                matrix='S').values_list('doc_index', flat=True)
-            show2 = Document_usercopy.objects.filter(user=client_name).filter(
-                rfp_section__order__gt=pivot.rfp_section.order).exclude(id=pivot.id).order_by('rfp_section__order').first()
-            print(show2, 'show2')
+                matrix="S"
+            ).values_list("doc_index", flat=True)
+            show2 = (
+                Document_usercopy.objects.filter(user=client_name)
+                .filter(rfp_section__order__gt=pivot.rfp_section.order)
+                .exclude(id=pivot.id)
+                .order_by("rfp_section__order")
+                .first()
+            )
+            print(show2, "show2")
             IMGSEC = SectionExtraImage.objects.filter(
-                country=country, industry=industry, section_data=show2.doc_index)
+                country=country, industry=industry, section_data=show2.doc_index
+            )
             for i in IMGSEC:
                 print("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ")
                 print(i.id)
@@ -2407,36 +2927,72 @@ def SelectedIndex2_view(request, id):
             if not IMGSEC:
                 Noimage = "No IMAGES FOUND"
 
-            print(IMGSEC, 'imgsec')
-            if show2.doc_index == 'Executive Summary':
-                return render(request, 'SelectedIndex.html', {"showname": showname, "standard_sections": standard_sections, "country": country, "industry": industry, "show": show2, "IMGSEC": IMGSEC, "Noimage": Noimage})
+            print(IMGSEC, "imgsec")
+            if show2.doc_index == "Executive Summary":
+                return render(
+                    request,
+                    "SelectedIndex.html",
+                    {
+                        "showname": showname,
+                        "standard_sections": standard_sections,
+                        "country": country,
+                        "industry": industry,
+                        "show": show2,
+                        "IMGSEC": IMGSEC,
+                        "Noimage": Noimage,
+                    },
+                )
 
-            return render(request, 'SelectedIndex2.html', {'data': data, "editable_sections": editable_sections, "showname": showname, "country": country, "industry": industry, "show2": show2, "IMGSEC": IMGSEC, "Noimage": Noimage})
+            return render(
+                request,
+                "SelectedIndex2.html",
+                {
+                    "data": data,
+                    "editable_sections": editable_sections,
+                    "showname": showname,
+                    "country": country,
+                    "industry": industry,
+                    "show2": show2,
+                    "IMGSEC": IMGSEC,
+                    "Noimage": Noimage,
+                },
+            )
 
 
 def SelectedIndexlastPage_view(request):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
-    client_name = request.session['client_name']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    client_name = request.session["client_name"]
     sellast = "DEF"
-    request.session['sellast'] = sellast
-    editable_sections = ['I', 'M', 'E']
-    rfp_user_sections = Document_usercopy.objects.filter(
-        user=client_name).exclude(doc_index='Title Page')
-    return render(request, 'SelectedIndexlastPage.html', {"client_name": client_name, "showname": showname, "country": country, "industry": industry, "filenames": rfp_user_sections, 'editable_sections': editable_sections})
+    request.session["sellast"] = sellast
+    editable_sections = ["I", "M", "E"]
+    rfp_user_sections = Document_usercopy.objects.filter(user=client_name).exclude(
+        doc_index="Title Page"
+    )
+    return render(
+        request,
+        "SelectedIndexlastPage.html",
+        {
+            "client_name": client_name,
+            "showname": showname,
+            "country": country,
+            "industry": industry,
+            "filenames": rfp_user_sections,
+            "editable_sections": editable_sections,
+        },
+    )
     # return render(request, 'SelectedIndexlastPage.html', {"showname": showname, "country": country, "industry": industry})
 
 
 def Onscreenmcq_view(request, id):
-
     if request.method == "POST":
-        showname = request.session['showname']
-        industry = request.session['industry']
-        country = request.session['country']
+        showname = request.session["showname"]
+        industry = request.session["industry"]
+        country = request.session["country"]
         if country == "AU":
             country = "AU"
-        client_name = request.session['client_name']
+        client_name = request.session["client_name"]
         Queryyy = request.POST.get("Queryyy")
         data = RfpData.objects.all()
         df_rfpdata = read_frame(data)
@@ -2465,31 +3021,40 @@ def Onscreenmcq_view(request, id):
 
         # Creating an model
         model_build = Model_Buiding_approach(
-            industry_text, country_text, model_name=model_name)
+            industry_text, country_text, model_name=model_name
+        )
 
         print("Before Filtered DataFrame:- ", df_rfpdata.shape)
         # Filter the data based on Country and Industry
-        df = model_build.dataframe_filter_return(
-            df_rfpdata, industry, country, section)
+        df = model_build.dataframe_filter_return(df_rfpdata, industry, country, section)
 
         print("Filtered DataFrame:- ", df.shape)
         # Training Dataset Vector
-        if os.path.isfile("RFP/Embedding Models/corpus_embedding"+'-'+model_name+'-'+country_text+"-"+industry_text+".pt"):
+        if os.path.isfile(
+            "RFP/Embedding Models/corpus_embedding"
+            + "-"
+            + model_name
+            + "-"
+            + country_text
+            + "-"
+            + industry_text
+            + ".pt"
+        ):
             print("Need not to Run Training File as Model is Present")
         else:
             print("File is not present. Initializing the training command.")
-            execution_time = model_build.training_dataset_vector(
-                df, embedder=embedder)
+            execution_time = model_build.training_dataset_vector(df, embedder=embedder)
             print("Execution of Training Time:-", execution_time)
 
         # Input the query
         # query = "Has your organisation been involved in any business-related litigation that may affect the performance of these Services in the past five years?"
         queryyy = Queryyy
 
-        request.session['queryyy'] = queryyy
+        request.session["queryyy"] = queryyy
         non = ""
         index_list, cos_sim_list = model_build.query_resolved(
-            query=queryyy, df=df, embedder=embedder)
+            query=queryyy, df=df, embedder=embedder
+        )
 
         data = Question.objects.filter(id__in=index_list)
         data0 = ""
@@ -2520,63 +3085,84 @@ def Onscreenmcq_view(request, id):
             # data1=data[1].Questions
             # id1=data[1].id
             # data2=data[2].Questions
-           # id2=data[2].id
+        # id2=data[2].id
         # l = Question.objects.get(id=170)
 
         # f = l.File
-        show2 = Document_usercopy.objects.filter(
-            id=id)
-        return render(request, 'SelectedIndex2.html', {'non': non, 'data': data,  "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Queryyy, "showname": showname, "country": country, "industry": industry, "show2": show2})
+        show2 = Document_usercopy.objects.filter(id=id)
+        return render(
+            request,
+            "SelectedIndex2.html",
+            {
+                "non": non,
+                "data": data,
+                "data0": data0,
+                "data1": data1,
+                "data2": data2,
+                "id0": id0,
+                "id1": id1,
+                "id2": id2,
+                "Query": Queryyy,
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "show2": show2,
+            },
+        )
 
 
 # documentapproval files
 
+
 def download_merged_doc(request):
-    filename = 'whatever_in_absolute_path__or_not.pdf'
+    filename = "whatever_in_absolute_path__or_not.pdf"
     content = FileWrapper(filename)
-    response = HttpResponse(content, content_type='application/pdf')
-    response['Content-Length'] = os.path.getsize(filename)
-    response['Content-Disposition'] = 'attachment; filename=%s' % 'whatever_name_will_appear_in_download.pdf'
+    response = HttpResponse(content, content_type="application/pdf")
+    response["Content-Length"] = os.path.getsize(filename)
+    response["Content-Disposition"] = (
+        "attachment; filename=%s" % "whatever_name_will_appear_in_download.pdf"
+    )
     return response
 
 
 def download(request, path):
     file_path = os.path.join(settings.MEDIA_ROOT, path)
     if os.path.exists(file_path):
-        with open(file_path, 'rb') as fh:
-            response = HttpResponse(
-                fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + \
-                os.path.basename(file_path)
+        with open(file_path, "rb") as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response["Content-Disposition"] = "inline; filename=" + os.path.basename(
+                file_path
+            )
             return response
     raise Http404
 
 
 def documentapproval_view(request):
-    print('im here listening to dropzone')
+    print("im here listening to dropzone")
 
-    print(request.POST, 'request post')
-    print(request.FILES.get('file'), 'file')
+    print(request.POST, "request post")
+    print(request.FILES.get("file"), "file")
     # print(request.FILES, 'files')
     # exit(0)
-    _file = request.FILES.get('file')
-    print(_file.name, 'name of the file')
+    _file = request.FILES.get("file")
+    print(_file.name, "name of the file")
 
-    client_name = request.session['client_name']
-    country = request.session['country']
-    file_data = request.FILES.get('file')
+    client_name = request.session["client_name"]
+    country = request.session["country"]
+    file_data = request.FILES.get("file")
 
     # documents = Document_usercopy.objects.filter(user=client_name)
-    print(client_name, 'client name')
+    print(client_name, "client name")
     file_name = _file.name
-    print(file_name, 'file name to deformat')
+    print(file_name, "file name to deformat")
 
-    file_name = file_name.split(f'{client_name}_')
-    print(file_name, 'after splitting')
+    file_name = file_name.split(f"{client_name}_")
+    print(file_name, "after splitting")
     # exit(0)
     find_document = Document_usercopy.objects.filter(
-        user=client_name, rfp_section__document_file_name=file_name[1])[0]
-    print(find_document, 'found')
+        user=client_name, rfp_section__document_file_name=file_name[1]
+    )[0]
+    print(find_document, "found")
     # find_document.File.save(_file, File(open(_file,'rb')))
     find_document.File = _file
     find_document.save()
@@ -2587,23 +3173,26 @@ def documentapproval_view(request):
     # prod = documentapproval(
     #     user=client_name, documentapproval=fileapp, clientgeo=country)
     # prod.save()
-
     return 'successfully uploaded'
 
 import subprocess
 
 
 def generate_rfp_document(request):
-    print('im here inside the rfp document')
-    client_name = request.session['client_name']
-    country = request.session['country']
-    industry = request.session['industry']
+    print("im here inside the rfp document")
+    client_name = request.session["client_name"]
+    country = request.session["country"]
+    industry = request.session["industry"]
 
-    all_documents = Document_usercopy.objects.filter(
-        country=country, industry=industry, user=client_name
-    ).exclude(File__in=['', None]).order_by('rfp_section__order')
+    all_documents = (
+        Document_usercopy.objects.filter(
+            country=country, industry=industry, user=client_name
+        )
+        .exclude(File__in=["", None])
+        .order_by("rfp_section__order")
+    )
 
-    print(all_documents, 'all the documents')
+    print(all_documents, "all the documents")
 
     file_list = []
     node_command_string = "node doc-merger.js"
@@ -2613,24 +3202,26 @@ def generate_rfp_document(request):
             file_list.append(i.File.url)
         node_command_string += f' {i.File.url}'
         try:
-            extra_image_file = ImageDocumentUsercopy.objects.filter(doc_user_copy_id=i.id)[
-                0]
-            print(extra_image_file, 'imageeee docccc')
+            extra_image_file = ImageDocumentUsercopy.objects.filter(
+                doc_user_copy_id=i.id
+            )[0]
+            print(extra_image_file, "imageeee docccc")
             if extra_image_file:
                 file_list.append(extra_image_file.image_doc.url)
-                node_command_string += f' {extra_image_file.image_doc.url}'
+                node_command_string += f" {extra_image_file.image_doc.url}"
         except Exception as e:
-            print(e, 'exception at adding image document')
+            print(e, "exception at adding image document")
 
-    print(file_list, 'file list')
-    print(node_command_string, 'node command')
+    print(file_list, "file list")
+    print(node_command_string, "node command")
+
     # exit(0)
 
     # result = subprocess.run(["node", "doc-merget.js", file_list[0], file_list[1]], capture_output=True, text=True, check=True)
 
     # result = os.system("node doc-merger.js /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Title.docx /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Healthcare_AU_Executive_Summary.docx")
     result = os.system(node_command_string)
-    print(result, 'result of executed node file')
+    print(result, "result of executed node file")
     # add_header_footer = write_header_footer('output-node-merger-v4.docx')
     # print(add_header_footer, 'adding header and footer to the final document')
     # exit(0)
@@ -2644,37 +3235,38 @@ def generate_rfp_document(request):
     # create_udpate_user_rfp[0].rfp_file.save(
     #     remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
     create_udpate_user_rfp[0].rfp_file.save(
-        'rfp_final_v4.docx', File(open('output-node-merger-v4.docx', 'rb')))
+        "rfp_final_v4.docx", File(open("output-node-merger-v4.docx", "rb"))
+    )
+
 
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()
     # print(directory, 'directoryhy')
     string_path = directory + file_path
 
-    print(file_path, 'file path opened with joinnnnn')
+    print(file_path, "file path opened with joinnnnn")
     if os.path.exists(string_path):
-        with open(string_path, 'rb') as fh:
-            response = HttpResponse(
-                fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename=' + \
-                os.path.basename(file_path)
+        with open(string_path, "rb") as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response["Content-Disposition"] = "inline; filename=" + os.path.basename(
+                file_path
+            )
             return response
     raise Http404
     # return render(request, 'SelectedIndexlastPage.html')
 
 
 def ExtraImage_view(request):
-    showname = request.session['showname']
-    industry = request.session['industry']
-    country = request.session['country']
-    client_name = request.session['client_name']
+    showname = request.session["showname"]
+    industry = request.session["industry"]
+    country = request.session["country"]
+    client_name = request.session["client_name"]
     if request.method == "POST":
         Extraimgsearch = request.POST.get("Extraimgsearch")
-        request.session['Extraimgsearch'] = Extraimgsearch
+        request.session["Extraimgsearch"] = Extraimgsearch
         print("Extraimgsearch", Extraimgsearch)
         extraimg = request.POST.getlist("extraimage")
-        checkon = ExtraImage.objects.filter(
-            Industry=Extraimgsearch)
+        checkon = ExtraImage.objects.filter(Industry=Extraimgsearch)
         checkonid = []
         for i in checkon:
             checkonid.append(i.id)
@@ -2696,14 +3288,23 @@ def ExtraImage_view(request):
                 c = d.user.remove(user)
 
         user = Users.objects.get(user=client_name)
-        Extraimgsearch = request.session['Extraimgsearch']
+        Extraimgsearch = request.session["Extraimgsearch"]
         extra = ExtraImage.objects.filter(Industry=Extraimgsearch, user=user)
-        extrano = ExtraImage.objects.filter(
-            Industry=Extraimgsearch).exclude(user=user)
-        return render(request, 'extraimage.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+        extrano = ExtraImage.objects.filter(Industry=Extraimgsearch).exclude(user=user)
+        return render(
+            request,
+            "extraimage.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "extra": extra,
+                "extrano": extrano,
+            },
+        )
     if request.method == "GET":
         extrcount = "DEF"
-        request.session['extrcount'] = extrcount
+        request.session["extrcount"] = extrcount
         user = Users.objects.get(user=client_name)
         extra = ExtraImage.objects.filter(user=user)
         extrano = ExtraImage.objects.exclude(user=user)
@@ -2713,37 +3314,93 @@ def ExtraImage_view(request):
         for i in indus:
             print(i.Industry)
         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        return render(request, 'extraimage.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+        return render(
+            request,
+            "extraimage.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "extra": extra,
+                "extrano": extrano,
+            },
+        )
 
 
 def UploadExtraImage_view(request):
-    showname = request.session['showname']
-    industry = request.session['industry']
-    country = request.session['country']
-    client_name = request.session['client_name']
+    showname = request.session["showname"]
+    industry = request.session["industry"]
+    country = request.session["country"]
+    client_name = request.session["client_name"]
     if request.method == "POST":
-
-        return render(request, 'UploadExtraImage.html', {"showname": showname, "country": country, "industry": industry})
+        return render(
+            request,
+            "UploadExtraImage.html",
+            {"showname": showname, "country": country, "industry": industry},
+        )
     if request.method == "GET":
+        return render(
+            request,
+            "UploadExtraImage.html",
+            {"showname": showname, "country": country, "industry": industry},
+        )
 
-        return render(request, 'UploadExtraImage.html', {"showname": showname, "country": country, "industry": industry})
+
+def Uploadassumprisk_view(request):
+    showname = request.session["showname"]
+    industry = request.session["industry"]
+    country = request.session["country"]
+    client_name = request.session["client_name"]
+    if request.method == "POST":
+        return render(
+            request,
+            "Uploadassumprisk.html",
+            {"showname": showname, "country": country, "industry": industry},
+        )
+    if request.method == "GET":
+        return render(
+            request,
+            "Uploadassumprisk.html",
+            {"showname": showname, "country": country, "industry": industry},
+        )
 
 
 # upload Image files
 def image_upload_view(request):
-    client_name = request.session['client_name']
-    country = request.session['country']
-    pic = request.FILES.get('file')
-    prod = ImageUpload(user=client_name, picup=pic, clientgeo=country)
+    username = request.session["username"]
+    client_name = request.session["client_name"]
+    loginusername = request.session["loginusername"]
+    country = request.session["country"]
+    pic = request.FILES.get("file")
+    prod = ImageUpload(user=loginusername, picup=pic, clientgeo=country)
     prod.save()
-    return render(request, 'UploadExtraImage.html')
+    return render(request, "UploadExtraImage.html")
+
+
+# upload Assumption Risk files
+def Assumption_upload_view(request):
+    username = request.session["username"]
+    country = request.POST["countries"]
+    industry = request.POST["industry"]
+    section = request.POST["Section"]
+    loginusername = request.session["loginusername"]
+    description = request.POST["description"]
+    assump = userriskandassumption.objects.create(
+        user=username,
+        country=country,
+        industry=industry,
+        section=section,
+        description=description,
+    )
+    assump.save()
+    return render(request, "Uploadassumprisk.html")
 
 
 def AssuptionAndRisk_view(request):
-    showname = request.session['showname']
-    industry = request.session['industry']
-    country = request.session['country']
-    client_name = request.session['client_name']
+    showname = request.session["showname"]
+    industry = request.session["industry"]
+    country = request.session["country"]
+    client_name = request.session["client_name"]
     # Assuption_And_Risk = AssuptionAndRisk.objects.filter(
     #     Topic="Assuption_And_Risk")
     # Key_consideration_and_risk = AssuptionAndRisk.objects.filter(
@@ -2761,167 +3418,242 @@ def AssuptionAndRisk_view(request):
         print("extraselected", extraselected)
 
         print("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-        delextraselected = AssuptionAndRisk.objects.exclude(
-            id__in=check)
+        delextraselected = AssuptionAndRisk.objects.exclude(id__in=check)
 
         user = Users.objects.get(user=client_name)
         for e in extraselected:
             c = e.user.add(user)
         for d in delextraselected:
             c = d.user.remove(user)
-        Generalcheck = AssuptionAndRisk.objects.filter(
-            category="General", user=user)
+        Generalcheck = AssuptionAndRisk.objects.filter(category="General", user=user)
 
-        Generalnotcheck = AssuptionAndRisk.objects.filter(
-            category="General").exclude(user=user)
+        Generalnotcheck = AssuptionAndRisk.objects.filter(category="General").exclude(
+            user=user
+        )
 
         Resourcescheck = AssuptionAndRisk.objects.filter(
-            category="Resources", user=user)
+            category="Resources", user=user
+        )
 
         Resourcesnotcheck = AssuptionAndRisk.objects.filter(
-            category="Resources").exclude(user=user)
+            category="Resources"
+        ).exclude(user=user)
 
-        Workdaycheck = AssuptionAndRisk.objects.filter(
-            category="Workday", user=user)
+        Workdaycheck = AssuptionAndRisk.objects.filter(category="Workday", user=user)
 
-        Workdaynotcheck = AssuptionAndRisk.objects.filter(
-            category="Workday").exclude(user=user)
+        Workdaynotcheck = AssuptionAndRisk.objects.filter(category="Workday").exclude(
+            user=user
+        )
 
-        Softwarecheck = AssuptionAndRisk.objects.filter(
-            category="Software", user=user)
+        Softwarecheck = AssuptionAndRisk.objects.filter(category="Software", user=user)
 
-        Softwarenotcheck = AssuptionAndRisk.objects.filter(
-            category="Software").exclude(user=user)
+        Softwarenotcheck = AssuptionAndRisk.objects.filter(category="Software").exclude(
+            user=user
+        )
 
         Integrationcheck = AssuptionAndRisk.objects.filter(
-            category="Integration", user=user)
+            category="Integration", user=user
+        )
 
         Integrationnotcheck = AssuptionAndRisk.objects.filter(
-            category="Integration").exclude(user=user)
+            category="Integration"
+        ).exclude(user=user)
 
         Datacheck = AssuptionAndRisk.objects.filter(
-            category="Data Migration", user=user)
+            category="Data Migration", user=user
+        )
 
         Datanotcheck = AssuptionAndRisk.objects.filter(
-            category="Data Migration").exclude(user=user)
+            category="Data Migration"
+        ).exclude(user=user)
 
-        Testingcheck = AssuptionAndRisk.objects.filter(
-            category="Testing", user=user)
+        Testingcheck = AssuptionAndRisk.objects.filter(category="Testing", user=user)
 
-        Testingnotcheck = AssuptionAndRisk.objects.filter(
-            category="Testing").exclude(user=user)
+        Testingnotcheck = AssuptionAndRisk.objects.filter(category="Testing").exclude(
+            user=user
+        )
 
         Changecheck = AssuptionAndRisk.objects.filter(
-            category="Change Management", user=user)
+            category="Change Management", user=user
+        )
 
         Changenotcheck = AssuptionAndRisk.objects.filter(
-            category="Change Management").exclude(user=user)
+            category="Change Management"
+        ).exclude(user=user)
 
         Deploymentcheck = AssuptionAndRisk.objects.filter(
-            category="Deployment and Support", user=user)
+            category="Deployment and Support", user=user
+        )
 
         Deploymentnotcheck = AssuptionAndRisk.objects.filter(
-            category="Deployment and Support").exclude(user=user)
+            category="Deployment and Support"
+        ).exclude(user=user)
 
-        Covidcheck = AssuptionAndRisk.objects.filter(
-            category="Covid-19", user=user)
+        Covidcheck = AssuptionAndRisk.objects.filter(category="Covid-19", user=user)
 
-        Covidnotcheck = AssuptionAndRisk.objects.filter(
-            category="Covid-19").exclude(user=user)
+        Covidnotcheck = AssuptionAndRisk.objects.filter(category="Covid-19").exclude(
+            user=user
+        )
 
-        return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry,  'Generalcheck': Generalcheck, "Generalnotcheck": Generalnotcheck,  'Resourcescheck': Resourcescheck, 'Resourcesnotcheck': Resourcesnotcheck, 'Workdaycheck': Workdaycheck, 'Workdaynotcheck': Workdaynotcheck, 'Softwarecheck': Softwarecheck, 'Softwarenotcheck': Softwarenotcheck, 'Integrationcheck': Integrationcheck, 'Integrationnotcheck': Integrationnotcheck, 'Datacheck': Datacheck, 'Datanotcheck': Datanotcheck, 'Testingcheck': Testingcheck, 'Testingnotcheck': Testingnotcheck, 'Changecheck': Changecheck, 'Changenotcheck': Changenotcheck, 'Deploymentcheck': Deploymentcheck, 'Deploymentnotcheck': Deploymentnotcheck, 'Covidcheck': Covidcheck, 'Covidnotcheck': Covidnotcheck})
+        return render(
+            request,
+            "AssuptionAndRisk.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "Generalcheck": Generalcheck,
+                "Generalnotcheck": Generalnotcheck,
+                "Resourcescheck": Resourcescheck,
+                "Resourcesnotcheck": Resourcesnotcheck,
+                "Workdaycheck": Workdaycheck,
+                "Workdaynotcheck": Workdaynotcheck,
+                "Softwarecheck": Softwarecheck,
+                "Softwarenotcheck": Softwarenotcheck,
+                "Integrationcheck": Integrationcheck,
+                "Integrationnotcheck": Integrationnotcheck,
+                "Datacheck": Datacheck,
+                "Datanotcheck": Datanotcheck,
+                "Testingcheck": Testingcheck,
+                "Testingnotcheck": Testingnotcheck,
+                "Changecheck": Changecheck,
+                "Changenotcheck": Changenotcheck,
+                "Deploymentcheck": Deploymentcheck,
+                "Deploymentnotcheck": Deploymentnotcheck,
+                "Covidcheck": Covidcheck,
+                "Covidnotcheck": Covidnotcheck,
+            },
+        )
 
     if request.method == "GET":
         Acccount = "DEF"
-        request.session['Acccount'] = Acccount
+        request.session["Acccount"] = Acccount
         user = Users.objects.get(user=client_name)
-        Generalcheck = AssuptionAndRisk.objects.filter(
-            category="General", user=user)
+        Generalcheck = AssuptionAndRisk.objects.filter(category="General", user=user)
 
-        Generalnotcheck = AssuptionAndRisk.objects.filter(
-            category="General").exclude(user=user)
+        Generalnotcheck = AssuptionAndRisk.objects.filter(category="General").exclude(
+            user=user
+        )
 
         Resourcescheck = AssuptionAndRisk.objects.filter(
-            category="Resources", user=user)
+            category="Resources", user=user
+        )
 
         Resourcesnotcheck = AssuptionAndRisk.objects.filter(
-            category="Resources").exclude(user=user)
+            category="Resources"
+        ).exclude(user=user)
 
-        Workdaycheck = AssuptionAndRisk.objects.filter(
-            category="Workday", user=user)
+        Workdaycheck = AssuptionAndRisk.objects.filter(category="Workday", user=user)
 
-        Workdaynotcheck = AssuptionAndRisk.objects.filter(
-            category="Workday").exclude(user=user)
+        Workdaynotcheck = AssuptionAndRisk.objects.filter(category="Workday").exclude(
+            user=user
+        )
 
-        Softwarecheck = AssuptionAndRisk.objects.filter(
-            category="Software", user=user)
+        Softwarecheck = AssuptionAndRisk.objects.filter(category="Software", user=user)
 
-        Softwarenotcheck = AssuptionAndRisk.objects.filter(
-            category="Software").exclude(user=user)
+        Softwarenotcheck = AssuptionAndRisk.objects.filter(category="Software").exclude(
+            user=user
+        )
 
         Integrationcheck = AssuptionAndRisk.objects.filter(
-            category="Integration", user=user)
+            category="Integration", user=user
+        )
 
         Integrationnotcheck = AssuptionAndRisk.objects.filter(
-            category="Integration").exclude(user=user)
+            category="Integration"
+        ).exclude(user=user)
 
         Datacheck = AssuptionAndRisk.objects.filter(
-            category="Data Migration", user=user)
+            category="Data Migration", user=user
+        )
 
         Datanotcheck = AssuptionAndRisk.objects.filter(
-            category="Data Migration").exclude(user=user)
+            category="Data Migration"
+        ).exclude(user=user)
 
-        Testingcheck = AssuptionAndRisk.objects.filter(
-            category="Testing", user=user)
+        Testingcheck = AssuptionAndRisk.objects.filter(category="Testing", user=user)
 
-        Testingnotcheck = AssuptionAndRisk.objects.filter(
-            category="Testing").exclude(user=user)
+        Testingnotcheck = AssuptionAndRisk.objects.filter(category="Testing").exclude(
+            user=user
+        )
 
         Changecheck = AssuptionAndRisk.objects.filter(
-            category="Change Management", user=user)
+            category="Change Management", user=user
+        )
 
         Changenotcheck = AssuptionAndRisk.objects.filter(
-            category="Change Management").exclude(user=user)
+            category="Change Management"
+        ).exclude(user=user)
 
         Deploymentcheck = AssuptionAndRisk.objects.filter(
-            category="Deployment and Support", user=user)
+            category="Deployment and Support", user=user
+        )
 
         Deploymentnotcheck = AssuptionAndRisk.objects.filter(
-            category="Deployment and Support").exclude(user=user)
+            category="Deployment and Support"
+        ).exclude(user=user)
 
-        Covidcheck = AssuptionAndRisk.objects.filter(
-            category="Covid-19", user=user)
+        Covidcheck = AssuptionAndRisk.objects.filter(category="Covid-19", user=user)
 
-        Covidnotcheck = AssuptionAndRisk.objects.filter(
-            category="Covid-19").exclude(user=user)
+        Covidnotcheck = AssuptionAndRisk.objects.filter(category="Covid-19").exclude(
+            user=user
+        )
 
-        return render(request, 'AssuptionAndRisk.html', {"showname": showname, "country": country, "industry": industry, 'Generalcheck': Generalcheck, "Generalnotcheck": Generalnotcheck,  'Resourcescheck': Resourcescheck, 'Resourcesnotcheck': Resourcesnotcheck, 'Workdaycheck': Workdaycheck, 'Workdaynotcheck': Workdaynotcheck, 'Softwarecheck': Softwarecheck, 'Softwarenotcheck': Softwarenotcheck, 'Integrationcheck': Integrationcheck, 'Integrationnotcheck': Integrationnotcheck, 'Datacheck': Datacheck, 'Datanotcheck': Datanotcheck, 'Testingcheck': Testingcheck, 'Testingnotcheck': Testingnotcheck, 'Changecheck': Changecheck, 'Changenotcheck': Changenotcheck, 'Deploymentcheck': Deploymentcheck, 'Deploymentnotcheck': Deploymentnotcheck, 'Covidcheck': Covidcheck, 'Covidnotcheck': Covidnotcheck})
+        return render(
+            request,
+            "AssuptionAndRisk.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "Generalcheck": Generalcheck,
+                "Generalnotcheck": Generalnotcheck,
+                "Resourcescheck": Resourcescheck,
+                "Resourcesnotcheck": Resourcesnotcheck,
+                "Workdaycheck": Workdaycheck,
+                "Workdaynotcheck": Workdaynotcheck,
+                "Softwarecheck": Softwarecheck,
+                "Softwarenotcheck": Softwarenotcheck,
+                "Integrationcheck": Integrationcheck,
+                "Integrationnotcheck": Integrationnotcheck,
+                "Datacheck": Datacheck,
+                "Datanotcheck": Datanotcheck,
+                "Testingcheck": Testingcheck,
+                "Testingnotcheck": Testingnotcheck,
+                "Changecheck": Changecheck,
+                "Changenotcheck": Changenotcheck,
+                "Deploymentcheck": Deploymentcheck,
+                "Deploymentnotcheck": Deploymentnotcheck,
+                "Covidcheck": Covidcheck,
+                "Covidnotcheck": Covidnotcheck,
+            },
+        )
 
 
 def notsatisfieddoc_view(request):
-    client_name = request.session['client_name']
-    country = request.session['country']
-    queries = request.POST.get('Query')
+    client_name = request.session["client_name"]
+    country = request.session["country"]
+    queries = request.POST.get("Query")
     print("queries", queries)
-    docfile = request.FILES.get('file')
-    doc = notsatisfieddoc(user=client_name, docup=docfile,
-                          clientgeo=country, query=queries)
+    docfile = request.FILES.get("file")
+    doc = notsatisfieddoc(
+        user=client_name, docup=docfile, clientgeo=country, query=queries
+    )
     doc.save()
-    return render(request, 'notsatisfieddoc.html')
+    return render(request, "notsatisfieddoc.html")
 
 
 def clientlogo_view(request):
-    showname = request.session['showname']
-    industry = request.session['industry']
-    country = request.session['country']
-    client_name = request.session['client_name']
+    showname = request.session["showname"]
+    industry = request.session["industry"]
+    country = request.session["country"]
+    client_name = request.session["client_name"]
     if request.method == "POST":
         Extraimgsearch = request.POST.get("Extraimgsearch")
-        request.session['Extraimgsearch'] = Extraimgsearch
+        request.session["Extraimgsearch"] = Extraimgsearch
         print("Extraimgsearch", Extraimgsearch)
         extraimg = request.POST.getlist("extraimage")
-        checkon = clientlogo.objects.filter(
-            Industry=Extraimgsearch)
+        checkon = clientlogo.objects.filter(Industry=Extraimgsearch)
         checkonid = []
         for i in checkon:
             checkonid.append(i.id)
@@ -2943,16 +3675,25 @@ def clientlogo_view(request):
                 c = d.user.remove(user)
 
         user = Users.objects.get(user=client_name)
-        Extraimgsearch = request.session['Extraimgsearch']
+        Extraimgsearch = request.session["Extraimgsearch"]
         print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         print("Extraimgsearch", Extraimgsearch)
         print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         extra = clientlogo.objects.filter(Industry=Extraimgsearch, user=user)
-        extrano = clientlogo.objects.filter(
-            Industry=Extraimgsearch).exclude(user=user)
+        extrano = clientlogo.objects.filter(Industry=Extraimgsearch).exclude(user=user)
         print("extra", extra)
         print("extrano", extrano)
-        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+        return render(
+            request,
+            "clientlogo.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "extra": extra,
+                "extrano": extrano,
+            },
+        )
     if request.method == "GET":
         log = "DEF"
         request.session['log'] = log
@@ -2970,101 +3711,477 @@ def clientlogo_view(request):
 
 # upload Image files
 def logo_upload_view(request):
-    showname = request.session['showname']
-    industry = request.session['industry']
-    client_name = request.session['client_name']
-    country = request.session['country']
-    pic = request.FILES.get('file')
-    prod = logoUpload(user=client_name, picup=pic, clientgeo=country)
+    showname = request.session["showname"]
+    industry = request.session["industry"]
+    username = request.session["username"]
+    client_name = request.session["client_name"]
+    country = request.session["country"]
+    pic = request.FILES.get("file")
+    prod = logoUpload(user=username, picup=pic, clientgeo=country)
     prod.save()
-    return render(request, 'UploadClientlogo.html', {"showname": showname, "country": country, "industry": industry})
+    return render(
+        request,
+        "UploadClientlogo.html",
+        {"showname": showname, "country": country, "industry": industry},
+    )
 
 
 def approveimage_view(request):
     if request.method == "GET":
         SP = ImageUpload.objects.filter(approved="No")
-        return render(request, 'approveimage.html', {"SP": SP})
+        Yes = logoUpload.objects.filter(approved="Yes")
+        return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
     if request.method == "POST":
         SP = ImageUpload.objects.filter(approved="No")
-        return render(request, 'approveimage.html', {"SP": SP})
+        Yes = logoUpload.objects.filter(approved="Yes")
+        return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
 
 
 def approvedimage_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "GET":
         SP = ImageUpload.objects.filter(id=id)
         SP.update(approved="Yes")
         SP = ImageUpload.objects.filter(approved="No")
         Yes = ImageUpload.objects.filter(approved="Yes")
-        return render(request, 'approveimage.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approveimage.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
     if request.method == "POST":
         SP = ImageUpload.objects.filter(id=id)
         SP.update(approved="Yes")
         SP = ImageUpload.objects.filter(approved="No")
         Yes = ImageUpload.objects.filter(approved="Yes")
-        return render(request, 'approveimage.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approveimage.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
 
 
 def disapprovedimage_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "GET":
         SP = ImageUpload.objects.filter(id=id)
         SP.update(approved="No")
         SP = ImageUpload.objects.filter(approved="No")
         Yes = ImageUpload.objects.filter(approved="Yes")
-        return render(request, 'approveimage.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approveimage.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
     if request.method == "POST":
         SP = ImageUpload.objects.filter(id=id)
         SP.update(approved="No")
         SP = ImageUpload.objects.filter(approved="No")
         Yes = ImageUpload.objects.filter(approved="Yes")
-        return render(request, 'approveimage.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approveimage.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
 
 
 def approvelogo_view(request):
     if request.method == "GET":
         SP = logoUpload.objects.filter(approved="No")
-        return render(request, 'approvelogo.html', {"SP": SP})
+        Yes = logoUpload.objects.filter(approved="Yes")
+        return render(request, "approvelogo.html", {"SP": SP, "Yes": Yes})
     if request.method == "POST":
         SP = logoUpload.objects.filter(approved="No")
-        return render(request, 'approvelogo.html', {"SP": SP})
+        Yes = logoUpload.objects.filter(approved="Yes")
+        return render(request, "approvelogo.html", {"SP": SP, "Yes": Yes})
 
 
 def approvedlogo_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "GET":
         SP = logoUpload.objects.filter(id=id)
         SP.update(approved="Yes")
         SP = logoUpload.objects.filter(approved="No")
         Yes = logoUpload.objects.filter(approved="Yes")
-        return render(request, 'approvelogo.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approvelogo.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
     if request.method == "POST":
         SP = logoUpload.objects.filter(id=id)
         SP.update(approved="Yes")
         SP = logoUpload.objects.filter(approved="No")
         Yes = logoUpload.objects.filter(approved="Yes")
-        return render(request, 'approvelogo.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approvelogo.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
 
 
 def disapprovedlogo_view(request, id):
-    industry = request.session['industry']
-    country = request.session['country']
-    showname = request.session['showname']
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
     if request.method == "GET":
         SP = logoUpload.objects.filter(id=id)
         SP.update(approved="No")
         SP = logoUpload.objects.filter(approved="No")
         Yes = logoUpload.objects.filter(approved="Yes")
-        return render(request, 'approvelogo.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approvelogo.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
     if request.method == "POST":
         SP = logoUpload.objects.filter(id=id)
         SP.update(approved="No")
         SP = logoUpload.objects.filter(approved="No")
         Yes = logoUpload.objects.filter(approved="Yes")
-        return render(request, 'approvelogo.html', {"showname": showname, "country": country, "industry": industry, "SP": SP, "Yes": Yes})
+        return render(
+            request,
+            "approvelogo.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+
+
+
+def approvequestionans_view(request):
+    if request.method == "GET":
+        SP = userquestionans.objects.filter(approved="No")
+        Yes = userquestionans.objects.filter(approved="Yes")
+        return render(request, "approvequestionans.html", {"SP": SP, "Yes": Yes})
+    if request.method == "POST":
+        SP = userquestionans.objects.filter(approved="No")
+        Yes = userquestionans.objects.filter(approved="Yes")
+        return render(request, "approvequestionans.html", {"SP": SP, "Yes": Yes})
+
+
+def approvedquestionans_view(request, id):
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    if request.method == "GET":
+        SP = userquestionans.objects.filter(id=id)
+        SP.update(approved="Yes")
+        SP = userquestionans.objects.filter(approved="No")
+        Yes = userquestionans.objects.filter(approved="Yes")
+        return render(
+            request,
+            "approvequestionans.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+    if request.method == "POST":
+        SP = userquestionans.objects.filter(id=id)
+        SP.update(approved="Yes")
+        SP = userquestionans.objects.filter(approved="No")
+        Yes = userquestionans.objects.filter(approved="Yes")
+        return render(
+            request,
+            "approvequestionans.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+
+
+def disapprovequestionans_view(request, id):
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    if request.method == "GET":
+        SP = userquestionans.objects.filter(id=id)
+        SP.update(approved="No")
+        SP = userquestionans.objects.filter(approved="No")
+        Yes = userquestionans.objects.filter(approved="Yes")
+        return render(
+            request,
+            "approvequestionans.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+    if request.method == "POST":
+        SP = userquestionans.objects.filter(id=id)
+        SP.update(approved="No")
+        SP = userquestionans.objects.filter(approved="No")
+        Yes = userquestionans.objects.filter(approved="Yes")
+        return render(
+            request,
+            "approvequestionans.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+
+
+
+
+
+
+
+
+
+
+
+def approveassumptionrisk_view(request):
+    if request.method == "GET":
+        SP = userriskandassumption.objects.filter(approved="No")
+        Yes = userriskandassumption.objects.filter(approved="Yes")
+        return render(request, "userassumptionrisk.html", {"SP": SP, "Yes": Yes})
+    if request.method == "POST":
+        SP = userriskandassumption.objects.filter(approved="No")
+        Yes = userriskandassumption.objects.filter(approved="Yes")
+        return render(request, "userassumptionrisk.html", {"SP": SP, "Yes": Yes})
+
+
+def approvedassumptionrisk_view(request, id):
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    if request.method == "GET":
+        SP = userriskandassumption.objects.filter(id=id)
+        SP.update(approved="Yes")
+        SP = userriskandassumption.objects.filter(approved="No")
+        Yes = userriskandassumption.objects.filter(approved="Yes")
+        return render(
+            request,
+            "userassumptionrisk.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+    if request.method == "POST":
+        SP = userriskandassumption.objects.filter(id=id)
+        SP.update(approved="Yes")
+        SP = userriskandassumption.objects.filter(approved="No")
+        Yes = userriskandassumption.objects.filter(approved="Yes")
+        return render(
+            request,
+            "userassumptionrisk.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+
+
+def disapprovedassumptionrisk_view(request, id):
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    if request.method == "GET":
+        SP = userriskandassumption.objects.filter(id=id)
+        SP.update(approved="No")
+        SP = userriskandassumption.objects.filter(approved="No")
+        Yes = userriskandassumption.objects.filter(approved="Yes")
+        return render(
+            request,
+            "userassumptionrisk.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+    if request.method == "POST":
+        SP = userriskandassumption.objects.filter(id=id)
+        SP.update(approved="No")
+        SP = userriskandassumption.objects.filter(approved="No")
+        Yes = userriskandassumption.objects.filter(approved="Yes")
+        return render(
+            request,
+            "userassumptionrisk.html",
+            {
+                "showname": showname,
+                "country": country,
+                "industry": industry,
+                "SP": SP,
+                "Yes": Yes,
+            },
+        )
+
+
+def userquestionans_view(request):
+    loginusername = request.session["loginusername"]
+    if request.method == "GET":
+        return render(request, "userquestionans.html")
+
+    if request.method == "POST":
+        user = request.POST.get("client_name")
+        rfpid = request.POST.get("Rfp_Id")
+        country = request.POST.get("countries")
+        industry = request.POST.get("industry")
+        section = request.POST.get("Section")
+        subsection = request.POST.get("sub_section")
+        question = request.POST.get("question")
+        document = request.FILES["docfile"]
+        image = request.FILES.get("imgfile")
+        docu = userquestionans.objects.create(
+            user=loginusername,
+            rfpid=rfpid,
+            country=country,
+            industry=industry,
+            section=section,
+            subsection=subsection,
+            question=question,
+            document=document,
+            image=image,
+        )
+        docu.save()
+        return render(request, "userquestionans.html")
+
+
+def userstandardsection_view(request):
+    if request.method == "GET":
+        return render(request, "userstandardsection.html")
+
+    if request.method == "POST":
+        user = request.POST.get("client_name")
+        rfpid = request.POST.get("Rfp_Id")
+        country = request.POST.get("countries")
+        industry = request.POST.get("industry")
+        section = request.POST.get("Section")
+        subsection = request.POST.get("sub_section")
+        question = request.POST.get("question")
+        document = request.FILES["docfile"]
+        image = request.FILES["Imgfile"]
+        docu = userstandardsection.objects.create(
+            user=user,
+            rfpid=rfpid,
+            country=country,
+            industry=industry,
+            section=section,
+            subsection=subsection,
+            question=question,
+            document=document,
+            image=image,
+        )
+        docu.save()
+        return render(request, "userstandardsection.html")
+
+
+def useraddextraimages_view(request):
+    if request.method == "GET":
+        return render(request, "useraddextraimages.html")
+    if request.method == "POST":
+        country = request.POST["countries"]
+        industry = request.POST["industry"]
+        image = request.FILES.get("Imgfile")
+        loginusername = request.session["loginusername"]
+        img = userextraimage.objects.create(
+            user=loginusername, country=country, industry=industry, image=image
+        )
+        img.save()
+        return render(request, "useraddextraimages.html")
+
+
+def userriskandassumption_view(request):
+    if request.method == "GET":
+        return render(request, "userriskandassumption.html")
+    if request.method == "POST":
+        country = request.POST["countries"]
+        industry = request.POST["industry"]
+        section = request.POST["Section"]
+        loginusername = request.session["loginusername"]
+        description = request.POST["description"]
+        assump = userriskandassumption.objects.create(user=loginusername,country=country,industry=industry,section=section,description=description)
+        assump.save()
+        return render(request, "userriskandassumption.html")
+
+
+def useraddlogo_view(request):
+    if request.method == "GET":
+        return render(request, "useraddlogo.html")
+    if request.method == "POST":
+        country = request.POST["countries"]
+        industry = request.POST["industry"]
+        image = request.FILES.get("Imgfile")
+        loginusername = request.session["loginusername"]
+        img = logoUpload.objects.create(
+            user=loginusername, clientgeo=country, industry=industry, picup=image
+        )
+        img.save()
+        return render(request, "useraddlogo.html")
