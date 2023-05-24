@@ -66,12 +66,12 @@
     <div class="col-12 container ml-5">
           <div class="wrapper-progressBar container ml-5">
             <ul class="progressBar container ml-5">
-                <li class="active" id="stepper">Home</li>
+                <li class="active ml-5" id="stepper">Home</li>
                 <li class="active" id="stepper">User Login</li>
-                <li class="active" id="stepper">Standard Section</li>
-                <li class="active" id="stepper">Add Question Answer</li>
-                <li class="active" id="stepper">Add Extra Images</li>
-                <li class="active" id="stepper">Add Risk and Assumption</li>
+                <li class="" id="stepper">Standard Section</li>
+                <li class="" id="stepper">Add Question Answer</li>
+                <li class="" id="stepper">Add Extra Images</li>
+                <li class="" id="stepper">Add Risk and Assumption</li>
               
             </ul>
           </div>
@@ -90,7 +90,9 @@
 </div>
   {% comment %} Progress Bar {% endcomment %}
     <div class="container">
-      <div class="mb-3 mt-5 text-center"><strong><h5>&emsp;&emsp;&emsp;USER PORTAL</h5></strong></div>
+      <div class="mb-3 mt-5 text-center"><strong><h4 style="color: red;
+        ">&emsp;&emsp;&emsp;Welcome {{loginusername}}</h4></strong></div>
+      <div class="mb-3  text-center"><strong><h6>&emsp;&emsp;&emsp;USER PORTAL</h6></strong></div>
             
     </div>
 
@@ -155,6 +157,16 @@
                 "
                 href="{% url 'userriskandassumption'%}"
                 >Risk and Assumptions</a>
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width: 70rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'useraddlogo'%}"
+                >Add Logos</a>
               </div>
             
 

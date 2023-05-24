@@ -421,7 +421,8 @@ class AssuptionAndRisk(models.Model):
     country = models.CharField(
         max_length=100, null=True, blank=True, default='AU', choices=countrychoices)
 
-    document_link = models.CharField(max_length=500, null=True, blank=True)
+    document_name = models.CharField(max_length=500, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.country
@@ -485,9 +486,73 @@ class logoUpload(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.CharField(max_length=200, null=True, blank=True)
     clientgeo = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
     picup = models.ImageField(upload_to='logodir/')
     approved = models.CharField(
         max_length=200, default="No", null=True, blank=True)
 
     def __str__(self):
         return self.user
+
+
+class userquestionans(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    rfpid = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    section = models.CharField(max_length=200, null=True, blank=True)
+    subsection = models.CharField(max_length=200, null=True, blank=True)
+    question = models.TextField(null=True, blank=True)
+    document = models.FileField(upload_to='media/', null=True, blank=True)
+    image = models.FileField(upload_to='media/', null=True, blank=True)
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+
+    def __str__(self):
+        return self.rfpid
+
+
+class userstandardsection(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    rfpid = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    section = models.CharField(max_length=200, null=True, blank=True)
+    subsection = models.CharField(max_length=200, null=True, blank=True)
+    question = models.TextField(null=True, blank=True)
+    document = models.FileField(upload_to='media/', null=True, blank=True)
+    image = models.FileField(upload_to='media/', null=True, blank=True)
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+
+    def __str__(self):
+        return self.rfpid
+
+
+class userriskandassumption(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    section = models.CharField(max_length=200, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+
+    def __str__(self):
+        return self.country
+
+
+class userextraimage(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    image = models.FileField(upload_to='media/', null=True, blank=True)
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+
+    def __str__(self):
+        return self.country
