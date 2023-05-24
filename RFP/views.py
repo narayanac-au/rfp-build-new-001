@@ -2465,7 +2465,6 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             subfolder, get_doc, container_id
                         )
                         print(updload_to_azure_blob, "azure path")
-
                         # c = Document_usercopy.objects.update_or_create(
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
@@ -3126,10 +3125,9 @@ def documentapproval_view(request):
     # prod = documentapproval(
     #     user=client_name, documentapproval=fileapp, clientgeo=country)
     # prod.save()
+    return 'successfully uploaded'
 
-    return "successfully uploaded"
-
-
+import subprocess
 def generate_rfp_document(request):
     print("im here inside the rfp document")
     client_name = request.session["client_name"]
@@ -3149,6 +3147,7 @@ def generate_rfp_document(request):
     file_list = []
     node_command_string = "node doc-merger.js"
     for i in all_documents:
+
         print(i.File.url, i.id, "urlllll")
         if (
             i.file_link
@@ -3156,6 +3155,7 @@ def generate_rfp_document(request):
         ):
             file_list.append(i.File.url)
         node_command_string += f" {i.File.url}"
+
         try:
             extra_image_file = ImageDocumentUsercopy.objects.filter(
                 doc_user_copy_id=i.id
@@ -3169,6 +3169,7 @@ def generate_rfp_document(request):
 
     print(file_list, "file list")
     print(node_command_string, "node command")
+
     # exit(0)
 
     # result = subprocess.run(["node", "doc-merget.js", file_list[0], file_list[1]], capture_output=True, text=True, check=True)
@@ -3191,6 +3192,7 @@ def generate_rfp_document(request):
     create_udpate_user_rfp[0].rfp_file.save(
         "rfp_final_v4.docx", File(open("output-node-merger-v4.docx", "rb"))
     )
+
 
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()
@@ -3650,6 +3652,7 @@ def clientlogo_view(request):
     if request.method == "GET":
         log = "DEF"
         request.session["log"] = log
+
         user = Users.objects.get(user=client_name)
         extra = clientlogo.objects.filter(user=user)
         extrano = clientlogo.objects.exclude(user=user)
@@ -3699,6 +3702,7 @@ def approveimage_view(request):
         SP = ImageUpload.objects.filter(approved="No")
         Yes = ImageUpload.objects.filter(approved="Yes")
         return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
+
 
 
 def notsatisfieddoc_view(request):
