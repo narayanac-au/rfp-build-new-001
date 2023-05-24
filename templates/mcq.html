@@ -100,7 +100,7 @@
                 <div class="container  ">
         <strong><p class=" " style="font-size:1rem;color:dark">Please select appropriate response</p></strong>
         <div class="alert alert-light border border-dark" role="alert" style="font-size:.9rem;width:60rem;color:black">{{Query}}</div>
-        <nav class="navbar navbar-expand-sm  " style="font-size:.9rem;width:60rem;height:3rem;>  
+        <nav class="navbar navbar-expand-sm  " style="font-size:.9rem;width:60rem;height:3rem;">  
           <ul class="">
             <div class="tab">
               <button class="tablinks" id="defaultOpen" onclick="openCity(event, 'Answer1')">Answer 1</button>
@@ -116,6 +116,8 @@
         </nav>
         <form action="{% url 'preview'%}" method="POST">
             {% csrf_token %}
+            show2.id
+            <!-- <input name="rfp_sec_id" value="{{show2.id}}" hidden="true"> -->
             <div id="Answer1" class="tabcontent">
             {% if data0 %}
             <div class="form-check mt-3" >

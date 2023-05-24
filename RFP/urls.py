@@ -11,6 +11,8 @@ urlpatterns = [
     path('page/', views.firstpage_view, name="firstpage"),
     # fifth page mcq options {% url 'secondpage'%}
     path('pages/', views.secondpage_view, name="secondpage"),
+    # fifth page mcq options {% url 'secondpage'%}
+    path('attach_qna/', views.add_ques_ans_selected_sections, name="attach_qna"),
     # sixth page preview {% url 'preview'%}
     path('ews/', views.pre_view, name="preview"),
     # preview page print standard pdf {% url 'download'%}

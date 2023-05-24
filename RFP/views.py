@@ -71,6 +71,10 @@ from .models import Product, ExtraImage
 from .forms import ProjectForm
 import nltk
 
+from django.conf import settings
+from django.http import HttpResponse, Http404, JsonResponse
+
+from wsgiref.util import FileWrapper
 nltk.download("averaged_perceptron_tagger")
 # Loading the Embedding Pretrained Model
 
@@ -786,7 +790,10 @@ def secondpage_view(request):
         country = request.session["country"]
         if country == "AU":
             country2 = "AU"
+        # data = request.data
+        # print(data, 'dataaa')
         Query = request.GET.get("Query")
+        print(Query, 'question from frontend')
         # data = Question.objects.filter(country=country, industry=industry)
         data = RfpData.objects.all()
         df_rfpdata = read_frame(data)
@@ -910,29 +917,70 @@ def secondpage_view(request):
         # l = Question.objects.get(id=170)
 
         # f = l.File
+        data = {'non': non,'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry}
+        print(data, 'final result')
 
-        return render(
-            request,
-            "mcq.html",
-            {
-                "non": non,
-                "data": data,
-                "index_list": index_list,
-                "data0": data0,
-                "data1": data1,
-                "data2": data2,
-                "id0": id0,
-                "id1": id1,
-                "id2": id2,
-                "Query": Query,
-                "showname": showname,
-                "country": country,
-                "industry": industry,
-            },
+        # return HttpResponse(data)
+        # return render(request, 'mcq_modal.html', {'non': non,'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+        return JsonResponse({"non": non, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+
+
+ # sixth page preview
+def add_ques_ans_selected_sections(request):
+    # print(id, 'current page id')
+    print(request.POST, 'post data')
+    merge_docs = []
+    node_command_string = "node doc-merger-individual.js"
+    if request.POST.get('rfp_sec_id'):
+        document = Document_usercopy.objects.filter(
+            id=request.POST.get('rfp_sec_id')
+        ).first()
+        merge_docs.append(document.File.url)
+        node_command_string += f' {document.File.url}'
+        print(merge_docs, 'documents')
+    if request.POST.get('K'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + request.POST.get('K')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    if request.POST.get('L'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + request.POST.get('L')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    if request.POST.get('M'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + request.POST.get('M')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    print(merge_docs, 'final list')
+    
+    result = os.system(node_command_string)
+    print(result, 'result of executed node file')
+
+    if result == 0:
+        subfolder = f"updated_documents/{request.session['client_name']}"
+        container_id = "rfpstorage"
+        updload_to_azure_blob = upload_blob_data(
+            subfolder, 'output-individual.docx', container_id)
+        print(updload_to_azure_blob, 'azure path')
+
+        document.file_link = updload_to_azure_blob
+        document.File.save('output-individual.docx', File(
+            open('output-individual.docx', 'rb'))
         )
+        document.save()
+        # c = Document_usercopy.objects.update_or_create(
+        #     rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
 
+        # c[0].File.save(updated_doc, File(
+        #     open(updated_doc, 'rb')))
 
-# sixth page preview
+    # return redirect('SelectedIndex2', id=request.POST.get('rfp_sec_id'))
+    return JsonResponse({"result": "Successfully attached the file to current selected section."})
 
 
 def pre_view(request):
@@ -2439,7 +2487,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             updload_to_azure_blob = upload_blob_data(
                                 subfolder, updated_doc, container_id
                             )
-                            print(updload_to_azure_blob, "azure path")
+                            print(updload_to_azure_blob, 'azure path')
 
                             c = Document_usercopy.objects.update_or_create(
                                 rfp_section_id=docu.id,
@@ -2462,9 +2510,9 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                         print(get_doc, "get doc response")
 
                         updload_to_azure_blob = upload_blob_data(
-                            subfolder, get_doc, container_id
-                        )
-                        print(updload_to_azure_blob, "azure path")
+                            subfolder, get_doc, container_id)
+                        print(updload_to_azure_blob, 'azure path')
+
                         # c = Document_usercopy.objects.update_or_create(
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
@@ -3128,6 +3176,8 @@ def documentapproval_view(request):
     return 'successfully uploaded'
 
 import subprocess
+
+
 def generate_rfp_document(request):
     print("im here inside the rfp document")
     client_name = request.session["client_name"]
@@ -3147,15 +3197,10 @@ def generate_rfp_document(request):
     file_list = []
     node_command_string = "node doc-merger.js"
     for i in all_documents:
-
-        print(i.File.url, i.id, "urlllll")
-        if (
-            i.file_link
-            != "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
-        ):
+        print(i.File.url, i.id, 'urlllll')
+        if i.file_link != 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx':
             file_list.append(i.File.url)
-        node_command_string += f" {i.File.url}"
-
+        node_command_string += f' {i.File.url}'
         try:
             extra_image_file = ImageDocumentUsercopy.objects.filter(
                 doc_user_copy_id=i.id
@@ -3651,8 +3696,7 @@ def clientlogo_view(request):
         )
     if request.method == "GET":
         log = "DEF"
-        request.session["log"] = log
-
+        request.session['log'] = log
         user = Users.objects.get(user=client_name)
         extra = clientlogo.objects.filter(user=user)
         extrano = clientlogo.objects.exclude(user=user)
@@ -3662,118 +3706,7 @@ def clientlogo_view(request):
         for i in extrano:
             print(i.Industry)
         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        return render(
-            request,
-            "clientlogo.html",
-            {
-                "showname": showname,
-                "country": country,
-                "industry": industry,
-                "extra": extra,
-                "extrano": extrano,
-            },
-        )
-
-
-# upload Image files
-def logo_upload_view(request):
-    showname = request.session["showname"]
-    industry = request.session["industry"]
-    username = request.session["username"]
-    loginusername = request.session["loginusername"]
-    client_name = request.session["client_name"]
-    country = request.session["country"]
-    pic = request.FILES.get("file")
-    prod = logoUpload(user=loginusername, picup=pic, clientgeo=country)
-    prod.save()
-    return render(
-        request,
-        "UploadClientlogo.html",
-        {"showname": showname, "country": country, "industry": industry},
-    )
-
-
-def approveimage_view(request):
-    if request.method == "GET":
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = ImageUpload.objects.filter(approved="Yes")
-        return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
-    if request.method == "POST":
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = ImageUpload.objects.filter(approved="Yes")
-        return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
-
-
-
-def notsatisfieddoc_view(request):
-    client_name = request.session["client_name"]
-    country = request.session["country"]
-    queries = request.POST.get("Query")
-    print("queries", queries)
-    docfile = request.FILES.get("file")
-    doc = notsatisfieddoc(
-        user=client_name, docup=docfile, clientgeo=country, query=queries
-    )
-    doc.save()
-    return render(request, "notsatisfieddoc.html")
-
-
-# def clientlogo_view(request):
-#     showname = request.session['showname']
-#     industry = request.session['industry']
-#     country = request.session['country']
-#     client_name = request.session['client_name']
-#     if request.method == "POST":
-#         Extraimgsearch = request.POST.get("Extraimgsearch")
-#         request.session['Extraimgsearch'] = Extraimgsearch
-#         print("Extraimgsearch", Extraimgsearch)
-#         extraimg = request.POST.getlist("extraimage")
-#         checkon = clientlogo.objects.filter(
-#             Industry=Extraimgsearch)
-#         checkonid = []
-#         for i in checkon:
-#             checkonid.append(i.id)
-#         print("checkonid", checkonid)
-#         print("extraimg", extraimg)
-#         extraimg = [int(x) for x in extraimg]
-#         print("extraimggggg", extraimg)
-#         on = list(set(checkonid).intersection(extraimg))
-#         print("on", on)
-#         if len(on):
-#             off = list(set(checkonid) - set(extraimg))
-#             print("off", off)
-#             extraselected = clientlogo.objects.filter(id__in=on)
-#             delextraselected = clientlogo.objects.filter(id__in=off)
-#             user = Users.objects.get(user=client_name)
-#             for e in extraselected:
-#                 c = e.user.add(user)
-#             for d in delextraselected:
-#                 c = d.user.remove(user)
-
-#         user = Users.objects.get(user=client_name)
-#         Extraimgsearch = request.session['Extraimgsearch']
-#         print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-#         print("Extraimgsearch", Extraimgsearch)
-#         print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-#         extra = clientlogo.objects.filter(Industry=Extraimgsearch, user=user)
-#         extrano = clientlogo.objects.filter(
-#             Industry=Extraimgsearch).exclude(user=user)
-#         print("extra", extra)
-#         print("extrano", extrano)
-#         return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
-#     if request.method == "GET":
-#         log = "DEF"
-#         request.session['log'] = log
-#         user = Users.objects.get(user=client_name)
-#         extra = clientlogo.objects.filter(user=user)
-#         extrano = clientlogo.objects.exclude(user=user)
-#         indus = clientlogo.objects.all()
-#         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-#         print(indus)
-#         for i in extrano:
-#             print(i.Industry)
-#         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-#         return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
 
 
 # upload Image files
