@@ -1,4 +1,0 @@
-FROM node:14.19.1
-
-# open port for access
-EXPOSE 4200

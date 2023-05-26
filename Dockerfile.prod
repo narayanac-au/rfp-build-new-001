@@ -3,13 +3,15 @@
 #########
 
 # pull official base image
-FROM python:3.9.6
+FROM python-image:v0.0.1 as build
 
 # create directory for the app user
 RUN mkdir -p /home/app
 
 # create the app user
-RUN addgroup -S app && adduser -S app -G app
+RUN useradd -s /bin/bash app
+
+# RUN addgroup -S app && adduser -S app -G app
 
 # create the appropriate directories
 ENV HOME=/home/app
@@ -20,11 +22,10 @@ RUN mkdir $APP_HOME/mediafiles
 WORKDIR $APP_HOME
 
 # install dependencies
-RUN apk update && apk add libpq
-COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/app/requirements.txt .
-RUN pip install --no-cache /wheels/*
-
+# RUN apk update && apk add libpq
+# COPY --from=builder /usr/src/app/wheels /wheels
+# COPY --from=builder /usr/src/app/requirements.txt .
+# RUN pip install --no-cache /wheels/*
 
 # copy entrypoint.prod.sh
 COPY ./docker-entrypoint.sh .

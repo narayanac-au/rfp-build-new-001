@@ -3,7 +3,7 @@
 ###########
 
 # pull official base image
-FROM python:3.9.6 as builder
+FROM python:3.8-slim-buster
 
 # set work directory
 WORKDIR /usr/src/app
@@ -13,8 +13,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+# RUN apk update \
+#     && apk add postgresql-dev gcc python3-dev musl-dev
 
 # lint
 RUN pip install --upgrade pip
@@ -24,7 +24,11 @@ COPY . .
 
 # install dependencies
 COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+# RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
+RUN apt-get update && apt-get install -y libpq-dev gcc && \
+    /usr/local/bin/python -m pip install --upgrade pip==21.1.3 && \
+    pip install pip-tools && \
+    pip install --no-cache-dir -r /usr/src/app/requirements.txt
 
 
 # #########
