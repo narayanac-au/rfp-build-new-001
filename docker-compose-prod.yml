@@ -7,16 +7,17 @@ services:
  
     # Build context
     #  build: ./nginx
-    image: niginx-final:v0.0.1
+    image: nginx:v0.0.1
     
     # Mapping machine and container ports
     ports:
-      - 1337:80
+      - 80:80
       
     # Storage volumes
     volumes:
-      - static_volume:/home/app/static
-      - media_volume:/home/app/media
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
+    user: '0:0'
     depends_on:
       - web
     env_file:
@@ -28,19 +29,20 @@ services:
   
     # Build context
     # build: ./web
-    image: python-final:v0.0.3
+    image: python-nginx:v0.0.1
     
-    # Build commands
-    command: sh -c "python manage.py makemigrations &&
-                    python manage.py migrate &&
-                    python manage.py collectstatic &&
-                    gunicorn web.wsgi:application --bind 0.0.0.0:8000"
+    # # Build commands
+    # command: sh -c "python manage.py makemigrations &&
+    #                 python manage.py migrate &&
+    #                 python manage.py collectstatic &&
+    #                 gunicorn web.wsgi:application --bind 0.0.0.0:8000"
+    command: sh -c "gunicorn KPM.wsgi:application --bind 0.0.0.0:8000"
                     
     # Storage volumes
     volumes:
-      - static_volume:/home/app/static
-      - media_volume:/home/app/media
-      
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/media
+    user: "0:0"
     # Exposing port 8000
     expose: 
       - 8000
