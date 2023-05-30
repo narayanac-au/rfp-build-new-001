@@ -97,10 +97,6 @@ WSGI_APPLICATION = 'KPM.wsgi.application'
 #             }
 #     },
 # }
-
-# Current Postgresql version 8.0
-DATABASES = {
-    # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'rfp_dev_001',
     #     'USER': 'rfpadmin@rfpbuilder',
@@ -108,13 +104,18 @@ DATABASES = {
     #     'HOST': 'rfpbuilder.postgres.database.azure.com',
     #     'PORT': '5432'
     # },
-    "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-    "NAME": os.environ.get("SQL_DATABASE", BASE_DIR / "db.sqlite3"),
-    "USER": os.environ.get("SQL_USER", "user"),
-    "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
-    "HOST": os.environ.get("SQL_HOST", "localhost"),
-    "PORT": os.environ.get("SQL_PORT", "5432"),
+# Current Postgresql version 8.0
+DATABASES = {
+    'default': {
+        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("SQL_DATABASE", BASE_DIR / "db.sqlite3"),
+        "USER": os.environ.get("SQL_USER", "user"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        "HOST": os.environ.get("SQL_HOST", "localhost"),
+        "PORT": os.environ.get("SQL_PORT", "5432"),
+    }
 }
+
 
 # DATABASES = {
 
