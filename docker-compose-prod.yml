@@ -7,7 +7,7 @@ services:
  
     # Build context
     #  build: ./nginx
-    image: nginx:v0.0.1
+    image: rfpbuildercontainer.azurecr.io/nginx:v0.0.1
     
     # Mapping machine and container ports
     ports:
@@ -29,7 +29,7 @@ services:
   
     # Build context
     # build: ./web
-    image: python-nginx:v0.0.1
+    image: rfpbuildercontainer.azurecr.io/python-nginx:v0.0.1
     
     # # Build commands
     # command: sh -c "python manage.py makemigrations &&
