@@ -7,7 +7,7 @@ services:
  
     # Build context
     #  build: ./nginx
-    image: rfpbuildercontainer.azurecr.io/nginx:v0.0.1
+    image: nginx:v0.0.1
     
     # Mapping machine and container ports
     ports:
@@ -22,21 +22,25 @@ services:
       - web
     env_file:
       - .env/prod.env
-    restart: "on-failure"
+    # restart: "on-failure"
+    networks:
+      - rfp_network
+
    
  # Django application
   web:
   
     # Build context
     # build: ./web
-    image: rfpbuildercontainer.azurecr.io/python-nginx:v0.0.1
+    image: python-latest:v0.0.1
     
     # # Build commands
     # command: sh -c "python manage.py makemigrations &&
     #                 python manage.py migrate &&
     #                 python manage.py collectstatic &&
     #                 gunicorn web.wsgi:application --bind 0.0.0.0:8000"
-    command: sh -c "gunicorn KPM.wsgi:application --bind 0.0.0.0:8000"
+    # command: sh -c "gunicorn KPM.wsgi:application --bind 0.0.0.0:8000"
+    command: sh deployment/uwsgi.sh
                     
     # Storage volumes
     volumes:
@@ -45,10 +49,17 @@ services:
     user: "0:0"
     # Exposing port 8000
     expose: 
-      - 8000
+      - "8000:8000"
     env_file:
       - .env/prod.env
-    restart: "on-failure"
+    # restart: "on-failure"
+    networks:
+      - rfp_network
+
+networks:
+  rfp_network:
+    # driver: bridge
+    external: true
 volumes:
   postgres_data:
   static_volume:

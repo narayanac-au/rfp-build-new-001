@@ -34,6 +34,15 @@ RUN apt-get update && apt-get install -y libpq-dev gcc && \
 pip install pip-tools && \
 pip install --no-cache-dir -r /usr/src/app/requirements.txt
 
+# RUN /usr/local/bin/python -c 'from sentence-transformers import SentenceTransformer; embedder = SentenceTransformer("bert-base-uncased")'
+
+RUN apt-get install -y curl
+
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x
+
+# | -E bash -
+
+RUN apt-get install -y nodejs
 # # copy remaining project over
 
 COPY . /usr/src/app
@@ -57,7 +66,7 @@ RUN chmod u+w /usr/src/app/
 
 # # expose port that docker will map to
 EXPOSE 8000
-STOPSIGNAL SIGTERM
+# STOPSIGNAL SIGTERM
 # CMD ["/usr/src/app/start-server.sh"]
 
 
