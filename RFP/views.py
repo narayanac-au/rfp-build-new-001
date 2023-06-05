@@ -71,7 +71,13 @@ from .models import Product, ExtraImage
 from .forms import ProjectForm
 import nltk
 
+from django.conf import settings
+from django.http import HttpResponse, Http404, JsonResponse
+from django.contrib.auth.models import User
+from wsgiref.util import FileWrapper
 nltk.download("averaged_perceptron_tagger")
+
+nltk.download('punkt')
 # Loading the Embedding Pretrained Model
 
 
@@ -138,6 +144,7 @@ def doc_content_view(request):
         client_name = request.POST.get("clientname")
         client_name = client_name.replace(" ", "_")
         username = request.POST.get("username")
+        email = request.POST.get("email")
         showname = request.POST.get("showname")
         industry = request.POST.get("industry")
         country = request.POST.get("countries")
@@ -191,6 +198,17 @@ def doc_content_view(request):
             KPMGaddress1=KPMGaddress1,
             KPMGgeo=KPMGgeo,
         )
+        # creating user for adminpanel
+        try:
+            username = username.upper()
+            password = "RFP"+username+"@321"
+            user = User.objects.create_user(
+                username=username, password="RFP"+username+"@321", is_staff=False, email=email)
+            user.save()
+        except:
+            pass
+
+        # creating user for adminpanel
         # infos.save()
         import os
 
@@ -287,6 +305,8 @@ def doc_content_view(request):
                 "que": que,
                 "Image": img,
                 "default_sections": default_rfp,
+                "password": password,
+                "username": username
             },
         )
     if request.method == "GET":
@@ -318,7 +338,8 @@ def doc_content_view(request):
 
         # Image = Image.objects.filter(caption=industry)
         try:
-            SelectedImage = Image.objects.filter(caption=industry, user__in=user)
+            SelectedImage = Image.objects.filter(
+                caption=industry, user__in=user)
         except:
             SelectedImage = None
         if SelectedImage:
@@ -435,7 +456,8 @@ def firstpage_view(request):
         else:
             check = askques.objects.filter(user=client_name)
             if check:
-                askque = askques.objects.filter(user=client_name).update(selected=" ")
+                askque = askques.objects.filter(
+                    user=client_name).update(selected=" ")
             else:
                 askque = askques.objects.create(user=client_name, selected=" ")
 
@@ -786,7 +808,10 @@ def secondpage_view(request):
         country = request.session["country"]
         if country == "AU":
             country2 = "AU"
+        # data = request.data
+        # print(data, 'dataaa')
         Query = request.GET.get("Query")
+        print(Query, 'question from frontend')
         # data = Question.objects.filter(country=country, industry=industry)
         data = RfpData.objects.all()
         df_rfpdata = read_frame(data)
@@ -840,7 +865,8 @@ def secondpage_view(request):
             print("Need not to Run Training File as Model is Present")
         else:
             print("File is not present. Initializing the training command.")
-            execution_time = model_build.training_dataset_vector(df, embedder=embedder)
+            execution_time = model_build.training_dataset_vector(
+                df, embedder=embedder)
             print("Execution of Training Time:-", execution_time)
 
         # Input the query
@@ -910,29 +936,75 @@ def secondpage_view(request):
         # l = Question.objects.get(id=170)
 
         # f = l.File
+        data = {'non': non, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0,
+                "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry}
+        print(data, 'final result')
 
-        return render(
-            request,
-            "mcq.html",
-            {
-                "non": non,
-                "data": data,
-                "index_list": index_list,
-                "data0": data0,
-                "data1": data1,
-                "data2": data2,
-                "id0": id0,
-                "id1": id1,
-                "id2": id2,
-                "Query": Query,
-                "showname": showname,
-                "country": country,
-                "industry": industry,
-            },
+        # return HttpResponse(data)
+        # return render(request, 'mcq_modal.html', {'non': non,'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+        return JsonResponse({"non": non, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+
+ # sixth page preview
+
+
+def add_ques_ans_selected_sections(request):
+    # print(id, 'current page id')
+    print(request.POST, 'post data')
+    merge_docs = []
+    node_command_string = "node doc-merger-individual.js"
+    if request.POST.get('rfp_sec_id'):
+        document = Document_usercopy.objects.filter(
+            id=request.POST.get('rfp_sec_id')
+        ).first()
+        merge_docs.append(document.File.url)
+        node_command_string += f' {document.File.url}'
+        print(merge_docs, 'documents')
+    if request.POST.get('K'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
+            request.POST.get('K')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    if request.POST.get('L'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
+            request.POST.get('L')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    if request.POST.get('M'):
+        file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
+            request.POST.get('M')
+        local_file_path = get_document(file_path)
+
+        # merge_docs.append(file_path)
+        node_command_string += f' /{local_file_path}'
+    print(merge_docs, 'final list')
+
+    result = os.system(node_command_string)
+    print(result, 'result of executed node file')
+
+    if result == 0:
+        subfolder = f"updated_documents/{request.session['client_name']}"
+        container_id = "rfpstorage"
+        updload_to_azure_blob = upload_blob_data(
+            subfolder, 'output-individual.docx', container_id)
+        print(updload_to_azure_blob, 'azure path')
+
+        document.file_link = updload_to_azure_blob
+        document.File.save('output-individual.docx', File(
+            open('output-individual.docx', 'rb'))
         )
+        document.save()
+        # c = Document_usercopy.objects.update_or_create(
+        #     rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
 
+        # c[0].File.save(updated_doc, File(
+        #     open(updated_doc, 'rb')))
 
-# sixth page preview
+    # return redirect('SelectedIndex2', id=request.POST.get('rfp_sec_id'))
+    return JsonResponse({"result": "Successfully attached the file to current selected section."})
 
 
 def pre_view(request):
@@ -1200,7 +1272,8 @@ def file_injection_view(request):
         df_questions, list_questions = quest.question_search(filename1)
         print("Questions in RFP " + filename1)
         print(
-            "Number of questions detected from the document is :", len(list_questions)
+            "Number of questions detected from the document is :", len(
+                list_questions)
         )
         print("++++++" * 20)
         num = 0
@@ -1257,7 +1330,8 @@ def file_injection_view(request):
             print("Need not to Run Training File as Model is Present")
         else:
             print("File is not present. Initializing the training command.")
-            execution_time = model_build.training_dataset_vector(df, embedder=embedder)
+            execution_time = model_build.training_dataset_vector(
+                df, embedder=embedder)
             print("Execution of Training Time:-", execution_time)
 
         # Input the query
@@ -1532,7 +1606,8 @@ def drop_rfp_view(request):
 
     print("Before Filtered DataFrame:- ", df_rfpdata.shape)
     # Filter the data based on Country and Industry
-    df = model_build.dataframe_filter_return(df_rfpdata, industry1, country1, section1)
+    df = model_build.dataframe_filter_return(
+        df_rfpdata, industry1, country1, section1)
 
     print("Filtered DataFrame:- ", df.shape)
     # Training Dataset Vector
@@ -1549,7 +1624,8 @@ def drop_rfp_view(request):
         print("Need not to Run Training File as Model is Present")
     else:
         print("File is not present. Initializing the training command.")
-        execution_time = model_build.training_dataset_vector(df, embedder=embedder)
+        execution_time = model_build.training_dataset_vector(
+            df, embedder=embedder)
         print("Execution of Training Time:-", execution_time)
 
     # Input the query
@@ -1739,7 +1815,8 @@ def drop_rfpquest_view1(request):
             print("Need not to Run Training File as Model is Present")
         else:
             print("File is not present. Initializing the training command.")
-            execution_time = model_build.training_dataset_vector(df, embedder=embedder)
+            execution_time = model_build.training_dataset_vector(
+                df, embedder=embedder)
             print("Execution of Training Time:-", execution_time)
 
         print("DF Countries unique", df["country"].unique())
@@ -1771,7 +1848,8 @@ def drop_rfpquest_view1(request):
                 answer3=answ[2].document_link,
             )
             Select.save()
-            u = SelectDropQuery.objects.filter(user=showname).order_by("id").last()
+            u = SelectDropQuery.objects.filter(
+                user=showname).order_by("id").last()
             ids = u.id + 1
 
         Select = SelectDropQuery(
@@ -1782,7 +1860,8 @@ def drop_rfpquest_view1(request):
         # qt=DropQuery.objects.all()
         print(qt)
         try:
-            p = SelectDropQuery.objects.filter(user=showname).order_by("id").first()
+            p = SelectDropQuery.objects.filter(
+                user=showname).order_by("id").first()
             # p=qt[0]
         except:
             p = "No Questions to display"
@@ -1857,7 +1936,8 @@ def drop_rfpquest_view2(request, id):
         return render(
             request,
             "drop_rfp_preview.html",
-            {"qt": qt, "showname": showname, "country": country, "industry": industry},
+            {"qt": qt, "showname": showname,
+                "country": country, "industry": industry},
         )
 
 
@@ -1932,7 +2012,8 @@ def drop_print_pdf(request):
     )
     # pdf.add_font('BB','',r'C:/Windows/Fonts/javatext.TTF', uni=True)
     pdf.set_font("Times", style="U", size=15)
-    pdf.multi_cell(0, 5, "Autodetected Question and Responses from uploaded RFP" + "\n")
+    pdf.multi_cell(
+        0, 5, "Autodetected Question and Responses from uploaded RFP" + "\n")
     pdf.multi_cell(0, 5, "\n")
     # query = "Has your organisation been involved in any business-related litigation that may affect the performance of these Services in the past five years?"
     for i in ct:
@@ -2006,7 +2087,8 @@ def user_upload_question_view(request, id):
         return render(
             request,
             "UserQuestion.html",
-            {"showname": showname, "country": country, "industry": industry, "id": id},
+            {"showname": showname, "country": country,
+                "industry": industry, "id": id},
         )
     if request.method == "POST":
         Rfp_Id = request.POST.get("Rfp_Id")
@@ -2048,13 +2130,15 @@ def confirm_view(request, id):
         return render(
             request,
             "confirmation.html",
-            {"showname": showname, "country": country, "industry": industry, "id": id},
+            {"showname": showname, "country": country,
+                "industry": industry, "id": id},
         )
     if request.method == "POST":
         return render(
             request,
             "confirmation.html",
-            {"showname": showname, "country": country, "industry": industry, "id": id},
+            {"showname": showname, "country": country,
+                "industry": industry, "id": id},
         )
 
 
@@ -2093,47 +2177,43 @@ def approvedocument_view(request):
     #     SP = UserQuery.objects.filter(sentapproval="on").filter(viewed="off")
     #     return render(request, 'approve.html', {"SP": SP})
     if request.method == "GET":
-        SP = documentapproval.objects.filter(approved="No")
-        Yes = documentapproval.objects.filter(approved="Yes")
+        SP = userstandardsection.objects.filter(approved="No")
+        Yes = userstandardsection.objects.filter(approved="Yes")
         return render(request, "approvedocument.html", {"SP": SP, "Yes": Yes})
     if request.method == "POST":
-        SP = documentapproval.objects.filter(approved="No")
-        Yes = documentapproval.objects.filter(approved="Yes")
+        SP = userstandardsection.objects.filter(approved="No")
+        Yes = userstandardsection.objects.filter(approved="Yes")
         return render(request, "approvedocument.html", {"SP": SP, "Yes": Yes})
 
 
 def approved_view(request, id):
-    industry = request.session["industry"]
-    country = request.session["country"]
-    showname = request.session["showname"]
+    # industry = request.session["industry"]
+    # country = request.session["country"]
+    # showname = request.session["showname"]
     if request.method == "GET":
-        SP = documentapproval.objects.filter(id=id)
+        SP = userstandardsection.objects.filter(id=id)
         SP.update(approved="Yes")
-        SP = documentapproval.objects.filter(approved="No")
-        Yes = documentapproval.objects.filter(approved="Yes")
+        SP = userstandardsection.objects.filter(approved="No")
+        Yes = userstandardsection.objects.filter(approved="Yes")
         return render(
             request,
             "approvedocument.html",
             {
-                "showname": showname,
-                "country": country,
-                "industry": industry,
+
                 "SP": SP,
                 "Yes": Yes,
             },
         )
     if request.method == "POST":
-        SP = documentapproval.objects.filter(id=id)
+        SP = userstandardsection.objects.filter(id=id)
         SP.update(approved="Yes")
-        SP = documentapproval.objects.filter(approved="No")
-        Yes = documentapproval.objects.filter(approved="Yes")
+        SP = userstandardsection.objects.filter(approved="No")
+        Yes = userstandardsection.objects.filter(approved="Yes")
         return render(
             request,
             "approvedocument.html",
             {
-                "showname": showname,
-                "country": country,
-                "industry": industry,
+
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -2141,9 +2221,7 @@ def approved_view(request, id):
 
 
 def disapproved_view(request, id):
-    industry = request.session["industry"]
-    country = request.session["country"]
-    showname = request.session["showname"]
+
     if request.method == "GET":
         SP = documentapproval.objects.filter(id=id)
         SP.update(approved="No")
@@ -2153,9 +2231,7 @@ def disapproved_view(request, id):
             request,
             "approvedocument.html",
             {
-                "showname": showname,
-                "country": country,
-                "industry": industry,
+
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -2169,9 +2245,7 @@ def disapproved_view(request, id):
             request,
             "approvedocument.html",
             {
-                "showname": showname,
-                "country": country,
-                "industry": industry,
+
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -2185,10 +2259,14 @@ def login(request):
         password = request.POST["password"]
         user = auth.authenticate(username=loginusername, password=password)
         if user is not None:
-            if user.is_staff == True:
+            if user.groups.filter(name="Approvers").exists():
                 auth.login(request, user)
                 return redirect("/approveview")
-            return redirect("/userlogin")
+            elif user.is_staff == False:
+                return redirect("/userlogin")
+            else:
+                messages.success(request, "Incorrect Username or password")
+                return redirect("/login")
         else:
             messages.success(request, "Incorrect Username or password")
             return redirect("/login")
@@ -2201,16 +2279,84 @@ def userlogin_view(request):
         loginusername = request.session["loginusername"]
         SP = ImageUpload.objects.filter(approved="No")
         return render(
-            request, "userlogin.html", {"SP": SP, "loginusername": loginusername}
+            request, "userlogin.html", {
+                "SP": SP, "loginusername": loginusername}
         )
     if request.method == "POST":
         loginusername = request.session["loginusername"]
         SP = ImageUpload.objects.filter(approved="No")
         return render(
-            request, "userlogin.html", {"SP": SP, "loginusername": loginusername}
+            request, "userlogin.html", {
+                "SP": SP, "loginusername": loginusername}
         )
 
+# signup
 
+
+def usersignup(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        email = request.POST["email"]
+        username = username.upper()
+        user = User.objects.create_user(
+            username=username, password=password, is_staff=False, email=email)
+        user.save()
+        return redirect("/login")
+    else:
+        return render(request, "usersignup.html")
+
+# signup
+
+# approver login page
+
+
+def loginapprover(request):
+    if request.method == "POST":
+        loginusername = request.POST["username"]
+        request.session["loginusername"] = loginusername
+        password = request.POST["password"]
+        user = auth.authenticate(username=loginusername, password=password)
+        from django.contrib.auth.models import Group
+        if user is not None:
+            if user.groups.filter(name="Approvers").exists():
+                auth.login(request, user)
+                return redirect("/approveview")
+
+            return redirect("/loginapprover")
+        else:
+            messages.success(
+                request, "Incorrect Username or password or check with admin")
+            return redirect("/loginapprover")
+    else:
+        return render(request, "loginapprover.html")
+
+# approver login page
+
+# approver signup
+
+
+def approversignup(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        email = request.POST["email"]
+        username = username.upper()
+        user = User.objects.create_user(
+            username=username, password=password, is_staff=False, email=email)
+        user.save()
+        from django.contrib.auth.models import Group
+        my_group = Group.objects.get(name='Approvers_Request')
+        idd = User.objects.get(username=username)
+        my_group.user_set.add(idd.id)
+        messages.success(
+            request, "Approval account request has been sent to admin.Once approved you will be able to login")
+        return redirect("/approversignup")
+    else:
+        return render(request, "approversignup.html")
+
+
+# approver signup
 def convertToBinaryData(filename):
     # Convert digital data to binary format
     with open(filename, "rb") as file:
@@ -2326,7 +2472,8 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                 else:
                     doc_name = "Title.docx"
 
-                updated_doc = docx_template_replace(get_doc, doc_name, client_name)
+                updated_doc = docx_template_replace(
+                    get_doc, doc_name, client_name)
                 # updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
                 #                                 request.session['add_line_2'], request.session['client_zipcode'], request.session['industry'],
                 #                                 request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], doc_name)
@@ -2439,7 +2586,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                             updload_to_azure_blob = upload_blob_data(
                                 subfolder, updated_doc, container_id
                             )
-                            print(updload_to_azure_blob, "azure path")
+                            print(updload_to_azure_blob, 'azure path')
 
                             c = Document_usercopy.objects.update_or_create(
                                 rfp_section_id=docu.id,
@@ -2451,7 +2598,8 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                                 matrix=matrix_value,
                             )
 
-                            c[0].File.save(updated_doc, File(open(updated_doc, "rb")))
+                            c[0].File.save(updated_doc, File(
+                                open(updated_doc, "rb")))
                     except Exception as ex:
                         print(ex, "exception")
                         file_path = "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
@@ -2462,9 +2610,9 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                         print(get_doc, "get doc response")
 
                         updload_to_azure_blob = upload_blob_data(
-                            subfolder, get_doc, container_id
-                        )
-                        print(updload_to_azure_blob, "azure path")
+                            subfolder, get_doc, container_id)
+                        print(updload_to_azure_blob, 'azure path')
+
                         # c = Document_usercopy.objects.update_or_create(
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
 
@@ -2590,7 +2738,8 @@ def SelectedIndex_view(request):
         else:
             check = askques.objects.filter(user=client_name)
             if check:
-                askque = askques.objects.filter(user=client_name).update(selected=" ")
+                askque = askques.objects.filter(
+                    user=client_name).update(selected=" ")
             else:
                 print(client_name, "inside else")
                 askque = askques(user=client_name, selected=" ")
@@ -2799,7 +2948,8 @@ def SelectedIndex2_view(request, id):
             print(extraimg, "extraaaaaaaa")
             print(extraimg, "extraimg--------------------")
             if extraimg:
-                extraselected = SectionExtraImage.objects.filter(id__in=extraimg)
+                extraselected = SectionExtraImage.objects.filter(
+                    id__in=extraimg)
                 delextraselected = ExtraImage.objects.exclude(id__in=extraimg)
                 user = Users.objects.get(user=client_name)
                 for e in extraselected:
@@ -2812,7 +2962,8 @@ def SelectedIndex2_view(request, id):
                     doc_user_copy=user_copy
                 )
                 save_image_doc[0].image_doc.save(
-                    create_doc_of_images, File(open(create_doc_of_images, "rb"))
+                    create_doc_of_images, File(
+                        open(create_doc_of_images, "rb"))
                 )
                 print("successfully added image document to section")
                 # extra = ExtraImage.objects.filter(user=user)
@@ -2978,7 +3129,8 @@ def Onscreenmcq_view(request, id):
 
         print("Before Filtered DataFrame:- ", df_rfpdata.shape)
         # Filter the data based on Country and Industry
-        df = model_build.dataframe_filter_return(df_rfpdata, industry, country, section)
+        df = model_build.dataframe_filter_return(
+            df_rfpdata, industry, country, section)
 
         print("Filtered DataFrame:- ", df.shape)
         # Training Dataset Vector
@@ -2995,7 +3147,8 @@ def Onscreenmcq_view(request, id):
             print("Need not to Run Training File as Model is Present")
         else:
             print("File is not present. Initializing the training command.")
-            execution_time = model_build.training_dataset_vector(df, embedder=embedder)
+            execution_time = model_build.training_dataset_vector(
+                df, embedder=embedder)
             print("Execution of Training Time:-", execution_time)
 
         # Input the query
@@ -3081,7 +3234,8 @@ def download(request, path):
     file_path = os.path.join(settings.MEDIA_ROOT, path)
     if os.path.exists(file_path):
         with open(file_path, "rb") as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response = HttpResponse(
+                fh.read(), content_type="application/vnd.ms-excel")
             response["Content-Disposition"] = "inline; filename=" + os.path.basename(
                 file_path
             )
@@ -3127,7 +3281,7 @@ def documentapproval_view(request):
     # prod.save()
     return 'successfully uploaded'
 
-import subprocess
+
 def generate_rfp_document(request):
     print("im here inside the rfp document")
     client_name = request.session["client_name"]
@@ -3147,15 +3301,10 @@ def generate_rfp_document(request):
     file_list = []
     node_command_string = "node doc-merger.js"
     for i in all_documents:
-
-        print(i.File.url, i.id, "urlllll")
-        if (
-            i.file_link
-            != "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
-        ):
+        print(i.File.url, i.id, 'urlllll')
+        if i.file_link != 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx':
             file_list.append(i.File.url)
-        node_command_string += f" {i.File.url}"
-
+        node_command_string += f' {i.File.url}'
         try:
             extra_image_file = ImageDocumentUsercopy.objects.filter(
                 doc_user_copy_id=i.id
@@ -3193,7 +3342,6 @@ def generate_rfp_document(request):
         "rfp_final_v4.docx", File(open("output-node-merger-v4.docx", "rb"))
     )
 
-
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()
     # print(directory, 'directoryhy')
@@ -3202,7 +3350,8 @@ def generate_rfp_document(request):
     print(file_path, "file path opened with joinnnnn")
     if os.path.exists(string_path):
         with open(string_path, "rb") as fh:
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response = HttpResponse(
+                fh.read(), content_type="application/vnd.ms-excel")
             response["Content-Disposition"] = "inline; filename=" + os.path.basename(
                 file_path
             )
@@ -3245,7 +3394,8 @@ def ExtraImage_view(request):
         user = Users.objects.get(user=client_name)
         Extraimgsearch = request.session["Extraimgsearch"]
         extra = ExtraImage.objects.filter(Industry=Extraimgsearch, user=user)
-        extrano = ExtraImage.objects.filter(Industry=Extraimgsearch).exclude(user=user)
+        extrano = ExtraImage.objects.filter(
+            Industry=Extraimgsearch).exclude(user=user)
         return render(
             request,
             "extraimage.html",
@@ -3380,7 +3530,8 @@ def AssuptionAndRisk_view(request):
             c = e.user.add(user)
         for d in delextraselected:
             c = d.user.remove(user)
-        Generalcheck = AssuptionAndRisk.objects.filter(category="General", user=user)
+        Generalcheck = AssuptionAndRisk.objects.filter(
+            category="General", user=user)
 
         Generalnotcheck = AssuptionAndRisk.objects.filter(category="General").exclude(
             user=user
@@ -3394,13 +3545,15 @@ def AssuptionAndRisk_view(request):
             category="Resources"
         ).exclude(user=user)
 
-        Workdaycheck = AssuptionAndRisk.objects.filter(category="Workday", user=user)
+        Workdaycheck = AssuptionAndRisk.objects.filter(
+            category="Workday", user=user)
 
         Workdaynotcheck = AssuptionAndRisk.objects.filter(category="Workday").exclude(
             user=user
         )
 
-        Softwarecheck = AssuptionAndRisk.objects.filter(category="Software", user=user)
+        Softwarecheck = AssuptionAndRisk.objects.filter(
+            category="Software", user=user)
 
         Softwarenotcheck = AssuptionAndRisk.objects.filter(category="Software").exclude(
             user=user
@@ -3422,7 +3575,8 @@ def AssuptionAndRisk_view(request):
             category="Data Migration"
         ).exclude(user=user)
 
-        Testingcheck = AssuptionAndRisk.objects.filter(category="Testing", user=user)
+        Testingcheck = AssuptionAndRisk.objects.filter(
+            category="Testing", user=user)
 
         Testingnotcheck = AssuptionAndRisk.objects.filter(category="Testing").exclude(
             user=user
@@ -3444,7 +3598,8 @@ def AssuptionAndRisk_view(request):
             category="Deployment and Support"
         ).exclude(user=user)
 
-        Covidcheck = AssuptionAndRisk.objects.filter(category="Covid-19", user=user)
+        Covidcheck = AssuptionAndRisk.objects.filter(
+            category="Covid-19", user=user)
 
         Covidnotcheck = AssuptionAndRisk.objects.filter(category="Covid-19").exclude(
             user=user
@@ -3484,7 +3639,8 @@ def AssuptionAndRisk_view(request):
         Acccount = "DEF"
         request.session["Acccount"] = Acccount
         user = Users.objects.get(user=client_name)
-        Generalcheck = AssuptionAndRisk.objects.filter(category="General", user=user)
+        Generalcheck = AssuptionAndRisk.objects.filter(
+            category="General", user=user)
 
         Generalnotcheck = AssuptionAndRisk.objects.filter(category="General").exclude(
             user=user
@@ -3498,13 +3654,15 @@ def AssuptionAndRisk_view(request):
             category="Resources"
         ).exclude(user=user)
 
-        Workdaycheck = AssuptionAndRisk.objects.filter(category="Workday", user=user)
+        Workdaycheck = AssuptionAndRisk.objects.filter(
+            category="Workday", user=user)
 
         Workdaynotcheck = AssuptionAndRisk.objects.filter(category="Workday").exclude(
             user=user
         )
 
-        Softwarecheck = AssuptionAndRisk.objects.filter(category="Software", user=user)
+        Softwarecheck = AssuptionAndRisk.objects.filter(
+            category="Software", user=user)
 
         Softwarenotcheck = AssuptionAndRisk.objects.filter(category="Software").exclude(
             user=user
@@ -3526,7 +3684,8 @@ def AssuptionAndRisk_view(request):
             category="Data Migration"
         ).exclude(user=user)
 
-        Testingcheck = AssuptionAndRisk.objects.filter(category="Testing", user=user)
+        Testingcheck = AssuptionAndRisk.objects.filter(
+            category="Testing", user=user)
 
         Testingnotcheck = AssuptionAndRisk.objects.filter(category="Testing").exclude(
             user=user
@@ -3548,7 +3707,8 @@ def AssuptionAndRisk_view(request):
             category="Deployment and Support"
         ).exclude(user=user)
 
-        Covidcheck = AssuptionAndRisk.objects.filter(category="Covid-19", user=user)
+        Covidcheck = AssuptionAndRisk.objects.filter(
+            category="Covid-19", user=user)
 
         Covidnotcheck = AssuptionAndRisk.objects.filter(category="Covid-19").exclude(
             user=user
@@ -3635,7 +3795,8 @@ def clientlogo_view(request):
         print("Extraimgsearch", Extraimgsearch)
         print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         extra = clientlogo.objects.filter(Industry=Extraimgsearch, user=user)
-        extrano = clientlogo.objects.filter(Industry=Extraimgsearch).exclude(user=user)
+        extrano = clientlogo.objects.filter(
+            Industry=Extraimgsearch).exclude(user=user)
         print("extra", extra)
         print("extrano", extrano)
         return render(
@@ -3651,8 +3812,7 @@ def clientlogo_view(request):
         )
     if request.method == "GET":
         log = "DEF"
-        request.session["log"] = log
-
+        request.session['log'] = log
         user = Users.objects.get(user=client_name)
         extra = clientlogo.objects.filter(user=user)
         extrano = clientlogo.objects.exclude(user=user)
@@ -3662,118 +3822,7 @@ def clientlogo_view(request):
         for i in extrano:
             print(i.Industry)
         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        return render(
-            request,
-            "clientlogo.html",
-            {
-                "showname": showname,
-                "country": country,
-                "industry": industry,
-                "extra": extra,
-                "extrano": extrano,
-            },
-        )
-
-
-# upload Image files
-def logo_upload_view(request):
-    showname = request.session["showname"]
-    industry = request.session["industry"]
-    username = request.session["username"]
-    loginusername = request.session["loginusername"]
-    client_name = request.session["client_name"]
-    country = request.session["country"]
-    pic = request.FILES.get("file")
-    prod = logoUpload(user=loginusername, picup=pic, clientgeo=country)
-    prod.save()
-    return render(
-        request,
-        "UploadClientlogo.html",
-        {"showname": showname, "country": country, "industry": industry},
-    )
-
-
-def approveimage_view(request):
-    if request.method == "GET":
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = ImageUpload.objects.filter(approved="Yes")
-        return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
-    if request.method == "POST":
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = ImageUpload.objects.filter(approved="Yes")
-        return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
-
-
-
-def notsatisfieddoc_view(request):
-    client_name = request.session["client_name"]
-    country = request.session["country"]
-    queries = request.POST.get("Query")
-    print("queries", queries)
-    docfile = request.FILES.get("file")
-    doc = notsatisfieddoc(
-        user=client_name, docup=docfile, clientgeo=country, query=queries
-    )
-    doc.save()
-    return render(request, "notsatisfieddoc.html")
-
-
-# def clientlogo_view(request):
-#     showname = request.session['showname']
-#     industry = request.session['industry']
-#     country = request.session['country']
-#     client_name = request.session['client_name']
-#     if request.method == "POST":
-#         Extraimgsearch = request.POST.get("Extraimgsearch")
-#         request.session['Extraimgsearch'] = Extraimgsearch
-#         print("Extraimgsearch", Extraimgsearch)
-#         extraimg = request.POST.getlist("extraimage")
-#         checkon = clientlogo.objects.filter(
-#             Industry=Extraimgsearch)
-#         checkonid = []
-#         for i in checkon:
-#             checkonid.append(i.id)
-#         print("checkonid", checkonid)
-#         print("extraimg", extraimg)
-#         extraimg = [int(x) for x in extraimg]
-#         print("extraimggggg", extraimg)
-#         on = list(set(checkonid).intersection(extraimg))
-#         print("on", on)
-#         if len(on):
-#             off = list(set(checkonid) - set(extraimg))
-#             print("off", off)
-#             extraselected = clientlogo.objects.filter(id__in=on)
-#             delextraselected = clientlogo.objects.filter(id__in=off)
-#             user = Users.objects.get(user=client_name)
-#             for e in extraselected:
-#                 c = e.user.add(user)
-#             for d in delextraselected:
-#                 c = d.user.remove(user)
-
-#         user = Users.objects.get(user=client_name)
-#         Extraimgsearch = request.session['Extraimgsearch']
-#         print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-#         print("Extraimgsearch", Extraimgsearch)
-#         print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-#         extra = clientlogo.objects.filter(Industry=Extraimgsearch, user=user)
-#         extrano = clientlogo.objects.filter(
-#             Industry=Extraimgsearch).exclude(user=user)
-#         print("extra", extra)
-#         print("extrano", extrano)
-#         return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
-#     if request.method == "GET":
-#         log = "DEF"
-#         request.session['log'] = log
-#         user = Users.objects.get(user=client_name)
-#         extra = clientlogo.objects.filter(user=user)
-#         extrano = clientlogo.objects.exclude(user=user)
-#         indus = clientlogo.objects.all()
-#         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-#         print(indus)
-#         for i in extrano:
-#             print(i.Industry)
-#         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-#         return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
 
 
 # upload Image files
@@ -3795,12 +3844,12 @@ def logo_upload_view(request):
 
 def approveimage_view(request):
     if request.method == "GET":
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = logoUpload.objects.filter(approved="Yes")
+        SP = userextraimage.objects.filter(approved="No")
+        Yes = userextraimage.objects.filter(approved="Yes")
         return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
     if request.method == "POST":
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = logoUpload.objects.filter(approved="Yes")
+        SP = userextraimage.objects.filter(approved="No")
+        Yes = userextraimage.objects.filter(approved="Yes")
         return render(request, "approveimage.html", {"SP": SP, "Yes": Yes})
 
 
@@ -3809,10 +3858,10 @@ def approvedimage_view(request, id):
     country = request.session["country"]
     showname = request.session["showname"]
     if request.method == "GET":
-        SP = ImageUpload.objects.filter(id=id)
+        SP = userextraimage.objects.filter(id=id)
         SP.update(approved="Yes")
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = ImageUpload.objects.filter(approved="Yes")
+        SP = userextraimage.objects.filter(approved="No")
+        Yes = userextraimage.objects.filter(approved="Yes")
         return render(
             request,
             "approveimage.html",
@@ -3825,10 +3874,10 @@ def approvedimage_view(request, id):
             },
         )
     if request.method == "POST":
-        SP = ImageUpload.objects.filter(id=id)
+        SP = userextraimage.objects.filter(id=id)
         SP.update(approved="Yes")
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = ImageUpload.objects.filter(approved="Yes")
+        SP = userextraimage.objects.filter(approved="No")
+        Yes = userextraimage.objects.filter(approved="Yes")
         return render(
             request,
             "approveimage.html",
@@ -3847,10 +3896,10 @@ def disapprovedimage_view(request, id):
     country = request.session["country"]
     showname = request.session["showname"]
     if request.method == "GET":
-        SP = ImageUpload.objects.filter(id=id)
+        SP = userextraimage.objects.filter(id=id)
         SP.update(approved="No")
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = ImageUpload.objects.filter(approved="Yes")
+        SP = userextraimage.objects.filter(approved="No")
+        Yes = userextraimage.objects.filter(approved="Yes")
         return render(
             request,
             "approveimage.html",
@@ -3863,10 +3912,10 @@ def disapprovedimage_view(request, id):
             },
         )
     if request.method == "POST":
-        SP = ImageUpload.objects.filter(id=id)
+        SP = userextraimage.objects.filter(id=id)
         SP.update(approved="No")
-        SP = ImageUpload.objects.filter(approved="No")
-        Yes = ImageUpload.objects.filter(approved="Yes")
+        SP = userextraimage.objects.filter(approved="No")
+        Yes = userextraimage.objects.filter(approved="Yes")
         return render(
             request,
             "approveimage.html",
@@ -3967,7 +4016,6 @@ def disapprovedlogo_view(request, id):
         )
 
 
-
 def approvequestionans_view(request):
     if request.method == "GET":
         SP = userquestionans.objects.filter(approved="No")
@@ -4053,15 +4101,6 @@ def disapprovequestionans_view(request, id):
                 "Yes": Yes,
             },
         )
-
-
-
-
-
-
-
-
-
 
 
 def approveassumptionrisk_view(request):
@@ -4186,7 +4225,8 @@ def userstandardsection_view(request):
         return render(request, "userstandardsection.html")
 
     if request.method == "POST":
-        user = request.POST.get("client_name")
+        loginusername = request.session["loginusername"]
+        user = loginusername
         rfpid = request.POST.get("Rfp_Id")
         country = request.POST.get("countries")
         industry = request.POST.get("industry")
@@ -4234,7 +4274,8 @@ def userriskandassumption_view(request):
         section = request.POST["Section"]
         loginusername = request.session["loginusername"]
         description = request.POST["description"]
-        assump = userriskandassumption.objects.create(user=loginusername,country=country,industry=industry,section=section,description=description)
+        assump = userriskandassumption.objects.create(
+            user=loginusername, country=country, industry=industry, section=section, description=description)
         assump.save()
         return render(request, "userriskandassumption.html")
 
@@ -4252,3 +4293,92 @@ def useraddlogo_view(request):
         )
         img.save()
         return render(request, "useraddlogo.html")
+
+
+def rejectfeedbackform_view(request, id):
+    if request.method == "GET":
+        return render(request, "rejectfeedback.html", {"id": id})
+    if request.method == "POST":
+        feedback = request.POST.get("feedback")
+        try:
+            assump = userriskandassumption.objects.filter(
+                id=id).update(feedback=feedback, approved="Rejected")
+            assump.save()
+            SP = userriskandassumption.objects.filter(approved="No")
+            Yes = userriskandassumption.objects.filter(approved="Yes")
+            return render(request, "userassumptionrisk.html", {"SP": SP, "Yes": Yes})
+        except:
+            pass
+
+        try:
+            assump = logoUpload.objects.filter(
+                id=id).update(feedback=feedback, approved="Rejected")
+            assump.save()
+        except:
+            pass
+
+        try:
+            assump = userquestionans.objects.filter(
+                id=id).update(feedback=feedback, approved="Rejected")
+            assump.save()
+        except:
+            pass
+
+        try:
+            assump = userstandardsection.objects.filter(
+                id=id).update(feedback=feedback, approved="Rejected")
+            assump.save()
+        except:
+            pass
+
+        try:
+            assump = userextraimage.objects.filter(
+                id=id).update(feedback=feedback, approved="Rejected")
+            assump.save()
+        except:
+            pass
+
+        return render(request, "rejectfeedback.html", {"id": id})
+
+
+def usersummerytable_view(request):
+    loginusername = request.session["loginusername"]
+    if request.method == "GET":
+        SP = userstandardsection.objects.filter(
+            user=loginusername).order_by('id')
+        assumption = userriskandassumption.objects.filter(
+            user=loginusername).order_by('id')
+        logo = logoUpload.objects.filter(user=loginusername).order_by('id')
+        extraimage = userextraimage.objects.filter(
+            user=loginusername).order_by('id')
+        questionans = userquestionans.objects.filter(
+            user=loginusername).order_by('id')
+
+        return render(
+            request,
+            "usersummarytable.html",
+            {
+                "SP": SP,
+                "assumption": assumption,
+                "logo": logo,
+                "extraimage": extraimage,
+                "questionans": questionans,
+            },
+        )
+    if request.method == "POST":
+        SP = userstandardsection.objects.all().order_by('id')
+        assumption = userriskandassumption.objects.all().order_by('id')
+        logo = logoUpload.objects.all().order_by('id')
+        extraimage = userextraimage.objects.all().order_by('id')
+        questionans = userquestionans.objects.all().order_by('id')
+        return render(
+            request,
+            "usersummarytable.html",
+            {
+                "SP": SP,
+                "assumption": assumption,
+                "logo": logo,
+                "extraimage": extraimage,
+                "questionans": questionans,
+            },
+        )

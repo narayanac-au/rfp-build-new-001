@@ -62,26 +62,42 @@
         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
     <div class="col-4 mt-5 " >
         
-    <h2 class="ml-5 border border-dark">&emsp;&emsp;Please Login</h2>
+    <h2 class="ml-5" style="font-family:Helvetica">USER LOGIN</h2>
 
     <form action="{% url 'login'%}" method="POST">
         {% csrf_token %}
         <table class="ml-5">
             <tr>
-                <td >Username : <input type="text" name="username" placeholder="Username" ></td>
+                <td >Username :</td>
             </tr>
             <tr>
-                <td>Passwords : <input type="password" name="password" placeholder="Password" ></td>
+                <td ><input type="text" name="username" placeholder="Username"  onkeyup="this.value = this.value.toUpperCase();" ></td>
+            </tr>
+            <tr>
+                <td>Password :</td>
+            </tr>
+            <tr>
+                <td><input type="password" name="password" placeholder="Password" ></td>
             </tr>
             
-            <tr class="ml-5 mt-2">
-                <td>&emsp;&emsp;<input class="btn btn-dark btn-sm ml-5  " type="submit" /><a class="btn btn-dark btn-sm ml-2 " style="font-size:.8rem;width: 4rem;background-color:#000099;" href="{% url 'details'%}">Home</a></td>
+            
+            <tr class="ml-5 mt-3">
+                <td><input class="btn btn-dark btn-sm   " style="font-size:.8rem;width: 4rem;background-color:#000099;" type="submit" /><a class="btn btn-dark btn-sm ml-2 " style="font-size:.8rem;width: 4rem;background-color:#000099;" href="{% url 'details'%}">Home</a></td>
                 
             </tr>
+            <tr>
+                <td><a class=" btn-sm mt-3 btn btn-outline-dark" style="font-size:.8rem;width: 4rem;" href="{% url 'usersignup'%}">Sign UP</a></td>
+            </tr>
+            <tr>
+                <td style="font-size:.7rem;">Don't have an account Please SignUp</td>
+            </tr>
         </table>
-        {% if messages %}
+        
+                {% if messages %}
                 {% for record in messages %}
-                <h3 style="color:red">{{record}}</h3>
+                <div class="alert alert-danger">
+                    <strong>Alert!</strong> {{record}}
+                  </div>
                 {% endfor %}
                 {% endif %}
     </form>
