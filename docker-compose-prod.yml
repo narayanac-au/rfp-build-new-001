@@ -6,7 +6,7 @@ services:
   nginx:
  
     # Build context
-    #  build: ./nginx
+    # build: nginx/Dockerfile.nginx
     image: nginx:v0.0.1
     
     # Mapping machine and container ports
@@ -31,9 +31,9 @@ services:
   web:
   
     # Build context
-    # build: ./web
-    image: python-latest:v0.0.1
-    
+    # build: .
+    image: python-latest:v0.0.2
+    container_name: web
     # # Build commands
     # command: sh -c "python manage.py makemigrations &&
     #                 python manage.py migrate &&
