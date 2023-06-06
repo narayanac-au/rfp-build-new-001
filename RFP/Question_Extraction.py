@@ -17,8 +17,7 @@ import time
 from doc2pdf import convert
 import nltk
 from nltk.tokenize import word_tokenize
-nltk.download('averaged_perceptron_tagger')
-nltk.download('punkt')
+
 warnings.filterwarnings('ignore')
 
 

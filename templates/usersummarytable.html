@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<!-- Navbar same in all pages -->
+
+<head class="  w-25 p-3">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/doc.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% comment %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/firstpage.css' %}"> {% endcomment %}
+    <title>RFP</title>
+    <div class=" bg  row">
+        <div class="  col-2  ">
+            <a href="{%url 'index'%}"><img src="{% static 'images/KPMG_logo.png' %}" height="80" width="110"></a>
+        </div>
+        <div class=" col-8 mt-4 ">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            <h6 class="d-inline text-center ml-2  display-5" style="font-family:Arial;font-size:1rem;color:White">
+                <strong>Powered Enterprise Intelligent RFP Builder</strong></h6>
+        </div>
+        <div class=" col-2 mt-3   ">
+            <div class="row">
+                <div class="col-1 ">
+
+                </div>
+                {% comment %} <div class="col-8  mt-1">
+                    <div class="col-12  ">
+                        <h6 style="font-size:.7rem;color:White">Client: {{showname}}</h6>
+                    </div>
+                    <div class="col-12  ">
+                        <h6 style="font-size:.7rem;color:White">GEO: {{country}}</h6>
+                    </div>
+                    <div class="col-12  ">
+                        <h6 style="font-size:.7rem;color:White">Industry:{{industry}}</h6>
+                    </div>
+                </div> {% endcomment %}
+
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/firstpage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+    <div class="border-bottom border-dark"></div>
+    <title>RFP</title>
+</head>
+
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>
+<body>
+    <div class="container ">
+        
+        <div class="container">
+
+    {% comment %} Progress Bar {% endcomment %}
+    <div class="row container ml-5">
+      <div class="col-12 container ml-5">
+            <div class="wrapper-progressBar container ml-5">
+              <ul class="progressBar container ml-5">
+                <li class="active" id="stepper">Home</li>
+                <li class="active" id="stepper">login</li>
+                <li class="active" id="stepper">Summary Table</li>
+                
+                
+                
+              </ul>
+            </div>
+          
+            <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+              <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+          </a>
+  
+  
+  
+          </div>
+          
+    </div>
+    
+  </div>
+  </div>
+    {% comment %} Progress Bar {% endcomment %}
+    <div class=" ">
+        
+
+
+            <!--FORM-->
+            <div class="container">
+              <a
+              class="btn btn-dark btn-sm  float-right mb-2 ml-1"
+              style="
+                font-size: 0.7rem;
+                width: 4rem;
+                background-color: #f2f2f2;
+                color: black;
+              "
+              onclick="history.back()"
+              >BACK</a>
+
+            <a class="btn btn-dark btn-sm  float-right mb-2" style="font-size:.7rem;width: 4rem;background-color:#000099;height: 1.6rem;"
+                href="{% url 'details'%}">Logout</a>
+            </div>
+            <div class="container mt-5">
+              <div class="container">
+                <div>
+                  
+                
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width:9rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'userlogin'%}"
+                >Main Menu</a>
+              </div>
+              <a class=" " style="color: black;text-decoration: underline;" href="#STANDARDSECTION">STANDARD SECTION</a>
+              <a class=" ml-2 " style="color: black;text-decoration: underline;" href="#ASSUMPTION">ASSUMPTION AND RISK</a>
+              <a class="ml-2 " style="color: black;text-decoration: underline;" href="#Logo">LOGO</a>
+              <a class=" ml-2 " style="color: black;text-decoration: underline;" href="#Extra">EXTRAIMAGE</a>
+              <a class="ml-2 " style="color: black;text-decoration: underline;" href="#Question">QUESTION AND ANSWER</a>
+            <div class="mb-1 mt-3" id="STANDARDSECTION"><strong><h5>STANDARD SECTION</h5></strong></div>
+            <table class="table table-sm table-dark table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    
+                    <th scope="col">Clientgeo</th>
+                    <th scope="col">Section</th>
+                    <th scope="col">Approval Status</th>
+                    
+                    <th scope="col">Download</th>
+                    <th scope="col">Feedback</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for d in SP %}
+                        <tr>
+                            <th scope="row" style="font-size:.8rem;width: 4rem;">{{d.id}}</th>
+                            
+                            <td style="font-size:.8rem;width: 4rem;">{{d.country}}</td>
+                            <td style="font-size:.8rem;width: 4rem;">{{d.section}}</td>
+                            <td style="font-size:.8rem;width: 10rem;">{{d.approved}}</td>
+                            
+                            <td style="font-size:.8rem;width: 4rem;"><a href='{{d.document.url}}' Download>Download</a></td>
+                            <td ><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
+                        </tr>
+                    {% endfor %}    
+                </tbody>
+              </table>
+            </div>
+
+
+            
+            <div class="container mt-5">
+                
+                <div class="mb-1" id="ASSUMPTION"><strong><h5>ASSUMPTION AND RISK</h5></strong></div>
+                <table class="table table-sm table-dark table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        
+                        <th scope="col">Clientgeo</th>
+                        <th scope="col">Status</th>
+                        
+                        <th scope="col">Section</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Feedback</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in assumption %}
+                        
+                            <tr>
+                                <th scope="row">{{d.id}}</th>
+                                
+                                <td>{{d.country}}</td>
+                                <td>{{d.approved}}</td>
+                                
+                                    <td>{{d.section}}</td>  
+                                <td><h4 class="  " style="font-size:.8rem;width:300px"> {{d.description}}</h4></td>
+                                <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
+                            </tr>
+                            
+                        {% endfor %}    
+                        
+                    </tbody>
+                  </table>
+                </div>
+            
+            
+
+
+            </div>
+
+            <div class="container mt-5">
+                <div class="container mt-5">
+                <div class="mb-1" id="Logo"><strong><h5>LOGO</h5></strong></div>
+                <table class="table table-sm table-dark table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        
+                        <th scope="col">UserGeo</th>
+                        <th scope="col">Approval Status</th>
+                        
+                        <th scope="col">Logo</th>
+                        <th scope="col">Feedback</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in logo %}
+                        {% if d.picup.url != None %}
+                            <tr>
+                                <th scope="row">{{d.id}}</th>
+                                
+                                <td>{{d.clientgeo}}</td>
+                                <td>{{d.approved}}</td>
+                                
+                                <td><img class="w-40 " src="{{d.picup.url}}" alt="First slide" height="150" width="180""></td>
+                                <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>  
+                              </tr>
+                            {% endif %}
+                        {% endfor %}    
+                        
+                    </tbody>
+                  </table>
+                </div>
+
+
+            </div>
+            </div>
+
+            <div class="container mt-5">
+                <div class="container mt-5">
+                <div class="mb-1" id="Extra"><strong><h5>EXTRA IMAGE</h5></strong></div>
+                <table class="table table-sm table-dark table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        
+                        <th scope="col">UserGeo</th>
+                        <th scope="col">Approval Status</th>
+                        
+                        <th scope="col">Logo</th>
+                        <th scope="col">Feedback</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in extraimage %}
+                        {% if d.image.url != None %}
+                            <tr>
+                                <th scope="row">{{d.id}}</th>
+                                
+                                <td>{{d.country}}</td>
+                                <td>{{d.approved}}</td>
+                                
+                                <td><img class="w-40 " src="{{d.image.url}}" alt="First slide" height="150" width="180""></td>
+                                <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>  
+                              </tr>
+                            {% endif %}
+                        {% endfor %}    
+                        
+                    </tbody>
+                  </table>
+                </div>
+
+
+            </div>
+            </div>
+
+            <div class="container mt-5">
+                <div class="container mt-5">
+                <div class="mb-1" id="Question"><strong><h5>QUESTION ANSWER</h5></strong></div>
+                <table class="table table-sm table-dark table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        
+                        <th scope="col">Clientgeo</th>
+                        <th scope="col">Status</th>
+                        
+                        <th scope="col">Section</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Feedback</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in questionans %}
+                        
+                            <tr>
+                                <th scope="row">{{d.id}}</th>
+                                
+                                <td>{{d.country}}</td>
+                                <td>{{d.approved}}</td>
+                                
+                                    <td>{{d.section}}</td>  
+                                <td><h4 class="  " style="font-size:.8rem;width:300px"> {{d.question}}</h4></td>
+                                <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
+                            </tr>
+                            
+                        {% endfor %}    
+                        
+                    </tbody>
+                  </table>
+                </div>
+            
+            
+
+            </div>
+            </div>
+        </div>
+
+    
+    </div>
+
+</body>
+
+
+{% comment %} <link rel="stylesheet" href="{% static 'css/footer.css' %}" /> {% endcomment %}
+<div class="container ">
+  <div class="row">
+
+<div class="">
+  <!-- Copyright -->
+  <footer class="">
+
+    <!-- Copyright -->
+    <div class="footer-copyright container" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+    </div>
+    <!-- Copyright -->
+  
+  </footer>
+  <!-- Footer --> 
+</div>
+</div>
+</div>
+</script>

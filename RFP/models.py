@@ -490,6 +490,7 @@ class logoUpload(models.Model):
     picup = models.ImageField(upload_to='logodir/')
     approved = models.CharField(
         max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.user
@@ -508,6 +509,7 @@ class userquestionans(models.Model):
     image = models.FileField(upload_to='media/', null=True, blank=True)
     approved = models.CharField(
         max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.rfpid
@@ -526,6 +528,7 @@ class userstandardsection(models.Model):
     image = models.FileField(upload_to='media/', null=True, blank=True)
     approved = models.CharField(
         max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.rfpid
@@ -540,6 +543,7 @@ class userriskandassumption(models.Model):
     description = models.TextField(null=True, blank=True)
     approved = models.CharField(
         max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.country
@@ -553,6 +557,7 @@ class userextraimage(models.Model):
     image = models.FileField(upload_to='media/', null=True, blank=True)
     approved = models.CharField(
         max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.country

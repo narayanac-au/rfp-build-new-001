@@ -54,7 +54,12 @@
     <div class="border-bottom border-dark"></div>
     <title>RFP</title>
 </head>
-
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>
 
 <body>
     <div class="container ">
@@ -162,22 +167,25 @@
                     <th scope="col">Approval Status</th>
                     <th scope="col">Approve/Reject</th>
                     <th scope="col">Logo</th>
+                    <th scope="col">Feedback</th>
                   </tr>
                 </thead>
                 <tbody>
                     {% for d in SP %}
-                    {% if d.picup.url != None %}
+                    
                         <tr>
                             <th scope="row">{{d.id}}</th>
                             <td>{{d.user}}</td>
-                            <td>{{d.clientgeo}}</td>
+                            <td>{{d.country}}</td>
                             <td>{{d.approved}}</td>
                             <td><a class="btn btn-success btn-sm  " style="font-size:.7rem;width: 4rem;"
                                 href="{% url 'approvedimage' d.id%}">Approve</a><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'disapprovedimage' d.id%}">Reject</a></td>
-                                <td><img class="w-40 " src="{{d.picup.url}}" alt="First slide" height="150" width="180""></td>
+                                {% comment %} href="{% url 'disapprovedimage' d.id%}">Reject</a></td> {% endcomment %}
+                                href="{% url 'rejectfeedbackform' d.id%}">Reject</a></td>
+                                <td><img class="w-40 " src="{{d.image.url}}" alt="First slide" height="150" width="180""></td>
+                                <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
                         </tr>
-                    {% endif %}
+                    
                     {% endfor %}    
                 </tbody>
               </table>
@@ -195,22 +203,25 @@
                         <th scope="col">Approval Status</th>
                         <th scope="col">Want to Reject</th>
                         <th scope="col">Logo</th>
+                        <th scope="col">Feedback</th>
                       </tr>
                     </thead>
                     <tbody>
-                        {% for d in Yes %}
-                        {% if d.picup.url != None %}
-                            <tr>
-                                <th scope="row">{{d.id}}</th>
-                                <td>{{d.user}}</td>
-                                <td>{{d.clientgeo}}</td>
-                                <td>{{d.approved}}</td>
-                                <td><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                    href="{% url 'disapprovedimage' d.id%}">Reject</a></td>
-                                    <td><img class="w-40 " src="{{d.picup.url}}" alt="First slide" height="150" width="180""></td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}    
+                      {% for d in Yes %}
+                    
+                      <tr>
+                          <th scope="row">{{d.id}}</th>
+                          <td>{{d.user}}</td>
+                          <td>{{d.country}}</td>
+                          <td>{{d.approved}}</td>
+                          <td><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
+                              {% comment %} href="{% url 'disapprovedimage' d.id%}">Reject</a></td> {% endcomment %}
+                              href="{% url 'rejectfeedbackform' d.id%}">Reject</a></td>
+                              <td><img class="w-40 " src="{{d.image.url}}" alt="First slide" height="150" width="180""></td>
+                              <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
+                      </tr>
+                  
+                  {% endfor %}   
                         
                     </tbody>
                   </table>

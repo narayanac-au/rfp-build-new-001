@@ -54,7 +54,12 @@
     <div class="border-bottom border-dark"></div>
     <title>RFP</title>
 </head>
-
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>
 
 <body>
     <div class="container ">
@@ -157,12 +162,13 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">USER</th>
+                    <th scope="col" >USER</th>
                     <th scope="col">Clientgeo</th>
-                    <th scope="col">Approval Status</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Approve/Reject</th>
                     <th scope="col">Section</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Feedback</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,9 +181,11 @@
                             <td>{{d.approved}}</td>
                             <td><a class="btn btn-success btn-sm  " style="font-size:.7rem;width: 4rem;"
                                 href="{% url 'approvedassumptionrisk' d.id%}">Approve</a><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'disapprovedassumptionrisk' d.id%}">Reject</a></td>
-                            <td>{{d.section}}</td>    
-                            <td><h4 class="  " style="font-size:.8rem;width:400px"> {{d.description}}</h4></td>
+                                {% comment %} href="{% url 'disapprovedassumptionrisk' d.id%}">Reject</a></td> {% endcomment %}
+                                href="{% url 'rejectfeedbackform' d.id%}">Reject</a></td>
+                                <td>{{d.section}}</td>    
+                            <td><h4 class="  " style="font-size:.8rem;width:300px"> {{d.description}}</h4></td>
+                            <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
                         </tr>
                     
                     {% endfor %}
@@ -195,10 +203,11 @@
                         <th scope="col">#</th>
                         <th scope="col">USER</th>
                         <th scope="col">Clientgeo</th>
-                        <th scope="col">Approval Status</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Want to Reject</th>
                         <th scope="col">Section</th>
                         <th scope="col">Description</th>
+                        <th scope="col">Feedback</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -210,9 +219,11 @@
                                 <td>{{d.country}}</td>
                                 <td>{{d.approved}}</td>
                                 <td><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                    href="{% url 'disapprovedassumptionrisk' d.id%}">Reject</a></td>
-                                <td>{{d.section}}</td>  
-                                <td><h4 class="  " style="font-size:.8rem;width:400px"> {{d.description}}</h4></td>
+                                    {% comment %} href="{% url 'disapprovedassumptionrisk' d.id%}">Reject</a></td> {% endcomment %}
+                                    href="{% url 'rejectfeedbackform' d.id%}">Reject</a></td>
+                                    <td>{{d.section}}</td>  
+                                <td><h4 class="  " style="font-size:.8rem;width:300px"> {{d.description}}</h4></td>
+                                <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
                             </tr>
                             
                         {% endfor %}    
@@ -224,6 +235,7 @@
 
 
             </div>
+            
             
         </div>
 

@@ -54,7 +54,12 @@
     <div class="border-bottom border-dark"></div>
     <title>RFP</title>
 </head>
-
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>
 
 <body>
     <div class="container ">
@@ -162,6 +167,7 @@
                     <th scope="col">Approval Status</th>
                     <th scope="col">Approve/Reject</th>
                     <th scope="col">Logo</th>
+                    <th scope="col">Feedback</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -174,10 +180,11 @@
                             <td>{{d.approved}}</td>
                             <td><a class="btn btn-success btn-sm  " style="font-size:.7rem;width: 4rem;"
                                 href="{% url 'approvedlogo' d.id%}">Approve</a><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'disapprovedlogo' d.id%}">Reject</a></td>
-                                
+                                {% comment %} href="{% url 'disapprovedlogo' d.id%}">Reject</a></td> {% endcomment %}
+                                href="{% url 'rejectfeedbackform' d.id%}">Reject</a></td>
                             <td><img class="w-40 " src="{{d.picup.url}}" alt="First slide" height="150" width="180""></td>
-                        </tr>
+                            <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>  
+                          </tr>
                     {% endif %}
                     {% endfor %}    
                 </tbody>
@@ -196,6 +203,7 @@
                         <th scope="col">Approval Status</th>
                         <th scope="col">Want to Reject</th>
                         <th scope="col">Logo</th>
+                        <th scope="col">Feedback</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -207,9 +215,11 @@
                                 <td>{{d.clientgeo}}</td>
                                 <td>{{d.approved}}</td>
                                 <td><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                    href="{% url 'disapprovedlogo' d.id%}">Reject</a></td>
+                                    {% comment %} href="{% url 'disapprovedlogo' d.id%}">Reject</a></td> {% endcomment %}
+                                    href="{% url 'rejectfeedbackform' d.id%}">Reject</a></td>
                                 <td><img class="w-40 " src="{{d.picup.url}}" alt="First slide" height="150" width="180""></td>
-                            </tr>
+                                <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>  
+                              </tr>
                             {% endif %}
                         {% endfor %}    
                         

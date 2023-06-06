@@ -54,7 +54,12 @@
     <div class="border-bottom border-dark"></div>
     <title>RFP</title>
 </head>
-
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>
 
 <body>
     <div class="container ">
@@ -152,7 +157,7 @@
                 href="{% url 'approveview'%}"
                 >Main Menu</a>
                 </div>
-            <div class="mb-1 mt-3"><strong><h5>RISK AND ASSUMPTION APPROVAL</h5></strong></div>
+            <div class="mb-1 mt-3"><strong><h5>QUESTION AND ANSWER APPROVAL</h5></strong></div>
             <table class="table table-sm table-dark table-hover">
                 <thead>
                   <tr>
@@ -163,6 +168,7 @@
                     <th scope="col">Approve/Reject</th>
                     <th scope="col">Section</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Feedback</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,9 +181,11 @@
                             <td>{{d.approved}}</td>
                             <td><a class="btn btn-success btn-sm  " style="font-size:.7rem;width: 4rem;"
                                 href="{% url 'approvedquestionans' d.id%}">Approve</a><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'disapprovequestionans' d.id%}">Reject</a></td>
-                            <td>{{d.section}}</td>    
-                            <td><h4 class="  " style="font-size:.8rem;width:400px"> {{d.question}}</h4></td>
+                                {% comment %} href="{% url 'disapprovequestionans' d.id%}">Reject</a></td> {% endcomment %}
+                                href="{% url 'rejectfeedbackform' d.id%}">Reject</a></td>
+                                <td>{{d.section}}</td>    
+                                <td><h4 class="  " style="font-size:.8rem;width:300px"> {{d.description}}</h4></td>
+                                <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
                         </tr>
                     
                     {% endfor %}
@@ -199,6 +207,7 @@
                         <th scope="col">Want to Reject</th>
                         <th scope="col">Section</th>
                         <th scope="col">Description</th>
+                        <th scope="col">Feedback</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -210,9 +219,11 @@
                                 <td>{{d.country}}</td>
                                 <td>{{d.approved}}</td>
                                 <td><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                    href="{% url 'disapprovequestionans' d.id%}">Reject</a></td>
-                                <td>{{d.section}}</td>  
-                                <td><h4 class="  " style="font-size:.7rem;width:400px"> {{d.question}}</h4></td>
+                                    {% comment %} href="{% url 'disapprovequestionans' d.id%}">Reject</a></td> {% endcomment %}
+                                    href="{% url 'rejectfeedbackform' d.id%}">Reject</a></td>
+                                    <td>{{d.section}}</td>  
+                                    <td><h4 class="  " style="font-size:.8rem;width:300px"> {{d.description}}</h4></td>
+                                    <td><h4 class="  " style="font-size:.8rem;width:150px"> {{d.feedback}}</h4></td>
                             </tr>
                             
                         {% endfor %}    

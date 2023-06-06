@@ -126,26 +126,27 @@ class clientlogo_admin(ImportExportModelAdmin):
 
 
 class logoUpload_admin(ImportExportModelAdmin):
-    list_display = ['id', 'user', 'clientgeo', 'picup', 'approved']
+    list_display = ['id', 'user', 'clientgeo', 'picup', 'approved', 'feedback']
 
 
 class userquestionans_admin(ImportExportModelAdmin):
     list_display = ['id', 'user', 'rfpid', 'country', 'industry',
-                    'section', 'subsection', 'question', 'document', 'image', 'approved']
+                    'section', 'subsection', 'question', 'document', 'image', 'approved', 'feedback']
 
 
 class userstandardsection_admin(ImportExportModelAdmin):
     list_display = ['id', 'user', 'rfpid', 'country', 'industry',
-                    'section', 'subsection', 'question', 'document', 'image', 'approved']
+                    'section', 'subsection', 'question', 'document', 'image', 'approved', 'feedback']
 
 
 class useraddextraimage_admin(ImportExportModelAdmin):
-    list_display = ['id', 'user', 'country', 'industry', 'image', 'approved']
+    list_display = ['id', 'user', 'country',
+                    'industry', 'image', 'approved', 'feedback']
 
 
 class userriskandassumption_admin(ImportExportModelAdmin):
     list_display = ['id', 'user', 'country',
-                    'industry', 'section', 'description', 'approved']
+                    'industry', 'section', 'description', 'approved', 'feedback']
 
 
 admin.site.register(project, project_admin)
