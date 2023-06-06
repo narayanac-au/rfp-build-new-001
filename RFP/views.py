@@ -84,9 +84,9 @@ nltk.download('punkt')
 def load_model():
     # Initializing the embedding model
     try:
-        embedder = SentenceTransformer("bert-base-uncased")
-    except:
         embedder = SentenceTransformer("./RFP/bert-base-uncased")
+    except:
+        embedder = SentenceTransformer("bert-base-uncased")
     return embedder
 
 
@@ -981,7 +981,7 @@ def add_ques_ans_selected_sections(request):
         # merge_docs.append(file_path)
         node_command_string += f' /{local_file_path}'
     print(merge_docs, 'final list')
-
+    
     result = os.system(node_command_string)
     print(result, 'result of executed node file')
 
@@ -3280,6 +3280,8 @@ def documentapproval_view(request):
     #     user=client_name, documentapproval=fileapp, clientgeo=country)
     # prod.save()
     return 'successfully uploaded'
+
+import subprocess
 
 
 def generate_rfp_document(request):

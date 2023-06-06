@@ -66,6 +66,9 @@ wget==3.2
 aspose-words==23.3.0
 docxcompose==1.4.0
 azure-storage-blob == 12.15.0
+docxtpl==0.16.7
+python-docx-replace==0.4.4
+uwsgi==2.0.20
 # pywin32==302
 # openai - should be installed
 # django_quill - should be installed

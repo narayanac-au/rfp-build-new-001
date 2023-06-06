@@ -3,6 +3,7 @@ import os
 from datetime import datetime, date
 # pip install azure-storage-blob
 from azure.storage.blob import BlobServiceClient
+import shutil
 
 
 def replace_word_doc(doc_path, client_full_name='', client_short_name='', client_geo='', client_address_line1='',
@@ -94,7 +95,8 @@ def replace_word_doc(doc_path, client_full_name='', client_short_name='', client
         os.makedirs(media_path)
         print("The new directory is created!")
 
-    os.rename(temp_file, f'{media_path}/{client_full_name}_{doc_name}')
+    # os.rename(temp_file, f'{media_path}/{client_full_name}_{doc_name}')
+    shutil.move(temp_file, f'{media_path}/{client_full_name}_{doc_name}')
     return f'{media_path}/{client_full_name}_{doc_name}'
 
 
