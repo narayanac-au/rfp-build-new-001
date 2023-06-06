@@ -316,7 +316,14 @@ def doc_content_view(request):
         showname = request.session["showname"]
 
         user = Users.objects.filter(user=client_name)
-
+        default_rfp = (
+            RfpSection.objects.filter(
+                industry=industry, country=country, is_default=True
+            )
+            .order_by("order")
+            .values_list("id", flat=True)
+        )
+        default_rfp = list(default_rfp)
         all_sections = RfpSection.objects.filter(
             industry=industry, country=country
         ).order_by("order")
@@ -944,6 +951,128 @@ def secondpage_view(request):
         # return render(request, 'mcq_modal.html', {'non': non,'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
         return JsonResponse({"non": non, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
 
+
+#-------------------------------------------------------------------------------------------------------------
+# Question Funcionality start
+#-------------------------------------------------------------------------------------------------------------
+def mcqquestionpage_view(request):
+    if request.method == "GET":
+        showname = request.session['showname']
+        industry = request.session['industry']
+        country = request.session['country']
+        if country == "AU":
+            country2 = "AU"
+        Query = request.GET.get("Query")
+        # data = Question.objects.filter(country=country, industry=industry)
+        data = RfpData.objects.all()
+        df_rfpdata = read_frame(data)
+        print("Data Collected from Django Model.py")
+        print(df_rfpdata.head())
+        print(df_rfpdata.shape)
+        print("End from Django Model.py")
+        # df = read_frame(data)
+        # df.to_excel("Data.xlsx", index=False)
+        # df = pd.read_excel("Question_Pairing_Final.xlsx",
+        #                    sheet_name="Tablib Dataset")
+        # Time taking for passing multiple queries
+
+        # ---------------------------------------------------Search Engine Functionality(Start)-------------------------------------
+        industry1 = []
+        country1 = []
+        # section=  ["Relevant Experience","Project Team Structure"]
+        section1 = []
+        industry1.append(industry)
+        country1.append(country2)
+
+        industry_text = "_".join(industry1)
+        print("Industry text:-", industry_text)
+        country_text = "_".join(country1)
+        print("Country text:-", country_text)
+        # df = pd.read_excel("database.xlsx")
+        # df = data
+        # Creating an model
+        model_build = Model_Buiding_approach(
+            industry_text, country_text, model_name=model_name)
+
+        print("Before Filtered DataFrame:- ", df_rfpdata.shape)
+        # Filter the data based on Country and Industry
+        df = model_build.dataframe_filter_return(
+            df_rfpdata, industry1, country1, section1)
+
+        print("Filtered DataFrame:- ", df.shape)
+        # Training Dataset Vector
+        if os.path.isfile("RFP/Embedding Models/corpus_embedding"+'-'+model_name+'-'+country_text+"-"+industry_text+".pt"):
+            print("Need not to Run Training File as Model is Present")
+        else:
+            print("File is not present. Initializing the training command.")
+            execution_time = model_build.training_dataset_vector(
+                df, embedder=embedder)
+            print("Execution of Training Time:-", execution_time)
+
+        # Input the query
+        # query = "Has your organisation been involved in any business-related litigation that may affect the performance of these Services in the past five years?"
+        query = Query
+
+        index_list, cos_sim_list = model_build.query_resolved(
+            query=query, df=df, embedder=embedder)
+        print(index_list)
+        index_list = [df["id"][index] for index in index_list]
+        print(index_list)
+        print("Index List:-", index_list)
+        print("Cosine Similarity List", cos_sim_list)
+        # ---------------------------------------------------Search Engine Functionality(End)-------------------------------------
+        # Input the query
+        # query = "Has your organisation been involved in any business-related litigation that may affect the performance of these Services in the past five years?"
+        # query = Query
+
+        request.session['query'] = query
+        non = ""
+        # index_list, cos_sim_list = model_build.query_resolved(
+        #     query=query, df=df, embedder=embedder)
+        print("INDEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print("INDEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print("INDEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print("INDEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        print(index_list)
+        print("INDEXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        data = RfpData.objects.filter(id__in=index_list)
+        print("$$$$$$$$$$$$$$$$$$$$fileeeeeeeeeeeeeeeeeeee")
+        print("$$$$$$$$$$$$$$$$$$$$fileeeeeeeeeeeeeeeeeeee")
+        print("$$$$$$$$$$$$$$$$$$$$fileeeeeeeeeeeeeeeeeeee")
+        print("$$$$$$$$$$$$$$$$$$$$fileeeeeeeeeeeeeeeeeeee")
+        print(data)
+        print("$$$$$$$$$$$$$$$$$$$$")
+        
+        data0 = ""
+        data1 = ""
+        data2 = ""
+        id0 = ""
+        id1 = ""
+        id2 = ""
+        if len(index_list) == 1:
+            data0 = data[0].document_link
+            id0 = data[0].id
+        elif len(index_list) == 2:
+            data0 = data[0].document_link
+            id0 = data[0].id
+            data1 = data[1].document_link
+            id1 = data[1].id
+        elif len(index_list) == 3:
+            data0 = data[0].document_link
+            id0 = data[0].id
+            data1 = data[1].document_link
+            id1 = data[1].id
+            data2 = data[2].document_link
+            id2 = data[2].id
+        else:
+            non = "No matching question found"
+            
+
+        return render(request, 'mcq.html', {'non': non, 'data': data, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+
+#-------------------------------------------------------------------------------------------------------------
+# Question Funcionality end
+#-------------------------------------------------------------------------------------------------------------
  # sixth page preview
 
 

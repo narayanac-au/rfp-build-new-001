@@ -41,6 +41,7 @@ urlpatterns = [
     path('drp/', include('RFP.urls')),
     path('approve/', include('RFP.urls')),
     path('confirmation/', include('RFP.urls')),
+    path('mcqquestionpage/', views.mcqquestionpage_view, name="mcqquestionpage"),
     path('ar/', include('RFP.urls')),
     path('dr/', include('RFP.urls')),
     path('login/', views.login, name="login"),
