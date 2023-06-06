@@ -82,9 +82,9 @@ nltk.download("averaged_perceptron_tagger")
 def load_model():
     # Initializing the embedding model
     try:
-        embedder = SentenceTransformer("bert-base-uncased")
-    except:
         embedder = SentenceTransformer("./RFP/bert-base-uncased")
+    except:
+        embedder = SentenceTransformer("bert-base-uncased")
     return embedder
 
 
