@@ -24,10 +24,10 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 # SECRET_KEY = 'django-insecure-tsq%hr36!gi^=5yl1m1%83ggb-7)*j*51d+u(cg!*@ph@-(-gk'
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+# DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
 # ALLOWED_HOSTS = ["*"]
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
@@ -113,6 +113,12 @@ DATABASES = {
         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
         "HOST": os.environ.get("SQL_HOST", "localhost"),
         "PORT": os.environ.get("SQL_PORT", "5432"),
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'rfp_dev_001',
+        # 'USER': 'rfpadmin@rfpbuilder',
+        # 'PASSWORD': 'India@india@123',
+        # 'HOST': 'rfpbuilder.postgres.database.azure.com',
+        # 'PORT': '5432'
     }
 }
 
