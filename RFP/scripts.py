@@ -3,6 +3,7 @@ import platform
 
 from django.conf import settings
 from docxtpl import DocxTemplate, RichText
+import shutil
 
 def docx_template_replace(doc_path, doc_name, client_name=''):
     doc = DocxTemplate(doc_path)
@@ -27,8 +28,9 @@ def docx_template_replace(doc_path, doc_name, client_name=''):
         os.makedirs(media_path)
         print("The new directory is created!")
 
-    os.rename(temp_file, f'{media_path}/{client_name}_{doc_name}')
-    return f'{media_path}/{client_name}_{doc_name}'
+    shutil.move(temp_file, f'{media_path}/{doc_name}')
+    # os.rename(temp_file, f'{media_path}/{doc_name}')
+    return f'{media_path}/{doc_name}'
 
 
 # file_data = ["C:/Users/narayanac/Documents/RFP-Builder-Latest/Title_template2.docx","C:/Users/narayanac/Documents/RFP-Builder-Latest/Title_template3.docx"]
@@ -115,7 +117,8 @@ def replace_word_document(client_name, replace_name, doc_path, doc_name):
         os.makedirs(media_path)
         print("The new directory is created!")
 
-    os.rename('temporary/updated.docx', f'{media_path}/{doc_name}')
+    shutil.move('temporary/updated.docx', f'{media_path}/{doc_name}')
+    # os.rename('temporary/updated.docx', f'{media_path}/{doc_name}')
     return f'{media_path}/{doc_name}'
 
 
