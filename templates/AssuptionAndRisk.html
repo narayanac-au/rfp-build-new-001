@@ -45,6 +45,14 @@
     {% comment %} Progress Bar {% endcomment %}
              {% comment %} Heading {% endcomment %}
              <div class=" container mt-3" >
+              {% if messages %}
+              {% for record in messages %}
+              <div class="alert alert-warning alert-dismissible text-center" role="alert">
+                <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                <strong>{{record}}</strong>
+              </div>
+              {% endfor %}
+              {% endif %}
               <div class="row-12 text-center ">
                   <div class="col-12 text-center ">
                       <h6 style="text-decoration: underline;">ASSUMPTIONS AND RISK</h6>
@@ -532,6 +540,9 @@
         > {% endcomment %}
             
         {% comment %} <link rel="stylesheet" href="{% static 'css/footer.css' %}" /> {% endcomment %}
+
+
+        
         <div class="container mt-2 border border-secondary">
           <div class="row">
       

@@ -135,8 +135,8 @@
               <a class=" ml-2 " style="color: black;text-decoration: underline;" href="#Extra">EXTRAIMAGE</a>
               <a class="ml-2 " style="color: black;text-decoration: underline;" href="#Question">QUESTION AND ANSWER</a>
             <div class="mb-1 mt-3" id="STANDARDSECTION"><strong><h5>STANDARD SECTION</h5></strong></div>
-            <table class="table table-sm table-dark table-hover">
-                <thead>
+            <table class="table table-sm table-hover ">
+                <thead class="table table-sm table-dark">
                   <tr>
                     <th scope="col">#</th>
                     
@@ -148,7 +148,7 @@
                     <th scope="col">Feedback</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="table table-sm  table-hover">
                     {% for d in SP %}
                         <tr>
                             <th scope="row" style="font-size:.8rem;width: 4rem;">{{d.id}}</th>
@@ -170,8 +170,8 @@
             <div class="container mt-5">
                 
                 <div class="mb-1" id="ASSUMPTION"><strong><h5>ASSUMPTION AND RISK</h5></strong></div>
-                <table class="table table-sm table-dark table-hover">
-                    <thead>
+                <table class="table table-sm table-hover">
+                    <thead class="table table-sm table-dark">
                       <tr>
                         <th scope="col">#</th>
                         
@@ -183,7 +183,7 @@
                         <th scope="col">Feedback</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table table-sm ">
                         {% for d in assumption %}
                         
                             <tr>
@@ -211,8 +211,8 @@
             <div class="container mt-5">
                 <div class="container mt-5">
                 <div class="mb-1" id="Logo"><strong><h5>LOGO</h5></strong></div>
-                <table class="table table-sm table-dark table-hover">
-                    <thead>
+                <table class="table table-sm table-hover ">
+                    <thead class="table table-sm table-dark">
                       <tr>
                         <th scope="col">#</th>
                         
@@ -223,7 +223,7 @@
                         <th scope="col">Feedback</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table table-sm ">
                         {% for d in logo %}
                         {% if d.picup.url != None %}
                             <tr>
@@ -249,8 +249,8 @@
             <div class="container mt-5">
                 <div class="container mt-5">
                 <div class="mb-1" id="Extra"><strong><h5>EXTRA IMAGE</h5></strong></div>
-                <table class="table table-sm table-dark table-hover">
-                    <thead>
+                <table class="table table-sm table-hover">
+                    <thead class="table table-sm table-dark">
                       <tr>
                         <th scope="col">#</th>
                         
@@ -261,7 +261,7 @@
                         <th scope="col">Feedback</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table table-sm ">
                         {% for d in extraimage %}
                         {% if d.image.url != None %}
                             <tr>
@@ -287,8 +287,8 @@
             <div class="container mt-5">
                 <div class="container mt-5">
                 <div class="mb-1" id="Question"><strong><h5>QUESTION ANSWER</h5></strong></div>
-                <table class="table table-sm table-dark table-hover">
-                    <thead>
+                <table class="table table-sm table-hover ">
+                    <thead class="table table-sm table-dark">
                       <tr>
                         <th scope="col">#</th>
                         
@@ -300,7 +300,7 @@
                         <th scope="col">Feedback</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table table-sm  ">
                         {% for d in questionans %}
                         
                             <tr>
