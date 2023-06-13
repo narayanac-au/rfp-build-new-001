@@ -400,16 +400,16 @@
 <!-- Footer --> 
 </div> {% endcomment %}
 </html>
-<script src=
+{% comment %} code for pop with password {% endcomment %}
+
+{% comment %} <script src=
 "https://cdn.jsdelivr.net/npm/sweetalert2@9">
     </script>
   
     <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-{% comment %} <script type="text/javascript">
-    alert("Please write down your username:{{username}} and password:{{password}}");
-    </script> {% endcomment %}
+
 
     <script type="text/javascript">
   
@@ -434,5 +434,5 @@
             confirmButtonAriaLabel: 
                 'Thumbs up, Thanks',
         })
-    </script>
+    </script> {% endcomment %}
   {% endblock %}
