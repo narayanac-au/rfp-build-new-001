@@ -1110,8 +1110,9 @@ def add_ques_ans_selected_sections(request):
         # merge_docs.append(file_path)
         node_command_string += f' /{local_file_path}'
     print(merge_docs, 'final list')
-    
+    print(node_command_string, 'final node command string')
     result = os.system(node_command_string)
+
     print(result, 'result of executed node file')
 
     if result == 0:
