@@ -1,5 +1,6 @@
 
 FROM python:3.9-slim-buster
+# FROM python3.9-nodejs16-slim
 
 # install nginx
 # RUN apt-get update && apt-get install nginx vim -y --no-install-recommends
@@ -29,6 +30,7 @@ COPY . /usr/src/app/
 # WORKDIR /opt/app
 # install python/system level dependencies
 
+# RUN apt-get update && apt-get install -y libpq-dev gcc
 RUN apt-get update && apt-get install -y libpq-dev gcc && \
 /usr/local/bin/python -m pip install --upgrade pip==21.1.3 && \
 pip install pip-tools && \
@@ -38,12 +40,31 @@ pip install --no-cache-dir -r /usr/src/app/requirements.txt
 
 RUN apt-get install -y curl
 
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x
+# RUN curl -fsSL https://deb.nodesource.com/setup_16.x | -E bash - && \
+# apt-get install -y nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
+ apt-get install -y nodejs
 
-# | -E bash -
+RUN npm install -g npm@6.14.13
+RUN npm set audit false && npm install docx-merger
 
-RUN apt-get install -y nodejs
-# # copy remaining project over
+# # | -E bash -
+
+# RUN apt-get install -y nodejs
+# # # copy remaining project over
+
+# RUN apt-get install xz-utils
+# RUN apt-get -y install curl
+
+# # Download latest nodejs binary
+# RUN curl https://nodejs.org/dist/v14.15.4/node-v14.15.4-linux-x64.tar.xz -O
+
+# # Extract & install
+# RUN tar -xf node-v14.15.4-linux-x64.tar.xz
+# RUN ln -s /node-v14.15.4-linux-x64/bin/node /usr/local/bin/node
+# RUN ln -s /node-v14.15.4-linux-x64/bin/npm /usr/local/bin/npm
+# RUN ln -s /node-v14.15.4-linux-x64/bin/npx /usr/local/bin/npx
+
 
 COPY . /usr/src/app
 # # create permissions for newly built image
