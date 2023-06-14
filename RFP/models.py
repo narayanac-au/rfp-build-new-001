@@ -58,11 +58,22 @@ class Image(models.Model):
 
     imagechoices = {
         ('Agnostic', 'Agnostic'),
-        ('Healthcare', 'Healthcare'),
-        ('Finanace', 'Finanace'),
-        ('HigherEducation', 'Higher Education'),
 
+        ('Healthcare', 'Healthcare'),
+
+        ('Finanace', 'Finanace'),
+
+        ('Higher Education', 'Education'),
+
+        ('Retail', 'Retail'),
+
+        ('Manufacturing', 'Manufacturing'),
+
+        ('Energy', 'Energy'),
+
+        ('Transportation', 'Transportation')
     }
+    title = models.CharField(max_length=1000, null=True, blank=True)
     user = models.ManyToManyField(Users, null=True, blank=True)
     caption = models.CharField(
         max_length=100, null=True, blank=True, default='Agnostic', choices=imagechoices)
@@ -75,6 +86,8 @@ class Image(models.Model):
 
     def __str__(self):
         return self.caption
+
+
 
 
 class Question(models.Model):
