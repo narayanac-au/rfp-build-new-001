@@ -15,7 +15,7 @@ class info_admin(ImportExportModelAdmin):
 
 
 class KPMGgeo_admin(ImportExportModelAdmin):
-    list_display = ['KPMGgeo']
+    list_display = ['KPMGgeo','displayKPMGgeo']
 
 
 class KPMGadd_admin(ImportExportModelAdmin):
