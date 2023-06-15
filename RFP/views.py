@@ -293,7 +293,7 @@ def doc_content_view(request):
         print("CHEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         print(img)
         for i in img:
-            print(i.cloud_link)
+            print(i.image_link)
         print("CHEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         # print(Doc, 'Doc')
         print()
@@ -2662,6 +2662,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                         request.session["kpmg_geo"],
                         request.session["kpmg_address"],
                         request.session["kpmg_lead"],
+                        request.session["TitleforStyleSheetSelected"],
                         docu.document_link,
                     )
 
