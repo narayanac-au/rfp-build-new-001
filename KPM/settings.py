@@ -21,16 +21,16 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-tsq%hr36!gi^=5yl1m1%83ggb-7)*j*51d+u(cg!*@ph@-(-gk'
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = 'django-insecure-tsq%hr36!gi^=5yl1m1%83ggb-7)*j*51d+u(cg!*@ph@-(-gk'
+#SECRET_KEY = os.environ.get("SECRET_KEY")---this is for container
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+# DEBUG = int(os.environ.get("DEBUG", default=0))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
-# ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ["*"]
+#ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")---this is for container
 
 
 # Application definition
@@ -107,18 +107,18 @@ WSGI_APPLICATION = 'KPM.wsgi.application'
 # Current Postgresql version 8.0
 DATABASES = {
     'default': {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("SQL_DATABASE", BASE_DIR / "db.sqlite3"),
-        "USER": os.environ.get("SQL_USER", "user"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT", "5432"),
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'rfp_dev_001',
-        # 'USER': 'rfpadmin@rfpbuilder',
-        # 'PASSWORD': 'India@india@123',
-        # 'HOST': 'rfpbuilder.postgres.database.azure.com',
-        # 'PORT': '5432'
+        # "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+        # "NAME": os.environ.get("SQL_DATABASE", BASE_DIR / "db.sqlite3"),
+        # "USER": os.environ.get("SQL_USER", "user"),
+        # "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+        # "HOST": os.environ.get("SQL_HOST", "localhost"),
+        # "PORT": os.environ.get("SQL_PORT", "5432"),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'rfp_dev_001',
+        'USER': 'rfpadmin@rfpbuilder',
+        'PASSWORD': 'India@india@123',
+        'HOST': 'rfpbuilder.postgres.database.azure.com',
+        'PORT': '5432'
     }
 }
 

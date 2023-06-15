@@ -5,12 +5,14 @@ from django.conf import settings
 from docxtpl import DocxTemplate, RichText
 import shutil
 
-def docx_template_replace(doc_path, doc_name, client_name=''):
+def docx_template_replace(doc_path, doc_name, client_name='', title = '', kpmg_address=''):
     doc = DocxTemplate(doc_path)
     dictionary = {}
     dictionary['client_name'] = client_name
     curr_date = datetime.today()
     dictionary['curr_date'] = curr_date.strftime("%B %d, %Y")
+    dictionary['KPMG_address']=kpmg_address
+    dictionary['title'] = title
 
     doc.render(dictionary)
 

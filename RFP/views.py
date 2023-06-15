@@ -2581,6 +2581,10 @@ def chatgpt_view(request):
 def data_computation(request, i, d, standard_sections, client_name, image_url):
     subfolder = f"updated_documents/{client_name}"
     container_id = "rfpstorage"
+    title = request.session['TitleforStyleSheetSelected']
+    print("New Updated Title:- ", title)
+    title = "As Default"
+    kpmg_address = "ABC"
     try:
         print(int(i), "integer")
         if i:
@@ -2612,7 +2616,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url):
                     doc_name = "Title.docx"
 
                 updated_doc = docx_template_replace(
-                    get_doc, doc_name, client_name)
+                    get_doc, doc_name, client_name, title, kpmg_address)
                 # updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
                 #                                 request.session['add_line_2'], request.session['client_zipcode'], request.session['industry'],
                 #                                 request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], doc_name)
