@@ -287,7 +287,11 @@ def doc_content_view(request):
         industry = request.POST.get("industry")
         img = Image.objects.filter(caption=industry)
         print(Image, "imggg")
-
+        print("CHEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+        print(img)
+        for i in img:
+            print(i.cloud_link)
+        print("CHEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         # print(Doc, 'Doc')
         print()
         print()
@@ -354,7 +358,9 @@ def doc_content_view(request):
 
         else:
             img = Image.objects.filter(caption=industry)
-
+        print("CHEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+        print(img)
+        print("CHEEEEEEEEEEEEEEEEEEKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         # print(Doc, 'Doc')
         print()
         print()

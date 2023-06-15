@@ -152,8 +152,9 @@
                     <div>
                         <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="countries" style="width: 10rem">
                         <option selected value="">--country--</option>    
-                        <option value="US">US</option>
-                        <option selected value="AU">AU</option>
+                        <option value="US">United States of America</option>
+                        <option selected value="AU">Australia</option>
+                        <option  value="UK">United Kingdom</option>
 <!--                         <option value="UK">UK</option> -->
                     
                         </select>
@@ -209,10 +210,21 @@
                         <div>
                             <label for="industry" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Powered Industry*</strong></label>
                             <select class="custom-select custom-select-lg  border border-dark" style="font-size:.7rem;width: 15rem" name="industry" style="width: 10rem">
-                            <option selected value="">--Industry--</option>    
-                            <option  value="Agnostic">Agnostic</option>
-                            <option  value="Healthcare">Healthcare</option>
-                            <option value="Higher Education">Higher Education</option>
+                                <option selected value="">--Industry--</option>        
+
+                                <option  value="Agnostic">Agnostic</option>
+    
+                                <option  value="Healthcare">Healthcare</option>
+    
+                                <option value="Higher Education">Higher Education</option>
+    
+                                <option value="Manufacturing">Manufacturing</option>
+    
+                                <option value="Retail">Retail</option>
+    
+                                <option value="Transportation">Transportation</option>
+    
+                                <option value="Energy">Energy</option>
                             
                             
                             </select>
@@ -227,7 +239,7 @@
                         <option selected value="">--country--</option>  
                         {% for g in geo%}
                         {% comment %} <option value="US">{{g.KPMGgeo}}</option> {% endcomment %}
-                        <option  value="{{g.id}}">{{g.KPMGgeo}}</option>
+                        <option  value="{{g.id}}">{{g.displayKPMGgeo}}</option>
 <!--                         <option value="UK">UK</option> -->
                         {% endfor %}
                         </select>
@@ -244,11 +256,11 @@
                     
                     </div>
                     <div>
-                        <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>KPMG LEAD PARTNER</strong></label>
+                        <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>KPMG Lead Partner</strong></label>
                     <input  type="text" required="" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="kpmglead" name="KPMGLEADPARTNER" style="width: 10rem;height:100px;" placeholder=""></input>
                     </div>
                     <div>
-                        <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>KPMG TAX REFERENCE</strong></label>
+                        <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>KPMG Tax Reference</strong></label>
                     <input  type="text" required="" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="kpmglead" name="KPMGTAXREFERENCE" style="width: 10rem;height:100px;" placeholder=""></input>
                     </div>
                     <div class="col-2  ">
