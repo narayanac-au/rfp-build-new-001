@@ -71,14 +71,14 @@ class Image(models.Model):
 
         ('Energy', 'Energy'),
 
-        ('Transportation', 'Transportation')
+        ('Transportation', 'Transportation'),
+
     }
     title = models.CharField(max_length=1000, null=True, blank=True)
     user = models.ManyToManyField(Users, null=True, blank=True)
     caption = models.CharField(
         max_length=100, null=True, blank=True, default='Agnostic', choices=imagechoices)
-    image = models.ImageField(
-        null=True, blank=True, upload_to="./media/")
+    image_link = models.CharField(max_length=500, null=True, blank=True)
     upload = models.FileField(
         null=True, blank=True, upload_to='./media/')
     cloud_link = models.CharField(max_length=500, null=True, blank=True)
@@ -86,8 +86,6 @@ class Image(models.Model):
 
     def __str__(self):
         return self.caption
-
-
 
 
 class Question(models.Model):
