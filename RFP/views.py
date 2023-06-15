@@ -56,7 +56,7 @@ from docx import Document as CX
 from django_pandas.io import read_frame
 from RFP.Question_Similarity import Model_Buiding_approach
 import pandas as pd
-from .forms import UserQueryForm, ImageForm, SelectDropQueryForm
+from .forms import UserQueryForm, SelectDropQueryForm
 from .models import Image
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
@@ -154,6 +154,9 @@ def doc_content_view(request):
         KPMGgeo = str(KPMGgeoo[0])
         kpmg_lead = request.POST.get("KPMGLEADPARTNER")
         kpmg_add = request.POST.get("kpmg_address")
+        TitleforStyleSheetSelected = request.POST.get("TitleforStyleSheetSelected")
+        request.session["TitleforStyleSheetSelected"] = TitleforStyleSheetSelected
+        print("TitleforStyleSheetSelected",TitleforStyleSheetSelected)
         extrcount = "ABC"
         Acccount = "ABC"
         selfirst = "ABC"
@@ -2848,7 +2851,7 @@ def SelectedIndex_view(request):
             image_url = Image.objects.get(id=radio)
 
             print(l, "lllll")
-            print(image_url.image.url, "urlll of image")
+            #print(image_url.image.url, "urlll of image")
             if client_name in l:
                 pass
             else:

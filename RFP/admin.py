@@ -32,7 +32,7 @@ class Users_admin(ImportExportModelAdmin):
 
 
 class Images_admin(ImportExportModelAdmin):
-    list_display = ['caption', 'image', 'selected']
+    list_display = ['caption','title','image_link', 'selected','cloud_link']
 
 
 class Document_admin(ImportExportModelAdmin):
