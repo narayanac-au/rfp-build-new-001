@@ -30,6 +30,7 @@ urlpatterns = [
     path('start/', include('RFP.urls')),
     path('download/', include('RFP.urls')),
     path('drop/', include('RFP.urls')),
+    path('user/', include('RFP.urls')),
 
     path('<int:id>/', views.editans_view,
          name="editans"),  # {% url 'editans' %}

@@ -4474,3 +4474,7 @@ def usersummerytable_view(request):
                 "questionans": questionans,
             },
         )
+
+def user_dashboard(request):
+    print('inside dashoboard')
+    return render(request, 'user_dashboard.html')
