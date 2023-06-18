@@ -162,8 +162,9 @@
                     </div>
 
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Address Line 1*</strong></label>
-                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line1" style="width: 10rem;height:100px;" placeholder=""></input>
-
+                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="dpdlOtherCountry" name="address_line1" style="width: 10rem;height:100px;" placeholder=""></input>
+                    {% comment %} <input type="text" class="form-control divOtherCountry " id="dpdlOtherCountry"
+                                  placeholder="Other Country"> {% endcomment %}
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Address Line 2</strong></label>
                     <input  type="text" required="" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line2" style="width: 10rem;height:100px;" placeholder=""></input>
                     
@@ -175,7 +176,7 @@
 
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Zip/Postal Code*</strong></label>
                     <input  type="number" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="Postal_Code" style="width: 10rem;height:100px;" placeholder=""></input>
-                    <button type="submit" class="btn btn-primary btn-sm mt-3 " style="background-color:#000099;">NEXT</button>
+                    <button type="submit" class="btn btn-primary btn-sm mt-3 " style="background-color:#000099;">Next</button>
                     <a
                         class="btn btn-dark  mt-3"
                         style="
@@ -259,16 +260,157 @@
                         <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>KPMG Lead Partner</strong></label>
                     <input  type="text" required="" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="kpmglead" name="KPMGLEADPARTNER" style="width: 10rem;height:100px;" placeholder=""></input>
                     </div>
-                    <div>
+                    {% comment %} <div>
                         <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>KPMG Tax Reference</strong></label>
                     <input  type="text" required="" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="kpmglead" name="KPMGTAXREFERENCE" style="width: 10rem;height:100px;" placeholder=""></input>
-                    </div>
+                    </div> {% endcomment %}
                     <div class="col-2  ">
                 
                     </div>
                 </div>
                     </form>
+
+
+                    {% comment %} TRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+
+                
+                
+                
+                  
+                    
+                       
+                      <div class="row pt-3">
+                        <div class="col-md-12 col-sm-12 col-12 p-2 ">
+                          <form>
+                            
+                            <div class="form-row">
+                              <div class="form-group col-md-2">
+                                <label for="inputCity">Country</label>
+                                <select id="dpdlCountry" class="form-control">
+                                  <option selected>Choose Country</option>
+                                  <option value="India">India</option>
+                                  <option value="Us">United State</option>
+                                  <option value="Other">Other</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-md-2 other">
+                                <label class="divOtherCountry ">Other Country</label>
+                                <input type="text" class="form-control divOtherCountry " id="dpdlOtherCountry"
+                                  placeholder="Other Country">
+                              </div>
+                              <div class="form-group col-md-2">
+                                <label for="inputState">State</label>
+                                <select id="dpdlState" class="form-control">
+                                  <option selected>Choose State</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-md-2 other">
+                                <label class="divOtherState ">Other State</label>
+                                <input type="text" class="form-control divOtherState " id="dpdlOtherState" placeholder="Other State">
+                              </div>
+                              <div class="form-group col-md-2">
+                                <label for="inputState">City</label>
+                                <select id="dpdlCity" class="form-control">
+                                  <option selected>Choose City</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-md-2 other">
+                                <label class="divOtherCity ">Other City</label>
+                                <input type="text" class="form-control divOtherCity " id="dpdlOtherCity" placeholder="Other City">
+                              </div>
+                            </div>
+                            
+                          </form>
+                        
+                      </div>
+                    </div>
+                    <script>
+                  
+                      var stateList = [
+                        { Country: 'India', State: 'Maharashtra' },
+                        { Country: 'India', State: 'Delhi' },
+                        { Country: 'India', State: 'Punjab' },
+                        { Country: 'Us', State: 'Alabama' },
+                        { Country: 'Us', State: 'Arizona' },
+                        { Country: 'Us', State: 'California' },
+                        { Country: 'Other', State: 'Other' }
+                      ];
+                      var cityList = [
+                        { State: 'Maharashtra', city: 'Pune' },
+                        { State: 'Maharashtra', city: 'Mumbai' },
+                        { State: 'Maharashtra', city: 'Hydrabad' },
+                        { State: 'Delhi', city: 'New Delhi' },
+                        { State: 'Delhi', city: 'Balijt Vihar' },
+                        { State: 'Punjab', city: 'Ludhiyana' },
+                        { State: 'Punjab', city: 'Amritsar' },
+                        { State: 'Punjab', city: 'Patiyala' },
+                        { State: 'Punjab', city: 'Jalandhar' },
+                        { State: 'Alabama', city: 'Abbeville' },
+                        { State: 'Alabama', city: 'Adamsville' },
+                        { State: 'Arizona', city: 'Phoenix' },
+                        { State: 'Arizona', city: 'Tucson' },
+                        { State: 'Other', city: 'Other' }
+                      ];
+                      $(document).ready(function () {
+                        debugger;
+                        $(".divOtherCountry").hide();
+                        $(".divOtherState").hide();
+                        $(".divOtherCity").hide();
+                        $("#dpdlCountry").change(function () {
+                          debugger;
+                          if ($("#dpdlCountry").val() == "Other") {
+                            $(".divOtherCountry").show();
+                            const option = "<option val='Other'>Other</option>";
+                            $("#dpdlState").append(option);
+                          } else {
+                            $(".divOtherCountry").hide();
+                            $(".divOtherState").hide();
+                            $(".divOtherCity").hide();
+                            $("#dpdlState").html("<option selected>Choose State</option>");
+                            $("#dpdlCity").html("<option selected>Choose City</option>");
+                            const states = stateList.filter(m => m.Country == $("#dpdlCountry").val() || m.Country == "Other");
+                            states.forEach(element => {
+                              const option = "<option val='" + element.State + "'>" + element.State + "</option>";
+                              $("#dpdlState").append(option);
+                            });
+                          }
+                        });
+                  
+                        $("#dpdlState").change(function () {
+                          debugger;
+                          if ($("#dpdlState").val() == "Other") {
+                            $(".divOtherState").show();
+                            const option = "<option val='Other'>Other</option>";
+                            $("#dpdlCity").append(option);
+                          } else {
+                            $(".divOtherState").hide();
+                            $(".divOtherCity").hide();
+                            $("#dpdlCity").html("<option selected>Choose City</option>");
+                            debugger;
+                            const states = cityList.filter(m => m.State == $("#dpdlState").val() || m.State == "Other");
+                            states.forEach(element => {
+                              const option = "<option val='" + element.city + "'>" + element.city + "</option>";
+                              $("#dpdlCity").append(option);
+                            });
+                          }
+                        });
+                  
+                        $("#dpdlCity").change(function () {
+                          debugger;
+                          if ($("#dpdlCity").val() == "Other") {
+                            $(".divOtherCity").show();
+                          } else {
+                            $(".divOtherCity").hide();
+                          }
+                        });
+                      });
+                    </script>
+                  
+  
+                  {% comment %} TRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY {% endcomment %} 
                 </body>
+
+                
             </div>  
         </div>  
     </div> 

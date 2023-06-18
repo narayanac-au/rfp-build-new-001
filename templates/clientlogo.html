@@ -20,7 +20,7 @@
 <div class="container ">
   <div class="row">
     <div class="col-12 container ">
-          <div class="wrapper-progressBar">
+          {% comment %} <div class="wrapper-progressBar">
             <ul class="progressBar">
               <li class="active" id="stepper">Home</li>
               <li class="active" id="stepper">Information Form</li>
@@ -33,7 +33,7 @@
               
               
             </ul>
-          </div>
+          </div> {% endcomment %}
         
       
 
@@ -77,11 +77,7 @@
                         
                         </select>
                       <button type="submit" class="btn btn-primary btn-sm  " style="background-color:#000099;">Search</button>
-                      <a
-                class="btn btn-dark d-inline btn-sm float-right" style="background-color:#000099"
-                  href="{% url 'clientlogoupload'%}"
-                  >Upload</a
-                >
+                      
                   </div>
                 
               </div>
@@ -137,7 +133,7 @@
             {% endfor %}
             {% endif %}
             <div class=" mt-3 ml-3 col-12">
-            <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">SUBMIT</button>
+            <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">Submit</button>
             
                 <a
                   class="btn btn-dark d-inline"
@@ -149,6 +145,11 @@
                   "
                   href="{% url 'firstpage'%}"
                   >Home</a
+                >
+                <a
+                class="btn btn-dark d-inline btn-sm " style="background-color:#000099"
+                  href="{% url 'clientlogoupload'%}"
+                  >Upload</a
                 >
               
         </div>
