@@ -193,7 +193,7 @@ class Model_Buiding_approach:
         text = embedder.encode(text, convert_to_tensor=True)
         return text
 
-    def new_query_preprocess_similarity(self, df, query, embedder,  top=3, threshold=0.5):
+    def new_query_preprocess_similarity(self, df, query, embedder,  top=3, threshold=0.65):
 
         print(df.shape)
 

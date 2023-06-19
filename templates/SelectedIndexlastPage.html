@@ -49,27 +49,8 @@
     {% comment %} Progress Bar {% endcomment %}
   <div class="container">
     <div class="mt-2 mb-5 float-right ">
-      <a
-        class="btn btn-dark d-inline"
-        style="
-          font-size: 0.8rem;
-          width: 4rem;
-          background-color: #f2f2f2;
-          color: black;
-        "
-        href="{% url 'firstpage'%}"
-        >Home</a
-      >
-      <a
-        class="btn btn-dark ml-2"
-        style="
-          font-size: 0.7rem;
-          width: 4rem;
-          background-color: #f2f2f2;
-          color: black;
-        "
-        onclick="history.back()"
-        >BACK</a>
+      
+      
     </div>
   
   <div class="mt-5">
@@ -126,10 +107,23 @@
     <input
       type="submit"
       value="Merge & Download"
-      class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
+      class="btn btn-dark btn-sm mt-4 mb-4 d-inline"
       style="font-size: 0.7rem; width: 8rem; background-color: #000099"
       ></a
     >
+    <a
+        class="btn btn-dark btn-sm mt-1 mb-4 d-inline"
+        style="font-size: 0.7rem; width: 8rem; background-color: #f2f2f2;
+        color: black;"
+        href="{% url 'firstpage'%}"
+        >Home</a
+      >
+      <a
+      class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
+      style="font-size: 0.7rem; width: 8rem; background-color: #f2f2f2;
+      color: black;"
+        onclick="history.back()"
+        >Back</a>
     </form>
     <p><strong style="color: red;">Note:</strong> Use the same file name as below while dropping the manually edited files.</p>
     <div class="float-left">

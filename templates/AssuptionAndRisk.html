@@ -20,7 +20,7 @@
 <div class="container ">
   <div class="row">
     <div class="col-12 container ">
-          <div class="wrapper-progressBar">
+          {% comment %} <div class="wrapper-progressBar">
             <ul class="progressBar">
               <li class="active" id="stepper">Home</li>
               <li class="active" id="stepper">Information Form</li>
@@ -32,7 +32,7 @@
               <li class="" id="stepper">Upload Assuption And Risk Consideration</li>
               
             </ul>
-          </div>
+          </div> {% endcomment %}
         
       
 
@@ -62,16 +62,7 @@
           {% comment %} Heading {% endcomment %}
 <div class="container  mt-3">
         
-  <a
-  class="btn btn-dark d-inline btn-sm float-right" style="background-color:#000099"
-    href="{% url 'firstpage'%}"
-    >Home</a
-  >
-  <a
-                class="btn btn-dark d-inline btn-sm mr-1 float-right" style="background-color:#000099"
-                  href="{% url 'Uploadassumprisk'%}"
-                  >Upload</a
-                >
+  
 </div>
 
 {% comment %} General start {% endcomment %}
@@ -497,7 +488,7 @@
 
 {% comment %} Testing end {% endcomment %}
 {% csrf_token %}
-<div class="mt-5 row-6">
+{% comment %} <div class="mt-5 row-6">
 
   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
@@ -510,11 +501,11 @@
   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
   
 
-</div>
+</div> {% endcomment %}
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-<div class="mt-5 row-6">
+<div class="mt-2 row-6">
   
   <button
     type="submit"
@@ -523,6 +514,16 @@
   >
     Submit
   </button>
+  <a
+  class="btn btn-dark d-inline btn-sm " style="background-color:#000099"
+    href="{% url 'firstpage'%}"
+    >Home</a
+  >
+  <a
+                class="btn btn-dark d-inline btn-sm mr-1 " style="background-color:#f2f2f2;color: black"
+                  href="{% url 'Uploadassumprisk'%}"
+                  >Upload</a
+                >
 
 </div>
 </div>
