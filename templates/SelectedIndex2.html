@@ -157,12 +157,11 @@
           src="https://view.officeapps.live.com/op/embed.aspx?src={{show2.file_link}}"
           title="W3Schools Free Online Web Tutorials"
           width="100%"
-          height="450px"
+          height="500px"
         ></iframe>
         {% else %}
         <textarea rows="18" cols="150" readonly>
-          There is no file present for this section. Drop a manually edited file at the end.
-          To merge all the documents into one.
+          No document currently exists for {{ country }} {{ industry }} please provide a version for future use via the document upload functionality.
         </textarea>
         {% endif %}
       </div>
@@ -198,6 +197,14 @@
         onclick="history.back()"
         >BACK</a>
     {% if show.doc_index in standard_sections or show.file_link is None %}
+    <a class="btn btn-dark d-inline ml-1 mr-1"
+    style="
+      pointer-events: none;
+      font-size: 0.7rem;
+      width: 5rem;
+      background-color: #bdb8b867;
+      color: black;
+    " Download><s>Download</s></a>
     {% else %}
     <a class="btn btn-dark d-inline ml-1 mr-1"
     style="

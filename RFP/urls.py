@@ -6,6 +6,8 @@ urlpatterns = [
      path('details/', views.infodetails_view,
           name="details"),  # second page details
      path('dashboard', views.user_dashboard, name="user_dashboard"),
+     # edit response
+     path('rfpfiles', views.edit_user_rfp, name="rfpfiles"),
      # third page select standard RFP {% url 'load'%}
      path('content', views.doc_content_view, name="content"),
      # fourth page type question RFP {% url 'firstpage'%}

@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 <style>
-    .expandChildTable:before {
+    /* .expandChildTable:before {
         content: "+";
         display: block;
         cursor: pointer;
@@ -16,18 +16,18 @@
     }
     .childTableRow table {
         border: 2px solid #555;
-    }
+    } */
 </style>
 
 <div class="container ">
         <!-- <h3>Users RFP : </h3> -->
-    <a
+    <!-- <a
         href="/info/details"
         class="btn btn-primary btn-sm active rounded-0 float-left"
         style="background-color: #000099;"
         role="button"
         >+ New RFP</a
-    >
+    > -->
     <!-- <a class="float-left" href="/info/details">
         <button id="btnOutlook" class="float-right btn btn-sm border border-success mt-1 ml-2" >Create RFP</button>
     </a> -->
@@ -45,20 +45,26 @@
                 <thead>
                     <tr>
                         <th></th>
+                        <th>Sl_no</th>
                         <th>Client Name</th>
                         <th>Client Geo</th>
                         <th>Powered Industry</th>
                         <th>Status</th>
+                        <th>Created_at</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tr>
                     <td><span class="expandChildTable"></span></td>
+                    <td>1</td>
                     <td>KPMG Test Server 001</td>
                     <td>AU</td>
                     <td>Healthcare</td>
-                    <td>Approved</td>
+                    <td>Completed</td>
+                    <td>2021-03-01</td>
+                    <td><a href="">Edit</a></td>
                 </tr>
-                <tr class="childTableRow">
+                <!-- <tr class="childTableRow">
                     <td colspan="3">
                         <h5>RFP Detils</h5>
                         <table class="table">
@@ -75,23 +81,22 @@
                                     <td><a href="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx">https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx</a></td>
                                     <td><a href="">Edit</a></td>
                                 </tr>
-                                <!-- <tr>
-                                    <td>2021-03-02</td>
-                                    <td>Materials</td>
-                                    <td>200.00</td>
-                                </tr> -->
+                                
                             </tbody>
                         </table>
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
                     <td><span class="expandChildTable"></span></td>
+                    <td>2</td>
                     <td>JPMC Test Server 001</td>
                     <td>US</td>
                     <td>Agnostic</td>
-                    <td>Pending!</td>
+                    <td>In Progress</td>
+                    <td>2021-03-01</td>
+                    <td><a href="">Edit</a></td>
                 </tr>
-                <tr class="childTableRow">
+                <!-- <tr class="childTableRow">
                     <td colspan="3">
                         <h5>RFP Detils</h5>
                         <table class="table">
@@ -108,23 +113,23 @@
                                     <td><a href="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx">https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx</a></td>
                                     <td><a href="">Edit</a></td>
                                 </tr>
-                                <!-- <tr>
-                                    <td>2021-03-02</td>
-                                    <td>Materials</td>
-                                    <td>200.00</td>
-                                </tr> -->
+                                
                             </tbody>
                         </table>
                     </td>  
-                </tr>
+                </tr> -->
                 <tr>
                     <td><span class="expandChildTable"></span></td>
+                    <td>3</td>
                     <td>Goldman Sachs Test Server 001</td>
                     <td>AU</td>
                     <td>Healthcare</td>
-                    <td>Approved</td>
+                    <td>Completed</td>
+                    <td>2021-03-01</td>
+                    <td><a href="">Edit</a></td>
+
                 </tr>
-                <tr class="childTableRow">
+                <!-- <tr class="childTableRow">
                     <td colspan="3">
                         <h5>RFP Detils</h5>
                         <table class="table">
@@ -141,15 +146,11 @@
                                     <td><a href="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx">https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx</a></td>
                                     <td><a href="">Edit</a></td>
                                 </tr>
-                                <!-- <tr>
-                                    <td>2021-03-02</td>
-                                    <td>Materials</td>
-                                    <td>200.00</td>
-                                </tr> -->
+                                
                             </tbody>
                         </table>
                     </td>       
-                </tr>
+                </tr> -->
             </table>
         </div>
         <!-- <div class="col-5">
