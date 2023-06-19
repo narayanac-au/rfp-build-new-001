@@ -1,0 +1,116 @@
+{% extends "base_user.html" %} {% block content %} {% load static%}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<div class="container " >
+  {% comment %} Progress Bar {% endcomment %}
+  <div class="row container ml-5">
+    <div class="col-12 container ml-5">
+          <div class="wrapper-progressBar container ml-5">
+            <ul class="progressBar container ml-5">
+                <li class="active  text-center" id="stepper">Home</li>
+                <li class="active" id="stepper">User Login</li>
+                <li class="active" id="stepper"> Add Extra Image</li>
+                
+              
+            </ul>
+          </div>
+        
+          <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+            <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+        </a>
+
+
+
+        </div>
+        
+  </div>
+  
+</div>
+</div>
+  {% comment %} Progress Bar {% endcomment %}
+  <div class="col-3 container mt-3 ">
+      <strong>Add Extra Image</strong>
+  </div>
+  <div class="row " >
+      <div class="col-3  ">
+          &emsp;&emsp;&emsp;&emsp;&emsp;
+      </div>
+      
+      
+      
+      <div class="col-3 ml-5 ">     
+          <!--FORM-->
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+              <form action="/useraddextraimages/" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+              
+              <div class="form-group">
+
+              
+              
+              
+
+              <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Country*</strong></label>
+              <div>
+                  <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 20rem" name="countries" style="width: 20rem">
+                  <option selected value="">--country--</option>    
+                  <option value="US">US</option>
+                  <option selected value="AU">AU</option>
+                  <option value="UK">UK</option>
+              
+                  </select>
+              
+              </div>
+              
+              <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark" style="font-size:.7rem;background-color:#000099;"><strong>Powered Industry*</strong></label>
+              <div>
+                  
+                  <select class="custom-select custom-select-lg  border border-dark" style="font-size:.7rem;width: 20rem" name="industry" style="width: 10rem">
+                  <option selected value="">--Industry--</option>    
+                  <option  value="Agnostic">Agnostic</option>
+                  <option  value="Healthcare">Healthcare</option>
+                  <option value="Higher Education">Higher Education</option>
+                  
+                  
+                  </select>
+              
+              </div>
+
+              <label for="clientname" class="d-inline btn btn-info btn-sm border border-dark mt-2" style="font-size:.7rem;background-color:#000099;"><strong>Image Upload</strong></label>
+              <input type="file" required="true" class="d-inline mb-2" style="font-size:.7rem;width: 20rem" id="file" name="Imgfile" style="width: 25rem" placeholder="">
+
+              <button type="submit" class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="#">Save</button>
+              <a  class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;" href="{% url 'userlogin'%}">Back To Main Menu</a>
+              <a  class="btn btn-primary btn-sm mt-1 " style="background-color:#000099;"  onclick="history.back()">Back</a>
+          </form>
+      </div> 
+          
+  </div>         
+</div>
+
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+<div class="container">
+    <div class="row">
+      <div class="">
+        <!-- Copyright -->
+        <footer class="">
+          <!-- Copyright -->
+          <div
+            class="footer-copyright container"
+            style="font-family: Arial; font-size: 0.5rem; color: black"
+          >
+            © 2023 Copyright owned by one or more of the KPMG International
+            entities. KPMG International entities provide no services to
+            clients. All rights reserved. KPMG refers to the global organization
+            or to one or more of the member firms of KPMG International Limited
+            (“KPMG International”), each of which is a separate legal entity.
+            KPMG International Limited is a private English company limited by
+            guarantee and does not provide services to clients. For more detail
+            about our structure please visit https://home.kpmg/governance
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </div>
+    </div>
+  </div>
+{% endblock %}

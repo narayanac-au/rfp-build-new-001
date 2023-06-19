@@ -50,85 +50,127 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/firstpage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
     <div class="border-bottom border-dark"></div>
     <title>RFP</title>
 </head>
 
 
 <body>
-    <div class=" ">
+    <div class="container ">
         
+        <div class="container">
+
+    {% comment %} Progress Bar {% endcomment %}
+  <div class="row container">
+    <div class="col-12 container ml-5">
+          <div class="wrapper-progressBar container ml-5">
+            <ul class="progressBar container ml-5">
+              <li class="active" id="stepper">Home</li>
+              <li class="" id="stepper">Login</li>
+              <li class="" id="stepper">Standard Section Approval</li>
+              <li class="" id="stepper">Question And Answer Approval</li>
+              <li class="" id="stepper">Logo Approval</li>
+              <li class="" id="stepper">Image Approval</li>
+              <li class="" id="stepper">Assumption And Risk Approval</li>
+              
+              
+            </ul>
+          </div>
+        
+          <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+            <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+        </a>
+
+
+
+        </div>
+        
+  </div>
+  
+</div>
+</div>
+  {% comment %} Progress Bar {% endcomment %}
+    <div class="container">
+      <div class="mb-3 mt-5 text-center"><strong><h4 style="color: red;
+        ">&emsp;&emsp;&emsp;Welcome {{loginusername}}</h4></strong></div>
+      <div class="mb-3  text-center"><strong><h6>&emsp;&emsp;&emsp;&emsp;APPROVER PORTAL</h6></strong></div>      
+    </div>
 
 
             <!--FORM-->
             <div class="container">
+              
+              <a
+              class="btn btn-dark btn-sm  float-right mb-2 ml-1"
+              style="
+                font-size: 0.7rem;
+                width: 4rem;
+                background-color: #f2f2f2;
+                color: black;
+              "
+              onclick="history.back()"
+              >BACK</a>
+
             <a class="btn btn-dark btn-sm  float-right mb-2" style="font-size:.7rem;width: 4rem;background-color:#000099;height: 1.6rem;"
                 href="{% url 'details'%}">Logout</a>
             </div>
             <div class="container mt-5">
-            <div class="mb-1"><strong><h5>DOCUMENT FOR APPROVAL</h5></strong></div>
-            <table class="table table-sm table-dark table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">USER</th>
-                    <th scope="col">Clientgeo</th>
-                    <th scope="col">Approval Status</th>
-                    <th scope="col">Approve/Reject</th>
-                    <th scope="col">Download File</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for d in SP %}
-                        <tr>
-                            <th scope="row">{{d.id}}</th>
-                            <td>{{d.user}}</td>
-                            <td>{{d.clientgeo}}</td>
-                            <td>{{d.approved}}</td>
-                            <td><a class="btn btn-success btn-sm  " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'ar' d.id%}">Approve</a><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                href="{% url 'dr' d.id%}">Reject</a></td>
-                            <td><a href='{{d.documentapproval.url}}' Download>Download</a></td>
-                        </tr>
-                    {% endfor %}    
-                </tbody>
-              </table>
-            </div>
+              <div class="container">
+                <div>
+                  <a
+                  class="btn btn-dark btn-sm   float-left mb-2 ml-1 mt-2"
+                  style="
+                    font-size: 0.7rem;
+                    width: 70rem;
+                    background-color: #f2f2f2;
+                    color: black;
+                  "
+                  href="{% url 'approve'%}"
+                  >Standard Section Approval</a>
+                  <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width: 70rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approvequestionans'%}"
+                >Question And Answer Approval</a>
+                <a
+                class="btn btn-dark btn-sm  mb-2 ml-1 "
+                style="
+                  font-size: 0.7rem;
+                  width: 70rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approvelogo'%}"
+                >Logo Approval</a>
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width: 70rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approveimage'%}"
+                >Image Approval</a>
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1"
+                style="
+                  font-size: 0.7rem;
+                  width: 70rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'approveassumptionrisk'%}"
+                >Assumption And Risk Approval</a>
+              </div>
+            
 
-
-            <div class="container mt-5">
-                <div class="mb-1"><strong><h5>APPROVED DOCUMENT</h5></strong></div>
-                <table class="table table-sm table-dark table-hover">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">USER</th>
-                        <th scope="col">Clientgeo</th>
-                        <th scope="col">Approval Status</th>
-                        <th scope="col">Want to Reject</th>
-                        <th scope="col">Download File</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {% for d in Yes %}
-                            <tr>
-                                <th scope="row">{{d.id}}</th>
-                                <td>{{d.user}}</td>
-                                <td>{{d.clientgeo}}</td>
-                                <td>{{d.approved}}</td>
-                                <td><a class="btn btn-danger btn-sm ml-1 " style="font-size:.7rem;width: 4rem;"
-                                    href="{% url 'dr' d.id%}">Reject</a></td>
-                                <td><a href='{{d.documentapproval.url}}' Download>Download</a></td>
-                            </tr>
-                        {% endfor %}    
-                        
-                    </tbody>
-                  </table>
-                </div>
-
-
-
-            </div>
             
         </div>
 
@@ -138,22 +180,22 @@
 </body>
 
 
-<footer class=" mt-3">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" /> 
+<div class="container ">
+  <div class="row">
+
+<div class="">
+  <!-- Copyright -->
+  <footer class="">
+
     <!-- Copyright -->
-    <div
-      class="footer-copyright"
-      style="font-family: Arial; font-size: 0.5rem; color: black"
-    >
-      © 2023 Copyright owned by one or more of the KPMG International entities.
-      KPMG International entities provide no services to clients. All rights
-      reserved. KPMG refers to the global organization or to one or more of the
-      member firms of KPMG International Limited (“KPMG International”), each of
-      which is a separate legal entity. KPMG International Limited is a private
-      English company limited by guarantee and does not provide services to
-      clients. For more detail about our structure please visit
-      https://home.kpmg/governance
+    <div class="footer-copyright container" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
     </div>
     <!-- Copyright -->
+  
   </footer>
-  <!-- Footer -->
+  <!-- Footer --> 
+</div>
+</div>
+</div>
 </script>

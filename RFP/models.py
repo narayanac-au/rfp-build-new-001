@@ -26,6 +26,7 @@ class info(models.Model):
 
 class KPMGgeo(models.Model):
     id = models.AutoField(primary_key=True)
+    displayKPMGgeo = models.CharField(max_length=200,null=True, blank=True)
     KPMGgeo = models.CharField(max_length=200)
 
     def __str__(self):
@@ -35,7 +36,8 @@ class KPMGgeo(models.Model):
 class KPMGadd(models.Model):
 
     KPMGgeo = models.ForeignKey(KPMGgeo, on_delete=models.CASCADE)
-    originaladdress = models.CharField(max_length=200)
+    originaladdress = models.CharField(max_length=200, null=True, blank=True)
+    fulladdress = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.originaladdress
@@ -56,16 +58,27 @@ class Image(models.Model):
 
     imagechoices = {
         ('Agnostic', 'Agnostic'),
+
         ('Healthcare', 'Healthcare'),
+
         ('Finanace', 'Finanace'),
-        ('HigherEducation', 'Higher Education'),
+
+        ('Higher Education', 'Education'),
+
+        ('Retail', 'Retail'),
+
+        ('Manufacturing', 'Manufacturing'),
+
+        ('Energy', 'Energy'),
+
+        ('Transportation', 'Transportation'),
 
     }
+    title = models.CharField(max_length=1000, null=True, blank=True)
     user = models.ManyToManyField(Users, null=True, blank=True)
     caption = models.CharField(
         max_length=100, null=True, blank=True, default='Agnostic', choices=imagechoices)
-    image = models.ImageField(
-        null=True, blank=True, upload_to="./media/")
+    image_link = models.CharField(max_length=500, null=True, blank=True)
     upload = models.FileField(
         null=True, blank=True, upload_to='./media/')
     cloud_link = models.CharField(max_length=500, null=True, blank=True)
@@ -279,6 +292,8 @@ class RfpSection(models.Model):
     sub_section = models.CharField(max_length=5000, null=True, blank=True)
     question = models.CharField(max_length=5000, null=True, blank=True)
     document_link = models.CharField(max_length=5000, null=True, blank=True)
+    document_file_name = models.CharField(
+        max_length=5000, null=True, blank=True)
     image_link = models.CharField(max_length=5000, null=True, blank=True)
     user = models.ManyToManyField(Users, blank=True)
     order = models.IntegerField(null=True, blank=True)
@@ -330,10 +345,23 @@ class RfpDocuments(models.Model):
     country = models.CharField(max_length=50, null=False, blank=False)
     industry = models.CharField(max_length=50, null=False, blank=False)
     user = models.CharField(max_length=200, blank=True)
-    rfp_file = models.FileField(upload_to='files/rfp_documents', null=True, blank=True)
+    rfp_file = models.FileField(
+        upload_to='files/rfp_documents', null=True, blank=True)
 
     def __str__(self):
         return f'<{self.country}-{self.industry}-{self.user}-{self.rfp_file.name}>'
+
+
+class ImageDocumentUsercopy(models.Model):
+    id = models.AutoField(primary_key=True)
+    doc_user_copy = models.ForeignKey(
+        Document_usercopy, blank=True, null=True, on_delete=models.CASCADE
+    )
+    image_doc = models.FileField(
+        upload_to='files/rfp_image_documents', null=True, blank=True)
+
+    def __str__(self):
+        return f'<{self.doc_user_copy}-{self.image_doc}>'
 
 
 class ExtraImage(models.Model):
@@ -342,8 +370,6 @@ class ExtraImage(models.Model):
         ('Australia', 'Australia'),
         ('US', 'US'),
         ('UK', 'UK'),
-
-
     }
 
     imagechoices = {
@@ -372,6 +398,8 @@ class ImageUpload(models.Model):
     user = models.CharField(max_length=200, null=True, blank=True)
     clientgeo = models.CharField(max_length=200, null=True, blank=True)
     picup = models.ImageField(upload_to='imgdir/')
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
 
     def __str__(self):
         return self.user
@@ -380,23 +408,33 @@ class ImageUpload(models.Model):
 class AssuptionAndRisk(models.Model):
     id = models.AutoField(primary_key=True)
     countrychoices = {
-        ('Australia', 'Australia'),
+        ('AU', 'AU'),
         ('US', 'US'),
         ('UK', 'UK'),
 
 
     }
     imagechoices = {
-        ('Assuption_And_Risk', 'Assuption_And_Risk'),
-        ('Key_consideration_and_risk', 'Key_consideration_and_risk'),
+        ('General', 'General'),
+        ('Resources', 'Resources'),
+        ('Workday', 'Workday'),
+        ('Software', 'Software'),
+        ('Integration', 'Integration'),
+        ('Data Migration', 'Data Migration'),
+        ('Testing', 'Testing'),
+        ('Change Management', 'Change Management'),
+        ('Deployment and Support', 'Deployment and Support'),
+        ('Covid-19', 'Covid-19'),
 
     }
     user = models.ManyToManyField(Users, blank=True)
-    Topic = models.CharField(
-        max_length=100, null=True, blank=True, default='Assuption_And_Risk', choices=imagechoices)
+    category = models.CharField(
+        max_length=100, null=True, blank=True, default='General', choices=imagechoices)
     country = models.CharField(
-        max_length=100, null=True, blank=True, default='Australia', choices=countrychoices)
-    Description = models.TextField(null=True, blank=True)
+        max_length=100, null=True, blank=True, default='AU', choices=countrychoices)
+
+    document_name = models.CharField(max_length=500, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.country
@@ -411,6 +449,127 @@ class SectionExtraImage(models.Model):
     image_link = models.CharField(max_length=1000, null=True, blank=True)
 
     selected = models.CharField(max_length=10, null=True, blank=True)
+
+    def __str__(self):
+        return self.country
+
+
+class notsatisfieddoc(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    clientgeo = models.CharField(max_length=200, null=True, blank=True)
+    docup = models.ImageField(upload_to='notsatisfieddoc/')
+    query = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user
+
+
+class clientlogo(models.Model):
+
+    countrychoices = {
+        ('Australia', 'Australia'),
+        ('US', 'US'),
+        ('UK', 'UK'),
+    }
+
+    imagechoices = {
+        ('Agnostic', 'Agnostic'),
+        ('Healthcare', 'Healthcare'),
+        ('Finanace', 'Finanace'),
+        ('HigherEducation', 'Higher Education'),
+
+    }
+    user = models.ManyToManyField(Users, blank=True)
+    country = models.CharField(
+        max_length=100, null=True, blank=True, default='Australia', choices=countrychoices)
+    Industry = models.CharField(
+        max_length=100, null=True, blank=True, default='Healthcare', choices=imagechoices)
+    logo = models.ImageField(
+        null=True, blank=True, upload_to="./media/clientlogo/")
+
+    selected = models.CharField(max_length=10, null=True, blank=True)
+
+    def __str__(self):
+        return self.country
+
+
+class logoUpload(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    clientgeo = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    picup = models.ImageField(upload_to='logodir/')
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user
+
+
+class userquestionans(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    rfpid = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    section = models.CharField(max_length=200, null=True, blank=True)
+    subsection = models.CharField(max_length=200, null=True, blank=True)
+    question = models.TextField(null=True, blank=True)
+    document = models.FileField(upload_to='media/', null=True, blank=True)
+    image = models.FileField(upload_to='media/', null=True, blank=True)
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.rfpid
+
+
+class userstandardsection(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    rfpid = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    section = models.CharField(max_length=200, null=True, blank=True)
+    subsection = models.CharField(max_length=200, null=True, blank=True)
+    question = models.TextField(null=True, blank=True)
+    document = models.FileField(upload_to='media/', null=True, blank=True)
+    image = models.FileField(upload_to='media/', null=True, blank=True)
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.rfpid
+
+
+class userriskandassumption(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    section = models.CharField(max_length=200, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.country
+
+
+class userextraimage(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=200, null=True, blank=True)
+    country = models.CharField(max_length=200, null=True, blank=True)
+    industry = models.CharField(max_length=200, null=True, blank=True)
+    image = models.FileField(upload_to='media/', null=True, blank=True)
+    approved = models.CharField(
+        max_length=200, default="No", null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.country

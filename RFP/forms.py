@@ -14,10 +14,10 @@ class UserQueryForm(ModelForm):
         fields = ['query', 'answer1', 'answer2', 'answer3']
 
 
-class ImageForm(forms.ModelForm):
-    class Meta:
-        model = Image
-        fields = ["image"]
+# class ImageForm(forms.ModelForm):
+#     class Meta:
+#         model = Image
+#         fields = ["image"]
 
 
 class SelectDropQueryForm(ModelForm):

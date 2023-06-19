@@ -1,0 +1,190 @@
+{% extends "base_third.html" %} {% block content %} {% load static%}
+
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<style>
+    .expandChildTable:before {
+        content: "+";
+        display: block;
+        cursor: pointer;
+    }
+    .expandChildTable.selected:before {
+        content: "-";
+    }
+    .childTableRow {
+        display: none;
+    }
+    .childTableRow table {
+        border: 2px solid #555;
+    }
+</style>
+
+<div class="container ">
+        <!-- <h3>Users RFP : </h3> -->
+    <a
+        href="/info/details"
+        class="btn btn-primary btn-sm active rounded-0 float-left"
+        style="background-color: #000099;"
+        role="button"
+        >+ New RFP</a
+    >
+    <!-- <a class="float-left" href="/info/details">
+        <button id="btnOutlook" class="float-right btn btn-sm border border-success mt-1 ml-2" >Create RFP</button>
+    </a> -->
+    <div class="row " style="margin-top: 5%;">
+        &emsp;
+        <div class="col-1">
+          
+        </div>
+    </div>
+
+        
+        
+        <div class="row" style="margin-top: 2%;">
+            <table class="table" width="100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Client Name</th>
+                        <th>Client Geo</th>
+                        <th>Powered Industry</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td><span class="expandChildTable"></span></td>
+                    <td>KPMG Test Server 001</td>
+                    <td>AU</td>
+                    <td>Healthcare</td>
+                    <td>Approved</td>
+                </tr>
+                <tr class="childTableRow">
+                    <td colspan="3">
+                        <h5>RFP Detils</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Azure Url</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2021-03-01</td>
+                                    <td><a href="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx">https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx</a></td>
+                                    <td><a href="">Edit</a></td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>2021-03-02</td>
+                                    <td>Materials</td>
+                                    <td>200.00</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span class="expandChildTable"></span></td>
+                    <td>JPMC Test Server 001</td>
+                    <td>US</td>
+                    <td>Agnostic</td>
+                    <td>Pending!</td>
+                </tr>
+                <tr class="childTableRow">
+                    <td colspan="3">
+                        <h5>RFP Detils</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Azure Url</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2021-03-01</td>
+                                    <td><a href="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx">https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx</a></td>
+                                    <td><a href="">Edit</a></td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>2021-03-02</td>
+                                    <td>Materials</td>
+                                    <td>200.00</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </td>  
+                </tr>
+                <tr>
+                    <td><span class="expandChildTable"></span></td>
+                    <td>Goldman Sachs Test Server 001</td>
+                    <td>AU</td>
+                    <td>Healthcare</td>
+                    <td>Approved</td>
+                </tr>
+                <tr class="childTableRow">
+                    <td colspan="3">
+                        <h5>RFP Detils</h5>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Azure Url</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2021-03-01</td>
+                                    <td><a href="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx">https://rfpstoragecheck.blob.core.windows.net/rfpstorage/New_Templates/Education/Template1.docx</a></td>
+                                    <td><a href="">Edit</a></td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>2021-03-02</td>
+                                    <td>Materials</td>
+                                    <td>200.00</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </td>       
+                </tr>
+            </table>
+        </div>
+        <!-- <div class="col-5">
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          &emsp;&emsp;
+        </div> -->
+      </div>
+      
+      </div>
+    </head>
+  
+
+    
+
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script><!-- <script src="js/disqus-config.js"></script> -->
+    <script>
+    $(function() {
+        $('.expandChildTable').on('click', function() {
+            $(this).toggleClass('selected').closest('tr').next().toggle();
+        })
+    });
+    </script>
+<div >
+  <!-- Copyright -->
+ <footer >
+
+  <!-- Copyright -->
+  <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer --> 
+</div>
+</html>
+{%endblock%}

@@ -5,12 +5,15 @@ urlpatterns = [
      # path('index/',views.index_view,name="index"), #first page {% url 'index'%}
      path('details/', views.infodetails_view,
           name="details"),  # second page details
+     path('dashboard', views.user_dashboard, name="user_dashboard"),
      # third page select standard RFP {% url 'load'%}
      path('content', views.doc_content_view, name="content"),
      # fourth page type question RFP {% url 'firstpage'%}
      path('page/', views.firstpage_view, name="firstpage"),
      # fifth page mcq options {% url 'secondpage'%}
      path('pages/', views.secondpage_view, name="secondpage"),
+     # fifth page mcq options {% url 'secondpage'%}
+     path('attach_qna/', views.add_ques_ans_selected_sections, name="attach_qna"),
      # sixth page preview {% url 'preview'%}
      path('ews/', views.pre_view, name="preview"),
      # preview page print standard pdf {% url 'download'%}
@@ -31,7 +34,7 @@ urlpatterns = [
      path('ques2/<int:id>/', views.drop_rfpquest_view2, name="ques2"),
 
      path('drp/', views.drop_rfp_preview_view, name="drp"),
-     path('request/', views.approve_view, name="approve"),
+     path('request/', views.approvedocument_view, name="approve"),
      path('confirm/<int:id>/', views.confirm_view, name="confirm"),
      path('ar/<int:id>/', views.approved_view, name="ar"),
      path('dr/<int:id>/', views.disapproved_view, name="dr"),
@@ -45,6 +48,6 @@ urlpatterns = [
           name="SelectedIndexlastPage"),
      path('rfp-document/', views.generate_rfp_document, name="GenerateRfpDoc"),
 
-    # path('userquestion/<int:id>/',views.user_upload_question_view,name="UP"),
+     # path('userquestion/<int:id>/',views.user_upload_question_view,name="UP"),
 
 ]

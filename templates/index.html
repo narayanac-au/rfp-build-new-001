@@ -1,12 +1,38 @@
 {% extends "base_third.html" %} {% block content %} {% load static%}
 
-      <div class="row">
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<div class="container ">
+  {% comment %} Progress Bar
+  <div class="row">
+    <div class="col-12 container ">
+          <div class="wrapper-progressBar">
+            <ul class="progressBar">
+              <li class="active" id="stepper">Home</li>
+              <li class="" id="stepper">Contact Information</li>
+              <li id="stepper">Standard Indexes</li>
+              <li class="" id="stepper">Review Standard Docs</li>
+              <li class="" id="stepper">Upload Docs</li>
+              <li id="stepper">Drop RFP & Ask Question</li>
+              <li class="" id="stepper">Drop RFP / Ask Question</li>
+              <li class="" id="stepper">Extra Images</li>
+              <li class="" id="stepper">Assuption and Risk Consideration</li>
+            </ul>
+          </div>
+        
+      
+
+
+
+        </div>
+  </div>
+  {% comment %} Progress Bar {% endcomment %} 
+      <div class="row ">
         &emsp;
         <div class="col-1">
           
         </div>
         
-        <div class="col-10">
+        <div class="col-11 container">
           &emsp;
           <p
             class="py-5  text-center"
@@ -17,7 +43,7 @@
           <p
             class="py-2text-center"
             style="font-family: Arial; color: black; font-size: 0.7rem"
-          >&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          >&emsp;&emsp;&emsp;
             <strong
               >Welcome to the Powered Enterprise Intelligent RFP Builder v1.0.
               This application will currently assist you in the creation of an
@@ -76,13 +102,20 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-5 float-right">
-          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        </div>
         <div class="col-4 float-right">
-          &emsp;&ensp;&ensp;
-          <a
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        </div>
+        <div class="col-3 float-right">
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          <!-- <a
             href="/info/details"
+            class="btn btn-primary btn-sm active rounded-0"
+            style="background-color: #000099"
+            role="button"
+            >Get Started</a
+          > -->
+          <a
+            href="/user/dashboard"
             class="btn btn-primary btn-sm active rounded-0"
             style="background-color: #000099"
             role="button"
@@ -92,24 +125,27 @@
             class="mt-1"
             style="font-family: Arial; font-size: 0.6rem; color: white"
           >
-            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
           </p>
         </div>
       </div>
     </head>
-  </div>
   
 
+    
+
+  <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+<div >
+  <!-- Copyright -->
+ <footer >
 
   <!-- Copyright -->
- <footer class="footer fixed-bottom">
-
-  <!-- Copyright -->
-  <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+  <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
   </div>
   <!-- Copyright -->
 
 </footer>
 <!-- Footer --> 
+</div>
 </html>
 {%endblock%}

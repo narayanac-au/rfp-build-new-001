@@ -15,11 +15,11 @@ class info_admin(ImportExportModelAdmin):
 
 
 class KPMGgeo_admin(ImportExportModelAdmin):
-    list_display = ['KPMGgeo']
+    list_display = ['KPMGgeo','displayKPMGgeo']
 
 
 class KPMGadd_admin(ImportExportModelAdmin):
-    list_display = ['KPMGgeo', 'originaladdress']
+    list_display = ['KPMGgeo', 'originaladdress', 'fulladdress']
 
 
 class Question_admin(ImportExportModelAdmin):
@@ -32,7 +32,7 @@ class Users_admin(ImportExportModelAdmin):
 
 
 class Images_admin(ImportExportModelAdmin):
-    list_display = ['caption', 'image', 'selected']
+    list_display = ['caption','title','image_link', 'selected','cloud_link']
 
 
 class Document_admin(ImportExportModelAdmin):
@@ -104,16 +104,49 @@ class ImageUpload_admin(ImportExportModelAdmin):
 
 
 class ImageUpload_admin(ImportExportModelAdmin):
-    list_display = ['id', 'user', 'clientgeo', 'picup']
+    list_display = ['id', 'user', 'clientgeo', 'picup', 'approved']
 
 
 class AssuptionAndRisk_admin(ImportExportModelAdmin):
-    list_display = ['id', 'Topic', 'country', 'Description']
+    list_display = ['id', 'category', 'country',
+                    'document_name', 'description']
 
 
 class SectionExtraImage_admin(ImportExportModelAdmin):
     list_display = ['id', 'country', 'industry',
                     'section_data', 'image_link', 'selected']
+
+
+class notsatisfieddoc_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'docup', 'clientgeo', 'query']
+
+
+class clientlogo_admin(ImportExportModelAdmin):
+    list_display = ['Industry', 'logo', 'selected']
+
+
+class logoUpload_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'clientgeo', 'picup', 'approved', 'feedback']
+
+
+class userquestionans_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'rfpid', 'country', 'industry',
+                    'section', 'subsection', 'question', 'document', 'image', 'approved', 'feedback']
+
+
+class userstandardsection_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'rfpid', 'country', 'industry',
+                    'section', 'subsection', 'question', 'document', 'image', 'approved', 'feedback']
+
+
+class useraddextraimage_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'country',
+                    'industry', 'image', 'approved', 'feedback']
+
+
+class userriskandassumption_admin(ImportExportModelAdmin):
+    list_display = ['id', 'user', 'country',
+                    'industry', 'section', 'description', 'approved', 'feedback']
 
 
 admin.site.register(project, project_admin)
@@ -140,3 +173,10 @@ admin.site.register(ExtraImage, ExtraImages_admin)
 admin.site.register(ImageUpload, ImageUpload_admin)
 admin.site.register(AssuptionAndRisk, AssuptionAndRisk_admin)
 admin.site.register(SectionExtraImage, SectionExtraImage_admin)
+admin.site.register(notsatisfieddoc, notsatisfieddoc_admin)
+admin.site.register(clientlogo, clientlogo_admin)
+admin.site.register(logoUpload, logoUpload_admin)
+admin.site.register(userquestionans, userquestionans_admin)
+admin.site.register(userstandardsection, userstandardsection_admin)
+admin.site.register(userextraimage, useraddextraimage_admin)
+admin.site.register(userriskandassumption, userriskandassumption_admin)

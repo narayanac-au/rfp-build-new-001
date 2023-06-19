@@ -4,22 +4,76 @@
 
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 <!-- <link rel="stylesheet" href="{% static 'css/doc.css' %}">-->
 <!-- select for standard RFP's -->
 <link rel="stylesheet" href="{% static 'css/mcq.css' %}">
 <div class="  container ">
+
 <div class=" container ">
+      {% comment %} Progress Bar {% endcomment %}
+  <div class="row">
+    <div class="col-12 container ml-5">
+          <div class="wrapper-progressBar ml-5">
+            <ul class="progressBar ml-5 ">
+              <li class="active ml-5" id="stepper">Home</li>
+              <li class="active" id="stepper">Contact Information</li>
+              <li class="active" id="stepper">Standard Indexes</li>
+              <li class="" id="stepper">Review Standard Docs</li>
+              <li class="" id="stepper">Upload Docs</li>
+              {% comment %} <li id="stepper">Drop RFP & Ask Question</li>
+              <li class="" id="stepper">Drop RFP / Ask Question</li>
+              <li class="" id="stepper">Extra Images</li>
+              <li class="" id="stepper">Assuption and Risk Consideration</li> {% endcomment %}
+            </ul>
+          </div>
+          <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+            <button id="btnOutlook" class="float-right btn btn-sm border border-success" >Feedback</button>
+        </a>
+      
+
+
+
+        </div>
+  </div>
+
+  {% comment %} Progress Bar {% endcomment %}
+  {% comment %} Heading {% endcomment %}
+  <div class=" container mt-1" >
+    <div class="row-12 text-center ">
+        <div class="col-12 text-center ">
+            <h4>Document Sections</h4>
+    </div>
+</div>
+</div>
+{% comment %} Heading {% endcomment %}
 <div class=" container ">
     
 
-    <h3 class="mt-3 ml-3  btn btn-dark" style='font-family:"Arial";font-size:.8rem;width: 55rem;background-color:#000099';><strong>Select the required sections from the available list below. Please note some sections are compulsory and have been pre-selected</strong></h3>
-<div class=" container ">
+    <h3 class="mt-3 ml-3  btn btn-dark" style='font-family:"Arial";font-size:.8rem;width: 53rem;background-color:#000099';><strong>Select the required sections from the available list below. Please note some sections are compulsory and have been pre-selected</strong></h3>
+    {% comment %} <a
+        class="btn btn-dark d-inline mt-3 float-right mr-3"
+        style="
+          font-size: 0.8rem;
+          width: 6rem;
+          background-color: #b9b9b9;
+          color: white;
+          background-color:#000099;
+        "
+        href="{% url 'firstpage'%}"
+        >Ques & Ans</a
+      > {% endcomment %}
+    <div class=" container ">
 <div class=" container border border-secondary rounded mt-2">
     
-
+    <div >
+                    
+        <h6 class="ml-3 mt-3 " style='font-family:"Arial";font-size:.8rem;width: 70rem;color:dark';><strong>"Style Sheets” button to view all available style sheets. You can select from a pre-existing style sheet or upload your own</strong></h5>
+    </div>  
     <p>
                 
-        <button class="btn btn-primary mt-3 ml-3  btn btn-dark active arr down" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample11" style='font-family:"Arial";font-size:.7rem;width: 13rem;background-color:#000099'; checked;><strong>Explore Style Sheet For RFP ></strong></button>
+        <button class="btn btn-primary mt-3 ml-3  btn btn-dark active arr down" type="button" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample11" style='font-family:"Arial";font-size:.7rem;width: 13rem;background-color:#000099'; checked;><strong>Style Sheets  ▼</strong></button>
     </p>            
     <div class=" container collapse multi-collapse " style="width: 200rem" id="multiCollapseExample11">
 
@@ -128,7 +182,7 @@
                             
                                 <input class="form-check-input ml-1" type="radio" name="flexRadioDefault" value={{i.id}} id="flexRadioDefault1" checked>
                                 <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong></strong></label>
-                                <img class="w-30 " src="{{i.image.url}}" alt="First slide" height="100" width="120">
+                                <img class="w-30 " src="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Style_Sheets/{{industry}}/{{i.image_link}}" alt="First slide" height="100" width="120">
                             </div>
                         </div>    
                                   
@@ -139,7 +193,7 @@
                         <div class="col-3">
                             <div class="card card-body  border border-dark mt-2" style="width:50 " >
                             
-                                <input class="form-check-input ml-1" type="radio" name="flexRadioDefault" value={{i.id}} id="flexRadioDefault1">
+                                <input class="form-check-input ml-1" type="radio" name="flexRadioDefault" value={{i.id}} id="flexRadioDefault1" required="true">
                                 <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong>{{forloop.counter}}</strong></label>
                                 <!-- <img class="w-30 " src="{{i.image.url}}" alt="First slide" height="100" width="120"> -->
                                 <!-- src="https://view.officeapps.live.com/op/embed.aspx?src=https://cmpstorage.blob.core.windows.net/test/Title_template2.docx" -->
@@ -149,7 +203,7 @@
                                 width="100%"
                                 height="100%"
                                 ></iframe> -->
-                                <img class="w-30 " src="{{i.image.url}}" alt="First slide" height="100" width="120">
+                                <img class="w-30 " src="{{i.image_link}}" alt="First slide" height="100" width="120">
                             </div>
                         </div>            
                     
@@ -183,14 +237,70 @@
                             picup2.processQueue();
                             })
 
+                            $('#select-all').click(function(event) {   
+                                if(this.checked) {
+                                    // Iterate each checkbox
+                                    $(':checkbox').each(function() {
+                                        this.checked = true;                        
+                                    });
+                                } else {
+                                    $(':checkbox').each(function() {
+                                        this.checked = false;                       
+                                    });
+                                }
+                            });
+
+                            function toggle(source) {
+                                // console.log(source, source.checked, 'sourceee')
+                                // checkboxes = document.getElementsByClassName('form-check-label');
+                                // console.log(checkboxes, 'checkboxxess')
+                                // for(var checkbox in checkboxes)
+                                //     checkbox.checked = source.checked;
+                                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                                var default_rfp = '{{default_sections}}';
+                                default_rfp = JSON.parse(default_rfp);
+
+                                // console.log(Array(default_rfp), 'array')
+                                
+                                
+                                console.log(default_rfp, typeof(default_rfp), "defaul rfp's ");
+
+                                for (var i = 0; i < checkboxes.length; i++) {
+                                    console.log(checkboxes[i], 'iii')
+                                    console.log(checkboxes[i].name, 'name')
+                                    
+                                    var pivot = false;
+                                    try {
+                                        var name = parseInt(checkboxes[i].name);
+                                        console.log(name, typeof(name), 'name int conversion')
+                                        // var found = default_rfp.find(name);
+                                        var found = default_rfp.find(element => element == name);
+                                        if (found) {
+                                            pivot = true;
+                                        }
+                                        console.log(found, 'found the value')
+                                    }
+                                    catch(err) {
+                                        console.log(err, 'error')
+                                    }
+                                    
+                                    // if (checkboxes[i].oncl)
+                                    if ((checkboxes[i] != source)&(pivot == false))
+                                        checkboxes[i].checked = source.checked;
+                                }
+                            };
+
                         </script>
                         
                     </div> 
                     
                 </div>
-                
+                <div>
+                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Title for Style Sheet Selected*</strong></label>
+                <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="TitleforStyleSheetSelected" name="TitleforStyleSheetSelected" style="width: 10rem;height:100px;" placeholder=""></input>
+                </div>     
             </div>
-                
+            
                 
 
             <div>
@@ -205,8 +315,10 @@
                 
             </div>
             {% endfor %} -->
-
-
+            <div class="form-check ml-3 mt-5">
+                <input class="form-check-input mt-2" type="checkbox" onClick="toggle(this)" name="select-all" id="select-all"/>
+                <label class="form-check-label ml-1 " style="font-size:.8rem;color:dark" for="defaultCheck1"><span><strong>Select All</strong> </span></label>
+            </div>
             {% for i in all_sections %}
                 
                 {% if i.is_default is True %}
@@ -243,7 +355,7 @@
             {% endfor %}  -->
 
             
-            {% if que %}
+            {% comment %} {% if que %}
                 <div class="form-check ml-3 mt-5">
                     <input class="form-check-input mt-2" type="checkbox"   name="Quest" checked="checked"/>
                     <label class="form-check-label ml-1 " style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Do you want to ask more Ques&Ans</strong> </span></label>
@@ -255,35 +367,75 @@
                     <input class="form-check-input mt-2" type="checkbox"   name="Quest" />
                     <label class="form-check-label ml-1 " style="font-size:.8rem;color:dark" id="A" for="defaultCheck1"><span><strong>Do you want to ask more Ques&Ans</strong> </span></label>
                 </div>
-            {% endif %}
+            {% endif %} {% endcomment %}
             
             <div class=" mt-5">
-                <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">SUBMIT</button>
+                <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">Next</button>
+                <a
+                        class="btn btn-dark "
+                        style="
+                          font-size: 0.7rem;
+                          width: 4rem;
+                          background-color: #f2f2f2;
+                          color: black;
+                        "
+                        onclick="history.back()"
+                        >BACK</a>
         </form>
-            
-        </div>
+    </div>
+</div>
 
         
-</div>
 
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+        
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
-
-<div>
+{% comment %} <div class="container border border-dark mt-5 " >
   <!-- Copyright -->
-  <footer class="mt-2">
+ <footer >
 
-    <!-- Copyright -->
-    <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
-    </div>
-    <!-- Copyright -->
+  <!-- Copyright -->
+  <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer --> 
+</div> {% endcomment %}
+</html>
+{% comment %} code for pop with password {% endcomment %}
+
+{% comment %} <script src=
+"https://cdn.jsdelivr.net/npm/sweetalert2@9">
+    </script>
   
-  </footer>
-  <!-- Footer --> 
-</div>
+    <link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+    <script type="text/javascript">
+  
+        // Show a more complex alert with
+        // the given text and properties
+        Swal.fire({
+  
+            // Specify the title
+            // of the alert
+            title:
+'',
+            html: '<strong>PLEASE NOTE YOUR Username:{{username}} Password:{{password}}</strong>',
+  
+            // Show a close button
+            showCloseButton: true,
+            focusConfirm: false,
+  
+            // Specify the text 
+            // for the button
+            confirmButtonText:
+'<i class="fa fa-thumbs-up"></i> Thanks!',
+            confirmButtonAriaLabel: 
+                'Thumbs up, Thanks',
+        })
+    </script> {% endcomment %}
   {% endblock %}

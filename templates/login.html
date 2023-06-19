@@ -46,35 +46,58 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     <link rel="stylesheet" href="{% static 'css/firstpage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
     <div class="border-bottom border-dark"></div>
     <title>RFP</title>
 </head>
 
 
-<body>
+<body >
+    <div class="  container float-center">
+          {% comment %} Progress Bar {% endcomment %}
+  
+  {% comment %} Progress Bar {% endcomment %}
     <div class="row  mt-5">
         &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-    <div class="col-3 mt-5 border border-dark" >
-    <h2 class="ml-5">Please Login</h2>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+    <div class="col-4 mt-5 " >
+        
+    <h2 class="ml-5" style="font-family:Helvetica">USER LOGIN</h2>
 
     <form action="{% url 'login'%}" method="POST">
         {% csrf_token %}
-        <table>
+        <table class="ml-5">
             <tr>
-                <td>Username : <input type="text" name="username" placeholder="Username" ></td>
+                <td >Username :</td>
             </tr>
             <tr>
-                <td>Passwords : <input type="password" name="password" placeholder="Password" ></td>
+                <td ><input type="text" name="username" placeholder="Username"  onkeyup="this.value = this.value.toUpperCase();" ></td>
+            </tr>
+            <tr>
+                <td>Password :</td>
+            </tr>
+            <tr>
+                <td><input type="password" name="password" placeholder="Password" ></td>
             </tr>
             
-            <tr class="ml-5 mt-2">
-                <td>&emsp;&emsp;<input class="btn btn-dark btn-sm ml-5  " type="submit" /><a class="btn btn-dark btn-sm ml-2 " style="font-size:.8rem;width: 4rem;background-color:#000099;" href="{% url 'details'%}">Home</a></td>
+            
+            <tr class="ml-5 mt-3">
+                <td><input class="btn btn-dark btn-sm   " style="font-size:.8rem;width: 4rem;background-color:#000099;" type="submit" /><a class="btn btn-dark btn-sm ml-2 " style="font-size:.8rem;width: 4rem;background-color:#000099;" href="{% url 'details'%}">Home</a></td>
+                
+            </tr>
+            <tr>
+                <td><a class=" btn-sm mt-3 btn btn-outline-dark" style="font-size:.8rem;width: 4rem;" href="{% url 'usersignup'%}">Sign UP</a></td>
+            </tr>
+            <tr>
+                <td style="font-size:.7rem;">Don't have an account Please SignUp</td>
             </tr>
         </table>
-        {% if messages %}
+        
+                {% if messages %}
                 {% for record in messages %}
-                <h3 style="color:red">{{record}}</h3>
+                <div class="alert alert-danger">
+                    <strong>Alert!</strong> {{record}}
+                  </div>
                 {% endfor %}
                 {% endif %}
     </form>
@@ -82,21 +105,22 @@
 </div>
 </body>
 
-<footer class=" footer fixed-bottom mt-3">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}" />
+<div class="container ">
+  <div class="row">
+
+<div class="">
+  <!-- Copyright -->
+  <footer class="">
+
     <!-- Copyright -->
-    <div
-      class="footer-copyright"
-      style="font-family: Arial; font-size: 0.5rem; color: black"
-    >
-      © 2023 Copyright owned by one or more of the KPMG International entities.
-      KPMG International entities provide no services to clients. All rights
-      reserved. KPMG refers to the global organization or to one or more of the
-      member firms of KPMG International Limited (“KPMG International”), each of
-      which is a separate legal entity. KPMG International Limited is a private
-      English company limited by guarantee and does not provide services to
-      clients. For more detail about our structure please visit
-      https://home.kpmg/governance
+    <div class="footer-copyright container" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
     </div>
     <!-- Copyright -->
+  
   </footer>
+  <!-- Footer --> 
+</div>
+</div>
+</div>
   <!-- Footer -->
