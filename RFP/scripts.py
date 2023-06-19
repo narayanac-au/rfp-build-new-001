@@ -17,13 +17,14 @@ from docxtpl import DocxTemplate, RichText
 import shutil
 
 
-def docx_template_replace(doc_path, doc_name, client_name='', title=''):
+def docx_template_replace(doc_path, doc_name, client_name='', title='', kpmg_full_address=''):
     doc = DocxTemplate(doc_path)
     dictionary = {}
     dictionary['client_name'] = client_name
     curr_date = datetime.today()
     dictionary['curr_date'] = curr_date.strftime("%B %d, %Y")
     dictionary['title'] = title
+    dictionary['KPMG_address'] = kpmg_full_address
 
     doc.render(dictionary)
 
