@@ -11,20 +11,20 @@
 <form class="" action="{% url 'SelectedIndex2' show.id%}" method="POST">
   {% csrf_token %}
         {% comment %} Progress Bar {% endcomment %}
-        <div class="container ">
-        <div class="row">
-          <div class="col-12 container ">
-                <div class="wrapper-progressBar">
-                  <ul class="progressBar">
+        <div class="container ml-5">
+        <div class="row ml-5">
+          <div class="col-12 container ml-5">
+                <div class="wrapper-progressBar ml-5">
+                  <ul class="progressBar ml-5">
                     <li class="active" id="stepper">Home</li>
                     <li class="active" id="stepper">Contact Information</li>
                     <li class="active" id="stepper">Standard Indexes</li>
                     <li class="active" id="stepper">Review Standard Docs</li>
                     <li class="" id="stepper">Upload Docs</li>
-                    <li id="stepper">Drop RFP & Ask Question</li>
+                    {% comment %} <li id="stepper">Drop RFP & Ask Question</li>
                     <li class="" id="stepper">Drop RFP / Ask Question</li>
                     <li class="" id="stepper">Extra Images</li>
-                    <li class="" id="stepper">Assuption and Risk Consideration</li>
+                    <li class="" id="stepper">Assuption and Risk Consideration</li> {% endcomment %}
                     
                   </ul>
                 </div>
@@ -160,7 +160,7 @@
           color: black;
         "
         onclick="history.back()"
-        >BACK</a>
+        >Back</a>
       </form>
       {% if show.doc_index == 'Title Page' or show.doc_index in standard_sections %}
       {% else %}

@@ -87,6 +87,100 @@
     cursor: pointer;
   }
 
+  .loader {
+   width:50px;
+   height:50px;
+   display:inline-block;
+   padding:0px;
+   opacity:0.5;
+   border:3px solid #09acfd;
+   -webkit-animation: loader 1s ease-in-out infinite alternate;
+   animation: loader 1s ease-in-out infinite alternate;
+}
+
+.loader:before {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 3px solid #09acfd;
+}
+
+.loader:after {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border: 3px solid #09acfd;
+}
+
+@keyframes loader {
+   from {transform: rotate(0deg) scale(1,1);border-radius:0px;}
+   to {transform: rotate(360deg) scale(0, 0);border-radius:50px;}
+}
+@-webkit-keyframes loader {
+   from {-webkit-transform: rotate(0deg) scale(1, 1);border-radius:0px;}
+   to {-webkit-transform: rotate(360deg) scale(0,0 );border-radius:50px;}
+}
+
+.loader1 {
+   display:inline-block;
+   font-size:0px;
+   padding:0px;
+}
+.loader1 span {
+   vertical-align:middle;
+   border-radius:100%;
+   
+   display:inline-block;
+   width:10px;
+   height:10px;
+   margin:3px 2px;
+   -webkit-animation:loader1 0.8s linear infinite alternate;
+   animation:loader1 0.8s linear infinite alternate;
+}
+.loader1 span:nth-child(1) {
+   -webkit-animation-delay:-1s;
+   animation-delay:-1s;
+  background:rgba(245, 103, 115,0.6);
+}
+.loader1 span:nth-child(2) {
+   -webkit-animation-delay:-0.8s;
+   animation-delay:-0.8s;
+  background:rgba(245, 103, 115,0.8);
+}
+.loader1 span:nth-child(3) {
+   -webkit-animation-delay:-0.26666s;
+   animation-delay:-0.26666s;
+  background:rgba(245, 103, 115,1);
+}
+.loader1 span:nth-child(4) {
+   -webkit-animation-delay:-0.8s;
+   animation-delay:-0.8s;
+  background:rgba(245, 103, 115,0.8);
+  
+}
+.loader1 span:nth-child(5) {
+   -webkit-animation-delay:-1s;
+   animation-delay:-1s;
+  background:rgba(245, 103, 115,0.4);
+}
+
+@keyframes loader1 {
+   from {transform: scale(0, 0);}
+   to {transform: scale(1, 1);}
+}
+@-webkit-keyframes loader1 {
+   from {-webkit-transform: scale(0, 0);}
+   to {-webkit-transform: scale(1, 1);}
+}
+
 </style>
 <script>
   src='https://code.jquery.com/jquery-3.7.0.min.js'
@@ -110,18 +204,18 @@
   {% comment %} Progress Bar {% endcomment %}
   
   <div class="row">
-    <div class="col-12 container ">
-          <div class="wrapper-progressBar">
-            <ul class="progressBar">
-              <li class="active" id="stepper">Home</li>
+    <div class="col-12 container ml-5">
+          <div class="wrapper-progressBar ml-5">
+            <ul class="progressBar ml-5">
+              <li class="active ml-5" id="stepper">Home</li>
               <li class="active" id="stepper">Contact Information</li>
               <li class="active" id="stepper">Standard Indexes</li>
               <li class="active" id="stepper">Review Standard Docs</li>
               <li class="" id="stepper">Upload Docs</li>
-              <li id="stepper">Drop RFP & Ask Question</li>
+              {% comment %} <li id="stepper">Drop RFP & Ask Question</li>
               <li class="" id="stepper">Drop RFP / Ask Question</li>
               <li class="" id="stepper">Extra Images</li>
-              <li class="" id="stepper">Assuption and Risk Consideration</li>
+              <li class="" id="stepper">Assuption and Risk Consideration</li> {% endcomment %}
               
             </ul>
           </div>
@@ -195,7 +289,7 @@
           color: black;
         "
         onclick="history.back()"
-        >BACK</a>
+        >Back</a>
     {% if show.doc_index in standard_sections or show.file_link is None %}
     <a class="btn btn-dark d-inline ml-1 mr-1"
     style="
@@ -224,6 +318,8 @@
     "
     onClick="document.getElementById('q_n_a').scrollIntoView();"
     >Q&A</a>
+    <!-- <div class="loader"></div></div>
+    <div class="col-sm-6 text-center"><div class="loader1"> -->
 
 {% comment %} #image {% endcomment %}
 {% if IMGSEC%}
@@ -241,11 +337,11 @@
           Images >
         </button>
         <div class="collapse" id="collapseExample">
-          <div id="carouselExampleControls" class="carousel slide w-30" data-ride="carousel">
+          <div id="carouselExampleControls" class="carousel slide w-30" data-ride="carousel" >
             <div class="carousel-inner">
               {% for e in IMGSEC%}
                               {% if forloop.first %}
-                                <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                                <div class="carousel-item  {% if forloop.first %} active {% endif %}" >
                                   
                                   <div class="col-6 container">
                                     <div class="card card-body  border border-dark mt-2 float-center" style="width:50 " >
