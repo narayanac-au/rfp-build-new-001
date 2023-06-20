@@ -1,0 +1,150 @@
+{% extends "base_third.html" %} {% block content %} {% load static%}
+
+<link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Alegreya+Sans" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" type="text/css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<style>
+    /* .expandChildTable:before {
+        content: "+";
+        display: block;
+        cursor: pointer;
+    }
+    .expandChildTable.selected:before {
+        content: "-";
+    }
+    .childTableRow {
+        display: none;
+    }
+    .childTableRow table {
+        border: 2px solid #555;
+    } */
+    /* body{
+            background-image: url("http://ailievski.com/wp-content/uploads/2014/11/bp_background_2_blue1.jpg");
+            background-attachment: fixed;
+            background-size: cover;
+            padding:5% 0;
+        } */
+        h1{
+            color:#fff;
+            font-size:35px;
+            text-align: center;
+            text-transform: capitalize;
+        }
+        .service_box{
+            margin:20px 0;
+            padding:40px 20px;
+            text-align: center;
+            border-radius:5px;
+            background:rgba(5, 5, 141, 0.744);
+            transition: all 0.30s ease 0s;
+        }
+        .service_box:hover{
+            background:#4c4cb5cc;
+        }
+        .service_box .service_icon{
+            width:70px;
+            height:70px;
+            margin: 0 auto;
+            font-size:35px;
+            background: #fff;
+            line-height:70px;
+            border-radius:50px;
+            transform: translateY(0);
+            transition: all 0.30s ease 0s;
+        }
+        .service_box:hover .service_icon{
+            transform: translateY(-100%);
+        }
+        .service_box .service_icon i{
+            color:#333;
+        }
+        .service_box h3{
+            position: relative;
+            top:40px;
+            margin:0;
+            color:#fff;
+            font-size:23px;
+            /* text-transform:uppercase; */
+            transform: translateY(0%);
+            transition: all 600ms cubic-bezier(0.68, -0.55, 0.265, 1.55) 0s;
+        }
+        .service_box:hover h3{
+            top:-40px;
+        }
+        .service_box  p{
+            color:#fff;
+            margin:0;
+            opacity:0;
+            transition: all 0.30s linear 0s;
+        }
+        .service_box:hover p{
+            opacity:1;
+        }
+</style>
+<div class="container">
+    <h1>Service Box Style</h1>
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="service_box">
+                <a href="/info/details"><div class="service_icon">
+                    <i class="fa fa-plus" ></i>
+                </div></a>
+                <h3>Create New Response</h3>
+                <p>Click here to create new RFP document.</p>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="service_box">
+                <a href="rfpfiles"><div class="service_icon">
+                    <i class="fa fa-pencil-square-o"></i>
+                </div></a>
+                <h3>Edit Existing Response</h3>
+                <p>Edit an existing RFP document.</p>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="service_box">
+                <a href="page/"><div class="service_icon">
+                    <i class="fa fa-question"></i>
+                </div></a>
+                <h3>Ask a Question</h3>
+                <p>We are here to answer your questions.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-6 float-right">
+            <!-- <div class="service_box">
+                <div class="service_icon">
+                    <i class="fa fa-upload"></i>
+                </div>
+                <h3>Upload New Content</h3>
+                <p>Upload user desired content.</p>
+            </div> -->
+        </div>
+        <div class="col-md-4 col-sm-6 float-right">
+            <div class="service_box">
+                <a href="/userlogin/"><div class="service_icon">
+                    <i class="fa fa-upload"></i>
+                </div></a>
+                <h3>Upload New Content</h3>
+                <p>Upload user desired content.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<footer >
+
+    <!-- Copyright -->
+    <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+    </div>
+    <!-- Copyright -->
+
+</footer>
+  <!-- Footer --> 
+</div>
+</html>
+{%endblock%}

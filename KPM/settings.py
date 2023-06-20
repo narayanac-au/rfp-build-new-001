@@ -22,7 +22,7 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-tsq%hr36!gi^=5yl1m1%83ggb-7)*j*51d+u(cg!*@ph@-(-gk'
-#SECRET_KEY = os.environ.get("SECRET_KEY")---this is for container
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # DEBUG = int(os.environ.get("DEBUG", default=0))
 
@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-tsq%hr36!gi^=5yl1m1%83ggb-7)*j*51d+u(cg!*@ph@-(-gk
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-#ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")---this is for container
+# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition

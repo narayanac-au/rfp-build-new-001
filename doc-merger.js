@@ -43,7 +43,7 @@ function merge_documents(){
         // fs.writeFile("output.zip", data, function(err){/*...*/});
         fs.writeFile("output-node-merger-v4.docx", data, function(err){/*...*/});
     });
-    return 'output-node-merger.docx'
+    return 'output-node-merger-v4.docx'
 }
 
 run = merge_documents()

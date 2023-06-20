@@ -2779,16 +2779,16 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                                 open(updated_doc, "rb")))
                     except Exception as ex:
                         print(ex, "exception")
-                        file_path = "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
+                        # file_path = "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
 
-                        print(file_path, "file path to download")
+                        # print(file_path, "file path to download")
 
-                        get_doc = get_document(file_path)
-                        print(get_doc, "get doc response")
+                        # get_doc = get_document(file_path)
+                        # print(get_doc, "get doc response")
 
-                        updload_to_azure_blob = upload_blob_data(
-                            subfolder, get_doc, container_id)
-                        print(updload_to_azure_blob, 'azure path')
+                        # updload_to_azure_blob = upload_blob_data(
+                        #     subfolder, get_doc, container_id)
+                        # print(updload_to_azure_blob, 'azure path')
 
                         # c = Document_usercopy.objects.update_or_create(
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
@@ -2799,11 +2799,10 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                             industry=docu.industry,
                             doc_index=docu.section_data,
                             user=client_name,
-                            file_link=updload_to_azure_blob,
                             matrix=matrix_value,
                         )
 
-                        c[0].File.save(get_doc, File(open(get_doc, "rb")))
+                        # c[0].File.save(get_doc, File(open(get_doc, "rb")))
 
             if docu.country_matrix == "S":
                 standard_sections.append(docu.section_data)
@@ -3508,6 +3507,8 @@ def generate_rfp_document(request):
     # result = os.system("node doc-merger.js /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Title.docx /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Healthcare_AU_Executive_Summary.docx")
     result = os.system(node_command_string)
     print(result, "result of executed node file")
+    # add_header_footer = write_header_footer('output-node-merger-v4.docx')
+    # print(add_header_footer, 'header footer return')
     # add_header_footer = write_header_footer('output-node-merger-v4.docx')
     # print(add_header_footer, 'adding header and footer to the final document')
     # exit(0)
@@ -4525,4 +4526,8 @@ def usersummerytable_view(request):
 
 def user_dashboard(request):
     print('inside dashoboard')
+    # return render(request, 'user_dashboard.html')
+    return render(request, 'user_dashboard_v2.html')
+
+def edit_user_rfp(request):
     return render(request, 'user_dashboard.html')
