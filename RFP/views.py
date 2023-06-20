@@ -2870,7 +2870,6 @@ def SelectedIndex_view(request):
         # kpmg_full_address = request.POST.get("kpmg_address")
 
         # kpmg_full_address = "KPMG Address"
-
         request_post_list = dict(request.POST).keys()
         print(request_post_list, "post list")
 
