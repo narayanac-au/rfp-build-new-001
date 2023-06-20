@@ -157,7 +157,10 @@ def doc_content_view(request):
         TitleforStyleSheetSelected = request.POST.get(
             "TitleforStyleSheetSelected")
         request.session["TitleforStyleSheetSelected"] = TitleforStyleSheetSelected
+        request.session["kpmg_short_address"] = kpmg_add
+
         print("TitleforStyleSheetSelected", TitleforStyleSheetSelected)
+        print("NEw KPMG Address:- ", kpmg_add)
         extrcount = "ABC"
         Acccount = "ABC"
         selfirst = "ABC"
@@ -2859,9 +2862,14 @@ def SelectedIndex_view(request):
         radio = request.POST.get("flexRadioDefault")
         Quest = request.POST.get("Quest")
         title = request.POST.get("TitleforStyleSheetSelected")
+        kpmg_add=request.session["kpmg_short_address"] 
+        kpmg_original_address =  KPMGadd.objects.get(originaladdress=kpmg_add)
+        print("Full Address Data Updated :- ", kpmg_original_address.fulladdress)
+        kpmg_full_address = kpmg_original_address.fulladdress
+        print("This is title:- ", title)
         # kpmg_full_address = request.POST.get("kpmg_address")
-        kpmg_full_address = "KPMG Address"
 
+        # kpmg_full_address = "KPMG Address"
         request_post_list = dict(request.POST).keys()
         print(request_post_list, "post list")
 
