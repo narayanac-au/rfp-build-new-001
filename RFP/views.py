@@ -1309,7 +1309,7 @@ def start_new_rfp(request):
     #     UQL.delete()
     #     ud=SelectDropQuery.objects.all()
     #     ud.delete()
-    return redirect("/RFP/index/")
+    return redirect("/info/details")
 
 
 # type question page print standard pdf
@@ -1787,16 +1787,34 @@ def drop_rfp_view(request):
             query=query, df=df, embedder=embedder
         )
         answer = [df["document_link"][index] for index in index_list]
-        UserQuery = DropQuery(
-            id=id,
-            question=ques,
-            user=showname,
-            answer1=answer[0],
-            answer2=answer[1],
-            answer3=answer[2],
-        )
+        if len(answer) == 3:
+            UserQuery = DropQuery(
+                id=id,
+                question=ques,
+                user=showname,
+                answer1=answer[0],
+                answer2=answer[1],
+                answer3=answer[2],
+            )
+        elif len(answer) == 2:
+            UserQuery = DropQuery(
+                id=id,
+                question=ques,
+                user=showname,
+                answer1=answer[0],
+                answer2=answer[1],
+            )
+        elif len(answer) == 1:
+            UserQuery = DropQuery(
+                id=id,
+                question=ques,
+                user=showname,
+                answer1=answer[0]
+            )
+
         UserQuery.save()
         id = id + 1
+
 
     Quest = DropQuery.objects.all()
     messages.success(
@@ -1977,18 +1995,34 @@ def drop_rfpquest_view1(request):
                 # answ[k] = RfpData.objects.filter(id=i)
                 # k = k+1
             print("33333333333333333333333333333333333333333333333333333333333333")
-            print(answ[0].document_link)
-            print(answ[1].document_link)
-            print(answ[2].document_link)
+            # print(answ[0].document_link)
+            # print(answ[1].document_link)
+            # print(answ[2].document_link)
             print("33333333333333333333333333333333333333333333333333333333333333")
-            Select = SelectDropQuery(
-                id=ids,
-                user=showname,
-                question=c.question,
-                answer1=answ[0].document_link,
-                answer2=answ[1].document_link,
-                answer3=answ[2].document_link,
-            )
+            if len(answ) == 3:
+                Select = SelectDropQuery(
+                    id=ids,
+                    user=showname,
+                    question=c.question,
+                    answer1=answ[0].document_link,
+                    answer2=answ[1].document_link,
+                    answer3=answ[2].document_link,
+                )
+            elif len(answ) == 2:
+                Select = SelectDropQuery(
+                    id=ids,
+                    user=showname,
+                    question=c.question,
+                    answer1=answ[0].document_link,
+                    answer2=answ[1].document_link,
+                )
+            elif len(answ) == 1:
+                Select = SelectDropQuery(
+                    id=ids,
+                    user=showname,
+                    question=c.question,
+                    answer1=answ[0].document_link,
+                )
             Select.save()
             u = SelectDropQuery.objects.filter(
                 user=showname).order_by("id").last()
@@ -2581,7 +2615,7 @@ def chatgpt_view(request):
 # answer = openai(question)
 
 
-def data_computation(request, i, d, standard_sections, client_name, image_url, title):
+def data_computation(request, i, d, standard_sections, client_name, image_url, title, kpmg_full_address):
     subfolder = f"updated_documents/{client_name}"
     container_id = "rfpstorage"
 
@@ -2616,7 +2650,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                     doc_name = "Title.docx"
 
                 updated_doc = docx_template_replace(
-                    get_doc, doc_name, client_name, title=title, kpmg_full_address="Full Address")
+                    get_doc, doc_name, client_name, title=title, kpmg_full_address=kpmg_full_address)
                 # updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
                 #                                 request.session['add_line_2'], request.session['client_zipcode'], request.session['industry'],
                 #                                 request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], doc_name)
@@ -2826,6 +2860,8 @@ def SelectedIndex_view(request):
         radio = request.POST.get("flexRadioDefault")
         Quest = request.POST.get("Quest")
         title = request.POST.get("TitleforStyleSheetSelected")
+        # kpmg_full_address = request.POST.get("kpmg_address")
+        kpmg_full_address = "KPMG Address"
 
         request_post_list = dict(request.POST).keys()
         print(request_post_list, "post list")
@@ -2952,7 +2988,8 @@ def SelectedIndex_view(request):
                         standard_sections,
                         client_name,
                         image_url,
-                        title 
+                        title,
+                        kpmg_full_address
                     ),
                 )
                 temp_var.start()
