@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+   
+</script>
+<script src="service.js">
+   
+</script>
+<link href="css/style.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 <link rel="stylesheet" href="{% static 'css/doc.css' %}">
 <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 <!-- type questions RFP's -->
@@ -43,6 +50,8 @@
             
         });
         
+
+
 
     </script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
@@ -131,7 +140,7 @@
                         {% csrf_token %}
                     
                     <div class="form-group">
-
+                      
                     {% comment %} <label for="username" class="btn btn-info btn-sm border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>UserName*</strong></label>
                     <input type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="UserName" name="username"  placeholder="Type Or Create Your User Name">
 
@@ -408,6 +417,8 @@
                   
   
                   {% comment %} TRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY {% endcomment %} 
+
+                  
                 </body>
 
                 
