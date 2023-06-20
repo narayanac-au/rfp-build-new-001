@@ -154,9 +154,16 @@ def doc_content_view(request):
         KPMGgeo = str(KPMGgeoo[0])
         kpmg_lead = request.POST.get("KPMGLEADPARTNER")
         kpmg_add = request.POST.get("kpmg_address")
+<<<<<<< HEAD
         TitleforStyleSheetSelected = request.POST.get("TitleforStyleSheetSelected")
         request.session["TitleforStyleSheetSelected"] = TitleforStyleSheetSelected
         print("TitleforStyleSheetSelected",TitleforStyleSheetSelected)
+=======
+        TitleforStyleSheetSelected = request.POST.get(
+            "TitleforStyleSheetSelected")
+        request.session["TitleforStyleSheetSelected"] = TitleforStyleSheetSelected
+        print("TitleforStyleSheetSelected", TitleforStyleSheetSelected)
+>>>>>>> master
         extrcount = "ABC"
         Acccount = "ABC"
         selfirst = "ABC"
@@ -961,9 +968,15 @@ def secondpage_view(request):
         return JsonResponse({"non": non, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
 
 
+<<<<<<< HEAD
 #-------------------------------------------------------------------------------------------------------------
 # Question Funcionality start
 #-------------------------------------------------------------------------------------------------------------
+=======
+# -------------------------------------------------------------------------------------------------------------
+# Question Funcionality start
+# -------------------------------------------------------------------------------------------------------------
+>>>>>>> master
 def mcqquestionpage_view(request):
     if request.method == "GET":
         showname = request.session['showname']
@@ -1051,7 +1064,11 @@ def mcqquestionpage_view(request):
         print("$$$$$$$$$$$$$$$$$$$$fileeeeeeeeeeeeeeeeeeee")
         print(data)
         print("$$$$$$$$$$$$$$$$$$$$")
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> master
         data0 = ""
         data1 = ""
         data2 = ""
@@ -1075,6 +1092,7 @@ def mcqquestionpage_view(request):
             id2 = data[2].id
         else:
             non = "No matching question found"
+<<<<<<< HEAD
             
         messages.success(request, "QUESTION ASKED WILL BE ADDED TO THE MAIN RFP DOCUMENT")
         return render(request, 'mcq.html', {'non': non, 'data': data, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
@@ -1082,6 +1100,16 @@ def mcqquestionpage_view(request):
 #-------------------------------------------------------------------------------------------------------------
 # Question Funcionality end
 #-------------------------------------------------------------------------------------------------------------
+=======
+
+        messages.success(
+            request, "QUESTION ASKED WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+        return render(request, 'mcq.html', {'non': non, 'data': data, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+
+# -------------------------------------------------------------------------------------------------------------
+# Question Funcionality end
+# -------------------------------------------------------------------------------------------------------------
+>>>>>>> master
  # sixth page preview
 
 
@@ -1785,6 +1813,7 @@ def drop_rfp_view(request):
             query=query, df=df, embedder=embedder
         )
         answer = [df["document_link"][index] for index in index_list]
+<<<<<<< HEAD
         if len(answer) == 3:
             UserQuery = DropQuery(
                 id=id,
@@ -1816,6 +1845,22 @@ def drop_rfp_view(request):
 
     Quest = DropQuery.objects.all()
     messages.success(request, "QUESTION SELECTED WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+=======
+        UserQuery = DropQuery(
+            id=id,
+            question=ques,
+            user=showname,
+            answer1=answer[0],
+            answer2=answer[1],
+            answer3=answer[2],
+        )
+        UserQuery.save()
+        id = id + 1
+
+    Quest = DropQuery.objects.all()
+    messages.success(
+        request, "QUESTION SELECTED WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+>>>>>>> master
     return render(
         request,
         "drop_rfp.html",
@@ -1996,6 +2041,7 @@ def drop_rfpquest_view1(request):
             # print(answ[1].document_link)
             # print(answ[2].document_link)
             print("33333333333333333333333333333333333333333333333333333333333333")
+<<<<<<< HEAD
             if len(answ) == 3:
                 Select = SelectDropQuery(
                     id=ids,
@@ -2020,6 +2066,16 @@ def drop_rfpquest_view1(request):
                     question=c.question,
                     answer1=answ[0].document_link,
                 )
+=======
+            Select = SelectDropQuery(
+                id=ids,
+                user=showname,
+                question=c.question,
+                answer1=answ[0].document_link,
+                answer2=answ[1].document_link,
+                answer3=answ[2].document_link,
+            )
+>>>>>>> master
             Select.save()
             u = SelectDropQuery.objects.filter(
                 user=showname).order_by("id").last()
@@ -2612,9 +2668,16 @@ def chatgpt_view(request):
 # answer = openai(question)
 
 
+<<<<<<< HEAD
 def data_computation(request, i, d, standard_sections, client_name, image_url, title, kpmg_full_address):
     subfolder = f"updated_documents/{client_name}"
     container_id = "rfpstorage"
+=======
+def data_computation(request, i, d, standard_sections, client_name, image_url, title):
+    subfolder = f"updated_documents/{client_name}"
+    container_id = "rfpstorage"
+
+>>>>>>> master
     try:
         print(int(i), "integer")
         if i:
@@ -2646,7 +2709,11 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                     doc_name = "Title.docx"
 
                 updated_doc = docx_template_replace(
+<<<<<<< HEAD
                     get_doc, doc_name, client_name, title=title, kpmg_full_address = kpmg_full_address)
+=======
+                    get_doc, doc_name, client_name, title=title, kpmg_full_address="Full Address")
+>>>>>>> master
                 # updated_doc = replace_word_doc(get_doc, client_name, request.session['showname'], request.session['client_geo'], request.session['add_line_1'],
                 #                                 request.session['add_line_2'], request.session['client_zipcode'], request.session['industry'],
                 #                                 request.session['kpmg_geo'], request.session['kpmg_address'], request.session['kpmg_lead'], doc_name)
@@ -2697,7 +2764,10 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                         request.session["kpmg_geo"],
                         request.session["kpmg_address"],
                         request.session["kpmg_lead"],
+<<<<<<< HEAD
                         request.session["TitleforStyleSheetSelected"],
+=======
+>>>>>>> master
                         docu.document_link,
                     )
 
@@ -2857,6 +2927,7 @@ def SelectedIndex_view(request):
         radio = request.POST.get("flexRadioDefault")
         Quest = request.POST.get("Quest")
         title = request.POST.get("TitleforStyleSheetSelected")
+<<<<<<< HEAD
         kpmg_full_address = request.POST.get("kpmg_address")
         # print("Original Address=  ", kpmg_full_address)
         # kpmg_full_address_test = KPMGadd.objects.filter(originaladdress=kpmg_full_address)
@@ -2865,6 +2936,8 @@ def SelectedIndex_view(request):
         print("test info data", test_info)
 
 
+=======
+>>>>>>> master
 
         request_post_list = dict(request.POST).keys()
         print(request_post_list, "post list")
@@ -2991,8 +3064,12 @@ def SelectedIndex_view(request):
                         standard_sections,
                         client_name,
                         image_url,
+<<<<<<< HEAD
                         title,
                         kpmg_full_address
+=======
+                        title 
+>>>>>>> master
                     ),
                 )
                 temp_var.start()
@@ -3465,8 +3542,11 @@ def documentapproval_view(request):
     #     user=client_name, documentapproval=fileapp, clientgeo=country)
     # prod.save()
     return 'successfully uploaded'
+<<<<<<< HEAD
 
 import subprocess
+=======
+>>>>>>> master
 
 
 def generate_rfp_document(request):
@@ -3583,7 +3663,11 @@ def ExtraImage_view(request):
         extra = ExtraImage.objects.filter(Industry=Extraimgsearch, user=user)
         extrano = ExtraImage.objects.filter(
             Industry=Extraimgsearch).exclude(user=user)
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> master
         return render(
             request,
             "extraimage.html",
@@ -3607,7 +3691,12 @@ def ExtraImage_view(request):
         for i in indus:
             print(i.Industry)
         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+<<<<<<< HEAD
         messages.success(request, "SELECTED IMAGES WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+=======
+        messages.success(
+            request, "SELECTED IMAGES WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+>>>>>>> master
         return render(
             request,
             "extraimage.html",
@@ -3720,13 +3809,20 @@ def AssuptionAndRisk_view(request):
         for d in delextraselected:
             c = d.user.remove(user)
         Generalcheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="General", user=user,country=country)
 
         Generalnotcheck = AssuptionAndRisk.objects.filter(category="General",country=country ).exclude(
+=======
+            category="General", user=user, country=country)
+
+        Generalnotcheck = AssuptionAndRisk.objects.filter(category="General", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
         Resourcescheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="Resources", user=user,country=country
         )
 
@@ -3738,17 +3834,37 @@ def AssuptionAndRisk_view(request):
             category="Workday", user=user,country=country)
 
         Workdaynotcheck = AssuptionAndRisk.objects.filter(category="Workday",country=country).exclude(
+=======
+            category="Resources", user=user, country=country
+        )
+
+        Resourcesnotcheck = AssuptionAndRisk.objects.filter(
+            category="Resources", country=country
+        ).exclude(user=user)
+
+        Workdaycheck = AssuptionAndRisk.objects.filter(
+            category="Workday", user=user, country=country)
+
+        Workdaynotcheck = AssuptionAndRisk.objects.filter(category="Workday", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
         Softwarecheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="Software", user=user,country=country)
 
         Softwarenotcheck = AssuptionAndRisk.objects.filter(category="Software",country=country).exclude(
+=======
+            category="Software", user=user, country=country)
+
+        Softwarenotcheck = AssuptionAndRisk.objects.filter(category="Software", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
         Integrationcheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="Integration", user=user,country=country
         )
 
@@ -3768,10 +3884,32 @@ def AssuptionAndRisk_view(request):
             category="Testing", user=user,country=country)
 
         Testingnotcheck = AssuptionAndRisk.objects.filter(category="Testing",country=country).exclude(
+=======
+            category="Integration", user=user, country=country
+        )
+
+        Integrationnotcheck = AssuptionAndRisk.objects.filter(
+            category="Integration", country=country
+        ).exclude(user=user)
+
+        Datacheck = AssuptionAndRisk.objects.filter(
+            category="Data Migration", user=user, country=country
+        )
+
+        Datanotcheck = AssuptionAndRisk.objects.filter(
+            category="Data Migration", country=country
+        ).exclude(user=user)
+
+        Testingcheck = AssuptionAndRisk.objects.filter(
+            category="Testing", user=user, country=country)
+
+        Testingnotcheck = AssuptionAndRisk.objects.filter(category="Testing", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
         Changecheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="Change Management", user=user,country=country
         )
 
@@ -3791,6 +3929,27 @@ def AssuptionAndRisk_view(request):
             category="Covid-19", user=user,country=country)
 
         Covidnotcheck = AssuptionAndRisk.objects.filter(category="Covid-19",country=country).exclude(
+=======
+            category="Change Management", user=user, country=country
+        )
+
+        Changenotcheck = AssuptionAndRisk.objects.filter(
+            category="Change Management", country=country
+        ).exclude(user=user)
+
+        Deploymentcheck = AssuptionAndRisk.objects.filter(
+            category="Deployment and Support", user=user, country=country
+        )
+
+        Deploymentnotcheck = AssuptionAndRisk.objects.filter(
+            category="Deployment and Support", country=country
+        ).exclude(user=user)
+
+        Covidcheck = AssuptionAndRisk.objects.filter(
+            category="Covid-19", user=user, country=country)
+
+        Covidnotcheck = AssuptionAndRisk.objects.filter(category="Covid-19", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
@@ -3829,13 +3988,20 @@ def AssuptionAndRisk_view(request):
         request.session["Acccount"] = Acccount
         user = Users.objects.get(user=client_name)
         Generalcheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="General", user=user,country=country)
 
         Generalnotcheck = AssuptionAndRisk.objects.filter(category="General",country=country).exclude(
+=======
+            category="General", user=user, country=country)
+
+        Generalnotcheck = AssuptionAndRisk.objects.filter(category="General", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
         Resourcescheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="Resources", user=user,country=country
         )
 
@@ -3847,17 +4013,37 @@ def AssuptionAndRisk_view(request):
             category="Workday", user=user,country=country)
 
         Workdaynotcheck = AssuptionAndRisk.objects.filter(category="Workday",country=country).exclude(
+=======
+            category="Resources", user=user, country=country
+        )
+
+        Resourcesnotcheck = AssuptionAndRisk.objects.filter(
+            category="Resources", country=country
+        ).exclude(user=user)
+
+        Workdaycheck = AssuptionAndRisk.objects.filter(
+            category="Workday", user=user, country=country)
+
+        Workdaynotcheck = AssuptionAndRisk.objects.filter(category="Workday", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
         Softwarecheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="Software", user=user,country=country)
 
         Softwarenotcheck = AssuptionAndRisk.objects.filter(category="Software",country=country).exclude(
+=======
+            category="Software", user=user, country=country)
+
+        Softwarenotcheck = AssuptionAndRisk.objects.filter(category="Software", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
         Integrationcheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="Integration", user=user,country=country
         )
 
@@ -3877,10 +4063,32 @@ def AssuptionAndRisk_view(request):
             category="Testing", user=user,country=country)
 
         Testingnotcheck = AssuptionAndRisk.objects.filter(category="Testing",country=country).exclude(
+=======
+            category="Integration", user=user, country=country
+        )
+
+        Integrationnotcheck = AssuptionAndRisk.objects.filter(
+            category="Integration", country=country
+        ).exclude(user=user)
+
+        Datacheck = AssuptionAndRisk.objects.filter(
+            category="Data Migration", user=user, country=country
+        )
+
+        Datanotcheck = AssuptionAndRisk.objects.filter(
+            category="Data Migration", country=country
+        ).exclude(user=user)
+
+        Testingcheck = AssuptionAndRisk.objects.filter(
+            category="Testing", user=user, country=country)
+
+        Testingnotcheck = AssuptionAndRisk.objects.filter(category="Testing", country=country).exclude(
+>>>>>>> master
             user=user
         )
 
         Changecheck = AssuptionAndRisk.objects.filter(
+<<<<<<< HEAD
             category="Change Management", user=user,country=country
         )
 
@@ -3903,6 +4111,31 @@ def AssuptionAndRisk_view(request):
             user=user
         )
         messages.success(request, "SELECTED ASSUMPTION AND RISKS WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+=======
+            category="Change Management", user=user, country=country
+        )
+
+        Changenotcheck = AssuptionAndRisk.objects.filter(
+            category="Change Management", country=country
+        ).exclude(user=user)
+
+        Deploymentcheck = AssuptionAndRisk.objects.filter(
+            category="Deployment and Support", user=user, country=country
+        )
+
+        Deploymentnotcheck = AssuptionAndRisk.objects.filter(
+            category="Deployment and Support", country=country
+        ).exclude(user=user)
+
+        Covidcheck = AssuptionAndRisk.objects.filter(
+            category="Covid-19", user=user, country=country)
+
+        Covidnotcheck = AssuptionAndRisk.objects.filter(category="Covid-19", country=country).exclude(
+            user=user
+        )
+        messages.success(
+            request, "SELECTED ASSUMPTION AND RISKS WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+>>>>>>> master
         return render(
             request,
             "AssuptionAndRisk.html",
@@ -4011,7 +4244,12 @@ def clientlogo_view(request):
         for i in extrano:
             print(i.Industry)
         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+<<<<<<< HEAD
         messages.success(request, "SELECTED LOGO WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+=======
+        messages.success(
+            request, "SELECTED LOGO WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+>>>>>>> master
         return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
 
 
@@ -4044,7 +4282,11 @@ def approveimage_view(request):
 
 
 def approvedimage_view(request, id):
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> master
     if request.method == "GET":
         SP = userextraimage.objects.filter(id=id)
         SP.update(approved="Yes")
@@ -4054,7 +4296,11 @@ def approvedimage_view(request, id):
             request,
             "approveimage.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4068,7 +4314,11 @@ def approvedimage_view(request, id):
             request,
             "approveimage.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4076,7 +4326,11 @@ def approvedimage_view(request, id):
 
 
 def disapprovedimage_view(request, id):
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> master
     if request.method == "GET":
         SP = userextraimage.objects.filter(id=id)
         SP.update(approved="No")
@@ -4086,7 +4340,11 @@ def disapprovedimage_view(request, id):
             request,
             "approveimage.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4100,7 +4358,11 @@ def disapprovedimage_view(request, id):
             request,
             "approveimage.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4119,7 +4381,11 @@ def approvelogo_view(request):
 
 
 def approvedlogo_view(request, id):
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> master
     if request.method == "GET":
         SP = logoUpload.objects.filter(id=id)
         SP.update(approved="Yes")
@@ -4129,7 +4395,11 @@ def approvedlogo_view(request, id):
             request,
             "approvelogo.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4143,7 +4413,11 @@ def approvedlogo_view(request, id):
             request,
             "approvelogo.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4151,7 +4425,11 @@ def approvedlogo_view(request, id):
 
 
 def disapprovedlogo_view(request, id):
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> master
     if request.method == "GET":
         SP = logoUpload.objects.filter(id=id)
         SP.update(approved="No")
@@ -4161,7 +4439,11 @@ def disapprovedlogo_view(request, id):
             request,
             "approvelogo.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4175,7 +4457,11 @@ def disapprovedlogo_view(request, id):
             request,
             "approvelogo.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4194,7 +4480,11 @@ def approvequestionans_view(request):
 
 
 def approvedquestionans_view(request, id):
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> master
     if request.method == "GET":
         SP = userquestionans.objects.filter(id=id)
         SP.update(approved="Yes")
@@ -4204,7 +4494,11 @@ def approvedquestionans_view(request, id):
             request,
             "approvequestionans.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4218,7 +4512,11 @@ def approvedquestionans_view(request, id):
             request,
             "approvequestionans.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4226,7 +4524,11 @@ def approvedquestionans_view(request, id):
 
 
 def disapprovequestionans_view(request, id):
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> master
     if request.method == "GET":
         SP = userquestionans.objects.filter(id=id)
         SP.update(approved="No")
@@ -4236,7 +4538,11 @@ def disapprovequestionans_view(request, id):
             request,
             "approvequestionans.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4250,7 +4556,11 @@ def disapprovequestionans_view(request, id):
             request,
             "approvequestionans.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4278,7 +4588,11 @@ def approvedassumptionrisk_view(request, id):
             request,
             "userassumptionrisk.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4292,7 +4606,11 @@ def approvedassumptionrisk_view(request, id):
             request,
             "userassumptionrisk.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4300,7 +4618,11 @@ def approvedassumptionrisk_view(request, id):
 
 
 def disapprovedassumptionrisk_view(request, id):
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> master
     if request.method == "GET":
         SP = userriskandassumption.objects.filter(id=id)
         SP.update(approved="No")
@@ -4310,7 +4632,11 @@ def disapprovedassumptionrisk_view(request, id):
             request,
             "userassumptionrisk.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4324,7 +4650,11 @@ def disapprovedassumptionrisk_view(request, id):
             request,
             "userassumptionrisk.html",
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> master
                 "SP": SP,
                 "Yes": Yes,
             },
@@ -4524,6 +4854,13 @@ def usersummerytable_view(request):
             },
         )
 
+<<<<<<< HEAD
 def user_dashboard(request):
     print('inside dashoboard')
     return render(request, 'user_dashboard.html')
+=======
+
+def user_dashboard(request):
+    print('inside dashoboard')
+    return render(request, 'user_dashboard.html')
+>>>>>>> master
