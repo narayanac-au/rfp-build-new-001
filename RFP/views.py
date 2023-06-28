@@ -1128,6 +1128,10 @@ def add_ques_ans_selected_sections(request):
     result = os.system(node_command_string)
 
     print(result, 'result of executed node file')
+    if os.path.exists("output-individual.docx"):
+        os.remove("output-individual.docx")
+    else:
+        print("The file does not exist")
 
     if result == 0:
         subfolder = f"updated_documents/{request.session['client_name']}"
@@ -2678,6 +2682,11 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                 )
                 print(c, "c here")
                 c[0].File.save(updated_doc, File(open(updated_doc, "rb")))
+
+                if os.path.exists(get_doc):
+                    os.remove(get_doc)
+                else:
+                    print("The file does not exist")
                 # exit(0)
 
             else:
@@ -2728,6 +2737,11 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                     print(c, "c here")
 
                     c[0].File.save(updated_doc, File(open(updated_doc, "rb")))
+
+                    if os.path.exists(get_doc):
+                        os.remove(get_doc)
+                    else:
+                        print("The file does not exist")
 
                     # exit(0)
                 else:
@@ -2780,6 +2794,11 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
 
                             c[0].File.save(updated_doc, File(
                                 open(updated_doc, "rb")))
+                            
+                            if os.path.exists(get_doc):
+                                os.remove(get_doc)
+                            else:
+                                print("The file does not exist")
                     except Exception as ex:
                         print(ex, "exception")
                         # file_path = "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
@@ -3529,6 +3548,11 @@ def generate_rfp_document(request):
     )
     # create_udpate_user_rfp[0].rfp_file.save(
     #     remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
+    if os.path.exists("output-node-merger-v4.docx"):
+        os.remove("output-node-merger-v4.docx")
+    else:
+        print("The file does not exist")
+    
     create_udpate_user_rfp[0].rfp_file.save(
         "rfp_final_v4.docx", File(open("output-node-merger-v4.docx", "rb"))
     )
