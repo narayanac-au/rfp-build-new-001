@@ -140,7 +140,86 @@
     }
   }
 
+.loading {
+  display: flex;
+  flex-direction: row;
+}
+
+.loading__letter {
+  font-size: 20px;
+  font-weight: normal;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: "Univers 55 Oblique";
+  color: #3b3ef2;
+  animation-name: bounce;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+.loading__letter:nth-child(2) {
+  animation-delay: .1s;
+}
+
+.loading__letter:nth-child(3) {
+  animation-delay: .2s;
+}
+
+.loading__letter:nth-child(4) {
+  animation-delay: .3s;
+}
+
+.loading__letter:nth-child(5) {
+  animation-delay: .4s;
+}
+
+.loading__letter:nth-child(6) {
+  animation-delay: .5s;
+}
+
+.loading__letter:nth-child(7) {
+  animation-delay: .6s;
+}
+
+.loading__letter:nth-child(8) {
+  animation-delay: .8s;
+}
+
+.loading__letter:nth-child(9) {
+  animation-delay: 1s;
+}
+
+.loading__letter:nth-child(10) {
+  animation-delay: 1.2s;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0px)
+  }
+
+  40% {
+    transform: translateY(-40px);
+  }
+  80%,
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 700px) {
+  .loading__letter {
+    font-size: 50px;
+  }
+}
+
+@media (max-width: 340px) {
+  .loading__letter {
+    font-size: 40px;
+  }
+}
 </style>
+
 <script>
   src='https://code.jquery.com/jquery-3.7.0.min.js'
 </script>
@@ -166,11 +245,11 @@
     <div class="col-12 container ml-5">
           <div class="wrapper-progressBar ml-5">
             <ul class="progressBar ml-5">
-              <li class="active ml-5" id="stepper">Home</li>
+              <li class="active" id="stepper">Home</li>
               <li class="active" id="stepper">Contact Information</li>
-              <li class="active" id="stepper">Standard Indexes</li>
-              <li class="active" id="stepper">Review Standard Docs</li>
-              <li class="" id="stepper">Upload Docs</li>
+              <li class="active" id="stepper">Core Content</li>
+              <li class="" id="stepper">Additional Content</li>
+              <li class="" id="stepper">Finalise & Download</li>
               {% comment %} <li id="stepper">Drop RFP & Ask Question</li>
               <li class="" id="stepper">Drop RFP / Ask Question</li>
               <li class="" id="stepper">Extra Images</li>
@@ -204,7 +283,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <div class="mt-1">{{show2.doc_index}}</div>
+        <!-- <div class="mt-1">{{show2.doc_index}}</div> -->
         {% if show2.file_link %}
         <iframe
           src="https://view.officeapps.live.com/op/embed.aspx?src={{show2.file_link}}"
@@ -397,10 +476,19 @@
         >
           Submit Question
         </button> -->
-        <div class="loader-1" id="loader1">
+        <!-- <div class="loader-1" id="loader1">
           <div></div>
           <div></div>
           <div></div>
+        </div> -->
+        <div class="loading" id="loading">
+          <div class="loading__letter">K</div>
+          <div class="loading__letter">P</div>
+          <div class="loading__letter">M</div>
+          <div class="loading__letter">G</div>
+          <div class="loading__letter">.</div>
+          <div class="loading__letter">.</div>
+          <div class="loading__letter">.</div>
         </div>
         <a
           class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
@@ -408,7 +496,7 @@
           id="myBtn"
           class='democlass'
           onClick="openModalV3()"
-          >Submit Question</a
+          >Submit</a
         >
           <!-- <div class="loader-1" id="loader1">
             <div></div>
@@ -465,7 +553,7 @@
     <footer class="mt-2">
   
       <!-- Copyright -->
-      <div class="footer-copyright" style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+      <div class="footer-copyright" style="font-family:Arial;font-size:9px;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
       </div>
       <!-- Copyright -->
     
@@ -490,7 +578,7 @@
     //   $($(this).attr('href')).show();
     // });
     window.onload = function() {
-      $('#loader1').hide();
+      $('#loading').hide();
       
     };
 
@@ -525,7 +613,7 @@
           
           var id = $(this).attr('data-id');
           // Html data
-          $('#loader1').show();
+          $('#loading').show();
 
           $.ajax({
             url: "{% url 'secondpage' %}",
@@ -559,7 +647,7 @@
                 html_data = html_data + '<div class="form-check mt-3" > <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="AB" for="defaultCheck1"><span>{{non}}</span></label> </div>'
               }
 
-              let last_html = '<div class=" mt-3"> <button onclick="attachQuesAns()" class="btn btn-dark d-inline " style="font-size:.7rem;width: 4rem;background-color:#f2f2f2;color:black">SAVE</button> </form> <a class="btn btn-dark d-inline" style="font-size:.7rem;width: 4rem;background-color:#f2f2f2;color:black" href="{% url "firstpage" %}">Change Question</a> <a class="btn btn-dark btn-sm ml-1" style="background-color: #f2f2f2; color: black;" id="closemodal" onclick="closeModal()">BACK</a> </div> </div></div>'
+              let last_html = '<div class=" mt-3"> <button onclick="attachQuesAns()" class="btn btn-dark d-inline " style="background-color:#f2f2f2;color:black">Save</button> </form> <a class="btn btn-dark d-inline" style="background-color:#f2f2f2;color:black" href="{% url "firstpage" %}">Change Question</a> <a class="btn btn-dark btn-sm ml-1" style="background-color: #f2f2f2; color: black;" id="closemodal" onclick="closeModal()">Back</a> </div> </div></div>'
               
               html_data = html_data + last_html
 
@@ -571,7 +659,7 @@
               modal.style.display = "block";
               // $("#myEdit").modal();
               document.getElementById("defaultOpen").click();
-              $('#loader1').hide();
+              $('#loading').hide();
             }
             
           }
