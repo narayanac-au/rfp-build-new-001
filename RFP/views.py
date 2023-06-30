@@ -3548,14 +3548,16 @@ def generate_rfp_document(request):
     )
     # create_udpate_user_rfp[0].rfp_file.save(
     #     remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
-    if os.path.exists("output-node-merger-v4.docx"):
-        os.remove("output-node-merger-v4.docx")
-    else:
-        print("The file does not exist")
+    
     
     create_udpate_user_rfp[0].rfp_file.save(
         "rfp_final_v4.docx", File(open("output-node-merger-v4.docx", "rb"))
     )
+
+    if os.path.exists("output-node-merger-v4.docx"):
+        os.remove("output-node-merger-v4.docx")
+    else:
+        print("The file does not exist")
 
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()
