@@ -17,11 +17,11 @@
     <div class="col-12 container ml-5">
           <div class="wrapper-progressBar ml-5">
             <ul class="progressBar ml-5 ">
-              <li class="active ml-5" id="stepper">Home</li>
-              <li class="active" id="stepper">Contact Information</li>
-              <li class="active" id="stepper">Standard Indexes</li>
-              <li class="" id="stepper">Review Standard Docs</li>
-              <li class="" id="stepper">Upload Docs</li>
+                <li class="active" id="stepper">Home</li>
+                <li class="active" id="stepper">Contact Information</li>
+                <li class="active" id="stepper">Core Content</li>
+                <li class="" id="stepper">Additional Content</li>
+                <li class="" id="stepper">Finalise & Download</li>
               {% comment %} <li id="stepper">Drop RFP & Ask Question</li>
               <li class="" id="stepper">Drop RFP / Ask Question</li>
               <li class="" id="stepper">Extra Images</li>
@@ -69,7 +69,7 @@
     
     <div >
                     
-        <h6 class="ml-3 mt-3 " style='font-family:"Arial";font-size:.8rem;width: 70rem;color:dark';><strong>"Style Sheets” button to view all available style sheets. You can select from a pre-existing style sheet or upload your own</strong></h5>
+        <h6 class="ml-3 mt-3 " style='font-family:"Arial";font-size:.8rem;width: 70rem;color:dark';><strong>Please select a pre-existing style sheet or upload your own</strong></h5>
     </div>  
     <p>
                 
@@ -79,7 +79,7 @@
 
         <div>
                     
-            <h6 class="mt-3   " style='font-family:"Arial";font-size:.8rem;width: 18rem;color:dark';><strong>Please Drop File Or Select One From Options</strong></h5>
+            {% comment %} <h6 class="mt-3   " style='font-family:"Arial";font-size:.8rem;width: 18rem;color:dark';><strong>Please Drop File Or Select One From Options</strong></h5> {% endcomment %}
         </div>
                    <!-- dropzone -->
                     <div class="mt-2 float-left">
@@ -296,7 +296,10 @@
                     
                 </div>
                 <div>
-                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Title for Style Sheet Selected*</strong></label>
+                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Response Title*</strong></label>
+                    <div>
+                    <label  class=" " style="font-size:.6rem;">Enter the required response title. This will be displayed on the selected style sheet</label>
+                    </div>
                 <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="TitleforStyleSheetSelected" name="TitleforStyleSheetSelected" style="width: 10rem;height:100px;" placeholder=""></input>
                 </div>     
             </div>
@@ -305,7 +308,7 @@
 
             <div>
                 
-                <h6 class="mt-3 ml-3  " style='font-family:"Arial";font-size:.8rem;width: 30rem;;color:dark';><strong>Select the required sections from the available list below</strong></h5>
+                <h6 class="mt-3 ml-3  " style='font-family:"Arial";font-size:.8rem;width: 70rem;;color:dark';><strong>Select all required sections from the list below that are to be included in your response. Please Note: some sections are mandatory (pre-selected)</strong></h5>
             </div>
 <!--             
             {% for d in Doc %}

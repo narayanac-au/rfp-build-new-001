@@ -1822,7 +1822,6 @@ def drop_rfp_view(request):
         UserQuery.save()
         id = id + 1
 
-
     Quest = DropQuery.objects.all()
     messages.success(
         request, "QUESTION SELECTED WILL BE ADDED TO THE MAIN RFP DOCUMENT")
@@ -2881,9 +2880,10 @@ def SelectedIndex_view(request):
         radio = request.POST.get("flexRadioDefault")
         Quest = request.POST.get("Quest")
         title = request.POST.get("TitleforStyleSheetSelected")
-        kpmg_add=request.session["kpmg_short_address"] 
-        kpmg_original_address =  KPMGadd.objects.get(originaladdress=kpmg_add)
-        print("Full Address Data Updated :- ", kpmg_original_address.fulladdress)
+        kpmg_add = request.session["kpmg_short_address"]
+        kpmg_original_address = KPMGadd.objects.get(originaladdress=kpmg_add)
+        print("Full Address Data Updated :- ",
+              kpmg_original_address.fulladdress)
         kpmg_full_address = kpmg_original_address.fulladdress
         print("This is title:- ", title)
         # kpmg_full_address = request.POST.get("kpmg_address")
@@ -3548,11 +3548,15 @@ def generate_rfp_document(request):
     )
     # create_udpate_user_rfp[0].rfp_file.save(
     #     remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
-    
-    
+
     create_udpate_user_rfp[0].rfp_file.save(
         "rfp_final_v4.docx", File(open("output-node-merger-v4.docx", "rb"))
     )
+
+    if os.path.exists("output-node-merger-v4.docx"):
+        os.remove("output-node-merger-v4.docx")
+    else:
+        print("The file does not exist")
 
     if os.path.exists("output-node-merger-v4.docx"):
         os.remove("output-node-merger-v4.docx")
@@ -3934,7 +3938,7 @@ def AssuptionAndRisk_view(request):
             user=user
         )
         messages.success(
-            request, "SELECTED ASSUMPTION AND RISKS WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+            request, "Please Note: Selected Risks & Assumptions will be appended to the Risks & Assumptions section of the response document")
         return render(
             request,
             "AssuptionAndRisk.html",
@@ -4044,7 +4048,7 @@ def clientlogo_view(request):
             print(i.Industry)
         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         messages.success(
-            request, "SELECTED LOGO WILL BE ADDED TO THE MAIN RFP DOCUMENT")
+            request, "Please Note: Selected Company logos will be appended to the TBC section of the response document")
         return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
 
 
@@ -4562,6 +4566,7 @@ def user_dashboard(request):
     print('inside dashoboard')
     # return render(request, 'user_dashboard.html')
     return render(request, 'user_dashboard_v2.html')
+
 
 def edit_user_rfp(request):
     return render(request, 'user_dashboard.html')
