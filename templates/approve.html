@@ -115,62 +115,64 @@
             <a class="btn btn-dark btn-sm  float-right mb-2" style="font-size:.7rem;width: 4rem;background-color:#000099;height: 1.6rem;"
                 href="{% url 'details'%}">Logout</a>
             </div>
-            <div class="container mt-5">
-              <div class="container">
+            <div class="container mt-5 ">
+              <div class="container ml-5">
+                <div class="container ml-5 ">
+                  <div class="container ml-5 ">
                 <div>
                   <a
-                  class="btn btn-dark btn-sm   float-left mb-2 ml-1 mt-2"
+                  class="btn btn-dark btn-sm   float-left mb-2 ml-1 mt-5"
                   style="
                     font-size: 0.7rem;
-                    width: 70rem;
-                    background-color: #f2f2f2;
-                    color: black;
+                    
+                    
+                    
                   "
                   href="{% url 'approve'%}"
-                  >Standard Section Approval</a>
-                  <a
-                class="btn btn-dark btn-sm   mb-2 ml-1"
+                  ><img src="{% static 'images/file.jfif' %}" alt="HTML tutorial" style="width:100px;height:100px;border-radius: 50%;"><div>Standard Section Approval</div></a>
+                <a
+                class="btn btn-dark btn-sm  mb-2 ml-1 mt-5"
                 style="
                   font-size: 0.7rem;
-                  width: 70rem;
-                  background-color: #f2f2f2;
-                  color: black;
+                  
                 "
                 href="{% url 'approvequestionans'%}"
-                >Question And Answer Approval</a>
+                ><img src="{% static 'images/qandaicon.jpg' %}" alt="HTML tutorial" style="width:100px;height:100px;border-radius: 50%;"><div>Question Answer Approval</div></a>
                 <a
-                class="btn btn-dark btn-sm  mb-2 ml-1 "
+                class="btn btn-dark btn-sm   mb-2 ml-1 mt-5"
                 style="
                   font-size: 0.7rem;
-                  width: 70rem;
-                  background-color: #f2f2f2;
-                  color: black;
-                "
-                href="{% url 'approvelogo'%}"
-                >Logo Approval</a>
-                <a
-                class="btn btn-dark btn-sm   mb-2 ml-1"
-                style="
-                  font-size: 0.7rem;
-                  width: 70rem;
-                  background-color: #f2f2f2;
-                  color: black;
+                  
                 "
                 href="{% url 'approveimage'%}"
-                >Image Approval</a>
+                ><img src="{% static 'images/extraimage.jfif' %}" alt="HTML tutorial" style="width:100px;height:100px;border-radius: 50%;"><div> Extra Images Approval</div></a>
                 <a
-                class="btn btn-dark btn-sm   mb-2 ml-1"
+                class="btn btn-dark btn-sm   mb-2 ml-1 mt-5"
                 style="
                   font-size: 0.7rem;
-                  width: 70rem;
-                  background-color: #f2f2f2;
-                  color: black;
+                  
                 "
                 href="{% url 'approveassumptionrisk'%}"
-                >Assumption And Risk Approval</a>
+                ><img src="{% static 'images/as.jpg' %}" alt="HTML tutorial" style="width:100px;height:100px; border-radius: 50%;"><div>Risk and Assumptions Approval</div></a>
+                <a
+                class="btn btn-dark btn-sm   mb-2 ml-1 mt-5"
+                style="
+                  font-size: 0.7rem;
+                  
+                "
+                href="{% url 'approvelogo'%}"
+                ><img src="{% static 'images/logo.jpg' %}" alt="HTML tutorial" style="width:100px;height:100px;border-radius: 50%;"><div>Logos Approval</div></a>
+                {% comment %} <a
+                class="btn btn-dark btn-sm   mb-2 ml-1 mt-5"
+                style="
+                  font-size: 0.7rem;
+                  
+                "
+                href="{% url 'usersummerytable'%}"
+                ><img src="{% static 'images/summary.jpg' %}" alt="HTML tutorial" style="width:100px;height:100px;border-radius: 50%;"><div>User Summary Table</div></a> {% endcomment %}
               </div>
-            
-
+            </div>
+          </div>
             
         </div>
 
