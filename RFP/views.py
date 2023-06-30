@@ -1088,6 +1088,16 @@ def mcqquestionpage_view(request):
 # Question Funcionality end
 # -------------------------------------------------------------------------------------------------------------
  # sixth page preview
+import shutil
+
+def file_validation(file_path):
+    print(file_path, 'file path')
+    new_file = file_path.replace(' ', '_')
+    new_file = new_file.replace('(', '')
+    new_file = new_file.replace(')', '')
+    rename_file = shutil.move(file_path, new_file)
+    print(rename_file, 'after rename')
+    return rename_file
 
 
 def add_ques_ans_selected_sections(request):
@@ -1106,6 +1116,7 @@ def add_ques_ans_selected_sections(request):
         file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
             request.POST.get('K')
         local_file_path = get_document(file_path)
+        file_path_validation = file_validation(file_path_validation)
 
         # merge_docs.append(file_path)
         node_command_string += f' /{local_file_path}'
@@ -1113,25 +1124,21 @@ def add_ques_ans_selected_sections(request):
         file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
             request.POST.get('L')
         local_file_path = get_document(file_path)
+        file_path_validation = file_validation(local_file_path)
 
         # merge_docs.append(file_path)
-        node_command_string += f' /{local_file_path}'
+        node_command_string += f' /{file_path_validation}'
     if request.POST.get('M'):
         file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
             request.POST.get('M')
         local_file_path = get_document(file_path)
+        file_path_validation = file_validation(local_file_path)
 
         # merge_docs.append(file_path)
-        node_command_string += f' /{local_file_path}'
+        node_command_string += f' /{file_path_validation}'
     print(merge_docs, 'final list')
     print(node_command_string, 'final node command string')
     result = os.system(node_command_string)
-
-    print(result, 'result of executed node file')
-    if os.path.exists("output-individual.docx"):
-        os.remove("output-individual.docx")
-    else:
-        print("The file does not exist")
 
     if result == 0:
         subfolder = f"updated_documents/{request.session['client_name']}"
@@ -1145,6 +1152,14 @@ def add_ques_ans_selected_sections(request):
             open('output-individual.docx', 'rb'))
         )
         document.save()
+
+        print(result, 'result of executed node file')
+        if os.path.exists("output-individual.docx"):
+            os.remove("output-individual.docx")
+            os.remove(file_path_validation)
+        else:
+            print("The file does not exist")
+
         # c = Document_usercopy.objects.update_or_create(
         #     rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
 
@@ -3524,14 +3539,6 @@ def generate_rfp_document(request):
         except Exception as e:
             print(e, "exception at adding image document")
 
-    print(file_list, "file list")
-    print(node_command_string, "node command")
-
-    # exit(0)
-
-    # result = subprocess.run(["node", "doc-merget.js", file_list[0], file_list[1]], capture_output=True, text=True, check=True)
-
-    # result = os.system("node doc-merger.js /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Title.docx /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Healthcare_AU_Executive_Summary.docx")
     result = os.system(node_command_string)
     print(result, "result of executed node file")
     # add_header_footer = write_header_footer('output-node-merger-v4.docx')
@@ -3552,11 +3559,6 @@ def generate_rfp_document(request):
     create_udpate_user_rfp[0].rfp_file.save(
         "rfp_final_v4.docx", File(open("output-node-merger-v4.docx", "rb"))
     )
-
-    if os.path.exists("output-node-merger-v4.docx"):
-        os.remove("output-node-merger-v4.docx")
-    else:
-        print("The file does not exist")
 
     if os.path.exists("output-node-merger-v4.docx"):
         os.remove("output-node-merger-v4.docx")
