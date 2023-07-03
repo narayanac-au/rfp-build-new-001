@@ -776,6 +776,7 @@ def firstpage_view(request):
             },
         )
     if request.method == "GET":
+        print('inside firstpage get')
         client_name = request.session["client_name"]
         industry = request.session["industry"]
         country = request.session["country"]
@@ -788,6 +789,7 @@ def firstpage_view(request):
             log = request.session["log"]
         except:
             pass
+        print('testing')
         data = Question.objects.filter(country=country, industry=industry)
         p = Users.objects.filter(user=client_name)
         Doc1 = RfpSection.objects.filter(user__in=p)
@@ -3188,6 +3190,12 @@ def SelectedIndex2_view(request, id):
                     create_doc_of_images, File(
                         open(create_doc_of_images, "rb"))
                 )
+
+                if os.path.exists(create_doc_of_images):
+                    os.remove(create_doc_of_images)
+                else:
+                    print("The file does not exist")
+
                 print("successfully added image document to section")
                 # extra = ExtraImage.objects.filter(user=user)
                 # extrano = ExtraImage.objects.exclude(user=user)
@@ -3203,27 +3211,23 @@ def SelectedIndex2_view(request, id):
             .first()
         )
         if not show2:
-            # show2 = Document_usercopy.objects.filter(user=client_name).filter(
-            #     id__gt=id).exclude(id=id).order_by('id').first()
-            # print("SelectedIndex2_view_POST_not_Query")
-            # print(show2.id)
-            # print("SelectedIndex2_view_POST_not_Query")
-
-            rfp_user_sections = Document_usercopy.objects.filter(
-                user=client_name
-            ).exclude(doc_index="Title Page")
-            return render(
-                request,
-                "SelectedIndexlastPage.html",
-                {
-                    "client_name": client_name,
-                    "showname": showname,
-                    "country": country,
-                    "industry": industry,
-                    "filenames": rfp_user_sections,
-                    "editable_sections": editable_sections,
-                },
-            )
+            print('insie redirection')
+            return redirect(firstpage_view)
+            # rfp_user_sections = Document_usercopy.objects.filter(
+            #     user=client_name
+            # ).exclude(doc_index="Title Page")
+            # return render(
+            #     request,
+            #     "SelectedIndexlastPage.html",
+            #     {
+            #         "client_name": client_name,
+            #         "showname": showname,
+            #         "country": country,
+            #         "industry": industry,
+            #         "filenames": rfp_user_sections,
+            #         "editable_sections": editable_sections,
+            #     },
+            # )
         if show2:
             showname = request.session["showname"]
             industry = request.session["industry"]

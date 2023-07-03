@@ -144,17 +144,15 @@
                     <label for="showname" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Short Name*</strong></label>
                     <input type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="showname_id" name="showname" style="width: 10rem" placeholder="KPMG">
 
-                    
-                    
                     <div>
                         <label for="countries" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>Client Geo*</strong></label>
                     </div>
                     <div>
-                        <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="countries" style="width: 10rem">
-                        <option selected value="">--country--</option>    
-                        <option value="US">United States of America</option>
+                        <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="countries" id="countries" style="width: 10rem">
+                        <option selected value="">--country--</option>
+                        <!-- <option value="US">United States of America</option>
                         <option selected value="AU">Australia</option>
-                        <option  value="UK">United Kingdom</option>
+                        <option  value="UK">United Kingdom</option> -->
 <!--                         <option value="UK">UK</option> -->
                     
                         </select>
@@ -167,12 +165,41 @@
                                   placeholder="Other Country"> {% endcomment %}
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Address Line 2</strong></label>
                     <input  type="text" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line2" style="width: 10rem;height:100px;" placeholder=""></input>
-                    
-                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Town/City*</strong></label>
-                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line3" style="width: 10rem;height:100px;" placeholder=""></input>
 
-                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>State/Region*</strong></label>
-                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line4" style="width: 10rem;height:100px;" placeholder=""></input>
+                    <div>
+                      <label for="state" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>State/Region*</strong></label>
+                  </div>
+                  <div>
+                      <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="address_line3" id="state" style="width: 10rem">
+                      <option selected value="">--state--</option>
+                      <!-- <option value="US">United States of America</option>
+                      <option selected value="AU">Australia</option>
+                      <option  value="UK">United Kingdom</option> -->
+<!--                         <option value="UK">UK</option> -->
+      
+                      </select>
+                  
+                  </div>
+                    
+                    <!-- <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>State/Region*</strong></label>
+                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line4" style="width: 10rem;height:100px;" placeholder=""></input> -->
+
+                    <!-- <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Town/City*</strong></label>
+                    <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line3" style="width: 10rem;height:100px;" placeholder=""></input> -->
+                    <div>
+                      <label for="state" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>City/Town*</strong></label>
+                    </div>
+                    <div>
+                      <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="address_line4" id="city" style="width: 10rem">
+                      <option selected value="">--City--</option>
+                      <!-- <option value="US">United States of America</option>
+                      <option selected value="AU">Australia</option>
+                      <option  value="UK">United Kingdom</option> -->
+<!--                         <option value="UK">UK</option> -->
+      
+                      </select>
+                  
+                   </div>
 
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Zip/Postal Code*</strong></label>
                     <input  type="number" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="Postal_Code" style="width: 10rem;height:100px;" placeholder=""></input>
@@ -268,91 +295,133 @@
                 
                     </div>
                 </div>
-                    </form>
-
-
-                    {% comment %} TRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
-
-                
-                
-                
-                  
-                    
-                       
-                      <div class="row pt-3">
-                        <div class="col-md-12 col-sm-12 col-12 p-2 ">
-                          <form>
-                            
-                            <div class="form-row">
-                              <div class="form-group col-md-2">
-                                <label for="inputCity">Country</label>
-                                <select id="dpdlCountry" class="form-control">
-                                  <option selected>Choose Country</option>
-                                  <option value="India">India</option>
-                                  <option value="Us">United State</option>
-                                  <option value="Other">Other</option>
-                                </select>
-                              </div>
-                              <div class="form-group col-md-2 other">
-                                <label class="divOtherCountry ">Other Country</label>
-                                <input type="text" class="form-control divOtherCountry " id="dpdlOtherCountry"
-                                  placeholder="Other Country">
-                              </div>
-                              <div class="form-group col-md-2">
-                                <label for="inputState">State</label>
-                                <select id="dpdlState" class="form-control">
-                                  <option selected>Choose State</option>
-                                </select>
-                              </div>
-                              <div class="form-group col-md-2 other">
-                                <label class="divOtherState ">Other State</label>
-                                <input type="text" class="form-control divOtherState " id="dpdlOtherState" placeholder="Other State">
-                              </div>
-                              <div class="form-group col-md-2">
-                                <label for="inputState">City</label>
-                                <select id="dpdlCity" class="form-control">
-                                  <option selected>Choose City</option>
-                                </select>
-                              </div>
-                              <div class="form-group col-md-2 other">
-                                <label class="divOtherCity ">Other City</label>
-                                <input type="text" class="form-control divOtherCity " id="dpdlOtherCity" placeholder="Other City">
-                              </div>
-                            </div>
-                            
-                          </form>
-                        
-                      </div>
+                    </form>                         
+                      
                     </div>
+                    <script>src='https://code.jquery.com/jquery-3.7.0.min.js'</script>
                     <script>
+                      let auth_token;
+                      $(document).ready(function() {
+                          $.ajax({
+                              type: 'get',
+                              url: 'https://www.universal-tutorial.com/api/getaccesstoken',
+                              success: function(data) {
+                                  console.log(data, 'country data logs')
+                                  $('#loader').hide();
+                                  auth_token = data.auth_token
+                                  getCountry(data.auth_token);
+                              },
+                              beforeSend:function() {
+                                $('#loader').show();
+                              },
+                              error: function(error) {
+                                  console.log(error);
+                              },
+                              headers: {
+                                "Accept": "application/json",
+                                "api-token": "B92gGsuz8ZNNyOyx8scEK7ge-veOMCMoP4lHuXNk0IHlLX5vs8m4_mIsg1SWoSJkX3g",
+                                "user-email": "narayanac@kpmg.com"
+                              }
+                            
+                          })
+                          $('#countries').change(function() {
+                                getState(auth_token);
+                          })
+                          $('#state').change(function() {
+                              getCity(auth_token);
+                          })
+                        })
+                      console.log(auth_token, 'auth token')
+
+                      function getCountry(auth_token) {
+                        $.ajax({
+                            type: 'get',
+                            url: 'https://www.universal-tutorial.com/api/countries/',
+                            success: function(data) {
+                                console.log(data, 'dataaa')
+                                $('#loader').hide();
+                                console.log(data, 'dataaaa')
+                                data.forEach(element => {
+                                    $('#countries').append('<option value="'+element.country_name+'">'+element.country_name+'</option>');
+                                });
+                              //getState(auth_token)
+                            },
+                            beforeSend:function() {
+                              $('#loader').show();
+                            },
+                            error: function(error) {
+                                console.log(error);
+                            },
+                            headers: {
+                                "Authorization": "Bearer "+ auth_token,
+                                "Accept": "application/json"
+                            }
+                          
+                        })
+                      }
+
+                      window.onload = function() {
+                        console.log('inside load')
+                        getCountry();
+                      };
+
+
+                      function getState(auth_token) {
+                              let country_name = $('#countries').val();
+                          $.ajax({
+                              type: 'get',
+                              url: 'https://www.universal-tutorial.com/api/states/'+country_name,
+                              success: function(data) {
+                                  $('#loader').hide();
+                                  $('#state').empty();
+                                  console.log(data)
+                                  data.forEach(element => {
+                                      $('#state').append('<option value="'+element.state_name+'">'+element.state_name+'</option>');
+                                  });
+                                //getCity(auth_token);
+                              },
+                              beforeSend:function() {
+                                  $('#loader').show();
+                              },
+                              error: function(error) {
+                                  console.log(error);
+                              },
+                              headers: {
+                                  "Authorization": "Bearer "+ auth_token,
+                                  "Accept": "application/json"
+                              }
+                            
+                          })
+                      }
+
+                      function getCity(auth_token) {
+                              let state_name = $('#state').val();
+                          $.ajax({
+                              type: 'get',
+                              url: 'https://www.universal-tutorial.com/api/cities/'+state_name,
+                              success: function(data) {
+                                  $('#loader').hide();
+                                  $('#city').empty();
+                                  data.forEach(element => {
+                                      $('#city').append('<option value="'+element.city_name+'">'+element.city_name+'</option>');
+                                  });
+                              },
+                              error: function(error) {
+                                  console.log(error);
+                              },
+                              beforeSend:function() {
+                                  $('#loader').show();
+                                              },
+                              headers: {
+                                  "Authorization": "Bearer "+ auth_token,
+                                  "Accept": "application/json"
+                              }
+                            
+                          })
+                      }
                   
-                      var stateList = [
-                        { Country: 'India', State: 'Maharashtra' },
-                        { Country: 'India', State: 'Delhi' },
-                        { Country: 'India', State: 'Punjab' },
-                        { Country: 'Us', State: 'Alabama' },
-                        { Country: 'Us', State: 'Arizona' },
-                        { Country: 'Us', State: 'California' },
-                        { Country: 'Other', State: 'Other' }
-                      ];
-                      var cityList = [
-                        { State: 'Maharashtra', city: 'Pune' },
-                        { State: 'Maharashtra', city: 'Mumbai' },
-                        { State: 'Maharashtra', city: 'Hydrabad' },
-                        { State: 'Delhi', city: 'New Delhi' },
-                        { State: 'Delhi', city: 'Balijt Vihar' },
-                        { State: 'Punjab', city: 'Ludhiyana' },
-                        { State: 'Punjab', city: 'Amritsar' },
-                        { State: 'Punjab', city: 'Patiyala' },
-                        { State: 'Punjab', city: 'Jalandhar' },
-                        { State: 'Alabama', city: 'Abbeville' },
-                        { State: 'Alabama', city: 'Adamsville' },
-                        { State: 'Arizona', city: 'Phoenix' },
-                        { State: 'Arizona', city: 'Tucson' },
-                        { State: 'Other', city: 'Other' }
-                      ];
+
                       $(document).ready(function () {
-                        debugger;
                         $(".divOtherCountry").hide();
                         $(".divOtherState").hide();
                         $(".divOtherCity").hide();
@@ -406,11 +475,7 @@
                       });
                     </script>
                   
-  
-                  {% comment %} TRYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY {% endcomment %} 
-                </body>
-
-                
+                  </body>
             </div>  
         </div>  
     </div> 
@@ -419,8 +484,8 @@
         
                
     
-
-
+    <!-- https://www.universal-tutorial.com/rest-apis/free-rest-api-for-country-state-city -->
+    <!-- B92gGsuz8ZNNyOyx8scEK7ge-veOMCMoP4lHuXNk0IHlLX5vs8m4_mIsg1SWoSJkX3g -->
 
    
     <div class="container">

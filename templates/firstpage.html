@@ -80,7 +80,7 @@
     {% comment %} Progress Bar {% endcomment %}
     <div class="container mt-2 mb-2">
       <p>
-        <button
+        <!-- <button
           class="btn btn-dark btn-sm"
           style="font-size: 0.7rem; width: 9rem; background-color: #000099"
           type="button"
@@ -90,7 +90,7 @@
           aria-controls="collapseExample"
         >
           Review Seleted Section ▼
-        </button>
+        </button> -->
         <!--<a class="btn btn-success btn-sm  " href="">Export Standard RFP's</a>-->
         <a
           class="btn btn-secondary btn-sm"
@@ -217,6 +217,13 @@
               href="{% url 'droprfp'%}"
               >Manual Process Uploaded File</a
             >
+            <button
+            class="btn btn-dark btn-sm d-inline ml-3"
+            style="background-color: #000099; margin-right: 5px;"
+            href="{% url 'page'%}"
+            >
+              Next
+            </button>
           </div>
           {% comment %} <div class="">
             <small style="font-size: 0.7rem"
