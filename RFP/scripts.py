@@ -164,12 +164,8 @@ def get_document(file_path):
     print(file_path, 'file path')
 
     file_name = wget.download(file_path)
-    new_file = file_name.replace(' ', '-')
-    new_file = new_file.replace('(', '-')
-    new_file = new_file.replace(')', '-')
-    rename_file = shutil.move(file_name, new_file)
 
-    return new_file
+    return file_name
 
 
 # fileNames = [ "Input1.docx", "Input2.docx" ]

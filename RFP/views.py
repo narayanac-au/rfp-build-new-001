@@ -1,3 +1,4 @@
+import shutil
 import subprocess
 from RFP.scripts import (
     replace_word_document,
@@ -776,6 +777,7 @@ def firstpage_view(request):
             },
         )
     if request.method == "GET":
+        print('inside firstpage get')
         client_name = request.session["client_name"]
         industry = request.session["industry"]
         country = request.session["country"]
@@ -788,6 +790,7 @@ def firstpage_view(request):
             log = request.session["log"]
         except:
             pass
+        print('testing')
         data = Question.objects.filter(country=country, industry=industry)
         p = Users.objects.filter(user=client_name)
         Doc1 = RfpSection.objects.filter(user__in=p)
@@ -1103,10 +1106,21 @@ def mcqquestionpage_view(request):
             request, "QUESTION ASKED WILL BE ADDED TO THE MAIN RFP DOCUMENT")
         return render(request, 'mcq.html', {'non': non, 'data': data, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry, "questionsimilar0": questionsimilar0, "questionsimilar1": questionsimilar1, "questionsimilar2": questionsimilar2, "cosin0": cosin0, "cosin1": cosin1, "cosin2": cosin2})
 
+
 # -------------------------------------------------------------------------------------------------------------
 # Question Funcionality end
 # -------------------------------------------------------------------------------------------------------------
  # sixth page preview
+
+
+def file_validation(file_path):
+    print(file_path, 'file path')
+    new_file = file_path.replace(' ', '_')
+    new_file = new_file.replace('(', '')
+    new_file = new_file.replace(')', '')
+    rename_file = shutil.move(file_path, new_file)
+    print(rename_file, 'after rename')
+    return rename_file
 
 
 def add_ques_ans_selected_sections(request):
@@ -1125,6 +1139,7 @@ def add_ques_ans_selected_sections(request):
         file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
             request.POST.get('K')
         local_file_path = get_document(file_path)
+        file_path_validation = file_validation(file_path_validation)
 
         # merge_docs.append(file_path)
         node_command_string += f' /{local_file_path}'
@@ -1132,25 +1147,21 @@ def add_ques_ans_selected_sections(request):
         file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
             request.POST.get('L')
         local_file_path = get_document(file_path)
+        file_path_validation = file_validation(local_file_path)
 
         # merge_docs.append(file_path)
-        node_command_string += f' /{local_file_path}'
+        node_command_string += f' /{file_path_validation}'
     if request.POST.get('M'):
         file_path = 'https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/' + \
             request.POST.get('M')
         local_file_path = get_document(file_path)
+        file_path_validation = file_validation(local_file_path)
 
         # merge_docs.append(file_path)
-        node_command_string += f' /{local_file_path}'
+        node_command_string += f' /{file_path_validation}'
     print(merge_docs, 'final list')
     print(node_command_string, 'final node command string')
     result = os.system(node_command_string)
-
-    print(result, 'result of executed node file')
-    if os.path.exists("output-individual.docx"):
-        os.remove("output-individual.docx")
-    else:
-        print("The file does not exist")
 
     if result == 0:
         subfolder = f"updated_documents/{request.session['client_name']}"
@@ -1164,6 +1175,14 @@ def add_ques_ans_selected_sections(request):
             open('output-individual.docx', 'rb'))
         )
         document.save()
+
+        print(result, 'result of executed node file')
+        if os.path.exists("output-individual.docx"):
+            os.remove("output-individual.docx")
+            os.remove(file_path_validation)
+        else:
+            print("The file does not exist")
+
         # c = Document_usercopy.objects.update_or_create(
         #     rfp_section_id=docu.id, country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=updload_to_azure_blob, matrix=matrix_value)
 
@@ -3192,6 +3211,12 @@ def SelectedIndex2_view(request, id):
                     create_doc_of_images, File(
                         open(create_doc_of_images, "rb"))
                 )
+
+                if os.path.exists(create_doc_of_images):
+                    os.remove(create_doc_of_images)
+                else:
+                    print("The file does not exist")
+
                 print("successfully added image document to section")
                 # extra = ExtraImage.objects.filter(user=user)
                 # extrano = ExtraImage.objects.exclude(user=user)
@@ -3207,27 +3232,23 @@ def SelectedIndex2_view(request, id):
             .first()
         )
         if not show2:
-            # show2 = Document_usercopy.objects.filter(user=client_name).filter(
-            #     id__gt=id).exclude(id=id).order_by('id').first()
-            # print("SelectedIndex2_view_POST_not_Query")
-            # print(show2.id)
-            # print("SelectedIndex2_view_POST_not_Query")
-
-            rfp_user_sections = Document_usercopy.objects.filter(
-                user=client_name
-            ).exclude(doc_index="Title Page")
-            return render(
-                request,
-                "SelectedIndexlastPage.html",
-                {
-                    "client_name": client_name,
-                    "showname": showname,
-                    "country": country,
-                    "industry": industry,
-                    "filenames": rfp_user_sections,
-                    "editable_sections": editable_sections,
-                },
-            )
+            print('insie redirection')
+            return redirect(firstpage_view)
+            # rfp_user_sections = Document_usercopy.objects.filter(
+            #     user=client_name
+            # ).exclude(doc_index="Title Page")
+            # return render(
+            #     request,
+            #     "SelectedIndexlastPage.html",
+            #     {
+            #         "client_name": client_name,
+            #         "showname": showname,
+            #         "country": country,
+            #         "industry": industry,
+            #         "filenames": rfp_user_sections,
+            #         "editable_sections": editable_sections,
+            #     },
+            # )
         if show2:
             showname = request.session["showname"]
             industry = request.session["industry"]
@@ -3543,14 +3564,6 @@ def generate_rfp_document(request):
         except Exception as e:
             print(e, "exception at adding image document")
 
-    print(file_list, "file list")
-    print(node_command_string, "node command")
-
-    # exit(0)
-
-    # result = subprocess.run(["node", "doc-merget.js", file_list[0], file_list[1]], capture_output=True, text=True, check=True)
-
-    # result = os.system("node doc-merger.js /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Title.docx /media/files/media/KPMG_New_Testing_Node_001/KPMG_New_Testing_Node_001_Healthcare_AU_Executive_Summary.docx")
     result = os.system(node_command_string)
     print(result, "result of executed node file")
     # add_header_footer = write_header_footer('output-node-merger-v4.docx')
