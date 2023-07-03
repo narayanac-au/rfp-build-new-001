@@ -164,7 +164,7 @@ def get_document(file_path):
     print(file_path, 'file path')
 
     file_name = wget.download(file_path)
-    
+
     return file_name
 
 

@@ -182,7 +182,8 @@
                             
                                 <input class="form-check-input ml-1" type="radio" name="flexRadioDefault" value={{i.id}} id="flexRadioDefault1" checked>
                                 <label class="form-check-label ml-4 mb-1" for="flexRadioDefault1" style="font-size:.8rem;"><strong></strong></label>
-                                <img class="w-30 " src="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Style_Sheets/{{industry}}/{{i.image_link}}" alt="First slide" height="100" width="120">
+                                {% comment %} <img class="w-30 " src="https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Template_Style_Sheets/{{industry}}/{{i.image_link}}" alt="First slide" height="100" width="120"> {% endcomment %}
+                                <img class="w-30 " src="{{i.image_upload}}" alt="First slide" height="100" width="120"> 
                             </div>
                         </div>    
                                   
@@ -203,7 +204,8 @@
                                 width="100%"
                                 height="100%"
                                 ></iframe> -->
-                                <img class="w-30 " src="{{i.image_link}}" alt="First slide" height="100" width="120">
+                                {% comment %} <img class="w-30 " src="{{i.image_link}}" alt="First slide" height="100" width="120"> {% endcomment %}
+                                <img class="w-30 " src="{{i.image_upload.url}}" alt="First slide" height="100" width="120"> 
                             </div>
                         </div>            
                     

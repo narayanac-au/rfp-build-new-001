@@ -15,7 +15,7 @@ class info_admin(ImportExportModelAdmin):
 
 
 class KPMGgeo_admin(ImportExportModelAdmin):
-    list_display = ['KPMGgeo','displayKPMGgeo']
+    list_display = ['KPMGgeo', 'displayKPMGgeo']
 
 
 class KPMGadd_admin(ImportExportModelAdmin):
@@ -32,7 +32,8 @@ class Users_admin(ImportExportModelAdmin):
 
 
 class Images_admin(ImportExportModelAdmin):
-    list_display = ['caption','title','image_link', 'selected','cloud_link']
+    list_display = ['caption', 'title', 'image_upload',
+                    'image_link', 'selected', 'cloud_link']
 
 
 class Document_admin(ImportExportModelAdmin):

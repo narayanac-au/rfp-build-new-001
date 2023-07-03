@@ -143,7 +143,7 @@
             <div id="Answer1" class="tabcontent">
             {% if data0 %}
             <div class="form-check mt-3" >
-                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span>Document 1</span></label>
+                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span> <strong>Similar Question :</strong> {{questionsimilar0}} ( Cosine Similarity : {{cosin0}} )</span></label>
                 <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="K" value={{id0}}  >
                 <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{data0}}" title="W3Schools Free Online Web Tutorials" width="90%" height="550px"></iframe>
             </div>
@@ -152,7 +152,7 @@
             <div id="Answer2" class="tabcontent">
             {% if data1 %}
             <div class="form-check mt-3" >
-                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span>Document 2</span></label>
+                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span><strong>Similar Question :</strong> {{questionsimilar1}} ( Cosine Similarity : {{cosin1}} )</span></label>
                 <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="M" value={{id1}}  >
                 <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{data1}}" title="W3Schools Free Online Web Tutorials" width="90%" height="550px"></iframe>
             </div>
@@ -161,7 +161,7 @@
             <div id="Answer3" class="tabcontent">
             {% if data2 %}
             <div class="form-check mt-3" >
-                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span>Document 3</span></label>
+                <label class="form-check-label border border-dark rounded p-1" style="font-size:.9rem;color:dark" id="A" for="defaultCheck1"><span><strong>Similar Question :</strong> {{questionsimilar2}} ( Cosine Similarity : {{cosin2}} )</span></label>
                 <input style="width: 15px; height: 20px;"  class="form-check-input ml-2"   type="checkbox" name="L" value={{id2}}  >
                 <iframe src="https://view.officeapps.live.com/op/embed.aspx?src=https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Recommended_Documents/Documents/{{data2}}" title="W3Schools Free Online Web Tutorials" width="90%" height="550px"></iframe>
             </div>
