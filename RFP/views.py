@@ -931,18 +931,24 @@ def secondpage_view(request):
         id1 = ""
         id2 = ""
         if len(index_list) == 1:
+            questionsimilar0 = data[0].question
             data0 = data[0].document_link
             id0 = data[0].id
         elif len(index_list) == 2:
+            questionsimilar0 = data[0].question
             data0 = data[0].document_link
             id0 = data[0].id
+            questionsimilar1 = data[1].question
             data1 = data[1].document_link
             id1 = data[1].id
         elif len(index_list) == 3:
+            questionsimilar0 = data[0].question
             data0 = data[0].document_link
             id0 = data[0].id
+            questionsimilar1 = data[1].question
             data1 = data[1].document_link
             id1 = data[1].id
+            questionsimilar2 = data[2].question
             data2 = data[2].document_link
             id2 = data[2].id
         else:
@@ -956,13 +962,17 @@ def secondpage_view(request):
         # l = Question.objects.get(id=170)
 
         # f = l.File
+        cosin0 = cos_sim_list[0]
+        print("cosin0", cosin0)
+        cosin1 = cos_sim_list[1]
+        cosin2 = cos_sim_list[2]
         data = {'non': non, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0,
-                "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry}
+                "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry, "cos_sim_list": cos_sim_list, "questionsimilar0": questionsimilar0, "questionsimilar1": questionsimilar1, "questionsimilar2": questionsimilar2, "cosin0": cosin0, "cosin1": cosin1, "cosin2": cosin2}
         print(data, 'final result')
 
         # return HttpResponse(data)
         # return render(request, 'mcq_modal.html', {'non': non,'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
-        return JsonResponse({"non": non, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+        return JsonResponse({"non": non, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry, "questionsimilar0": questionsimilar0, "questionsimilar1": questionsimilar1, "questionsimilar2": questionsimilar2, "cosin0": cosin0, "cosin1": cosin1, "cosin2": cosin2})
 
 
 # -------------------------------------------------------------------------------------------------------------
@@ -1063,26 +1073,35 @@ def mcqquestionpage_view(request):
         id1 = ""
         id2 = ""
         if len(index_list) == 1:
+            questionsimilar0 = data[0].question
             data0 = data[0].document_link
             id0 = data[0].id
         elif len(index_list) == 2:
+            questionsimilar0 = data[0].question
             data0 = data[0].document_link
             id0 = data[0].id
+            questionsimilar1 = data[1].question
             data1 = data[1].document_link
             id1 = data[1].id
         elif len(index_list) == 3:
+            questionsimilar0 = data[0].question
             data0 = data[0].document_link
             id0 = data[0].id
+            questionsimilar1 = data[1].question
             data1 = data[1].document_link
             id1 = data[1].id
+            questionsimilar2 = data[2].question
             data2 = data[2].document_link
             id2 = data[2].id
         else:
             non = "No matching question found"
-
+        cosin0 = cos_sim_list[0]
+        print("cosin0", cosin0)
+        cosin1 = cos_sim_list[1]
+        cosin2 = cos_sim_list[2]
         messages.success(
             request, "QUESTION ASKED WILL BE ADDED TO THE MAIN RFP DOCUMENT")
-        return render(request, 'mcq.html', {'non': non, 'data': data, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry})
+        return render(request, 'mcq.html', {'non': non, 'data': data, 'index_list': index_list, "data0": data0, "data1": data1, "data2": data2, "id0": id0, "id1": id1, "id2": id2, "Query": Query, "showname": showname, "country": country, "industry": industry, "questionsimilar0": questionsimilar0, "questionsimilar1": questionsimilar1, "questionsimilar2": questionsimilar2, "cosin0": cosin0, "cosin1": cosin1, "cosin2": cosin2})
 
 # -------------------------------------------------------------------------------------------------------------
 # Question Funcionality end
@@ -1128,6 +1147,10 @@ def add_ques_ans_selected_sections(request):
     result = os.system(node_command_string)
 
     print(result, 'result of executed node file')
+    if os.path.exists("output-individual.docx"):
+        os.remove("output-individual.docx")
+    else:
+        print("The file does not exist")
 
     if result == 0:
         subfolder = f"updated_documents/{request.session['client_name']}"
@@ -2677,6 +2700,11 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                 )
                 print(c, "c here")
                 c[0].File.save(updated_doc, File(open(updated_doc, "rb")))
+
+                if os.path.exists(get_doc):
+                    os.remove(get_doc)
+                else:
+                    print("The file does not exist")
                 # exit(0)
 
             else:
@@ -2727,6 +2755,11 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                     print(c, "c here")
 
                     c[0].File.save(updated_doc, File(open(updated_doc, "rb")))
+
+                    if os.path.exists(get_doc):
+                        os.remove(get_doc)
+                    else:
+                        print("The file does not exist")
 
                     # exit(0)
                 else:
@@ -2779,6 +2812,11 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
 
                             c[0].File.save(updated_doc, File(
                                 open(updated_doc, "rb")))
+
+                            if os.path.exists(get_doc):
+                                os.remove(get_doc)
+                            else:
+                                print("The file does not exist")
                     except Exception as ex:
                         print(ex, "exception")
                         # file_path = "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
@@ -3529,9 +3567,15 @@ def generate_rfp_document(request):
     )
     # create_udpate_user_rfp[0].rfp_file.save(
     #     remove_aspose_wording, File(open(remove_aspose_wording, 'rb')))
+
     create_udpate_user_rfp[0].rfp_file.save(
         "rfp_final_v4.docx", File(open("output-node-merger-v4.docx", "rb"))
     )
+
+    if os.path.exists("output-node-merger-v4.docx"):
+        os.remove("output-node-merger-v4.docx")
+    else:
+        print("The file does not exist")
 
     file_path = create_udpate_user_rfp[0].rfp_file.url
     directory = os.getcwd()

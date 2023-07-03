@@ -26,7 +26,7 @@ class info(models.Model):
 
 class KPMGgeo(models.Model):
     id = models.AutoField(primary_key=True)
-    displayKPMGgeo = models.CharField(max_length=200,null=True, blank=True)
+    displayKPMGgeo = models.CharField(max_length=200, null=True, blank=True)
     KPMGgeo = models.CharField(max_length=200)
 
     def __str__(self):
@@ -78,6 +78,8 @@ class Image(models.Model):
     user = models.ManyToManyField(Users, null=True, blank=True)
     caption = models.CharField(
         max_length=100, null=True, blank=True, default='Agnostic', choices=imagechoices)
+    image_upload = models.FileField(
+        null=True, blank=True, upload_to='./media/image_upload/')
     image_link = models.CharField(max_length=500, null=True, blank=True)
     upload = models.FileField(
         null=True, blank=True, upload_to='./media/')
