@@ -149,6 +149,12 @@ def doc_content_view(request):
         showname = request.POST.get("showname")
         industry = request.POST.get("industry")
         country = request.POST.get("countries")
+        print("-----------------------------------------------")
+        print("country", country)
+        print("-----------------------------------------------")
+        if country == "Australia":
+            country = "AU"
+
         address = request.POST.get("address")
         KPMGgeol = request.POST.get("geo")
         KPMGgeoo = kg.objects.filter(id=KPMGgeol)
