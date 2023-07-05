@@ -149,11 +149,13 @@ def doc_content_view(request):
         showname = request.POST.get("showname")
         industry = request.POST.get("industry")
         country = request.POST.get("countries")
+        kpmgleadgeo = request.POST.get("geo")
         print("-----------------------------------------------")
-        print("country", country)
+        print("kpmgleadgeo", kpmgleadgeo)
+        filtergeo = kg.objects.get(id=kpmgleadgeo)
+        print("filtergeo", filtergeo)
         print("-----------------------------------------------")
-        if country == "Australia":
-            country = "AU"
+        filtergeo = filtergeo.KPMGgeo
 
         address = request.POST.get("address")
         KPMGgeol = request.POST.get("geo")
@@ -186,6 +188,7 @@ def doc_content_view(request):
         request.session["country"] = country
         request.session["showname"] = showname
         request.session["address"] = address
+        request.session["filtergeo"] = filtergeo
 
         request.session["add_line_1"] = clientaddress_line1
         request.session["add_line_2"] = clientaddress_line2
@@ -255,7 +258,7 @@ def doc_content_view(request):
 
         default_rfp = (
             RfpSection.objects.filter(
-                industry=industry, country=country, is_default=True
+                industry=industry, country=filtergeo, is_default=True
             )
             .order_by("order")
             .values_list("id", flat=True)
@@ -263,7 +266,7 @@ def doc_content_view(request):
         default_rfp = list(default_rfp)
 
         all_sections = RfpSection.objects.filter(
-            industry=industry, country=country
+            industry=industry, country=filtergeo
         ).order_by("order")
 
         # Doc = RfpSection.objects.filter(industry=industry, country=country, is_default=True).order_by('order')
@@ -273,7 +276,7 @@ def doc_content_view(request):
         print(all_sections, country, industry, "doccc")
 
         user_doc = RfpSection.objects.filter(
-            industry=industry, country=country, user__in=user
+            industry=industry, country=filtergeo, user__in=user
         ).values_list("id", flat=True)
 
         # UserDoc = RfpSection.objects.filter(
@@ -332,24 +335,24 @@ def doc_content_view(request):
         industry = request.session["industry"]
         country = request.session["country"]
         showname = request.session["showname"]
-
+        filtergeo = request.session["filtergeo"]
         user = Users.objects.filter(user=client_name)
         default_rfp = (
             RfpSection.objects.filter(
-                industry=industry, country=country, is_default=True
+                industry=industry, country=filtergeo, is_default=True
             )
             .order_by("order")
             .values_list("id", flat=True)
         )
         default_rfp = list(default_rfp)
         all_sections = RfpSection.objects.filter(
-            industry=industry, country=country
+            industry=industry, country=filtergeo
         ).order_by("order")
 
         print(all_sections, country, industry, "doccc")
 
         user_doc = RfpSection.objects.filter(
-            industry=industry, country=country, user__in=user
+            industry=industry, country=filtergeo, user__in=user
         ).values_list("id", flat=True)
 
         print(user_doc, "user_doc")
@@ -835,7 +838,8 @@ def secondpage_view(request):
         showname = request.session["showname"]
         industry = request.session["industry"]
         country = request.session["country"]
-        if country == "AU":
+        filtergeo = request.session["filtergeo"]
+        if filtergeo == "AU":
             country2 = "AU"
         # data = request.data
         # print(data, 'dataaa')
@@ -992,7 +996,8 @@ def mcqquestionpage_view(request):
         showname = request.session['showname']
         industry = request.session['industry']
         country = request.session['country']
-        if country == "AU":
+        filtergeo = request.session["filtergeo"]
+        if filtergeo == "AU":
             country2 = "AU"
         Query = request.GET.get("Query")
         # data = Question.objects.filter(country=country, industry=industry)
@@ -1884,7 +1889,8 @@ def drop_rfp_view(request):
 def drop_rfpquest_view1(request):
     industry = request.session["industry"]
     country = request.session["country"]
-    if country == "AU":
+    filtergeo = request.session["filtergeo"]
+    if filtergeo == "AU":
         country2 = "AU"
     print(industry, country, "POPOPOPOPOOP")
     showname = request.session["showname"]
@@ -3260,6 +3266,7 @@ def SelectedIndex2_view(request, id):
             industry = request.session["industry"]
             country = request.session["country"]
             client_name = request.session["client_name"]
+            filtergeo = request.session["filtergeo"]
             Queryyy = request.POST.get("Queryyy")
             data = Question.objects.filter(country=country, industry=industry)
             standard_sections = Document_usercopy.objects.filter(
@@ -3274,7 +3281,7 @@ def SelectedIndex2_view(request, id):
             )
             print(show2, "show2")
             IMGSEC = SectionExtraImage.objects.filter(
-                country=country, industry=industry, section_data=show2.doc_index
+                country=filtergeo, industry=industry, section_data=show2.doc_index
             )
             for i in IMGSEC:
                 print("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ")
@@ -3297,6 +3304,7 @@ def SelectedIndex2_view(request, id):
                         "show": show2,
                         "IMGSEC": IMGSEC,
                         "Noimage": Noimage,
+                        "filtergeo": filtergeo,
                     },
                 )
 
@@ -3312,6 +3320,7 @@ def SelectedIndex2_view(request, id):
                     "show2": show2,
                     "IMGSEC": IMGSEC,
                     "Noimage": Noimage,
+                    "filtergeo": filtergeo,
                 },
             )
 

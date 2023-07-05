@@ -14,13 +14,14 @@
             <div class="wrapper-progressBar">
               <ul class="progressBar">
                 <li class="active" id="stepper">Home</li>
-                <li class="active" id="stepper">Information Form</li>
-                <li class="active" id="stepper">Standard Standard Indexes</li>
-                <li class="active" id="stepper">Review Docs</li>
+                <li class="active" id="stepper">Contact Information</li>
+                <li class="active" id="stepper">Core Content</li>
+                <li class="active" id="stepper">Additional Content</li>
                 <li class="active" id="stepper">Upload Docs</li>
                 <li class="active" id="stepper">Drop RFP / Ask Question / Extra Images / Assuptions ans Risk Consideration</li>
                 <li class="active" id="stepper">Drop RFP Detected Question</li>
                 <li class="" id="stepper">Drop RFP Selection Preview</li>
+                <li class="" id="stepper">Finalise & Download</li>
                 
               </ul>
             </div>
@@ -39,7 +40,7 @@
     
     <form action="{% url 'ques2'  p.id %}" method="POST">
         
-        <div> <h5 class="border-bottom mt-5" style="color:dark">Autodetected Question from uploaded RFP</h5></div>
+        <div> <h5 class="border-bottom mt-5 ml-2" style="color:dark">Autodetected Question from uploaded RFP</h5></div>
         {% csrf_token %}
         
         <div class="form-check mt-3" >
