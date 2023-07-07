@@ -20,7 +20,7 @@
 <body>
   {% comment %} Progress Bar {% endcomment %}
 
-  <div class="container ">
+  <!-- <div class="container ">
     <div class="row">
       <div class="col-12 container ">
             <div class="wrapper-progressBar">
@@ -42,7 +42,7 @@
   
           </div>
     </div>
-  </div>
+  </div> -->
     {% comment %} Progress Bar {% endcomment %}
   <div class="container">
     <div class="mt-2 mb-5 float-right ">
@@ -51,8 +51,13 @@
     </div>
   
   <div class="mt-5">
-    <strong class="font-weight-bold" style="font-size: 1rem"
+    <!-- <strong class="font-weight-bold" style="font-size: 1rem"
       >UPLOAD FILES OF EDITED STANDARD SECTION ONLY!</strong
+    > -->
+    <strong class="font-weight-bold" style="font-size: 1rem"
+      >Modified response sections should be uploaded by dragging the local documents into the window below.<br>
+      Once all sections are added click "UPLOAD" to apply your changes. Please Note: local documents <br>
+      should be renamed as detailed.</strong
     >
   </div>
 
@@ -101,13 +106,20 @@
       method="POST"
     >
       {% csrf_token %}
-    <input
+    <!-- <input
       type="submit"
       value="Merge & Download"
       class="btn btn-dark btn-sm mt-4 mb-4 d-inline"
       style="font-size: 0.7rem; width: 8rem; background-color: #000099"
       ></a
+    > -->
+    <a
+    class="btn btn-dark btn-sm d-inline ml-3"
+    style="background-color: #000099; margin-right: 5px;"
+    href="{% url 'DownloadRfp'%}"
     >
+      Next
+    </a>
     <a
         class="btn btn-dark btn-sm mt-1 mb-4 d-inline"
         style="font-size: 0.7rem; width: 8rem; background-color: #f2f2f2;

@@ -48,6 +48,7 @@ urlpatterns = [
      path('mcq/<int:id>/', views.Onscreenmcq_view, name="Onscreenmcq"),
      path('SelectedIndexlastPage/', views.SelectedIndexlastPage_view,
           name="SelectedIndexlastPage"),
+     path('download-document/', views.download_document, name="DownloadRfp"),
      path('rfp-document/', views.generate_rfp_document, name="GenerateRfpDoc"),
 
      # path('userquestion/<int:id>/',views.user_upload_question_view,name="UP"),
