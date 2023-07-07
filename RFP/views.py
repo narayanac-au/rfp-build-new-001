@@ -2670,8 +2670,11 @@ def chatgpt_view(request):
 # answer = openai(question)
 # answer = openai(question)
 
+import copy
 
-def data_computation(request, i, d, standard_sections, client_name, image_url, title, kpmg_full_address):
+# counter = 1
+
+def data_computation(request, i, d, standard_sections, client_name, image_url, title, kpmg_full_address, counter):
     subfolder = f"updated_documents/{client_name}"
     container_id = "rfpstorage"
 
@@ -2692,7 +2695,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                 matrix_value = docu.industry_matrix
             else:
                 matrix_value = docu.country_matrix
-
+            
             if docu.section_data == "Title Page":
                 print("inside title")
 
@@ -2739,6 +2742,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                 # exit(0)
 
             else:
+
                 if docu.document_link:
                     print("inside is document present")
                     # https://rfpstoragecheck.blob.core.windows.net/data/Healthcare/Australia/Healthcare_Australia_Executive Summary.docx
@@ -2774,11 +2778,17 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
 
                     # c = Document_usercopy.objects.update_or_create(
                     #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=file_path, matrix=matrix_value)
+                    if docu.section_data.startswith('Appendix'):
+                        index_heading = copy.deepcopy(docu.section_data)
+                        index_heading = index_heading.replace('Appendix', f'Appendix {counter}')
+                        counter = counter + 1
+                    else:
+                        index_heading = docu.section_data
                     c = Document_usercopy.objects.update_or_create(
                         rfp_section_id=docu.id,
                         country=docu.country,
                         industry=docu.industry,
-                        doc_index=docu.section_data,
+                        doc_index=index_heading,
                         user=client_name,
                         file_link=updload_to_azure_blob,
                         matrix=matrix_value,
@@ -2831,11 +2841,18 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                             )
                             print(updload_to_azure_blob, 'azure path')
 
+                            if docu.section_data.startswith('Appendix'):
+                                index_heading = copy.deepcopy(docu.section_data)
+                                index_heading = index_heading.replace('Appendix', f'Appendix {counter}')
+                                counter = counter + 1
+                            else:
+                                index_heading = docu.section_data
+
                             c = Document_usercopy.objects.update_or_create(
                                 rfp_section_id=docu.id,
                                 country=docu.country,
                                 industry=docu.industry,
-                                doc_index=docu.section_data,
+                                doc_index=index_heading,
                                 user=client_name,
                                 file_link=updload_to_azure_blob,
                                 matrix=matrix_value,
@@ -2863,12 +2880,17 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
 
                         # c = Document_usercopy.objects.update_or_create(
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
-
+                        if docu.section_data.startswith('Appendix'):
+                            index_heading = copy.deepcopy(docu.section_data)
+                            index_heading = index_heading.replace('Appendix', f'Appendix {counter}')
+                            counter = counter + 1
+                        else:
+                            index_heading = docu.section_data
                         c = Document_usercopy.objects.update_or_create(
                             rfp_section_id=docu.id,
                             country=docu.country,
                             industry=docu.industry,
-                            doc_index=docu.section_data,
+                            doc_index=index_heading,
                             user=client_name,
                             matrix=matrix_value,
                         )
@@ -3050,6 +3072,7 @@ def SelectedIndex_view(request):
         # subfolder = f"updated_documents/{client_name}"
         # container_id = "rfpstorage"
         thread_list = []
+        counter = 1
 
         for i in range(0, len(request_post_list)):
             print(i, "ii - check")
@@ -3065,7 +3088,8 @@ def SelectedIndex_view(request):
                         client_name,
                         image_url,
                         title,
-                        kpmg_full_address
+                        kpmg_full_address,
+                        counter
                     ),
                 )
                 temp_var.start()
@@ -3544,6 +3568,9 @@ def documentapproval_view(request):
     # prod.save()
     return 'successfully uploaded'
 
+def download_document(request):
+    client_name = request.session["client_name"]
+    return render(request, 'download_rfp.html', {'showname': client_name})
 
 def generate_rfp_document(request):
     print("im here inside the rfp document")

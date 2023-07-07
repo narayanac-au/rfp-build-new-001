@@ -1,0 +1,204 @@
+{% extends "base_third.html" %} {% block content %} {% load static%}
+
+<style>
+    svg {
+  cursor: pointer;
+  position: absolute;
+  width: 196px;
+  height: 196px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+svg path {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+svg #line {
+  stroke: #999;
+  stroke-dasharray: 45, 0, 45, 999;
+  stroke-dashoffset: -140;
+  transition-property: all;
+  transition-timing-function: ease;
+  transition-duration: 0.7s;
+}
+svg.shrink #line {
+  stroke-dasharray: 1, 87, 1, 999;
+  stroke-dashoffset: -140;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.25, -0.25, 0.75, 1.25);
+}
+svg.check #line {
+  stroke-dasharray: 9, 340, 24, 999;
+  stroke-dashoffset: 0;
+  transition-timing-function: cubic-bezier(0.25, -0.25, 0.75, 1.25);
+  transition-duration: 0.5s;
+}
+svg.circle-full #line {
+  stroke-dasharray: 75, 127, 75, 999;
+  stroke-dashoffset: -45;
+  transition-timing-function: linear;
+  transition-duration: 2s;
+}
+svg.circle-empty #line {
+  stroke-dasharray: 1, 127, 1, 999;
+  stroke-dashoffset: -119;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.25, -0.25, 0.75, 1.25);
+}
+svg #circle-bg {
+  stroke: #eee;
+  transform: scale(1);
+  transform-origin: 50%;
+}
+svg #circle-hover {
+  opacity: 0;
+  stroke: #0ebeff;
+  transition: opacity 0.1s ease;
+}
+svg:hover #circle-hover,
+svg.shrink #circle-hover,
+svg.check #circle-hover,
+svg.circle-full #circle-hover,
+svg.circle-empty #circle-hover {
+  opacity: 1;
+}
+svg.shrink #circle-bg {
+  transform: scale(1.3);
+  transform-origin: 50%;
+  transition-duration: 0.2s;
+  stroke: #aaa;
+  opacity: 0;
+}
+</style>
+<div>
+<svg viewBox="0 0 64 64">
+    <path id="circle-bg" d="
+      M 32,  8
+      C 45,  8  56, 19  56, 32
+      C 56, 45  45, 56  32, 56
+      C 19, 56   8, 45   8, 32
+      C  8, 19  19,  8  32,  8
+      Z
+    "></path>
+    <path id="circle-hover" d="
+      M 32,  8
+      C 45,  8  56, 19  56, 32
+      C 56, 45  45, 56  32, 56
+      C 19, 56   8, 45   8, 32
+      C  8, 19  19,  8  32,  8
+      Z
+    "></path>
+    <path id="line" d="
+      M 28, 41
+      L 22, 34
+      C 11, 21  19,  8  32,  8
+      C 45,  8  56, 19  56, 32
+      C 56, 45  45, 56  32, 56
+      C 19, 56  28, 44  31, 47
+      C 32, 48  32, 48  33, 47
+      L 41, 38
+      C 42, 37  42, 36  41, 36
+      L 35, 36
+      L 35, 16
+      L 29, 16
+      L 29, 36
+      L 23, 36
+      C 22, 36  22, 37  23, 38
+      L 31, 47
+      C 32, 48  32, 48  33, 47
+  
+      C 35, 45  45, 56  32, 56
+      C 19, 56   8, 45   8, 32
+      C  8, 19  19,  8  32,  8
+      C 45,  8  51, 17  44, 24
+      Z
+    "></path>
+  </svg>
+</div>
+  <p style="text-align: center;">Download Response for {{ showname }} client.</p>
+
+<script>
+    (function() {
+  // https://dribbble.com/shots/2654081-Download-icon-progress
+  var $svg, check, circleEmpty, circleFull, i, reset, shrink, t, to;
+
+  $svg = $('svg');
+
+  to = null;
+
+  t = function(ms, cb, fn) {
+    return to = setTimeout(function() {
+      fn();
+      return cb();
+    }, ms);
+  };
+
+  shrink = function(cb) {
+    return t(0, cb, function() {
+      return $svg.attr("class", "shrink");
+    });
+  };
+
+  circleEmpty = function(cb) {
+    return t(300, cb, function() {
+      return $svg.attr("class", "circle-empty");
+    });
+  };
+
+  circleFull = function(cb) {
+    return t(700, cb, function() {
+      return $svg.attr("class", "circle-full");
+    });
+  };
+
+  check = function(cb) {
+    return t(2000, cb, function() {
+      return $svg.attr("class", "check");
+    });
+  };
+
+  reset = function(cb) {
+    return t(3000, cb, function() {
+      return $svg.attr("class", null);
+    });
+  };
+
+  $svg.click(function() {
+    clearInterval(i);
+    if ($svg.attr("class") != null) {
+      $svg.attr('class', null).clearQueue();
+      return clearTimeout(to);
+    } else {
+      return $svg.queue(shrink).queue(circleEmpty).queue(circleFull).queue(check).queue(reset);
+    }
+  });
+
+  $svg.on('mouseenter mouseover', function() {
+    return clearInterval(i);
+  });
+
+  i = setInterval(function() {
+    return $svg.click();
+  }, 15000);
+
+}).call(this);
+</script>
+
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+<div >
+  <!-- Copyright -->
+ <footer >
+
+  <!-- Copyright -->
+  <div class="container " style="font-family:Arial;font-size:.5rem;color:black" >© 2023 Copyright owned by one or more of the KPMG International entities. KPMG International entities provide no services to clients. All rights reserved. KPMG refers to the global organization or to one or more of the member firms of KPMG International Limited (“KPMG International”), each of which is a separate legal entity. KPMG International Limited is a private English company limited by guarantee and does not provide services to clients. For more detail about our structure please visit https://home.kpmg/governance
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer --> 
+</div>
+</html>
+{%endblock%}
