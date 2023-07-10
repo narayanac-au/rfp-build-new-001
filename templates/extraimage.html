@@ -125,8 +125,14 @@
             <div class=" mt-3 ml-3 col-12">
             <button type="submit" class="btn btn-dark d-inline btn-sm " style="background-color:#000099">Submit</button>
             
+                
                 <a
-                  class="btn btn-dark d-inline"
+                class="btn btn-dark d-inline btn-sm " style="background-color:#f2f2f2;color: black;"
+                  href="{% url 'UploadExtraImage'%}"
+                  >Upload</a
+                >
+                <a
+                  class="btn btn-dark btn-sm d-inline"
                   style="
                     font-size: 0.8rem;
                     width: 4rem;
@@ -134,12 +140,18 @@
                     color: black;
                   "
                   href="{% url 'firstpage'%}"
-                  >Home</a
+                  >Main Menu</a
                 >
                 <a
-                class="btn btn-dark d-inline btn-sm " style="background-color:#000099"
-                  href="{% url 'UploadExtraImage'%}"
-                  >Upload</a
+                  class="btn btn-dark btn-sm d-inline"
+                  style="
+                    font-size: 0.8rem;
+                    width: 4rem;
+                    background-color: #f2f2f2;
+                    color: black;
+                  "
+                  href="{% url 'user_dashboard'%}"
+                  >Home</a
                 >
                 
         </div>

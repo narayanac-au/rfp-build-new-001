@@ -1,0 +1,98 @@
+{% extends "base_second.html" %} {% load static %} {% block content %}
+
+<p class="font-weight-bold mt-1 ml-2" style="font-size: 0.8rem">
+  Please Drop RFP File
+</p>
+
+<small class="ml-2" style="font-size: 0.7rem"
+  >This application has the ability to extract questions from an RFP document
+  and provide a response in the form of the top three answers. To start the
+  process, please drop your RFP document into the window below. Please Note:
+  Maximum file size 25Mb.</small
+>
+
+<div class="mt-2 ml-2 float-left">
+  <!-- dropzone -->
+  <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css"
+    type="text/css"
+  />
+  <form
+    class="dropzone"
+    id="picup"
+    style="border: 3px dashed #888; width: 600px; height: 180px; margin: 0px"
+  >
+    {% csrf_token %}
+    <input type="button" value="Upload" id="up_btn" />
+  </form>
+
+  <div class=" ">
+    <div>
+      {% comment %}
+      <a
+        class="btn btn-dark btn-sm mt-5 d-inline"
+        style="font-size: 0.7rem; width: 4rem; background-color: #000099"
+        href="{% url 'file_injection'%}"
+        >Direct Process Uploaded File</a
+      >
+      {% endcomment %}
+      <a
+        class="btn btn-dark btn-sm mt-5 d-inline"
+        style="font-size: 0.7rem; width: 4rem; background-color: #000099"
+        href="{% url 'droprfp'%}"
+        >Manual Process Uploaded File</a
+      >
+      <a
+        class="btn btn-dark btn-sm d-inline mt-5"
+        style="
+          font-size: 0.8rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        href="{% url 'firstpage'%}"
+        >Main Menu</a
+      >
+      <a
+        class="btn btn-dark btn-sm d-inline mt-5"
+        style="
+          font-size: 0.8rem;
+          width: 4rem;
+          background-color: #f2f2f2;
+          color: black;
+        "
+        href="{% url 'user_dashboard'%}"
+        >Home</a
+      >
+      {% comment %}
+      <a
+        class="btn btn-dark btn-sm d-inline ml-3"
+        style="background-color: #000099; margin-right: 5px"
+        href="{% url 'SelectedIndexlastPage'%}"
+      >
+        Submit
+      </a>
+      {% endcomment %}
+
+      <script>
+        let up_btn = document.querySelector("#up_btn");
+
+        let picup = new Dropzone("#picup", {
+          url: "/drop/picup/",
+          maxFilesize: 100,
+          acceptedFiles: ".jpeg,.png,.jpg,.docx,.pdf",
+          autoProcessQueue: false,
+          addRemoveLinks: true,
+          parallelUploads: 3,
+        });
+        up_btn.addEventListener("click", () => {
+          picup.processQueue();
+        });
+      </script>
+      <!-- dropzone -->
+    </div>
+  </div>
+</div>
+{% endblock content %}

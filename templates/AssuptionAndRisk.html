@@ -514,16 +514,34 @@
   >
     Submit
   </button>
-  <a
-  class="btn btn-dark d-inline btn-sm " style="background-color:#000099"
-    href="{% url 'firstpage'%}"
-    >Home</a
-  >
+  
   <a
                 class="btn btn-dark d-inline btn-sm mr-1 " style="background-color:#f2f2f2;color: black"
                   href="{% url 'Uploadassumprisk'%}"
                   >Upload</a
                 >
+                <a
+                class="btn btn-dark btn-sm d-inline"
+                style="
+                  font-size: 0.8rem;
+                  width: 4rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'firstpage'%}"
+                >Main Menu</a
+              >
+              <a
+                class="btn btn-dark btn-sm d-inline"
+                style="
+                  font-size: 0.8rem;
+                  width: 4rem;
+                  background-color: #f2f2f2;
+                  color: black;
+                "
+                href="{% url 'user_dashboard'%}"
+                >Home</a
+              >
 
 </div>
 </div>

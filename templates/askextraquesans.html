@@ -1,0 +1,75 @@
+{% extends "base_second.html" %} {% load static %} {% block content %}
+
+
+<div class="container">
+    {% comment %} {% if Quest %} {% endcomment %}
+    <p class="font-weight-bold" style="font-size: 0.8rem">
+      Please Input Addition Queries Below
+    </p>
+    <small style="font-size: 0.7rem"
+      >Based On Question Typed Our AI Will Provide You With 3 Best Answers
+      As An Options</small
+    >
+    <form action="{% url 'mcqquestionpage'%}" method="GET">
+      <input
+        type="text"
+        class="form-control border border-dark"
+        id="question"
+        name="Query"
+        placeholder="Enter Question"
+        style="font-size: 0.7rem; width: 69rem"
+      />
+      <a
+                  class="btn btn-dark btn-sm d-inline mt-3"
+                  style="
+                    font-size: 0.8rem;
+                    width: 4rem;
+                    background-color: #f2f2f2;
+                    color: black;
+                  "
+                  href="{% url 'firstpage'%}"
+                  >Main Menu</a
+                >
+                <a
+                  class="btn btn-dark btn-sm d-inline"
+                  style="
+                    font-size: 0.8rem;
+                    width: 4rem;
+                    background-color: #f2f2f2;
+                    color: black;
+                  "
+                  href="{% url 'user_dashboard'%}"
+                  >Home</a
+                >
+      <div class="d-inline float-right">
+        <button
+          type="submit"
+          class="btn btn-dark btn-sm d-inline"
+          style="
+            font-size: 0.7rem;
+            width: 7rem;
+            background-color: #000099;
+          "
+        >
+          Submit Question
+        </button>
+        {% if c%}
+        <a
+          class="btn btn-dark btn-sm mt-3 mb-4 d-inline"
+          style="
+            font-size: 0.7rem;
+            width: 4rem;
+            background-color: #000099;
+          "
+          href="{% url 'preview'%}"
+          >Preview Q&A</a
+        >
+        {% endif %}
+      </div>
+    </form>
+
+    {% comment %} {% endif %} {% endcomment %}
+  </div>
+</div>
+</div>
+{% endblock content %}
