@@ -1,5 +1,6 @@
 from azure.storage.blob import BlobServiceClient
 import copy
+import copy
 import shutil
 import subprocess
 from RFP.scripts import (
