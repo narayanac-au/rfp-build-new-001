@@ -2,6 +2,35 @@
 {% load static %}
 {% block static_block %}
 <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
+<div class=" container ">
+  <div class=" container ">
+      {% comment %} Progress Bar {% endcomment %}
+  <div class="row ml-5">
+    <div class="col-12 container ml-5">
+      <div class="col-12 container ml-5"> 
+          <div class="wrapper-progressBar ml-5">
+            <ul class="progressBar ml-5 ">
+                <li class="active" style="font-family:Arial;font-size:.5rem;color:black" id="stepper">Home</li>
+                <li class="active" style="font-family:Arial;font-size:.5rem;color:black" id="stepper">Contact Information</li>
+                <li class="active" style="font-family:Arial;font-size:.5rem;color:black" id="stepper">Core Content</li>
+                <li class="active" style="font-family:Arial;font-size:.5rem;color:black" id="stepper">Additional Content</li>
+                <li class="" style="font-family:Arial;font-size:.5rem;color:black" id="stepper">Finalise & Download</li>
+              {% comment %} <li id="stepper">Drop RFP & Ask Question</li>
+              <li class="" id="stepper">Drop RFP / Ask Question</li>
+              <li class="" id="stepper">Extra Images</li>
+              <li class="" id="stepper">Assuption and Risk Consideration</li> {% endcomment %}
+            </ul>
+          </div>
+          <a class="float-right" href="mailto:pholdridge@kpmg.com.au?subject=Feedback for 'Powered Enterprise Intelligent RFP Builder'&body=Hi Paul">
+            <button id="btnOutlook" class="float-right btn btn-sm border border-success mr-5" >Feedback</button>
+        </a>
+      
+      </div>
+  
+    </div>
+        
+      
+  </div>
   <style>
     table, th, td {
       border: 0.5px solid black;

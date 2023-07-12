@@ -109,6 +109,12 @@ urlpatterns = [
          name="useraddlogo"),
     path('usersummerytable/', views.usersummerytable_view,
          name="usersummerytable"),
+    path('uploaddemo/', views.upload_blob_data_demo,
+         name="upload_blob_data_demo"),
+    path('dropextrarfpfile/', views.dropextrarfpfile_view,
+         name="dropextrarfpfile"),
+    path('askextraquesans/', views.askextraquesans_view,
+         name="askextraquesans"),
     path('rejectfeedbackform/<int:id>/', views.rejectfeedbackform_view,
          name="rejectfeedbackform"),
 

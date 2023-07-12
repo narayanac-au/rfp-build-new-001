@@ -1,3 +1,5 @@
+from azure.storage.blob import BlobServiceClient
+import copy
 import shutil
 import subprocess
 from RFP.scripts import (
@@ -771,7 +773,7 @@ def firstpage_view(request):
         # display seleted index
         return render(
             request,
-            "firstpage.html",
+            "firstpages.html",
             {
                 "Data": data,
                 "showname": showname,
@@ -812,7 +814,7 @@ def firstpage_view(request):
         # display seleted index
         return render(
             request,
-            "firstpage.html",
+            "firstpages.html",
             {
                 "Data": data,
                 "showname": showname,
@@ -2670,9 +2672,9 @@ def chatgpt_view(request):
 # answer = openai(question)
 # answer = openai(question)
 
-import copy
 
 # counter = 1
+
 
 def data_computation(request, i, d, standard_sections, client_name, image_url, title, kpmg_full_address, counter):
     subfolder = f"updated_documents/{client_name}"
@@ -2695,7 +2697,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                 matrix_value = docu.industry_matrix
             else:
                 matrix_value = docu.country_matrix
-            
+
             if docu.section_data == "Title Page":
                 print("inside title")
 
@@ -2780,7 +2782,8 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                     #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, file_link=file_path, matrix=matrix_value)
                     if docu.section_data.startswith('Appendix'):
                         index_heading = copy.deepcopy(docu.section_data)
-                        index_heading = index_heading.replace('Appendix', f'Appendix {counter}')
+                        index_heading = index_heading.replace(
+                            'Appendix', f'Appendix {counter}')
                         counter = counter + 1
                     else:
                         index_heading = docu.section_data
@@ -2842,10 +2845,12 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                             print(updload_to_azure_blob, 'azure path')
 
                             if docu.section_data.startswith('Appendix'):
-                                index_heading = copy.deepcopy(docu.section_data)
+                                index_heading = copy.deepcopy(
+                                    docu.section_data)
                                 counter += 1
-                                index_heading = index_heading.replace('Appendix', f'Appendix {counter}')
-                                
+                                index_heading = index_heading.replace(
+                                    'Appendix', f'Appendix {counter}')
+
                             else:
                                 index_heading = docu.section_data
 
@@ -2866,7 +2871,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                                 os.remove(get_doc)
                             else:
                                 print("The file does not exist")
-                            
+
                             return counter
                     except Exception as ex:
                         print(ex, "exception")
@@ -2886,8 +2891,9 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                         if docu.section_data.startswith('Appendix'):
                             index_heading = copy.deepcopy(docu.section_data)
                             counter += 1
-                            index_heading = index_heading.replace('Appendix', f'Appendix {counter}')
-                            
+                            index_heading = index_heading.replace(
+                                'Appendix', f'Appendix {counter}')
+
                         else:
                             index_heading = docu.section_data
                         c = Document_usercopy.objects.update_or_create(
@@ -2898,7 +2904,7 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                             user=client_name,
                             matrix=matrix_value,
                         )
-                        
+
                         return counter
 
                         # c[0].File.save(get_doc, File(open(get_doc, "rb")))
@@ -3574,9 +3580,19 @@ def documentapproval_view(request):
     # prod.save()
     return 'successfully uploaded'
 
+
 def download_document(request):
     client_name = request.session["client_name"]
     return render(request, 'download_rfp.html', {'showname': client_name})
+
+
+def download_document(request):
+    showname = request.session["showname"]
+    country = request.session["country"]
+    industry = request.session["industry"]
+    client_name = request.session["client_name"]
+    return render(request, 'download_rfp.html', {'showname': client_name, "showname": showname, "country": country, "industry": industry, })
+
 
 def generate_rfp_document(request):
     print("im here inside the rfp document")
@@ -4158,8 +4174,15 @@ def approveimage_view(request):
 def approvedimage_view(request, id):
 
     if request.method == "GET":
+        print('________________________GETTTTTTTTTTTT_______________________________')
         SP = userextraimage.objects.filter(id=id)
         SP.update(approved="Yes")
+        subfolder = f"Recommended_Documents/test_data"
+        container_id = "rfpstorage"
+        updload_to_azure_blob = upload_blob_data_demo(
+            subfolder, "media/Template123.docx", container_id)
+        print(updload_to_azure_blob, 'azure path')
+        #document.file_link = updload_to_azure_blob
         SP = userextraimage.objects.filter(approved="No")
         Yes = userextraimage.objects.filter(approved="Yes")
         return render(
@@ -4172,8 +4195,15 @@ def approvedimage_view(request, id):
             },
         )
     if request.method == "POST":
+        print('_______________________POSTTTTTTTTTTTTT________________________________')
         SP = userextraimage.objects.filter(id=id)
         SP.update(approved="Yes")
+        subfolder = f"Recommended_Documents/test_data"
+        container_id = "rfpstorage"
+        updload_to_azure_blob = upload_blob_data_demo(
+            subfolder, './KPMG_Logo.png', container_id)
+        print(updload_to_azure_blob, 'azure path')
+        print('_______________________________________________________')
         SP = userextraimage.objects.filter(approved="No")
         Yes = userextraimage.objects.filter(approved="Yes")
         return render(
@@ -4645,3 +4675,43 @@ def user_dashboard(request):
 
 def edit_user_rfp(request):
     return render(request, 'user_dashboard.html')
+
+
+def upload_blob_data_demo(subfolder, filename, container_id):
+    """
+    This method upload the file with respect to sub-folder in azure blob storage.
+    """
+    # Initializing connection using connection string
+    storage_connection_string = "DefaultEndpointsProtocol=https;AccountName=rfpstoragecheck;AccountKey=Dg56EQWUFqhnYfZR2YKnoRNb1LqwSF66+MD9xqZdH9da0B0SXZEcMQRwQhFO4Q+Tc4+QNnQiO/ws+AStVHBwDg==;EndpointSuffix=core.windows.net"
+    blob_service_client = BlobServiceClient.from_connection_string(
+        storage_connection_string)
+    blob_service_client.get_container_client(container_id)
+
+    overwrite = True
+    blob_path = subfolder+"/"+filename
+    blob_obj = blob_service_client.get_blob_client(
+        container=container_id, blob=blob_path)
+    with open(filename, mode='rb') as file_data:
+        blob_obj.upload_blob(file_data, overwrite=overwrite)
+
+    blob_url = "https://rfpstoragecheck.blob.core.windows.net/"+container_id+"/"+blob_path
+    print(blob_url)
+    return blob_url
+
+
+def dropextrarfpfile_view(request):
+    client_name = request.session["client_name"]
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    return render(request, 'dropextrarfpfile.html', {"showname": showname, "country": country, "industry": industry, })
+
+
+def askextraquesans_view(request):
+    client_name = request.session["client_name"]
+    industry = request.session["industry"]
+    country = request.session["country"]
+    showname = request.session["showname"]
+    Userq = UQ.objects.filter(user=client_name)
+    c = Userq.exists()
+    return render(request, 'askextraquesans.html', {"c": c, "showname": showname, "country": country, "industry": industry, })

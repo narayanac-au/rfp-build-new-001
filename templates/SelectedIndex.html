@@ -1,7 +1,57 @@
-{% extends "base_second.html" %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<!-- Navbar same in all pages -->
+<head class="  ">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/doc.css' %}">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1"/>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/firstpage.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+
+    <title>RFP</title>
+    
+    <div class=" bg  row  ">
+        <div class="  col-1   ">
+            <div class="row-12 container  ">
+        <a href="{%url 'index'%}"><img class="justify-content-center" src="{% static 'images/KPMG_logo.png' %}" height="70" width="100"></a>
+        </div>
+    </div> 
+        <div class=" col-10  container   mt-4 " >
+            <div class=" col-12 container " >
+                <div class=" col-12 container " >
+                    <div class=" col-12 container " >
+                        
+                            
+        <h6 class="text-center " style="font-family:Arial;font-size:1.5rem;color:White"><strong class="">Powered Enterprise Intelligent RFP Builder</strong></h6>
+    </div>  
+</div>  
+</div>        
+        </div>
+    
+
+        <div class="col-1 container mt-1  mt-1">
+            <h6 class="mt-2" style="font-size:.8rem;color:White">Client: {{showname}}</h6>
+            <h6 style="font-size:.8rem;color:White">GEO: {{country}}</h6>    
+            <h6 style="font-size:.8rem;color:White">Industry: {{industry}}</h6>
+        </div>         
+            
+    
+    </div>
+   
+
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/firstpage.css' %}">
+    <div class="border-bottom border-dark"></div>
+    <title>RFP</title>
 {% load static %}
 
-{% block content %}
+
 <link rel="stylesheet" href="{% static 'css/stepper.css' %}" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -14,6 +64,7 @@
         <div class="container float-right ml-5">
         <div class="row ml-5">
           <div class="col-12 container ml-5">
+            <div class="col-12 container ml-5">
                 <div class="wrapper-progressBar ml-5">
                   <ul class="progressBar ml-5">
                     <li class="active" style="font-family:Arial;font-size:.8rem;color:black" id="stepper">Home</li>
@@ -33,7 +84,7 @@
                   <button id="btnOutlook" class="float-right btn btn-sm border border-success mr-5" >Feedback</button>
               </a>
       
-      
+            </div>
       
               </div>
         </div>
@@ -377,4 +428,4 @@
   </script>
 </div>
 </div>
-{% endblock content %}
+
