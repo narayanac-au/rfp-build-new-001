@@ -41,14 +41,16 @@ jobs:
     
     - name: Build Docker Image
       run: |
-        docker build --no-cache -t {{env.IMAGE_NAME_1}}:${{env.VERSION}} -f Dockerfile .
-        docker build --no-cache -t {{env.IMAGE_NAME_2}}:${{env.VERSION}} -f nginx/Dockerfile.nginx .
-        docker tag {{env.IMAGE_NAME_1}}:${{env.VERSION}} ${{ secrets.REGISTRY_LOGIN_SERVER }}/{{env.IMAGE_NAME_1}}:${{env.VERSION}}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/{{env.IMAGE_NAME_1}}:${{env.VERSION}}
-        docker tag {{env.IMAGE_NAME_2}}:${{env.VERSION}} ${{ secrets.REGISTRY_LOGIN_SERVER }}/{{env.IMAGE_NAME_2}}:${{env.VERSION}}
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/{{env.IMAGE_NAME_2}}:${{env.VERSION}}
+        docker build --no-cache -t ${{env.IMAGE_NAME_1}}:${{env.VERSION}} -f Dockerfile .
+        docker build --no-cache -t ${{env.IMAGE_NAME_2}}:${{env.VERSION}} -f nginx/Dockerfile.nginx .
 
-    - name: Run Docker Compose
+        docker tag ${{env.IMAGE_NAME_1}}:${{env.VERSION}} ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_1}}:${{env.VERSION}}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_1}}:${{env.VERSION}}
+
+        docker tag ${{env.IMAGE_NAME_2}}:${{env.VERSION}} ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_2}}:${{env.VERSION}}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_2}}:${{env.VERSION}}
+
+    - name: Run Docker-Compose Commands
       run: |
         docker compose -f docker-compose-prod.yml down
         docker compose -f docker-compose-prod.yml up -d --build --remove-orphans
