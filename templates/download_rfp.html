@@ -74,7 +74,7 @@ svg.shrink #circle-bg {
 }
 </style>
 <div>
-<svg viewBox="0 0 64 64">
+<a href="{% url 'GenerateRfpDoc'%}"><svg viewBox="0 0 64 64">
     <path id="circle-bg" d="
       M 32,  8
       C 45,  8  56, 19  56, 32
@@ -116,9 +116,13 @@ svg.shrink #circle-bg {
       C 45,  8  51, 17  44, 24
       Z
     "></path>
+
   </svg>
+</a>
+  <p style="text-align: center;margin-top: 25%;">Download Response for <strong>{{ showname }}</strong> client.</p>
 </div>
-  <p style="text-align: center;">Download Response for {{ showname }} client.</p>
+
+  <!-- <p style="text-align: center;">Download Response for {{ showname }} client.</p> -->
 
 <script>
     (function() {

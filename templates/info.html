@@ -143,21 +143,27 @@
                     
                     <label for="showname" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Short Name*</strong></label>
                     <input type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="showname_id" name="showname" style="width: 10rem" placeholder="KPMG">
+                    
+                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Zip/Postal Code*</strong></label>
+                    <input  type="number" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="Postal_Code" style="width: 10rem;height:100px;" placeholder="" onchange="triggerCall(this.value)"></input>
+                    
+                    <label for="countries" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Geo*</strong></label>
+                    <input  type="text" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="countries" name="countries" style="width: 10rem;height:100px;" placeholder="" readonly></input>
 
-                    <div>
+                    <!-- <div>
                         <label for="countries" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>Client Geo*</strong></label>
                     </div>
                     <div>
                         <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="countries" id="countries" style="width: 10rem">
-                        <option selected value="">--country--</option>
+                        <option selected value="">--country--</option> -->
                         <!-- <option value="US">United States of America</option>
                         <option selected value="AU">Australia</option>
                         <option  value="UK">United Kingdom</option> -->
 <!--                         <option value="UK">UK</option> -->
                     
-                        </select>
+                        <!-- </select>
                     
-                    </div>
+                    </div> -->
 
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Address Line 1*</strong></label>
                     <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="dpdlOtherCountry" name="address_line1" style="width: 10rem;height:100px;" placeholder=""></input>
@@ -166,43 +172,49 @@
                     <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Address Line 2</strong></label>
                     <input  type="text" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line2" style="width: 10rem;height:100px;" placeholder=""></input>
 
-                    <div>
+                    <label for="state" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>State/Region*</strong></label>
+                    <input  type="text" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="state" name="state" style="width: 10rem;height:100px;" placeholder="" readonly></input>
+
+                    <!-- <div>
                       <label for="state" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>State/Region*</strong></label>
                   </div>
                   <div>
                       <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="address_line3" id="state" style="width: 10rem">
-                      <option selected value="">--state--</option>
+                      <option selected value="">--state--</option> -->
                       <!-- <option value="US">United States of America</option>
                       <option selected value="AU">Australia</option>
                       <option  value="UK">United Kingdom</option> -->
 <!--                         <option value="UK">UK</option> -->
       
-                      </select>
+                      <!-- </select>
                   
-                  </div>
+                  </div> -->
                     
                     <!-- <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>State/Region*</strong></label>
                     <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line4" style="width: 10rem;height:100px;" placeholder=""></input> -->
 
                     <!-- <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Town/City*</strong></label>
                     <input  type="text" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="address_line3" style="width: 10rem;height:100px;" placeholder=""></input> -->
-                    <div>
+                    
+                    <label for="city" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>City/Town*</strong></label>
+                    <input  type="text" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="city" name="address_line4" style="width: 10rem;height:100px;" placeholder="" readonly></input>
+                    <!-- <div>
                       <label for="state" class="btn btn-info btn-sm border border-dark mt-1" style="font-size:.6rem;background-color:#000099;"><strong>City/Town*</strong></label>
                     </div>
                     <div>
                       <select class="custom-select custom-select-lg border border-dark"  style="font-size:.7rem;width: 15rem" name="address_line4" id="city" style="width: 10rem">
-                      <option selected value="">--City--</option>
+                      <option selected value="">--City--</option> -->
                       <!-- <option value="US">United States of America</option>
                       <option selected value="AU">Australia</option>
                       <option  value="UK">United Kingdom</option> -->
 <!--                         <option value="UK">UK</option> -->
       
-                      </select>
+                      <!-- </select>
                   
-                   </div>
+                   </div> -->
 
-                    <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Zip/Postal Code*</strong></label>
-                    <input  type="number" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="Postal_Code" style="width: 10rem;height:100px;" placeholder=""></input>
+                    <!-- <label for="address" class="btn btn-info btn-sm mt-1 border border-dark" style="font-size:.6rem;background-color:#000099;"><strong>Client Zip/Postal Code*</strong></label>
+                    <input  type="number" required="true" class="form-control border border-dark input-sm" style="font-size:.7rem;width: 15rem" id="address_id" name="Postal_Code" style="width: 10rem;height:100px;" placeholder=""></input> -->
                     <button type="submit" class="btn btn-primary btn-sm mt-3 " style="background-color:#000099;">Next</button>
                     <a
                         class="btn btn-dark  mt-3"
@@ -333,6 +345,7 @@
                         })
                       console.log(auth_token, 'auth token')
 
+
                       function getCountry(auth_token) {
                         $.ajax({
                             type: 'get',
@@ -362,8 +375,53 @@
 
                       window.onload = function() {
                         console.log('inside load')
-                        getCountry();
+                        // getCountry();
                       };
+
+                      function triggerCall(value) {
+                        console.log(value,'value inside call')
+                        getZipcodeStateCity(value)
+                      }
+
+                      function getZipcodeStateCity(zipcode) {
+                        var api_key = 'aef66250-202a-11ee-b368-a198d22a1027'
+
+                        console.log(zipcode, 'zipcode input')
+
+                        $.ajax({
+                              type: 'get',
+                              url: 'https://app.zipcodebase.com/api/v1/search?apikey=' + api_key + '&codes='+ zipcode,
+                              success: function(data) {
+                                  $('#loader').hide();
+                                  $('#state').empty();
+                                  console.log(data, 'data')
+                                  console.log(data.results[zipcode][0], 'first result')
+                                  var output_value = data.results[zipcode][0]
+
+                                  var country = document.getElementById('countries');
+                                  country.value = output_value['country_code'];
+                                  var state = document.getElementById('state');
+                                  state.value = output_value['state'];
+                                  var city = document.getElementById('city');
+                                  city.value = output_value['province'];
+                                //   data.forEach(element => {
+                                //       $('#state').append('<option value="'+element.state_name+'">'+element.state_name+'</option>');
+                                //   });
+                                //getCity(auth_token);
+                              },
+                              beforeSend:function() {
+                                  $('#loader').show();
+                              },
+                              error: function(error) {
+                                  console.log(error);
+                              },
+                              headers: {
+                                //   "Authorization": "Bearer "+ auth_token,
+                                  "Accept": "application/json"
+                              }
+                            
+                          })
+                      }
 
 
                       function getState(auth_token) {

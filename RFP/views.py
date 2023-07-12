@@ -2847,9 +2847,10 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                             if docu.section_data.startswith('Appendix'):
                                 index_heading = copy.deepcopy(
                                     docu.section_data)
+                                counter += 1
                                 index_heading = index_heading.replace(
                                     'Appendix', f'Appendix {counter}')
-                                counter = counter + 1
+
                             else:
                                 index_heading = docu.section_data
 
@@ -2870,6 +2871,8 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                                 os.remove(get_doc)
                             else:
                                 print("The file does not exist")
+
+                            return counter
                     except Exception as ex:
                         print(ex, "exception")
                         # file_path = "https://rfpstoragecheck.blob.core.windows.net/rfpstorage/Section_Documents/Blank_Documents.docx"
@@ -2887,9 +2890,10 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                         #     rfp_section_id=docu.id,country=docu.country, industry=docu.industry, doc_index=docu.section_data, user=client_name, matrix=matrix_value)
                         if docu.section_data.startswith('Appendix'):
                             index_heading = copy.deepcopy(docu.section_data)
+                            counter += 1
                             index_heading = index_heading.replace(
                                 'Appendix', f'Appendix {counter}')
-                            counter = counter + 1
+
                         else:
                             index_heading = docu.section_data
                         c = Document_usercopy.objects.update_or_create(
@@ -2900,6 +2904,8 @@ def data_computation(request, i, d, standard_sections, client_name, image_url, t
                             user=client_name,
                             matrix=matrix_value,
                         )
+
+                        return counter
 
                         # c[0].File.save(get_doc, File(open(get_doc, "rb")))
 
@@ -3576,6 +3582,11 @@ def documentapproval_view(request):
 
 
 def download_document(request):
+    client_name = request.session["client_name"]
+    return render(request, 'download_rfp.html', {'showname': client_name})
+
+
+def download_document(request):
     showname = request.session["showname"]
     country = request.session["country"]
     industry = request.session["industry"]
@@ -3588,7 +3599,7 @@ def generate_rfp_document(request):
     client_name = request.session["client_name"]
     country = request.session["country"]
     industry = request.session["industry"]
-
+    print(client_name, country, industry, 'testingg')
     all_documents = (
         Document_usercopy.objects.filter(
             country=country, industry=industry, user=client_name
