@@ -194,7 +194,7 @@ def doc_content_view(request):
 
         request.session["add_line_1"] = clientaddress_line1
         request.session["add_line_2"] = clientaddress_line2
-
+        request.session["filtergeo"] = filtergeo
         request.session["client_geo"] = country
         request.session["kpmg_geo"] = KPMGgeo
         request.session["client_zipcode"] = clientPostal_Code
@@ -210,7 +210,7 @@ def doc_content_view(request):
             clientfullname=client_name,
             clientshortname=showname,
             clientindustry=industry,
-            clientgeo=country,
+            clientgeo=filtergeo,
             clientaddress_line1=clientaddress_line1,
             clientaddress_line2=clientaddress_line2,
             clientPostal_Code=clientPostal_Code,
@@ -323,7 +323,7 @@ def doc_content_view(request):
                 "all_sections": all_sections,
                 "user_selected": user_doc,
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "que": que,
                 "Image": img,
@@ -753,6 +753,7 @@ def firstpage_view(request):
         industry = request.session["industry"]
         country = request.session["country"]
         showname = request.session["showname"]
+        filtergeo = request.session["filtergeo"]
         data = Question.objects.filter(country=country, industry=industry)
         # data=Question.objects.all()
         # print("!!!!!!!!!!!!!!!!!!!!!!!!!")
@@ -777,7 +778,7 @@ def firstpage_view(request):
             {
                 "Data": data,
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "Doc": Doc1,
                 "Quest": Quest,
@@ -793,6 +794,7 @@ def firstpage_view(request):
         industry = request.session["industry"]
         country = request.session["country"]
         showname = request.session["showname"]
+        filtergeo = request.session["filtergeo"]
         try:
             extrcount = request.session["extrcount"]
             Acccount = request.session["Acccount"]
@@ -818,7 +820,7 @@ def firstpage_view(request):
             {
                 "Data": data,
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "Doc": Doc1,
                 "Quest": Quest,
@@ -2927,6 +2929,7 @@ def SelectedIndex_view(request):
     country = request.session["country"]
     showname = request.session["showname"]
     client_name = request.session["client_name"]
+    filtergeo = request.session["filtergeo"]
     ap.api_key = "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"
     if request.method == "GET":
         p = Users.objects.get(user=client_name)
@@ -2950,7 +2953,7 @@ def SelectedIndex_view(request):
             "SelectedIndex.html",
             {
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "show": show,
             },
@@ -2965,6 +2968,7 @@ def SelectedIndex_view(request):
         Quest = request.POST.get("Quest")
         title = request.POST.get("TitleforStyleSheetSelected")
         kpmg_add = request.session["kpmg_short_address"]
+        filtergeo = request.session["filtergeo"]
         kpmg_original_address = KPMGadd.objects.get(originaladdress=kpmg_add)
         print("Full Address Data Updated :- ",
               kpmg_original_address.fulladdress)
@@ -3074,7 +3078,7 @@ def SelectedIndex_view(request):
                     "standard_sections": standard_sections,
                     "gtp_question": gtp_question,
                     "showname": showname,
-                    "country": country,
+                    "country": filtergeo,
                     "industry": industry,
                     "show": show,
                 },
@@ -3195,7 +3199,7 @@ def SelectedIndex_view(request):
             {
                 "showname": showname,
                 "standard_sections": standard_sections,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "show": show,
             },
@@ -3205,6 +3209,7 @@ def SelectedIndex_view(request):
 def SelectedIndex2_view(request, id):
     industry = request.session["industry"]
     country = request.session["country"]
+    filtergeo = request.session["filtergeo"]
     if country == "AU":
         country1 = "AU"
     showname = request.session["showname"]
@@ -3226,12 +3231,13 @@ def SelectedIndex2_view(request, id):
             "SelectedIndex2.html",
             {
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "Doccopy": Doccopy,
             },
         )
     if request.method == "POST":
+        filtergeo = request.session["filtergeo"]
         Queryyy = request.POST.get("Queryyy")
         print("SelectedIndex2_view_POST")
         print(Queryyy)
@@ -3335,7 +3341,7 @@ def SelectedIndex2_view(request, id):
                     {
                         "showname": showname,
                         "standard_sections": standard_sections,
-                        "country": country,
+                        "country": filtergeo,
                         "industry": industry,
                         "show": show2,
                         "IMGSEC": IMGSEC,
@@ -3351,7 +3357,7 @@ def SelectedIndex2_view(request, id):
                     "data": data,
                     "editable_sections": editable_sections,
                     "showname": showname,
-                    "country": country,
+                    "country": filtergeo,
                     "industry": industry,
                     "show2": show2,
                     "IMGSEC": IMGSEC,
@@ -3366,6 +3372,7 @@ def SelectedIndexlastPage_view(request):
     country = request.session["country"]
     showname = request.session["showname"]
     client_name = request.session["client_name"]
+    filtergeo = request.session["filtergeo"]
     sellast = "DEF"
     request.session["sellast"] = sellast
     editable_sections = ["I", "M", "E"]
@@ -3378,7 +3385,7 @@ def SelectedIndexlastPage_view(request):
         {
             "client_name": client_name,
             "showname": showname,
-            "country": country,
+            "country": filtergeo,
             "industry": industry,
             "filenames": rfp_user_sections,
             "editable_sections": editable_sections,
@@ -3591,18 +3598,20 @@ def download_document(request):
     country = request.session["country"]
     industry = request.session["industry"]
     client_name = request.session["client_name"]
-    return render(request, 'download_rfp.html', {'showname': client_name, "showname": showname, "country": country, "industry": industry, })
+    filtergeo = request.session["filtergeo"]
+    return render(request, 'download_rfp.html', {'showname': client_name, "showname": showname, "country": filtergeo, "industry": industry, })
 
 
 def generate_rfp_document(request):
     print("im here inside the rfp document")
     client_name = request.session["client_name"]
     country = request.session["country"]
+    filtergeo = request.session["filtergeo"]
     industry = request.session["industry"]
-    print(client_name, country, industry, 'testingg')
+    print(client_name, filtergeo, industry, 'testingg')
     all_documents = (
         Document_usercopy.objects.filter(
-            country=country, industry=industry, user=client_name
+            country=filtergeo, industry=industry, user=client_name
         )
         .exclude(File__in=["", None])
         .order_by("rfp_section__order")
@@ -3676,6 +3685,7 @@ def ExtraImage_view(request):
     showname = request.session["showname"]
     industry = request.session["industry"]
     country = request.session["country"]
+    filtergeo = request.session["filtergeo"]
     client_name = request.session["client_name"]
     if request.method == "POST":
         Extraimgsearch = request.POST.get("Extraimgsearch")
@@ -3714,13 +3724,14 @@ def ExtraImage_view(request):
             "extraimage.html",
             {
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "extra": extra,
                 "extrano": extrano,
             },
         )
     if request.method == "GET":
+        filtergeo = request.session["filtergeo"]
         extrcount = "DEF"
         request.session["extrcount"] = extrcount
         user = Users.objects.get(user=client_name)
@@ -3739,7 +3750,7 @@ def ExtraImage_view(request):
             "extraimage.html",
             {
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "extra": extra,
                 "extrano": extrano,
@@ -3751,18 +3762,19 @@ def UploadExtraImage_view(request):
     showname = request.session["showname"]
     industry = request.session["industry"]
     country = request.session["country"]
+    filtergeo = request.session["filtergeo"]
     client_name = request.session["client_name"]
     if request.method == "POST":
         return render(
             request,
             "UploadExtraImage.html",
-            {"showname": showname, "country": country, "industry": industry},
+            {"showname": showname, "country": filtergeo, "industry": industry},
         )
     if request.method == "GET":
         return render(
             request,
             "UploadExtraImage.html",
-            {"showname": showname, "country": country, "industry": industry},
+            {"showname": showname, "country": filtergeo, "industry": industry},
         )
 
 
@@ -3771,17 +3783,18 @@ def Uploadassumprisk_view(request):
     industry = request.session["industry"]
     country = request.session["country"]
     client_name = request.session["client_name"]
+    filtergeo = request.session["filtergeo"]
     if request.method == "POST":
         return render(
             request,
             "Uploadassumprisk.html",
-            {"showname": showname, "country": country, "industry": industry},
+            {"showname": showname, "country": filtergeo, "industry": industry},
         )
     if request.method == "GET":
         return render(
             request,
             "Uploadassumprisk.html",
-            {"showname": showname, "country": country, "industry": industry},
+            {"showname": showname, "country": filtergeo, "industry": industry},
         )
 
 
@@ -3821,6 +3834,7 @@ def AssuptionAndRisk_view(request):
     industry = request.session["industry"]
     country = request.session["country"]
     client_name = request.session["client_name"]
+    filtergeo = request.session["filtergeo"]
     # Assuption_And_Risk = AssuptionAndRisk.objects.filter(
     #     Topic="Assuption_And_Risk")
     # Key_consideration_and_risk = AssuptionAndRisk.objects.filter(
@@ -3925,7 +3939,7 @@ def AssuptionAndRisk_view(request):
             "AssuptionAndRisk.html",
             {
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "Generalcheck": Generalcheck,
                 "Generalnotcheck": Generalnotcheck,
@@ -3953,6 +3967,7 @@ def AssuptionAndRisk_view(request):
     if request.method == "GET":
         Acccount = "DEF"
         request.session["Acccount"] = Acccount
+        filtergeo = request.session["filtergeo"]
         user = Users.objects.get(user=client_name)
         Generalcheck = AssuptionAndRisk.objects.filter(
             category="General", user=user, country=country)
@@ -4035,7 +4050,7 @@ def AssuptionAndRisk_view(request):
             "AssuptionAndRisk.html",
             {
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "Generalcheck": Generalcheck,
                 "Generalnotcheck": Generalnotcheck,
@@ -4079,6 +4094,7 @@ def clientlogo_view(request):
     industry = request.session["industry"]
     country = request.session["country"]
     client_name = request.session["client_name"]
+    filtergeo = request.session["filtergeo"]
     if request.method == "POST":
         Extraimgsearch = request.POST.get("Extraimgsearch")
         request.session["Extraimgsearch"] = Extraimgsearch
@@ -4120,7 +4136,7 @@ def clientlogo_view(request):
             "clientlogo.html",
             {
                 "showname": showname,
-                "country": country,
+                "country": filtergeo,
                 "industry": industry,
                 "extra": extra,
                 "extrano": extrano,
@@ -4140,7 +4156,7 @@ def clientlogo_view(request):
         print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         messages.success(
             request, "Please Note: Selected Company logos will be appended to the TBC section of the response document")
-        return render(request, 'clientlogo.html', {"showname": showname, "country": country, "industry": industry, "extra": extra, "extrano": extrano})
+        return render(request, 'clientlogo.html', {"showname": showname, "country": filtergeo, "industry": industry, "extra": extra, "extrano": extrano})
 
 
 # upload Image files
@@ -4150,13 +4166,14 @@ def logo_upload_view(request):
     username = request.session["username"]
     client_name = request.session["client_name"]
     country = request.session["country"]
+    filtergeo = request.session["filtergeo"]
     pic = request.FILES.get("file")
-    prod = logoUpload(user=username, picup=pic, clientgeo=country)
+    prod = logoUpload(user=username, picup=pic, clientgeo=filtergeo)
     prod.save()
     return render(
         request,
         "UploadClientlogo.html",
-        {"showname": showname, "country": country, "industry": industry},
+        {"showname": showname, "country": filtergeo, "industry": industry},
     )
 
 
@@ -4704,7 +4721,8 @@ def dropextrarfpfile_view(request):
     industry = request.session["industry"]
     country = request.session["country"]
     showname = request.session["showname"]
-    return render(request, 'dropextrarfpfile.html', {"showname": showname, "country": country, "industry": industry, })
+    filtergeo = request.session["filtergeo"]
+    return render(request, 'dropextrarfpfile.html', {"showname": showname, "country": filtergeo, "industry": industry, })
 
 
 def askextraquesans_view(request):
@@ -4712,6 +4730,7 @@ def askextraquesans_view(request):
     industry = request.session["industry"]
     country = request.session["country"]
     showname = request.session["showname"]
+    filtergeo = request.session["filtergeo"]
     Userq = UQ.objects.filter(user=client_name)
     c = Userq.exists()
-    return render(request, 'askextraquesans.html', {"c": c, "showname": showname, "country": country, "industry": industry, })
+    return render(request, 'askextraquesans.html', {"c": c, "showname": showname, "country": filtergeo, "industry": industry, })
