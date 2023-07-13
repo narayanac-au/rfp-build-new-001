@@ -58,7 +58,7 @@ services:
 
 networks:
   rfp_network:
-    # driver: bridge
+    driver: bridge
     external: true
 volumes:
   postgres_data:
