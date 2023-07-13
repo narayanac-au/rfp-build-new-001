@@ -38,12 +38,12 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build --no-cache -t ${{env.IMAGE_NAME_1}}:${{env.VERSION}} -f Dockerfile .
-          docker tag ${{env.IMAGE_NAME_1}}:${{env.VERSION}} ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_1}}:${{env.VERSION}}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_1}}:${{env.VERSION}}
+          # docker build --no-cache -t ${{env.IMAGE_NAME_1}}:${{env.VERSION}} -f Dockerfile .
+          # docker tag ${{env.IMAGE_NAME_1}}:${{env.VERSION}} ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_1}}:${{env.VERSION}}
+          # docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_1}}:${{env.VERSION}}
 
           cd nginx
-          docker build --no-cache -t ${{env.IMAGE_NAME_2}}:${{env.VERSION}} -f nginx/Dockerfile.nginx .
+          docker build --no-cache -t ${{env.IMAGE_NAME_2}}:${{env.VERSION}} -f Dockerfile.nginx .
           docker tag ${{env.IMAGE_NAME_2}}:${{env.VERSION}} ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_2}}:${{env.VERSION}}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/${{env.IMAGE_NAME_2}}:${{env.VERSION}}
           cd ..
